@@ -1,0 +1,90 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: launcher-job-r-transformer
+patch: |-
+  # Add R volume
+  - op: add
+    path: /template/spec/volumes/-
+    value: { name: r-volume, {{ VOLUME-ATTRIBUTES }} }
+
+  # Add mount path for R
+  - op: add
+    path: /template/spec/containers/0/volumeMounts/-
+    value:
+      name: r-volume
+      mountPath: {{ R-MOUNTPATH }}
+      readOnly: true
+
+  # Add r-config configMap
+  - op: add
+    path: /template/spec/containers/0/envFrom/-
+    value:
+      configMapRef:
+        name: sas-open-source-config-r
+
+target:
+  kind: PodTemplate
+  name: sas-launcher-job-config
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: compute-job-r-transformer
+patch: |-
+  # Add R volume
+  - op: add
+    path: /template/spec/volumes/-
+    value: { name: r-volume, {{ VOLUME-ATTRIBUTES }} }
+
+  # Add mount path for R
+  - op: add
+    path: /template/spec/containers/0/volumeMounts/-
+    value:
+      name: r-volume
+      mountPath: {{ R-MOUNTPATH }}
+      readOnly: true
+
+  # Add r-config configMap
+  - op: add
+    path: /template/spec/containers/0/envFrom/-
+    value:
+      configMapRef:
+        name: sas-open-source-config-r
+
+target:
+  kind: PodTemplate
+  name: sas-compute-job-config
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: cas-r-transformer
+patch: |-
+  # Add R volume
+  - op: add
+    path: /spec/controllerTemplate/spec/volumes/-
+    value: { name: r-volume, {{ VOLUME-ATTRIBUTES }} }
+
+  # Add mount path for R
+  - op: add
+    path: /spec/controllerTemplate/spec/containers/0/volumeMounts/-
+    value:
+      name: r-volume
+      mountPath: {{ R-MOUNTPATH }}
+      readOnly: true
+
+  # Add R-config configMap
+  - op: add
+    path: /spec/controllerTemplate/spec/containers/0/envFrom/-
+    value:
+      configMapRef:
+        name: sas-open-source-config-r
+
+target:
+  group: viya.sas.com
+  kind: CASDeployment
+  name: .*
+  version: v1alpha1

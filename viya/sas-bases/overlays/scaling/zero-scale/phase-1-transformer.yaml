@@ -1,0 +1,16 @@
+# Phase one is presently the last phase and gets everything else.
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: zero-scale-deployments-phase-1
+patch: |-
+  - op: replace
+    path: /spec/replicas
+    value: 0
+target:
+  kind: Deployment
+  version: v1
+  group: apps
+  labelSelector: sas.com/zero-scale-phase=1
+---

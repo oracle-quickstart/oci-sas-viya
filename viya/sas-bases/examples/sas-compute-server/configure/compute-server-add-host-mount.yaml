@@ -1,0 +1,23 @@
+# This block of code is for mounting non-NFS persistentVolumeClaims
+# to a compute session
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: compute-server-add-host-mount
+patch: |-
+  - op: add
+    path: /template/spec/volumes/-
+    value:
+      name: {{ MOUNT-NAME }}
+      hostPath:
+        path: {{ PATH-TO-BE-MOUNTED }}
+  - op: add
+    path: /template/spec/containers/0/volumeMounts/-
+    value:
+      name: {{ MOUNT-NAME }}
+      mountPath: {{ PATH-TO-BE-MOUNTED }}
+target:
+  name: sas-compute-job-config
+  version: v1
+  kind: PodTemplate

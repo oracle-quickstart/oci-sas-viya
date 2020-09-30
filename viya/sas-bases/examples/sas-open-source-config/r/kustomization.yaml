@@ -1,0 +1,6 @@
+configMapGenerator:
+- name: sas-open-source-config-r
+  literals:
+  - DM_RHOME={{ R-MOUNTPATH }}/{{ R-HOMEDIR }}
+  - SAS_EXTLANG_SETTINGS={{ SAS-EXTLANG-SETTINGS-XML-FILE }}
+  - SAS_EXT_LLP_R={{ SAS-EXT-LLP-R-PATH }}

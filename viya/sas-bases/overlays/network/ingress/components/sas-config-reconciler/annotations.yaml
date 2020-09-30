@@ -1,0 +1,9 @@
+apiVersion: builtin
+kind: AnnotationsTransformer
+metadata:
+  name: annotations-transformer
+annotations:
+  sas.com/component-name: sas-config-reconciler
+fieldSpecs:
+- path: metadata/annotations
+  create: true

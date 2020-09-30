@@ -1,0 +1,41 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-fonts
+spec:
+  host: sas-fonts
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /fonts/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-fonts
+    sas.com/admin: namespace
+  name: sas-fonts
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /fonts
+    - uri:
+        prefix: /fonts/
+    route:
+    - destination:
+        host: sas-fonts
+    timeout: 300s
+

@@ -1,0 +1,366 @@
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-d87260f9be52073f
+patch: |-
+  - op: add
+    path: /spec/selector/matchExpressions
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-launcher
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-2fbfb26b68719318
+patch: |-
+  - op: add
+    path: /spec/template/spec/initContainers
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-launcher
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-e94b83846a5ede63
+patch: |-
+  - op: add
+    path: /spec/template/spec/containers/0/command
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-launcher
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-fe452155a6f782d3
+patch: |-
+  - op: add
+    path: /spec/template/spec/containers/0/args
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-launcher
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-7f12932e585d07bf
+patch: |-
+  - op: add
+    path: /spec/template/spec/containers/0/volumeDevices
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-launcher
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-afca0f2c9c79716e
+patch: |-
+  - op: add
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/httpHeaders
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-launcher
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-453a56a4b884e7ca
+patch: |-
+  - op: add
+    path: /spec/template/spec/securityContext/supplementalGroups
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-launcher
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-87478fd997a2a35f
+patch: |-
+  - op: add
+    path: /spec/template/spec/securityContext/sysctls
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-launcher
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-6ba9b27d2e86f775
+patch: |-
+  - op: add
+    path: /spec/template/spec/imagePullSecrets
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-launcher
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-cf90719ee16eeb0a
+patch: |-
+  - op: add
+    path: /spec/template/spec/affinity/nodeAffinity/requiredDuringSchedulingIgnoredDuringExecution/nodeSelectorTerms/0/matchFields
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-launcher
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-539a3217d1e19e59
+patch: |-
+  - op: add
+    path: /spec/template/spec/affinity/nodeAffinity/preferredDuringSchedulingIgnoredDuringExecution/0/preference/matchFields
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-launcher
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-35f32e524a6f1a78
+patch: |-
+  - op: add
+    path: /spec/template/spec/affinity/nodeAffinity/preferredDuringSchedulingIgnoredDuringExecution/1/preference/matchFields
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-launcher
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-06ec287bea17f3c0
+patch: |-
+  - op: add
+    path: /spec/template/spec/hostAliases
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-launcher
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-2c81450574690d02
+patch: |-
+  - op: add
+    path: /spec/template/spec/readinessGates
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-launcher
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-e04be6b35f8e1da1
+patch: |-
+  - op: add
+    path: /template/spec/initContainers/0/command
+    value: []
+target:
+  kind: PodTemplate
+  name: sas-launcher-job-config
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-42c7f240d9172d79
+patch: |-
+  - op: add
+    path: /template/spec/initContainers/0/args
+    value: []
+target:
+  kind: PodTemplate
+  name: sas-launcher-job-config
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-a20ef4c4e60c6df8
+patch: |-
+  - op: add
+    path: /template/spec/initContainers/0/ports
+    value: []
+target:
+  kind: PodTemplate
+  name: sas-launcher-job-config
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-c82834900f9fd6f7
+patch: |-
+  - op: add
+    path: /template/spec/initContainers/0/env
+    value: []
+target:
+  kind: PodTemplate
+  name: sas-launcher-job-config
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-e13bd6d5d97467b5
+patch: |-
+  - op: add
+    path: /template/spec/initContainers/0/volumeDevices
+    value: []
+target:
+  kind: PodTemplate
+  name: sas-launcher-job-config
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-4248cc8ad44fd13f
+patch: |-
+  - op: add
+    path: /template/spec/containers/0/command
+    value: []
+target:
+  kind: PodTemplate
+  name: sas-launcher-job-config
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-6888694197a2c4bb
+patch: |-
+  - op: add
+    path: /template/spec/containers/0/args
+    value: []
+target:
+  kind: PodTemplate
+  name: sas-launcher-job-config
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-262c255f58d2b81e
+patch: |-
+  - op: add
+    path: /template/spec/containers/0/ports
+    value: []
+target:
+  kind: PodTemplate
+  name: sas-launcher-job-config
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-b53aa9d2d66891b3
+patch: |-
+  - op: add
+    path: /template/spec/containers/0/volumeDevices
+    value: []
+target:
+  kind: PodTemplate
+  name: sas-launcher-job-config
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-74c2a2c9a74e591d
+patch: |-
+  - op: add
+    path: /template/spec/imagePullSecrets
+    value: []
+target:
+  kind: PodTemplate
+  name: sas-launcher-job-config
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-edcee8967592782c
+patch: |-
+  - op: add
+    path: /template/spec/tolerations
+    value: []
+target:
+  kind: PodTemplate
+  name: sas-launcher-job-config
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-964e00c43f53f524
+patch: |-
+  - op: add
+    path: /template/spec/hostAliases
+    value: []
+target:
+  kind: PodTemplate
+  name: sas-launcher-job-config
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-25fca5a8275375c6
+patch: |-
+  - op: add
+    path: /template/spec/readinessGates
+    value: []
+target:
+  kind: PodTemplate
+  name: sas-launcher-job-config
+  version: v1

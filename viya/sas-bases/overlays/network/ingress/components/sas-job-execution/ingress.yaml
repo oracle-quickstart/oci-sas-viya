@@ -1,0 +1,52 @@
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+    nginx.ingress.kubernetes.io/proxy-body-size: 2048m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
+    nginx.ingress.kubernetes.io/session-cookie-path: /jobDefinitions/
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-job-definitions
+    sas.com/admin: namespace
+  name: sas-job-definitions
+spec:
+  rules:
+  - host: $(INGRESS_HOST)
+    http:
+      paths:
+      - backend:
+          serviceName: sas-job-definitions
+          servicePort: 80
+        path: /jobDefinitions
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+    nginx.ingress.kubernetes.io/proxy-body-size: 2048m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
+    nginx.ingress.kubernetes.io/session-cookie-path: /jobExecution/
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-job-execution
+    sas.com/admin: namespace
+  name: sas-job-execution
+spec:
+  rules:
+  - host: $(INGRESS_HOST)
+    http:
+      paths:
+      - backend:
+          serviceName: sas-job-execution
+          servicePort: 80
+        path: /jobExecution
+

@@ -1,0 +1,106 @@
+## Example postgres-storage-transformer to set storage on your Kubernetes cluster.
+##   - Internal PostgreSQL only.
+##   - This transformer does not apply if you opted for an external PostgreSQL instance. 
+##   - In the following code, user-defined values are indicated by a capitalized and
+##     hyphenated name set off by curly braces and a space at each end. To replace
+##     the variable, replace the curly braces, interior spaces, and the variable
+##     name. For instance, {{ STORAGE-SIZE-IN-GB }} could be replaced by 128Gi.
+##   - If there are two number signs, remove only the first. 
+##     Make sure block comments are aligned with the yaml data structure.
+
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: postgres-storage-transformer
+patch: |-
+
+#   # NOTE: Ensure the Primary and Standby sizes match. The
+#   # STORAGE-SIZE-IN-GB should be a numeric value followed by the
+#   # units, such as 128Gi for 128 gigabytes. In Kubernetes, the units for
+#   # gigabytes is Gi.
+#   # Transform Primary PostgreSQL PVC Size
+#   - op: replace
+#     path: /spec/PrimaryStorage/size
+#     value: {{ STORAGE-SIZE-IN-GB }}
+
+#   # The STORAGE-SIZE-IN-GB should be a numeric value followed by the
+#   # units, such as 128Gi for 128 gigabytes. In Kubernetes, the units for
+#   # gigabytes is Gi.
+#   # Transform Standby PostgreSQL PVC Size
+#   - op: replace
+#     path: /spec/ReplicaStorage/size
+#     value: {{ STORAGE-SIZE-IN-GB }}
+
+#   # The STORAGE-CLASS should be a storage class, such as trident.
+#   # The STORAGE_TYPE should be a storage type, such as dynamic.
+#   # Archive storage class and type
+#   - op: replace
+#     path: /spec/ArchiveStorage/storageclass
+#     value: {{ STORAGE-CLASS }}
+#   - op: replace
+#     path: /spec/ArchiveStorage/storagetype
+#     value: {{ STORAGE-TYPE }}
+
+#    # The STORAGE-CLASS should be a storage class, such as trident.
+#    # The STORAGE_TYPE should be a storage type, such as dynamic.
+#    # Backrest storage class and type
+#   - op: replace
+#     path: /spec/BackrestStorage/storageclass
+#     value: {{ STORAGE-CLASS}}
+#   - op: replace
+#     path: /spec/BackrestStorage/storagetype
+#     value: {{ STORAGE-TYPE }}
+
+#   # The STORAGE-CLASS should be a storage class, such as trident.
+#   # The STORAGE_TYPE should be a storage type, such as dynamic.
+#   # Primary storage class and type
+#   - op: replace
+#     path: /spec/PrimaryStorage/storageclass
+#     value: {{ STORAGE-CLASS}}
+#   - op: replace
+#     path: /spec/PrimaryStorage/storagetype
+#     value: {{ STORAGE-TYPE }}
+
+#   # The STORAGE-CLASS should be a storage class, such as trident.
+#   # The STORAGE_TYPE should be a storage type, such as dynamic.
+#   # Replica storage class and type
+#   - op: replace
+#     path: /spec/ReplicaStorage/storageclass
+#     value: {{ STORAGE-CLASS}}
+#   - op: replace
+#     path: /spec/ReplicaStorage/storagetype
+#     value: {{ STORAGE-TYPE }}
+
+#   # Replace the variable with an access mode, such as ReadWriteOnce or
+#   # ReadWriteMany.
+#   # Archive storage access mode
+#   - op: replace
+#     path: /spec/ArchiveStorage/accessmode
+#     value: {{ ACCESS-MODE }}
+
+#   # Replace the variable with an access mode, such as ReadWriteOnce or
+#   # ReadWriteMany.
+#   # Backrest storage access mode
+#   - op: replace
+#     path: /spec/BackrestStorage/accessmode
+#     value: {{ ACCESS-MODE }}
+
+#   # Replace the variable with an access mode, such as ReadWriteOnce or
+#   # ReadWriteMany.
+#   # Primary access mode
+#   - op: replace
+#     path: /spec/PrimaryStorage/accessmode
+#     value: {{ ACCESS-MODE }}
+
+#   # Replace the variable with an access mode, such as ReadWriteOnce or
+#   # ReadWriteMany.
+#   # Replica access mode
+#   - op: replace
+#     path: /spec/ReplicaStorage/accessmode
+#     value: {{ ACCESS-MODE }}
+
+target:
+  group: crunchydata.com
+  kind: Pgcluster
+  name: .*
+  version: v1

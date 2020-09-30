@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+data:
+  PREPULLED_HOSTS: ""
+  SAS_CONTEXT_PATH: prepull
+  SAS_DU_NAME: sas-prepull
+  SAS_PREPULL_STATUS: unran
+  SAS_SERVICE_NAME: sas-prepull
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-prepull-parameters-84tm54dfd7
+  namespace: viya

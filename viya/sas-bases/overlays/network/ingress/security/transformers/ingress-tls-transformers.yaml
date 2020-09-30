@@ -1,0 +1,79 @@
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-ingress-tls-transformer
+patch: |-
+  - op: add
+    path: /spec/rules/0/host
+    value: $(INGRESS_HOST)
+  - op: add
+    path: /spec/tls
+    value: [{hosts: [$(INGRESS_HOST)], secretName: sas-ingress-certificate}]
+target:
+  kind: Ingress
+  name: .*
+vars:
+- name: INGRESS_HOST
+  objref:
+    kind: ConfigMap
+    name: ingress-input
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.INGRESS_HOST
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-certframe-ingress-configmap-secret-name-transformer
+patch: |-
+  kind: ConfigMap
+  metadata:
+    name: sas-certframe-ingress-certificate-config
+  data:
+    SAS_INGRESS_CERTIFICATE_SECRET_NAME: sas-ingress-certificate
+target:
+  kind: ConfigMap
+  name: sas-certframe-ingress-certificate-config
+
+## ESP Ingress Transformer
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-ingress-espconfig-tls-transformer
+patch: |-
+  - op: add
+    path: /spec/projectTemplate/ingress/spec/tls
+    value: [{hosts: [((PUBLIC_HOST_NAME))], secretName: sas-ingress-certificate}]
+target:
+  kind: ESPConfig
+  name: .*
+vars:
+  - name: INGRESS_HOST
+    objref:
+      kind: ConfigMap
+      name: ingress-input
+      apiVersion: v1
+    fieldref:
+      fieldpath: data.INGRESS_HOST
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-casdeployment-ingress-tls-transformer
+patch: |-
+  - op: add
+    path: /spec/ingressTemplate/spec/tls
+    value: [{hosts: [$(INGRESS_HOST)], secretName: sas-ingress-certificate}]
+target:
+  kind: CASDeployment
+vars:
+- name: INGRESS_HOST
+  objref:
+    kind: ConfigMap
+    name: ingress-input
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.INGRESS_HOST

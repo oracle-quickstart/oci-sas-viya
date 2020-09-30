@@ -1,0 +1,124 @@
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sas-prepull
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: sas-prepull
+rules:
+- apiGroups:
+  - apps
+  resources:
+  - daemonsets
+  verbs:
+  - get
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - patch
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: sas-prepull
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: sas-prepull
+subjects:
+- kind: ServiceAccount
+  name: sas-prepull
+
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: sas-prepull
+spec:
+  selector:
+    matchLabels:
+      name: sas-prepull
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+      labels:
+        name: sas-prepull
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: workload.sas.com/class
+                operator: In
+                values:
+                - compute
+      containers:
+      - command:
+        - /app/prepull
+        - -op
+        - daemon
+        env:
+        - name: SAS_PREPULL_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: SAS_SPEC_NODENAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        image: sas-prepull
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - /app/prepull
+              - -op
+              - remove
+        name: sas-prepull
+      imagePullSecrets: []
+      initContainers:
+      - command:
+        - /bin/echo
+        - Finished!
+        image: sas-programming-environment
+        imagePullPolicy: IfNotPresent
+        name: sas-programming-environment-prepull
+      - command:
+        - /app/prepull
+        - -op
+        - add
+        env:
+        - name: SAS_PREPULL_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: SAS_SPEC_NODENAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        image: sas-prepull
+        imagePullPolicy: IfNotPresent
+        name: sas-prepull-api
+      serviceAccountName: sas-prepull
+      tolerations:
+      - effect: NoSchedule
+        key: workload.sas.com/class
+        operator: Equal
+        value: compute
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 100%
+    type: RollingUpdate

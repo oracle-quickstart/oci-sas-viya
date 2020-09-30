@@ -1,0 +1,125 @@
+body {
+	font-family: arial, "Arial Unicode MS", geneva, "Lucida Grande",  sans-serif;
+	font-size: .88rem;
+	font-weight: 400;
+	color: #000;
+	background-color: #FFFFFF;
+	margin-top: 5px;
+	margin-left: 15px;
+	margin-right: 10px;
+}
+
+/* ********************* Paragraph ********************* */
+
+p {
+  font-style: normal;
+  margin-top: 1.4em;
+  margin-bottom: 0px;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+/* ********************* Heading ********************** */
+
+h1 {
+  font-size: 1.424rem;
+  margin-top: 1em;
+  margin-bottom: 8px;
+  color: #353535;
+  font-weight: 700;
+}
+h2 {
+  border-top: 2px solid #D1D5DB;
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-top: 2.5em;
+  margin-bottom: 0px;
+  padding-top: 0.5em;
+  color: #353535;
+}
+h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-top: 2.2em;
+  color: #353535;
+}
+h4 {
+  margin-top: 1.4em;
+  margin-bottom: 0.2em;
+  padding-bottom: 0px;
+  font-weight: 700;
+  font-size: 1rem;
+}
+/* ********************** Links ********************** */
+
+/* Corporate Theme colors */
+a[href] {
+	color: #287eab;
+	font-family: arial, "Arial Unicode MS", geneva, "Lucida Grande",  sans-serif;
+	text-decoration: none;
+}
+
+a[href]:hover {
+	color: #353535;
+	text-decoration: underline;
+}
+
+td a:hover {
+	color: #353535;
+	font-family: arial, "Arial Unicode MS", geneva, "Lucida Grande",  sans-serif;
+	text-decoration: underline;
+}
+
+
+/* ********************** Table ********************** */
+th{
+    text-align: left;
+}
+
+table p {
+  margin-top: 0.7rem;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+/* ********************** Code ********************** */
+
+p code,
+li code,
+p li code {
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #353535;
+  background-color: transparent;
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+}
+
+/* ********************** Lists ********************** */
+
+ol{
+  margin-left: 0px;
+  margin-bottom: 0px;
+  padding-left: 2.5em;
+}
+
+ol li {
+  margin-top: 1.4em;
+}
+
+ul {
+  list-style-image: none;
+  list-style-type: disc;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  padding-left: 2.5em;  
+}
+
+h2 + ul {
+  margin-top: .5em;
+}

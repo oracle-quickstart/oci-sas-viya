@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+data:
+  SAS_CONTEXT_PATH: configuration
+  SAS_DU_NAME: sas-configuration
+  SAS_SERVICE_NAME: sas-configuration
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-configuration-parameters-2c5t2h7cmc
+  namespace: viya

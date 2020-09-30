@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: PodTemplate
+metadata:
+  name: sas-model-publish-kaniko-job-config
+template:
+  metadata:
+    annotations:
+      sidecar.istio.io/inject: "false"
+    labels:
+      workload.sas.com/class: stateless
+  spec:
+    tolerations:
+      - key: workload.sas.com/class
+        operator: Equal
+        value: stateful
+        effect: NoSchedule
+      - key: workload.sas.com/class
+        operator: Equal
+        value: stateless
+        effect: NoSchedule
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          preference:
+            matchExpressions:
+            - key: workload.sas.com/class
+              operator: In
+              values:
+              - stateless
+        - weight: 50
+          preference:
+            matchExpressions:
+            - key: workload.sas.com/class
+              operator: NotIn
+              values:
+              - compute
+              - cas
+              - stateful
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: kubernetes.azure.com/mode
+              operator: NotIn
+              values:
+              - system
+    imagePullSecrets: []
+    containers:
+      - name: kaniko
+        image: sas-kaniko
+        args:
+          - --dockerfile=/workspace/Dockerfile
+          - --context=/workspace
+    restartPolicy: Never
+    volumes:
+      - name: kaniko
+        persistentVolumeClaim:
+          claimName: sas-model-publish-kaniko
+          readOnly: true

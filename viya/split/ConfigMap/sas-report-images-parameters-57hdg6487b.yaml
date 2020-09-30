@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+data:
+  SAS_CONTEXT_PATH: reportImages
+  SAS_PORT_NAME: reportimages
+  SAS_SERVICE_NAME: sas-report-images
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-report-images-parameters-57hdg6487b
+  namespace: viya

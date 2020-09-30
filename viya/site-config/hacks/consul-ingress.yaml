@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 2048m
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    # nginx.ingress.kubernetes.io/add-base-url: /consul
+  labels:
+    app.kubernetes.io/name: sas-consul-server
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-consul
+  namespace: viya
+spec:
+  rules:
+  - host: viya.gofish.unx.sas.com
+    http:
+      paths:
+      - backend:
+          serviceName: sas-consul-server
+          servicePort: 8500
+        path: /ui

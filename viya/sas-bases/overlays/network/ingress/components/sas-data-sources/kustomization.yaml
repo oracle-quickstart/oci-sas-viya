@@ -1,0 +1,4 @@
+resources:
+- ingress.yaml
+transformers:
+- annotations.yaml

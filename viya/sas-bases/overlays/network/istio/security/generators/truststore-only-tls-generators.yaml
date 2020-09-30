@@ -1,0 +1,90 @@
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-certframe-user-config
+labels:
+  app.kubernetes.io/name: sas-certframe-user-config
+literals:
+  - SAS_CERTIFICATE_ISSUER=sas-viya-issuer
+  - SAS_CERTIFICATE_GENERATOR=cert-manager
+  - SAS_CA_CERTIFICATE_SECRET_NAME=sas-viya-ca-certificate-secret
+  - SAS_CERTIFICATE_SAN_DNS="$(INGRESS_HOST)"
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-certframe-java-config
+labels:
+  app.kubernetes.io/name: sas-certframe-java-config
+literals:
+  - SAS_TRUSTED_CA_CERTIFICATES_PEM_FILE=/security/trustedcerts.pem
+  - SAS_TRUSTED_CA_CERTIFICATES_JKS_FILE=/security/trustedcerts.jks
+  - SAS_CERTIFICATE_FILE=/security/cert.jks
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-certframe-config
+labels:
+  app.kubernetes.io/name: sas-certframe-config
+literals:
+  - SAS_TRUSTED_CA_CERTIFICATES_PEM_FILE=/security/trustedcerts.pem
+  - SAS_CERTIFICATE_FILE=/security/tls.crt
+  - SAS_CERTIFICATE_PRIVATE_KEY_FILE=/security/tls.key
+  - SAS_CERTIFICATE_CA_CERTIFICATE_FILE=/security/ca.crt
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-java-tls-config
+labels:
+  app.kubernetes.io/name: sas-java-tls-config
+literals:
+  - SAS_TRUSTED_CA_CERTIFICATES_PEM_FILE=/security/trustedcerts.pem
+  - SAS_TRUSTED_CA_CERTIFICATES_JKS_FILE=/security/trustedcerts.jks
+  - SAS_CERTIFICATE_FILE=/security/cert.jks
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-tls-config
+labels:
+  app.kubernetes.io/name: sas-tls-config
+literals:
+  - SSL_CERT_FILE=/security/trustedcerts.pem
+  - CAS_CLIENT_SSL_CA_LIST=/security/trustedcerts.pem
+  - SAS_TRUSTED_CA_CERTIFICATES_PEM_FILE=/security/trustedcerts.pem
+  - SAS_CERTIFICATE_FILE=/security/tls.crt
+  - SAS_CERTIFICATE_PRIVATE_KEY_FILE=/security/tls.key
+  - SAS_CERTIFICATE_CA_CERTIFICATE_FILE=/security/ca.crt
+  - SAS_TLS_LISTENER_ENABLED=true
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-customer-provided-ca-certificates
+labels:
+  app.kubernetes.io/name: sas-customer-provided-ca-certificates
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-certframe-truststore-config
+labels:
+  app.kubernetes.io/name: sas-certframe-truststore-config
+literals:
+  - SAS_TRUSTED_CA_CERTIFICATES_PEM_FILE=/security/trustedcerts.pem
+  - SAS_TRUSTED_CA_CERTIFICATES_JKS_FILE=/security/trustedcerts.jks
+  - SSL_CERT_FILE=/security/trustedcerts.pem
+  - REQUESTS_CA_BUNDLE=/security/trustedcerts.pem
+  - CAS_CLIENT_SSL_CA_LIST=/security/trustedcerts.pem
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-certframe-ingress-certificate-config
+labels:
+  app.kubernetes.io/name: sas-certframe-ingress-certificate-config
+literals:
+  - SAS_INGRESS_CERTIFICATE_SECRET_NAME=

@@ -1,0 +1,29 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: add-pg-connection-info-to-consumers
+patch: |-
+  - op: add
+    path: /spec/template/spec/containers/0/env/-
+    value:
+      name: SPRING_DATASOURCE_USERNAME
+      valueFrom:
+        secretKeyRef:
+          key: username
+          name: sas-crunchy-data-postgres-dbmsowner-secret
+  - op: add
+    path: /spec/template/spec/containers/0/env/-
+    value:
+      name: SPRING_DATASOURCE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: sas-crunchy-data-postgres-dbmsowner-secret
+  - op: add
+    path: /spec/template/spec/containers/0/envFrom/-
+    value:
+      configMapRef:
+        name: sas-postgres-config
+target:
+  group: apps
+  annotationSelector: sas.com/database-consumer

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sas-model-publish-kaniko
+spec:
+  accessModes:
+    - ReadWriteMany
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: {{ STORAGE-CAPACITY }}  #change this to desired capacity
+  storageClassName: {{ STORAGE-CLASS-NAME }} # change this the desired storage class

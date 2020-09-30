@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+data:
+  INGRESS_HOST: viya.gorcl.hornpolish.net
+kind: ConfigMap
+metadata:
+  annotations: {}
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: ingress-input-4m4h976b9c
+  namespace: viya

@@ -1,0 +1,104 @@
+# Transformers for deployment operator
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-sas-deployment-operator
+patch: |-
+  # namespace: MUST BE PROVIDED BY USER. DEFAULT VALUE IS 'default'
+  - op: add
+    path: /subjects/0/namespace
+    value:
+      default
+target:
+  annotationSelector: sas.com/component-name=sas-deployment-operator
+  kind: ClusterRoleBinding
+# Uncomment the following transformers if you are deploying the
+# operator in clusterwide mode.
+#---
+#apiVersion: builtin
+#kind: PatchTransformer
+#metadata:
+#  name: patch-transformer-sas-deployment-operator-deployment-clusterwide-namespace
+#patch: |-
+#  - op: replace
+#    path: /spec/template/spec/containers/0/env/1
+#    value:
+#      name: WATCH_NAMESPACE
+#      value: ""
+#target:
+#  annotationSelector: sas.com/component-name=sas-deployment-operator
+#  kind: Deployment
+#---
+#apiVersion: builtin
+#kind: PatchTransformer
+#metadata:
+#  name: patch-transformer-sas-deployment-operator-clusterrole-clusterwide-rules
+#patch: |-
+#  - op: add
+#    path: /rules/-
+#    value:
+#      apiGroups:
+#        - ""
+#      resources:
+#        - secrets
+#      verbs:
+#        - list
+#        - get
+#        - delete
+#        - watch
+#  - op: add
+#    path: /rules/-
+#    value:
+#      apiGroups:
+#        - ""
+#      resources:
+#        - configmaps
+#      verbs:
+#        - list
+#        - delete
+#  - op: add
+#    path: /rules/-
+#    value:
+#      apiGroups:
+#        - ""
+#      resources:
+#        - services
+#      verbs:
+#        - get
+#        - list
+#        - watch
+#        - create
+#  - op: add
+#    path: /rules/-
+#    value:
+#      apiGroups:
+#        - orchestration.sas.com
+#      resources:
+#        - sasdeployments
+#      verbs:
+#        - get
+#        - list
+#        - watch
+#        - update
+#  - op: add
+#    path: /rules/-
+#    value:
+#      apiGroups:
+#        - rbac.authorization.k8s.io
+#      resources:
+#        - roles
+#        - rolebindings
+#      verbs:
+#        - create
+#        - get
+#        - list
+#        - watch
+#        - update
+#        - patch
+#        - delete
+#        - bind
+#        - escalate
+#target:
+#  annotationSelector: sas.com/component-name=sas-deployment-operator
+#  kind: ClusterRole

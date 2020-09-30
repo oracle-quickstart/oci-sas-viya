@@ -1,0 +1,9 @@
+apiVersion: builtin
+kind: AnnotationsTransformer
+metadata:
+  name: annotations-transformer
+annotations:
+  sas.com/component-name: sas-visual-analytics-app
+fieldSpecs:
+- path: metadata/annotations
+  create: true

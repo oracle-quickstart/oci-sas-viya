@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    sas.com/component-name: sas-cas-administration
+    sas.com/component-version: 1.25.2-20200909.1599703615083
+    sas.com/kustomize-base: base
+    sas.com/registry-providers: jobExecution-provider,jobExecution-provider-casl
+    sas.com/registry-sync: default
+    sas.com/registry-tags: proxy
+    sas.com/version: 1.25.2
+  labels:
+    app.kubernetes.io/name: sas-cas-administration
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-cas-proxy
+  namespace: viya
+spec:
+  ports:
+  - name: casproxy
+    port: 80
+    protocol: TCP
+    targetPort: casproxy
+  selector:
+    app.kubernetes.io/name: sas-cas-administration
+    sas.com/deployment: sas-viya
+  type: ClusterIP

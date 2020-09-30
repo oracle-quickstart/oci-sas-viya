@@ -1,0 +1,12 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-storage-class-cache
+patch: |-
+  - op: add
+    path: /spec/volumeClaimTemplates/0/spec/storageClassName
+    value: trident
+target:
+  kind: StatefulSet
+  version: v1
+  annotationSelector: sas.com/component-name in (sas-cacheserver,sas-cachelocator)

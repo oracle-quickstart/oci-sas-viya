@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="sas.css"/>
+        <title>Set the StorageClass for CrunchyData PostgreSQL</title>
+    </head>
+    <body>
+        <h1 id="set-the-storageclass-for-crunchydata-postgresql">Set the StorageClass for CrunchyData PostgreSQL</h1>
+<h2 id="overview">Overview</h2>
+<p>This directory contains files to customize your SAS Viya 4 PostgreSQL to use
+your own StorageClass.</p>
+<p><strong>Note:</strong> If you are using an external instance of PostgreSQL, you can ignore 
+the instructions in this readme.</p>
+<h2 id="instructions">Instructions</h2>
+<ol>
+<li>
+<p>Copy the file <code>$deploy/sas-bases/examples/crunchydata/storageclass/storage-class-transformer.yaml</code> 
+   to <code>$deploy/site-config/examples/crunchydata/storageclass/storage-class-transformer.yaml</code>.</p>
+</li>
+<li>
+<p>The file is using trident as the StorageClass. If you are not using trident
+   as your StorageClass, replace each use of &ldquo;trident&rdquo; with the name of your
+   StorageClass. If you are using trident as your StorageClass, do not make any
+   changes. Save the file.</p>
+</li>
+<li>
+<p>In the base kustomization.yaml file in the $deploy directory, add a reference
+   to the storage-class-transformer.yaml file in the transformers block:</p>
+<pre class="highlight"><code>...
+transformers:
+...
+- site-config/examples/crunchydata/storageclass/storage-class-transformer.yaml
+...</code></pre>
+
+</li>
+</ol>
+<p>After the base kustomization.yaml file is modified, deploy the software using 
+the commands described in
+<a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=dplyml0phy0dkr&amp;docsetTarget=titlepage.htm">SAS Viya Deployment Guide</a>.).</p>
+<h2 id="additional-resources">Additional Resources</h2>
+<p>For information about internal and external instances of PostgreSQL, see
+<a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=itopssr&amp;docsetTarget=n1rbbuql9epqa0n1pg3bvfx3dmvc.htm&amp;locale=en#n1s8cr44xdfny1n1dd8w46828xce">Internal versus External PostgreSQL Instances</a>.</p>
+    </body>
+</html>

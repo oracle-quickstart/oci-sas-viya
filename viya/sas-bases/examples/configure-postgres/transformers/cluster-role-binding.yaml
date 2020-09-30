@@ -1,0 +1,23 @@
+# patch transformer to update the name of clusterrolebinding from pgo-cluster-role to 
+# pgo-cluster-role-<namespace> usefull in kubernetes environment which is hosting more 
+# than one viy4.0.1 deployments, And also removes clusterrole permissons being grantes 
+# to all serviceaccount.
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-add-namespace-to-crunchy-sa-2
+patch: |-
+  - op: add
+    path: /metadata/name
+    value: pgo-cluster-role-{{ NAMESPACE }}
+  #  Below section is needed in order to eliminate cluster-role-binding granting cluster role permissons to a all service account
+  - op: replace
+    path: /subjects/1/name
+    value: "noop"
+target:
+  group: rbac.authorization.k8s.io
+  kind: ClusterRoleBinding
+  name: pgo-cluster-role
+  version: v1
+---

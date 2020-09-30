@@ -1,0 +1,26 @@
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+    nginx.ingress.kubernetes.io/proxy-body-size: 2048m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
+    nginx.ingress.kubernetes.io/session-cookie-path: /thumbnails/
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-thumbnails
+    sas.com/admin: namespace
+  name: sas-thumbnails
+spec:
+  rules:
+  - host: $(INGRESS_HOST)
+    http:
+      paths:
+      - backend:
+          serviceName: sas-thumbnails
+          servicePort: 80
+        path: /thumbnails
+

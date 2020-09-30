@@ -1,0 +1,31 @@
+
+---
+apiVersion: v1
+kind: PodTemplate
+metadata:
+  name: sas-qkb-bootstrap
+template:
+  metadata:
+    annotations:
+      sidecar.istio.io/inject: "false"
+  spec:
+    containers:
+    - args: null
+      command: null
+      image: sas-quality-knowledge-base
+      imagePullPolicy: IfNotPresent
+      name: sas-qkb-bootstrap
+      volumeMounts:
+      - mountPath: /rdutil
+        name: sas-rdutil-dir
+      - mountPath: /tgtdata
+        name: sas-quality-knowledge-base-volume
+    restartPolicy: Never
+    volumes:
+    - name: sas-quality-knowledge-base-volume
+      persistentVolumeClaim:
+        claimName: sas-quality-knowledge-base
+    - configMap:
+        defaultMode: 493
+        name: sas-reference-data-scripts
+      name: sas-rdutil-dir

@@ -1,0 +1,84 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="sas.css"/>
+        <title>Configure Python for SAS Model Repository Service</title>
+    </head>
+    <body>
+        <h1 id="configure-python-for-sas-model-repository-service">Configure Python for SAS Model Repository Service</h1>
+<h2 id="overview">Overview</h2>
+<p>The Python restore script for the SAS Model Repository service enables users to restore projects that contain analytic store and Python models, 
+along with their associated resources and analytic store files. The restore script can be used in a customer-prepared environment that consists of a Python
+installation with any required packages that are stored in a Kubernetes persistent volume. </p>
+<p>This readme describes how to make that volume available to your deployment.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>SAS Viya provides YAML files that the Kustomize tool uses to configure Python. Before you use those files, you must perform the following tasks:</p>
+<ol>
+<li>Make note of the attributes for the volume where Python and the associated packages are to be deployed. For example, for
+  NFS, note the NFS server and directory. For more information about the various types of persistent volumes in Kubernetes,
+   see [Additional Resources] (#additional-resources).</li>
+<li>Install Python and any necessary packages on the volume.</li>
+</ol>
+<h2 id="installation">Installation</h2>
+<ol>
+<li>
+<p>Copy the files in the <code>$deploy/sas-bases/examples/sas-model-repository/python</code> directory
+to the <code>$deploy/site-config/sas-model-repository/python</code> directory. Create the target directory, if
+it does not already exist.</p>
+</li>
+<li>
+<p>Attach storage to your SAS Viya deployment. 
+The python-transformer.yaml file uses PatchTransformers in Kustomize
+to attach the volume containing your Python installation to SAS Viya. 
+Replace {{ VOLUME-ATTRIBUTES }} with the appropriate volume specification. 
+For example, when using an NFS mount, the {{ VOLUME-ATTRIBUTES }} tag should be
+replaced with <code>nfs: {path: /vol/python, server: myserver.sas.com}</code>
+where <code>myserver.sas.com</code> is the NFS server and <code>/vol/python</code> is the
+NFS path that you recorded in the <a href="#prerequisites">Prerequisites</a> step.</p>
+</li>
+</ol>
+<p>The relevant code excerpt from python-transformer.yaml file before the change:</p>
+<pre class="highlight"><code class="language-yaml">patch: |-
+  # Add Python volume
+  - op: add
+    path: /spec/template/spec/volumes/-
+    value: { name: python-volume, {{ VOLUME-ATTRIBUTES }} }
+  # Add mount path for Python
+  - op: add
+    path: /template/spec/containers/0/volumeMounts/-
+    value:
+      name: python-volume
+      mountPath: /python
+      readOnly: true</code></pre>
+
+<p>The relevant code excerpt from python-transformer.yaml file after the change:</p>
+<pre class="highlight"><code class="language-yaml">patch: |-
+  # Add Python volume
+  - op: add
+    path: /spec/template/spec/volumes/-
+    value: { name: python-volume, nfs: {path: /vol/python, server: myserver.sas.com} }
+  # Add mount path for Python
+  - op: add
+    path: /template/spec/containers/0/volumeMounts/-
+    value:
+      name: python-volume
+      mountPath: /python
+      readOnly: true</code></pre>
+
+<ol>
+<li>Make the following changes to the base kustomization.yaml file in the <code>$deploy</code> directory.</li>
+<li>Add site-config/sas-model-repository/python/python-transformer.yaml to the transformers block.</li>
+</ol>
+<h2 id="additional-resources">Additional Resources</h2>
+<ul>
+<li>
+<p><a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=dplyml0phy0dkr&amp;docsetTarget=titlepage.htm&amp;locale=en">SAS Viya Deployment Guide</a></p>
+</li>
+<li>
+<p><a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">Persistent volumes on Kubernetes</a></p>
+</li>
+<li>
+<p><a href="https://kubernetes.io/docs/concepts/storage/volumes/#types-of-volumes">Types of volumes</a> and their attributes that are supported by Kubernetes</p>
+</li>
+</ul>
+    </body>
+</html>

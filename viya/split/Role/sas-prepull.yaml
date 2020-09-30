@@ -1,0 +1,29 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    sas.com/component-name: sas-prepull
+    sas.com/component-version: 1.2.3-20200827.1598565030123
+    sas.com/version: 1.2.3
+  labels:
+    sas.com/admin: cluster-wide
+    sas.com/deployment: sas-viya
+  name: sas-prepull
+  namespace: viya
+rules:
+- apiGroups:
+  - apps
+  resources:
+  - daemonsets
+  verbs:
+  - get
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - patch

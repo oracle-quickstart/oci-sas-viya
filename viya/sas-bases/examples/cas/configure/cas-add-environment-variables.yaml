@@ -1,0 +1,12 @@
+# This block of code is for adding environment variables for the CAS server.
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: cas-add-environment-variables
+patch: |-
+  - op: add
+    path: /spec/controllerTemplate/spec/containers/0/env/-
+    value:
+      name: {{ VARIABLE-NAME }}
+      value: {{ VARIABLE-VALUE }}

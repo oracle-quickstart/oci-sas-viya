@@ -1,0 +1,108 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="sas.css"/>
+        <title>Configure R for SAS Viya</title>
+    </head>
+    <body>
+        <h1 id="configure-r-for-sas-viya">Configure R for SAS Viya</h1>
+<h2 id="overview">Overview</h2>
+<p>SAS Viya can use a customer-prepared environment consisting of an R
+installation and any required packages stored on a Kubernetes
+Persistent Volume. This readme describes how to make that volume
+available to your deployment.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>SAS Viya provides YAML files that the Kustomize tool uses to configure R. Before you use those files, perform the following tasks:</p>
+<ul>
+<li>Note the attributes of the volume where R and the associated packages are to be deployed. For example, for
+  NFS, note the NFS server and directory. The &ldquo;Additional Resources&rdquo;
+  section below contains links to more information about the various types
+  of Persistent Volumes in Kubernetes.</li>
+<li>Install R and any necessary packages on the volume.</li>
+<li>In addition to the volume attributes, you will need the following information for later:<ul>
+<li>{{ R-MOUNTPATH }} - the path in which R is mounted (for example, /nfs/r-mount)</li>
+<li>{{ R-HOMEDIR }} - the top-level directory of the R installation on that volume (for example, R-3.6.2)</li>
+<li>{{ SAS-EXTLANG-SETTINGS-XML-FILE }} - configuration file for enabling Python and R integration in CAS. This is only needed if using R with either CMP or the EXTLANG package.</li>
+<li>{{ SAS-EXT-LLP-R-PATH }} - list of directories to look for when searching for run-time shared libraries (similar to LD_LIBRARY_PATH)</li>
+</ul>
+</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<ol>
+<li>
+<p>Copy the files in the <code>$deploy/sas-bases/examples/sas-open-source-config/r</code> directory
+to the <code>$deploy/site-config/sas-open-source-config/r</code> directory. Create the target directory, if
+it does not already exist.</p>
+</li>
+<li>
+<p>The kustomization.yaml file defines all the necessary environment variables.
+Replace all tags, such as {{ R-HOMEDIR }}, with what you gathered in
+the &ldquo;Prerequisites&rdquo; step. Then, set the following parameters, according to the SAS products you will be using:</p>
+</li>
+<li>DM_RHOME is used by the Open Source Code node in SAS Visual Data Mining
+  and Machine Learning.</li>
+<li>SAS_EXTLANG_SETTINGS is used by applications that run Python and R code on
+  Cloud Analytic Services (CAS). This includes PROC FCMP and the
+  Time Series External Languages (EXTLANG) package. SAS_EXTLANG_SETTINGS
+  should only be set in one example file; for example, if you set it in
+  the Python example, you should not set it the R example.
+  SAS_EXTLANG_SETTINGS should point to an XML file that is readable by
+  all users. The path can be in the same volume that contains the R
+  environment or in any other volume that is accessible to CAS. Refer
+  to the documentation for the Time Series External Languages (EXTLANG)
+  package for details on the expected XML schema.</li>
+<li>
+<p>SAS_EXT_LLP_R is used when the base distribution or packages for open source
+  software require additional run-time libraries that are not part of the shipped
+  container image.</p>
+</li>
+<li>
+<p>Attach storage to your SAS Viya deployment.
+The r-transformer.yaml file uses PatchTransformers in kustomize
+to attach the volume containing your R installation to SAS Viya.
+Replace {{ VOLUME-ATTRIBUTES }} with the appropriate volume specification.
+For example, when using an NFS mount, the {{ VOLUME-ATTRIBUTES }} tag should be
+replaced with <code>nfs: {path: /vol/r-mount, server: myserver.sas.com}</code>
+where <code>myserver.sas.com</code> is the NFS server and <code>/vol/r-mount</code> is the
+NFS path you recorded in the Prerequisites.</p>
+</li>
+</ol>
+<p>The relevant code excerpt from r-transformer.yaml file before the change:
+<pre class="highlight"><code class="language-yaml">patch: |-
+  # Add R Volume
+  - op: add
+    path: /spec/template/spec/volumes/-
+    value: { name: r-volume, {{ VOLUME-ATTRIBUTES }} }
+  # Add mount path for R
+  - op: add
+    path: /template/spec/containers/0/volumeMounts/-
+    value:
+      name: r-volume
+      mountPath: {{ R-MOUNTPATH }}
+      readOnly: true</code></pre></p>
+<p>The relevant code excerpt from r-transformer.yaml file after the change:
+<pre class="highlight"><code class="language-yaml">patch: |-
+  # Add R Volume
+  - op: add
+    path: /spec/template/spec/volumes/-
+    value: { name: r-volume, nfs: {path: /vol/r, server: myserver.sas.com} }
+  # Add mount path for R
+  - op: add
+    path: /template/spec/containers/0/volumeMounts/-
+    value:
+      name: r-volume
+      mountPath: /nfs/r-mount
+      readOnly: true</code></pre></p>
+<ol>
+<li>Make the following changes to the base kustomization.yaml file in the $deploy directory.</li>
+<li>Add site-config/sas-open-source-config/r to the resources block.</li>
+<li>Add site-config/sas-open-source-config/r/r-transformer.yaml to the transformers block.</li>
+</ol>
+<h2 id="additional-resources">Additional Resources</h2>
+<p>For more information about the SAS Viya deployment process, see the <a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=dplyml0phy0dkr&amp;docsetTarget=titlepage.htm&amp;locale=en">SAS Viya Deployment Guide</a>.</p>
+<p>Information about Persistent Volumes on Kubernetes is located <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">here</a>.</p>
+<p>For details of attributes for different kinds of volumes, like NFS, hostPath, PVC and others, refer to
+  <a href="https://kubernetes.io/docs/concepts/storage/volumes/#types-of-volumes">Kubernetes documentation</a>.</p>
+<p>The XML schema for the file pointed to by {{ SAS-EXTLANG-SETTINGS-XML-FILE }} is described in the
+  <a href="http://documentation.sas.com/?cdcId=pgmsascdc&amp;cdcVersion=v_001&amp;docsetId=castsp&amp;docsetTarget=castsp_extlang_sect002.htm&amp;locale=en">EXTLANG documentation</a>.</p>
+    </body>
+</html>

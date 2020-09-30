@@ -1,0 +1,337 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    sas.com/certificate-file-format: pem
+    sas.com/component-name: sas-crunchy-data-postgres-operator
+    sas.com/component-version: 20.3.2-20200824.1598301017591
+    sas.com/duname: sas-crunchy-data-postgres-operator
+    sas.com/tls-enabled-ports: all
+    sas.com/version: 20.3.2
+  labels:
+    app.kubernetes.io/name: sas-crunchy-data-postgres-operator
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+    vendor: crunchydata
+    workload.sas.com/class: stateless
+  name: sas-crunchy-data-postgres-operator
+  namespace: viya
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: sas-crunchy-data-postgres-operator
+      sas.com/deployment: sas-viya
+      vendor: crunchydata
+  template:
+    metadata:
+      annotations:
+        sas.com/certificate-file-format: pem
+        sas.com/component-name: sas-crunchy-data-postgres-operator
+        sas.com/component-version: 20.3.2-20200824.1598301017591
+        sas.com/duname: crdatasvrop
+        sas.com/version: 20.3.2
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/name: sas-crunchy-data-postgres-operator
+        name: sas-crunchy-data-postgres-operator
+        sas.com/deployment: sas-viya
+        vendor: crunchydata
+        workload.sas.com/class: stateless
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - preference:
+              matchExpressions:
+              - key: workload.sas.com/class
+                operator: In
+                values:
+                - stateless
+            weight: 100
+          - preference:
+              matchExpressions:
+              - key: workload.sas.com/class
+                operator: NotIn
+                values:
+                - compute
+                - cas
+                - stateful
+            weight: 50
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.azure.com/mode
+                operator: NotIn
+                values:
+                - system
+      containers:
+      - env:
+        - name: CRUNCHY_DEBUG
+          value: "true"
+        - name: PORT
+          value: "8443"
+        - name: PGO_INSTALLATION_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: PGO_OPERATOR_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: TLS_CA_TRUST
+          value: ""
+        - name: TLS_NO_VERIFY
+          value: "true"
+        - name: DISABLE_TLS
+          value: "true"
+        - name: NOAUTH_ROUTES
+          value: ""
+        - name: ADD_OS_TRUSTSTORE
+          value: ""
+        - name: DISABLE_EVENTING
+          value: "false"
+        - name: EVENT_ADDR
+          value: localhost:4150
+        envFrom: []
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-crunchy-data-operator-api-server:20.2.0-20200826.1598454303740
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8443
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        name: apiserver
+        ports:
+        - containerPort: 8443
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8443
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 90Mi
+        volumeMounts:
+        - mountPath: /security-ssh
+          name: security-ssh
+        - mountPath: /tmp
+          name: tmp
+      - env:
+        - name: CRUNCHY_POSTGRES_IMAGE
+          valueFrom:
+            configMapKeyRef:
+              key: SAS_COMPONENT_RELPATH_sas-crunchy-data-postgres-12
+              name: sas-components-c7m97t7g2m
+        - name: CRUNCHY_POSTGRES_IMAGE_TAG
+          valueFrom:
+            configMapKeyRef:
+              key: SAS_COMPONENT_TAG_sas-crunchy-data-postgres-12
+              name: sas-components-c7m97t7g2m
+        - name: CRUNCHY_COLLECT_IMAGE
+          valueFrom:
+            configMapKeyRef:
+              key: SAS_COMPONENT_RELPATH_sas-crunchy-data-collect
+              name: sas-components-c7m97t7g2m
+        - name: CRUNCHY_COLLECT_IMAGE_TAG
+          valueFrom:
+            configMapKeyRef:
+              key: SAS_COMPONENT_TAG_sas-crunchy-data-collect
+              name: sas-components-c7m97t7g2m
+        - name: CRUNCHY_PGBADGER_IMAGE
+          valueFrom:
+            configMapKeyRef:
+              key: SAS_COMPONENT_RELPATH_sas-crunchy-data-pgbadger
+              name: sas-components-c7m97t7g2m
+        - name: CRUNCHY_PGBADGER_IMAGE_TAG
+          valueFrom:
+            configMapKeyRef:
+              key: SAS_COMPONENT_TAG_sas-crunchy-data-pgbadger
+              name: sas-components-c7m97t7g2m
+        - name: CRUNCHY_PGBACKREST_IMAGE
+          valueFrom:
+            configMapKeyRef:
+              key: SAS_COMPONENT_RELPATH_sas-crunchy-data-pgbackrest
+              name: sas-components-c7m97t7g2m
+        - name: CRUNCHY_PGBACKREST_IMAGE_TAG
+          valueFrom:
+            configMapKeyRef:
+              key: SAS_COMPONENT_TAG_sas-crunchy-data-pgbackrest
+              name: sas-components-c7m97t7g2m
+        - name: CRUNCHY_PGBACKREST_JOB_IMAGE
+          valueFrom:
+            configMapKeyRef:
+              key: SAS_COMPONENT_RELPATH_sas-crunchy-data-pgbackrest-job
+              name: sas-components-c7m97t7g2m
+        - name: CRUNCHY_PGBACKREST_JOB_IMAGE_TAG
+          valueFrom:
+            configMapKeyRef:
+              key: SAS_COMPONENT_TAG_sas-crunchy-data-pgbackrest-job
+              name: sas-components-c7m97t7g2m
+        - name: CRUNCHY_POSTGRES_DELETE_IMAGE_TAG
+          valueFrom:
+            configMapKeyRef:
+              key: SAS_COMPONENT_TAG_sas-crunchy-data-delete-postgres-cluster
+              name: sas-components-c7m97t7g2m
+        - name: CRUNCHY_DEBUG
+          value: "true"
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: PGO_INSTALLATION_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: PGO_OPERATOR_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: DISABLE_EVENTING
+          value: "false"
+        - name: EVENT_ADDR
+          value: localhost:4150
+        envFrom:
+        - configMapRef:
+            name: ccp-image-location-hmtffbgg54
+        - configMapRef:
+            name: input-g59ghkg2db
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-crunchy-data-postgres-operator:20.3.2-20200824.1598301017591
+        imagePullPolicy: IfNotPresent
+        name: operator
+        readinessProbe:
+          exec:
+            command:
+            - ls
+            - /tmp
+          initialDelaySeconds: 4
+          periodSeconds: 5
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 90Mi
+        volumeMounts:
+        - mountPath: /security-ssh
+          name: security-ssh
+        - mountPath: /tmp
+          name: tmp
+      - env:
+        - name: CRUNCHY_DEBUG
+          value: "true"
+        - name: PGO_OPERATOR_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: PGO_INSTALLATION_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: TIMEOUT
+          value: "3600"
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: EVENT_ADDR
+          value: localhost:4150
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-crunchy-data-operator-scheduler:20.2.0-20200826.1598455701699
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - bash
+            - -c
+            - test -n "$(find /tmp/scheduler.hb -newermt '61 sec ago')"
+          failureThreshold: 2
+          initialDelaySeconds: 60
+          periodSeconds: 60
+        name: scheduler
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 90Mi
+        volumeMounts:
+        - mountPath: /security-ssh
+          name: security-ssh
+        - mountPath: /tmp
+          name: tmp
+      - env:
+        - name: TIMEOUT
+          value: "3600"
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-crunchy-data-operator-event-manager:20.2.0-20200826.1598456470997
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 4151
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        name: event
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 90Mi
+        volumeMounts:
+        - mountPath: /security-ssh
+          name: security-ssh
+        - mountPath: /tmp
+          name: tmp
+      imagePullSecrets:
+      - name: sas-image-pull-secrets-bh7kmc9288
+      initContainers:
+      - env:
+        - name: SAS_SSH_SECRET_NAME
+          value: sas-crunchy-data-postgres-backrest-repo-config
+        - name: SAS_SECURITY_ARTIFACTS_DIR
+          value: /security-ssh
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-certframe:3.6.1-20200914.1600121603881
+        imagePullPolicy: Always
+        name: sas-certframe-ssh-key-generator
+        volumeMounts:
+        - mountPath: /security-ssh
+          name: security-ssh
+      serviceAccountName: postgres-operator
+      tolerations:
+      - effect: NoSchedule
+        key: workload.sas.com/class
+        operator: Equal
+        value: stateful
+      - effect: NoSchedule
+        key: workload.sas.com/class
+        operator: Equal
+        value: stateless
+      volumes:
+      - emptyDir: {}
+        name: security-ssh
+      - emptyDir: {}
+        name: tmp

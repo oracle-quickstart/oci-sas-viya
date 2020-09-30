@@ -1,0 +1,46 @@
+nameReference:
+- kind: Secret
+  version: v1
+  fieldSpecs:
+  - path: template/spec/volumes/secret/secretName
+    version: v1
+    kind: PodTemplate
+  - path: template/spec/containers/env/valueFrom/secretKeyRef/name
+    version: v1
+    kind: PodTemplate
+  - path: template/spec/initContainers/env/valueFrom/secretKeyRef/name
+    version: v1
+    kind: PodTemplate
+  - path: template/spec/containers/envFrom/secretRef/name
+    version: v1
+    kind: PodTemplate
+  - path: template/spec/initContainers/envFrom/secretRef/name
+    version: v1
+    kind: PodTemplate
+  - path: template/spec/imagePullSecrets/name
+    version: v1
+    kind: PodTemplate
+  - path: template/spec/volumes/projected/sources/secret/name
+    version: v1
+    kind: PodTemplate
+- kind: ConfigMap
+  version: v1
+  fieldSpecs:
+  - path: template/spec/volumes/configMap/name
+    version: v1
+    kind: PodTemplate
+  - path: template/spec/containers/env/valueFrom/configMapKeyRef/name
+    version: v1
+    kind: PodTemplate
+  - path: template/spec/initContainers/env/valueFrom/configMapKeyRef/name
+    version: v1
+    kind: PodTemplate
+  - path: template/spec/containers/envFrom/configMapRef/name
+    version: v1
+    kind: PodTemplate
+  - path: template/spec/initContainers/envFrom/configMapRef/name
+    version: v1
+    kind: PodTemplate
+  - path: template/spec/volumes/projected/sources/configMap/name
+    version: v1
+    kind: PodTemplate

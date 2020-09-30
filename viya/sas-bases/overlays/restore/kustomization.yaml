@@ -1,0 +1,4 @@
+resources:
+- sas-restore-job.yaml
+transformers:
+- annotations.yaml

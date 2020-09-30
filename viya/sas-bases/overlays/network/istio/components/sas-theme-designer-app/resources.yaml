@@ -1,0 +1,26 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-theme-designer-app
+    sas.com/admin: namespace
+  name: sas-theme-designer-app
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /SASThemeDesigner
+    - uri:
+        prefix: /SASThemeDesigner/
+    route:
+    - destination:
+        host: sas-theme-designer-app
+    timeout: 300s
+

@@ -1,0 +1,5 @@
+kind: Service
+metadata:
+  name: wildcard
+spec:
+  type: ClusterIP

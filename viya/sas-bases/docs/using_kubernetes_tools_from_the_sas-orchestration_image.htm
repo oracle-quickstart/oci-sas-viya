@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="sas.css"/>
+        <title>Using Kubernetes Tools from the sas-orchestration Image</title>
+    </head>
+    <body>
+        <h1 id="using-kubernetes-tools-from-the-sas-orchestration-image">Using Kubernetes Tools from the sas-orchestration Image</h1>
+<h2 id="overview">Overview</h2>
+<p>The sas-orchestration image includes the recommended versions of both
+<code>kustomize</code> and <code>kubectl</code>. These tools may be used with docker&rsquo;s <code>--entrypoint</code>
+option.</p>
+<p>Note: All examples below are auto-generated based on your order.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>To run the sas-orchestration image, Docker must be installed.</p>
+<p>Log in to the <code>cr.sas.com</code> Docker Registry, and retrieve the <code>sas-orchestration</code> image:</p>
+<pre class="highlight"><code>cat sas-bases/examples/kubernetes-tools/password.txt | docker login cr.sas.com --username '09T5CW' --password-stdin
+docker pull cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-orchestration:1.10.2-20200914.1600115073685</code></pre>
+
+<p>After pulling the sas-orchestration image, there is no need to stay logged in. If desired, log out:</p>
+<pre class="highlight"><code>docker logout cr.sas.com</code></pre>
+
+<h2 id="examples">Examples</h2>
+<h3 id="kustomize">kustomize</h3>
+<p>Use the <code>-v</code> option to mount the $deploy directory into the container,
+with <code>-v &lt;directory name&gt;:/deploy</code>, and use <code>-w</code> to set the mounted /deploy
+as the working directory. The following example assumes the $deploy
+directory, with a kustomization.yaml and supporting files, is at /deploy.
+Note that the <code>kustomize</code> call here is a simple example. Refer to the
+deployment documentation for full usage details.</p>
+<pre class="highlight"><code>docker run --rm \
+  -v /deploy:/deploy \
+  -w /deploy \
+  --entrypoint kustomize \
+  cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-orchestration:1.10.2-20200914.1600115073685 \
+  build . &gt; site.yaml</code></pre>
+
+<h3 id="kubectl">kubectl</h3>
+<p>The following example assumes a site.yaml exists in /deploy,
+and a kubeconfig file exists in /home/user/kubernetes. Use <code>-v</code>
+to mount the directories, and <code>-w</code> to use /deploy as the working
+directory. Note that the <code>kubectl</code> call here is a simple example.
+Refer to the deployment documentation for full usage details.</p>
+<pre class="highlight"><code>docker run --rm \
+  -v /deploy:/deploy \
+  -v /home/user/kubernetes:/kubernetes \
+  -w /deploy \
+  --entrypoint kubectl \
+  cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-orchestration:1.10.2-20200914.1600115073685 \
+  --kubeconfig=/kubernetes/kubeconfig apply -f site.yaml</code></pre>
+
+<h2 id="additional-resources">Additional Resources</h2>
+<ul>
+<li>https://docs.docker.com/get-docker/</li>
+<li>https://kustomize.io/</li>
+<li>https://kubectl.docs.kubernetes.io/</li>
+</ul>
+    </body>
+</html>

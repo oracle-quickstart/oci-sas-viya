@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+data:
+  SAS_CONTEXT_PATH: dataMining
+  SAS_PORT_NAME: dmine
+  SAS_SERVICE_NAME: sas-data-mining
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-data-mining-parameters-56h6d8f5h6
+  namespace: viya

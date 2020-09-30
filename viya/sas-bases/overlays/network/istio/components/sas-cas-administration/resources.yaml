@@ -1,0 +1,82 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-cas-management
+spec:
+  host: sas-cas-management
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /casManagement/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-cas-proxy
+spec:
+  host: sas-cas-proxy
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /casProxy/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-cas-administration
+    sas.com/admin: namespace
+  name: sas-cas-management
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /casManagement
+    - uri:
+        prefix: /casManagement/
+    route:
+    - destination:
+        host: sas-cas-management
+    timeout: 300s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-cas-administration
+    sas.com/admin: namespace
+  name: sas-cas-proxy
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /casProxy
+    - uri:
+        prefix: /casProxy/
+    route:
+    - destination:
+        host: sas-cas-proxy
+    timeout: 300s
+

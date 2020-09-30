@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+data:
+  SAS_CONTEXT_PATH: files
+  SAS_DU_NAME: sas-files
+  SAS_SERVICE_NAME: sas-files
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-files-parameters-f44b7h7t4h
+  namespace: viya

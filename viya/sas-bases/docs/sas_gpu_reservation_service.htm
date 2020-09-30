@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="sas.css"/>
+        <title>SAS GPU Reservation Service</title>
+    </head>
+    <body>
+        <h1 id="sas-gpu-reservation-service">SAS GPU Reservation Service</h1>
+<h2 id="overview">Overview</h2>
+<p>The SAS GPU Reservation Service aids SAS processes in resource sharing and
+utilization of the Graphic Processing Units (GPUs) that are available in a
+Kubernetes Pod. It is required in every SAS Cloud Analytic Services (CAS) CAS
+Pod that is GPU-enabled.</p>
+<h2 id="installation">Installation</h2>
+<p>The <code>cas-gpu-patch.yaml</code> file is located at <code>$deploy/sas-bases/examples/gpu</code>.
+Copy the entire <code>gpu</code> directory to your <code>$deploy/site-config</code> directory.</p>
+<p>In the copy of <code>cas-gpu-patch.yaml</code> in the copied <code>gpu</code> directory, specify the
+number of required GPUs. The values for the resource requests and resource
+limits must be the same and should not exceed the maximum number of GPU devices
+on a single node. In the cas-gpud-sidecar section, consider whether you require
+a different level of information from the GPU server. The value for
+SASGPUD_LOG_TYPE can be info, json, debug, or trace. Save and close the new
+file.</p>
+<p>After you edit the file, add the following references to the base
+<code>kustomization.yaml</code> file:</p>
+<ul>
+<li>Add the path to the <code>cas-gpu-patch.yaml</code> file as the first entry in the
+  transformers block.</li>
+<li>Add the path to the <code>kustomizeconfig.yaml</code> file to the configurations block.
+  If the configurations block does not exist yet, create it.</li>
+</ul>
+<p>For example, if you copied the files to <code>$deploy/site-config/gpu</code>, the
+references would look like the following sample:</p>
+<pre class="highlight"><code class="language-yaml">---
+transformers:
+  - site-config/gpu/cas-gpu-patch.yaml
+---
+configurations:
+  - site-config/gpu/kustomizeconfig.yaml</code></pre>
+
+<h2 id="additional-resources">Additional Resources</h2>
+<p>For more information about using example files, see the
+<a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=dplyml0phy0dkr&amp;docsetTarget=titlepage.htm">SAS Viya: Deployment Guide</a>.</p>
+    </body>
+</html>

@@ -1,0 +1,17 @@
+# This block of code is for specifying the number of nodes in the RabbitMQ
+# cluster. The default value is 3. SAS recommends an odd number such as 1,3, or 5.
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: rabbitmq-node-count
+patch: |-
+    - op: replace
+      path: /spec/replicas
+      value:
+        {{ NUMBER-OF-NODES }}
+target:
+  group: apps
+  kind: StatefulSet
+  name: sas-rabbitmq-server
+  version: v1

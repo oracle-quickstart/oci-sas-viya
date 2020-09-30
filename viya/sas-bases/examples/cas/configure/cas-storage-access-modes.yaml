@@ -1,0 +1,20 @@
+# This block of code if assigning the access mode for the cas-default-data and
+# cas-default-permstore persistentVolumeClaims.
+# Modify PVC access mode
+# The default value for ACCESS-MODE is ReadWriteMany. To change it, replace the
+# variable with ReadWriteOnce.
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: cas-storage-access-modes
+patch: |-
+  - op: replace
+    path: /spec/accessModes
+    value:
+      - {{ ACCESS-MODE }}
+target:
+  group: viya.sas.com
+  kind: CASDeployment
+  name: .*
+  version: v1alpha1

@@ -1,0 +1,15 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: add-sa-to-default-psp
+patch: |-
+  - op: add
+    path: /subjects/-
+    value:
+      kind: ServiceAccount
+      name: sas-data-server-utility
+target:
+  kind: RoleBinding
+  version: v1
+  group: rbac.authorization.k8s.io
+  labelSelector: sas.com/sas-role-binding in (psp-default, sas-certframe)

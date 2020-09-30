@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+data:
+  SAS_DU_NAME: sas-data-mining-services
+  SAS_SERVICE_NAME: sas-data-mining-services
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-data-mining-services-parameters-g24kbgb8cd
+  namespace: viya

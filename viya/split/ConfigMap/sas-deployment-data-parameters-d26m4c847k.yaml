@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+data:
+  SAS_DEPLOY_CONTEXT_PATH: deploymentData
+  SAS_DU_NAME: sas-deployment-data
+  SAS_METERING_CONTEXT_PATH: metering
+  SAS_SERVICE_NAME: sas-deployment-data
+  SG_PROJECT: deployment-data
+  SG_TEST_TAGS: testca
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-deployment-data-parameters-d26m4c847k
+  namespace: viya

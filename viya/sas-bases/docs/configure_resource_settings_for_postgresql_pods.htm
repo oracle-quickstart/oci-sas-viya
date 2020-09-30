@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="sas.css"/>
+        <title>Configure Resource Settings for PostgreSQL Pods</title>
+    </head>
+    <body>
+        <h1 id="configure-resource-settings-for-postgresql-pods">Configure Resource Settings for PostgreSQL Pods</h1>
+<h2 id="overview">Overview</h2>
+<p>This readme describes the resource settings available for deploying PostgreSQL
+pods with number of CPUs and memory size for both <strong>Limits</strong>
+(maximum resource) and <strong>Request</strong> (mimimum resource) settings. These settings
+are available only if you are using an internal version of PostgreSQL.</p>
+<h2 id="installation">Installation</h2>
+<ol>
+<li>
+<p>The example file is almost entirely commented out. The only part that is
+   not commented out is required for the successful operation of the code
+   blocks that are described below.</p>
+</li>
+<li>
+<p>Based on the following description of the blocks of code included in the
+   example, determine if you want to use any of the example file in your
+   deployment. If you do, copy the example file and place it in your
+   site-config directory. In the new file, uncomment the block or blocks you
+   want to use by removing the number sign (#) and adding a space at the
+   beginning of each line in the block. If there are two number signs,
+   remove only the first. Make sure block comments are aligned with the yaml
+   data structure.</p>
+<p><strong><em>Note:</em></strong> As a best practice, SAS recommends that if you change one value,
+ you change its companion value. For example, if you change the
+ {{ LIMITS-MEMORY-SIZE }}, you should also change {{ REQUEST-MEMORY-SIZE }}.</p>
+</li>
+<li>
+<p>Each block has information about its content. The variables in the block are
+   set off by curly braces and spaces, such as {{ LIMITS-MEMORY-SIZE }}. 
+   Replace the entire variable string, including the braces, with the value
+   you want to use.</p>
+</li>
+<li>
+<p>Ensure the values are enclosed in double quotation marks and, if needed,
+   with proper unit values. In Kubernetes, the units for megabytes is Mi
+   (such as 512Mi), and the units for gigabytes is Gi (such as 4Gi).</p>
+</li>
+<li>
+<p>The <strong>Request</strong> (minimum resource) value must be less then or equal to the
+   <strong>Limits</strong> (maximum resource) value. Do not use zero (0) or negative values.</p>
+</li>
+<li>
+<p>After you have edited the file, add a reference to it in the transformer
+   block of the base kustomization.yaml file.</p>
+</li>
+</ol>
+<h2 id="examples">Examples</h2>
+<p>The example file is located at
+<code>sas-bases/examples/configure-postgres/internal/pods-resource-limits-settings/postgres-pods-resource-limits-settings-transformer.yaml</code>.
+It includes content for configuring the following settings:</p>
+<ul>
+<li>Specify the PostgreSQL pods Limits (maximum resource) for CPU count</li>
+<li>Specify the PostgreSQL pods Limits (maximum resource) for memory size</li>
+<li>Specify the PostgreSQL pods Request (minimum resource) for CPU count</li>
+<li>Specify the PostgreSQL pods Request (minimum resource) for memory size</li>
+</ul>
+<h2 id="additional-resources">Additional Resources</h2>
+<p>For more information about using the example file, see the
+<a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=dplyml0phy0dkr&amp;docsetTarget=titlepage.htm">SAS Viya Deployment Guide</a>.</p>
+<p>For more information about <strong>Pod CPU resource</strong> configuration, go
+<a href="https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/">here</a>.</p>
+<p>For more information about <strong>Pod memory resource</strong> configuration, go
+<a href="https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/">here</a>.</p>
+    </body>
+</html>

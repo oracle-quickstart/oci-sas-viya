@@ -1,0 +1,44 @@
+# This block of code should be added if OpenShift is being used.
+allowHostDirVolumePlugin: false
+allowHostIPC: false
+allowHostNetwork: false
+allowHostPID: false
+allowHostPorts: false
+allowPrivilegeEscalation: true
+allowPrivilegedContainer: false
+allowedCapabilities: []
+apiVersion: security.openshift.io/v1
+defaultAddCapabilities: []
+fsGroup:
+  type: MustRunAs
+  ranges:
+  - max: 26
+    min: 26
+groups:
+- system:authenticated
+kind: SecurityContextConstraints
+metadata:
+  annotations:
+    kubernetes.io/description: scc for cas
+  name: cas
+priority: 0
+readOnlyRootFilesystem: false
+requiredDropCapabilities:
+- KILL
+- MKNOD
+- SETUID
+- SETGID
+runAsUser:
+  type: MustRunAsRange
+seLinuxContext:
+  type: RunAsAny
+supplementalGroups:
+  type: RunAsAny
+users: []
+volumes:
+- configMap
+- downwardAPI
+- emptyDir
+- persistentVolumeClaim
+- projected
+- secret

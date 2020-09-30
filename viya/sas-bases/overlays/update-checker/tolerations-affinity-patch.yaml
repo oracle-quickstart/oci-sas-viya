@@ -1,0 +1,44 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: sas-update-checker
+spec:
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          tolerations:
+            - key: "workload.sas.com/class"
+              operator: "Equal"
+              value: "stateful"
+              effect: "NoSchedule"
+            - key: "workload.sas.com/class"
+              operator: "Equal"
+              value: "stateless"
+              effect: "NoSchedule"
+          affinity:
+            nodeAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 100
+                  preference:
+                    matchExpressions:
+                      - key: workload.sas.com/class
+                        operator: In
+                        values:
+                          - stateless
+                - weight: 50
+                  preference:
+                    matchExpressions:
+                      - key: workload.sas.com/class
+                        operator: NotIn
+                        values:
+                          - compute
+                          - cas
+                          - stateful
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: kubernetes.azure.com/mode
+                        operator: NotIn
+                        values:
+                          - system

@@ -1,0 +1,31 @@
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+    nginx.ingress.kubernetes.io/proxy-body-size: 2048m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/server-snippet: large_client_header_buffers 4 32k;
+    nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
+    nginx.ingress.kubernetes.io/session-cookie-path: /SASLogon/
+    sas.com/component-name: sas-logon-app
+    sas.com/component-version: 2.39.3-20200825.1598393811201
+    sas.com/kustomize-base: base
+    sas.com/version: 2.39.3
+  labels:
+    app.kubernetes.io/name: sas-logon-app
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-logon-app
+  namespace: viya
+spec:
+  rules:
+  - host: viya.gorcl.hornpolish.net
+    http:
+      paths:
+      - backend:
+          serviceName: sas-logon-app
+          servicePort: 80
+        path: /SASLogon

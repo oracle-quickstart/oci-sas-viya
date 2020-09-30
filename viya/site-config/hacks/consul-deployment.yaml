@@ -1,0 +1,15 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-consul-deployment
+patch: |-
+  - op: add
+    path: /spec/template/spec/containers/0/env/0/name
+    value: CONSUL_UI_FLAG
+  - op: add
+    path: /spec/template/spec/containers/0/env/0/value
+    value: "true"
+target:
+  kind: Deployment
+  name: sas-consul-server
+---

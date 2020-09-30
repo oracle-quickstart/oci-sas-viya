@@ -1,0 +1,191 @@
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+    sas.com/registry-sync: default
+    sas.com/registry-tags: proxy
+  labels:
+    app.kubernetes.io/name: sas-cachelocator
+    sas.com/admin: namespace
+  name: sas-cachelocator
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  - name: cachelocator
+    port: 10334
+    protocol: TCP
+    targetPort: cachelocator
+  selector:
+    app.kubernetes.io/name: sas-cachelocator
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    sas.com/certificate-file-format: jks
+    sas.com/kustomize-base: spring
+    sas.com/pod-uses-readiness-probe: http
+    sas.com/registry-tags: proxy, rest-commons, http
+    sidecar.istio.io/proxyCPU: 15m
+    sidecar.istio.io/proxyMemory: 115Mi
+  labels:
+    app.kubernetes.io/name: sas-cachelocator
+    sas.com/admin: namespace
+    sas.com/statefulset-base: spring
+    workload.sas.com/class: stateful
+  name: sas-cachelocator
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sas-cachelocator
+  serviceName: sas-cachelocator
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /internal/metrics
+        prometheus.io/port: "10445"
+        prometheus.io/scheme: http
+        prometheus.io/scrape: "true"
+        sas.com/certificate-file-format: jks
+        sas.com/kustomize-base: spring
+        sas.com/pod-uses-readiness-probe: http
+        sidecar.istio.io/proxyCPU: 15m
+        sidecar.istio.io/proxyMemory: 115Mi
+      labels:
+        app: sas-cachelocator
+        app.kubernetes.io/name: sas-cachelocator
+        workload.sas.com/class: stateful
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - preference:
+              matchExpressions:
+              - key: workload.sas.com/class
+                operator: In
+                values:
+                - stateful
+            weight: 100
+          - preference:
+              matchExpressions:
+              - key: workload.sas.com/class
+                operator: NotIn
+                values:
+                - compute
+                - cas
+                - stateless
+            weight: 50
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.azure.com/mode
+                operator: NotIn
+                values:
+                - system
+      containers:
+      - env:
+        - name: JAVA_OPTION_TMPDIR
+          value: -Djava.io.tmpdir=/opt/sas/viya/config/tmp/sas-cachelocator-tmp
+        - name: SAS_CACHE_LOCATOR_AGENTREGISTRATIONENABLED
+          value: "true"
+        - name: SAS_CACHE_LOCATOR_HOSTNAMEFORCLIENTS
+          value: sas-cachelocator
+        - name: SAS_CACHE_LOCATOR_PORT
+          value: "10334"
+        - name: SAS_CACHE_LOCATOR_WORKINGDIRECTORY
+          value: /opt/sas/viya/config/tmp/sas-cachelocator-tmp
+        - name: SAS_MANAGEMENT_INDICATOR_BOOTSTRAP_ENABLED
+          value: "false"
+        - name: SPRING_CLOUD_CONSUL_DISCOVERY_REGISTER
+          value: "false"
+        - name: SAS_CACHE_LOCATOR_PODNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        envFrom:
+        - configMapRef:
+            name: sas-java-config
+        - configMapRef:
+            name: sas-shared-config
+        - secretRef:
+            name: sas-consul-client
+        - configMapRef:
+            name: sas-spring-management-config
+        image: sas-cachelocator
+        imagePullPolicy: IfNotPresent
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - sh
+              - -c
+              - sleep 5
+        name: sas-cachelocator
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 10445
+          name: http-internal
+          protocol: TCP
+        - containerPort: 10334
+          name: cachelocator
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /internal/ready
+            port: http-internal
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 1Gi
+          requests:
+            cpu: 50m
+            memory: 750M
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - mountPath: /opt/sas/viya/config/tmp
+          name: tmp
+        - mountPath: /tmp
+          name: tmp
+        - mountPath: /opt/sas/viya/config/tmp/sas-cachelocator
+          name: cachelocator
+        - mountPath: /opt/sas/viya/config/tmp/sas-cachelocator-tmp
+          name: tmp
+      imagePullSecrets: []
+      securityContext:
+        fsGroup: 1001
+        runAsNonRoot: true
+      tolerations:
+      - effect: NoSchedule
+        key: workload.sas.com/class
+        operator: Equal
+        value: stateful
+      - effect: NoSchedule
+        key: workload.sas.com/class
+        operator: Equal
+        value: stateless
+      volumes:
+      - emptyDir: {}
+        name: tmp
+  volumeClaimTemplates:
+  - metadata:
+      name: cachelocator
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi

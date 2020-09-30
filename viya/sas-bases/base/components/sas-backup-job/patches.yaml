@@ -1,0 +1,421 @@
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-3037667652d4cae3
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/initContainers
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-scheduled-backup-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-398ab9a6c317b15a
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/containers/0/command
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-scheduled-backup-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-06dfcd5184a39a92
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/containers/0/args
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-scheduled-backup-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-0e4230a42045b7a5
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/containers/0/ports
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-scheduled-backup-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-0a25f5f8e40b6e16
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/containers/0/volumeDevices
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-scheduled-backup-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-071d8678fd8fe987
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/containers/1/command
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-scheduled-backup-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-e6df6aef84dbdfd9
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/containers/1/args
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-scheduled-backup-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-1877237213d4a800
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/containers/1/ports
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-scheduled-backup-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-7a42d3e5ffa16f57
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/containers/1/volumeDevices
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-scheduled-backup-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-030febd10d0cf238
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/imagePullSecrets
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-scheduled-backup-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-bea9f3ef52463109
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/affinity/nodeAffinity/requiredDuringSchedulingIgnoredDuringExecution/nodeSelectorTerms/0/matchFields
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-scheduled-backup-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-feaa195907bb5a44
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/affinity/nodeAffinity/preferredDuringSchedulingIgnoredDuringExecution/0/preference/matchFields
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-scheduled-backup-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-9c390f443c375be3
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/affinity/nodeAffinity/preferredDuringSchedulingIgnoredDuringExecution/1/preference/matchFields
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-scheduled-backup-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-1e1e346db61c0fdb
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/hostAliases
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-scheduled-backup-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-6df4a3fbf3e9ef39
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/readinessGates
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-scheduled-backup-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-c024c3fa99695cdf
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/initContainers
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-backup-purge-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-d76aa9cb5f58404e
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/containers/0/command
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-backup-purge-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-3d91eb2701beb1a6
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/containers/0/args
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-backup-purge-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-f6a9f3d3e03b7859
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/containers/0/ports
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-backup-purge-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-eafbfc31a5085082
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/containers/0/volumeDevices
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-backup-purge-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-44390fee85fb4d8b
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/containers/1/command
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-backup-purge-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-dce880d0e1ec6685
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/containers/1/args
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-backup-purge-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-72507a1fd66f4c84
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/containers/1/ports
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-backup-purge-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-f7af40c01c5ca1fb
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/containers/1/volumeDevices
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-backup-purge-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-4aa98f9a4c55ad3c
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/imagePullSecrets
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-backup-purge-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-b9792c44ac0f5e95
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/affinity/nodeAffinity/requiredDuringSchedulingIgnoredDuringExecution/nodeSelectorTerms/0/matchFields
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-backup-purge-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-677d6c52180636b0
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/affinity/nodeAffinity/preferredDuringSchedulingIgnoredDuringExecution/0/preference/matchFields
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-backup-purge-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-531397007daf5ddf
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/affinity/nodeAffinity/preferredDuringSchedulingIgnoredDuringExecution/1/preference/matchFields
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-backup-purge-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-82fccb49fb762dd7
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/hostAliases
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-backup-purge-job
+  version: v1beta1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-39a5605cfed7ea65
+patch: |-
+  - op: add
+    path: /spec/jobTemplate/spec/template/spec/readinessGates
+    value: []
+target:
+  group: batch
+  kind: CronJob
+  name: sas-backup-purge-job
+  version: v1beta1

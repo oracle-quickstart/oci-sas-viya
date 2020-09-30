@@ -1,0 +1,82 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-report-data
+spec:
+  host: sas-report-data
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /reportData/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-report-packages
+spec:
+  host: sas-report-packages
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /reportPackages/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-report-execution
+    sas.com/admin: namespace
+  name: sas-report-data
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /reportData
+    - uri:
+        prefix: /reportData/
+    route:
+    - destination:
+        host: sas-report-data
+    timeout: 300s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-report-execution
+    sas.com/admin: namespace
+  name: sas-report-packages
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /reportPackages
+    - uri:
+        prefix: /reportPackages/
+    route:
+    - destination:
+        host: sas-report-packages
+    timeout: 300s
+

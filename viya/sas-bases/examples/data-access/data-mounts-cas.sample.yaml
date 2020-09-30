@@ -1,0 +1,36 @@
+# General example for adding mounts to CAS workers
+# PatchTransformer
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: data-mounts-cas
+patch: |-
+  ## Host path example - these should be mounted and available on every kubernetes worker
+  - op: add
+    path: /spec/controllerTemplate/spec/containers/0/volumeMounts/-
+    value:
+      name: wine
+      mountPath: "/data/wine"
+  - op: add
+    path: /spec/controllerTemplate/spec/volumes/-
+    value:
+     name: wine
+     hostPath: 
+       path: /net/example.com/ifs/edm_data/Testdata/modeling/wine
+
+  ## NFS path example - kubernetes will mount these for you
+  - op: add
+    path: /spec/controllerTemplate/spec/containers/0/volumeMounts/-
+    value:
+      name: insight
+      mountPath: "/data/insight"
+  - op: add
+    path: /spec/controllerTemplate/spec/volumes/-
+    value:
+     name: insight
+     nfs:
+       path: /ifs/Datasets/Insight
+       server: example.com
+target:
+  kind: CASDeployment
+  annotationSelector: sas.com/sas-access-config=true

@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+data:
+  SAS_CONTEXT_PATH: links
+  SAS_DU_NAME: sas-links
+  SAS_SERVICE_NAME: sas-links
+  SG_PROJECT: links
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-links-parameters-dm8468d7b8
+  namespace: viya

@@ -1,0 +1,77 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: sas-update-checker
+  annotations:
+    sidecar.istio.io/inject: "false"
+  labels:
+    app.kubernetes.io/name: sas-orchestration
+    workload.sas.com/class: stateless
+spec:
+  schedule: "0 0 * * 0" # Weekly
+  jobTemplate:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+      labels:
+        app.kubernetes.io/name: sas-orchestration
+        workload.sas.com/class: stateless
+    spec:
+      template:
+        metadata:
+          annotations:
+            sidecar.istio.io/inject: "false"
+          labels:
+            app.kubernetes.io/name: sas-orchestration
+            workload.sas.com/class: stateless
+        spec:
+          imagePullSecrets: []
+          containers:
+            - name: report
+              image: sas-orchestration
+              args: ["report"]
+              envFrom:
+                - configMapRef:
+                    name: sas-components
+              env:
+                - name: SAS_BUILD_TYPE
+                  valueFrom:
+                    configMapKeyRef:
+                      name: sas-deployment-metadata
+                      key: SAS_BUILD_TYPE
+                - name: SAS_CADENCE_NAME
+                  valueFrom:
+                    configMapKeyRef:
+                      name: sas-deployment-metadata
+                      key: SAS_CADENCE_NAME
+                - name: SAS_CADENCE_RELEASE
+                  valueFrom:
+                    configMapKeyRef:
+                      name: sas-deployment-metadata
+                      key: SAS_CADENCE_RELEASE
+                - name: SAS_CADENCE_VERSION
+                  valueFrom:
+                    configMapKeyRef:
+                      name: sas-deployment-metadata
+                      key: SAS_CADENCE_VERSION
+                - name: SAS_CA_CERTIFICATE
+                  valueFrom:
+                    secretKeyRef:
+                      name: sas-repositorywarehouse-certificates
+                      key: CACertificate
+                - name: SAS_DEPLOYMENT_TYPE
+                  valueFrom:
+                    configMapKeyRef:
+                      name: sas-deployment-metadata
+                      key: SAS_DEPLOYMENT_TYPE
+                - name: SAS_CLIENT_CERTIFICATE
+                  valueFrom:
+                    secretKeyRef:
+                      name: sas-repositorywarehouse-certificates
+                      key: ClientCertificate
+                - name: SAS_REPOSITORY_WAREHOUSE_URL
+                  valueFrom:
+                    configMapKeyRef:
+                      name: sas-deployment-metadata
+                      key: SAS_REPOSITORY_WAREHOUSE_URL
+          restartPolicy: Never

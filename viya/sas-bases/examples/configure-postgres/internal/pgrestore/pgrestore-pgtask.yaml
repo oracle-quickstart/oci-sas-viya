@@ -1,0 +1,28 @@
+apiVersion: crunchydata.com/v1
+kind: Pgtask
+metadata:
+  name: restore-sas-crunchy-data-postgres-pgdump
+spec:
+  name: restore-sas-crunchy-data-postgres-pgdump
+  namespace: ""
+  parameters:
+    pgrestore: pgrestore
+    pgrestore-db: {{ DATABASE-NAME }}
+    pgrestore-from-cluster: sas-crunchy-data-postgres
+    pgrestore-from-pvc: sas-db
+    pgrestore-host: sas-crunchy-data-postgres
+    pgrestore-opts: ""
+    pgrestore-pitr-target: ""
+    pgrestore-port: "5432"
+    pgrestore-user: sas-crunchy-data-postgres-postgres-secret
+  status: ""
+  storagespec:
+    accessmode: ""
+    fsgroup: ""
+    matchLabels: ""
+    name: ""
+    size: ""
+    storageclass: ""
+    storagetype: ""
+    supplementalgroups: ""
+  tasktype: pgrestore

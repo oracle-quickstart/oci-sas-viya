@@ -1,0 +1,123 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-data-mining
+spec:
+  host: sas-data-mining
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /dataMining/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-data-mining-warehouse
+spec:
+  host: sas-data-mining-warehouse
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /dataMiningWarehouse/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-ml-pipeline-automation
+spec:
+  host: sas-ml-pipeline-automation
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /mlPipelineAutomation/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-data-mining-services
+    sas.com/admin: namespace
+  name: sas-data-mining
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /dataMining
+    - uri:
+        prefix: /dataMining/
+    route:
+    - destination:
+        host: sas-data-mining
+    timeout: 300s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-data-mining-services
+    sas.com/admin: namespace
+  name: sas-data-mining-warehouse
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /dataMiningWarehouse
+    - uri:
+        prefix: /dataMiningWarehouse/
+    route:
+    - destination:
+        host: sas-data-mining-warehouse
+    timeout: 300s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-data-mining-services
+    sas.com/admin: namespace
+  name: sas-ml-pipeline-automation
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /mlPipelineAutomation
+    - uri:
+        prefix: /mlPipelineAutomation/
+    route:
+    - destination:
+        host: sas-ml-pipeline-automation
+    timeout: 300s
+

@@ -1,0 +1,109 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="sas.css"/>
+        <title>SAS Quality Knowledge Base Maintenance Scripts</title>
+    </head>
+    <body>
+        <h1 id="sas-quality-knowledge-base-maintenance-scripts">SAS Quality Knowledge Base Maintenance Scripts</h1>
+<h2 id="overview">Overview</h2>
+<p>This readme describes the scripts available for maintaining Quality Knowledge Base (QKB) content in SAS Viya.  QKBs support the SAS Data Quality product.</p>
+<p>These scripts are intended for ad hoc use after deployment. They generate YAML that is suitable for consumption by kubectl. The YAML creates Kubernetes Job objects to perform the specific task designated by the script name.  After these jobs have finished running, they can be removed.</p>
+<h2 id="script-details">Script Details</h2>
+<h3 id="containerize-qkbsh"><code>containerize-qkb.sh</code></h3>
+<h4 id="usage">Usage</h4>
+<pre><code>  containerize-qkb.sh "NAME" PATH REPO[:TAG]
+</code></pre>
+<h4 id="description">Description</h4>
+<p>This script runs Docker to create a specially formatted container that allows the QKB to be imported into SAS Viya running in Kubernetes.</p>
+<p>For the NAME argument, provide the name by which the QKB will be surfaced in SAS Viya.  It may include spaces, but must be enclosed with quotation marks.</p>
+<p>The PATH argument should be the location on disk where the QKB QARC file is located.</p>
+<p>The REPO argument specifies the repository to assign to the Docker container that will be created.  TAG may be specified after a colon in standard Docker notation.</p>
+<p>After the script runs, a new Docker container with the specified tag is created in the local Docker registry.</p>
+<h4 id="example">Example</h4>
+<pre><code>  $ bash containerize-qkb.sh "My Own QKB" /tmp/myqkb.qarc registry.mycompany.com/myownqkb:v1
+  Setting up staging area...
+  Generating Dockerfile...
+  Running docker...
+  Docker container generated successfully.
+
+  REPOSITORY                      TAG IMAGE ID     CREATED      SIZE
+  registry.mycompany.com/myownqkb v1  8dfb63e527c8 1 second ago 945.3MB
+</code></pre>
+<p>After the script completes, information about the new container is output, as shown above.  If the local docker registry is not accessible to your Kubernetes cluster, you should then push the container to one that is.</p>
+<pre><code>  $ docker push registry.mycompany.com/myownqkb:v1
+  The push refers to repository [registry.mycompany.com/myownqkb]
+  f2409fb2f83e: Pushed
+  076d9dcc6e6a: Mounted from myqkb-image1
+  ce30860818b8: Mounted from myqkb-image1
+  dfadf160ceab: Mounted from myqkb-image1
+  v2: digest: sha256:b9802cff2f81dba87e7bb92355f2eb0fd14f91353574233c4d8f662a0b424961 size: 1360
+</code></pre>
+<hr />
+<h3 id="deploy-qkbsh"><code>deploy-qkb.sh</code></h3>
+<h4 id="usage_1">Usage</h4>
+<pre><code>  deploy-qkb.sh REPO[:TAG]
+</code></pre>
+<h4 id="description_1">Description</h4>
+<p>This script deploys a containerized QKB into SAS Viya.  The REPO argument specifies a Docker repo (and, optionally, tag) from which to pull the container.  Note that this script does not make any changes to your Kubernetes configuration directly; instead it generates a Kubernetes Job that can then be piped to the kubectl command.</p>
+<p>While SAS Viya persists all deployed QKBs in the sas-quality-knowledge-base PVC, we recommend following the GitOps pattern of storing the generated YAML file in version control, under your $deploy/site-config directory.   Doing so allows you to easily re-deploy the same QKB again later, should the PVC be deleted.</p>
+<h4 id="examples">Examples</h4>
+<p>Generate a Kubernetes Job to deploy a QKB, and run it immediately:</p>
+<pre><code>  bash deploy-qkb.sh registry.mycompany.com/myownqkb:v1 | kubectl apply -n name-of-namespace -f -
+</code></pre>
+<p>Generate a Kubernetes Job to deploy a QKB, and write it into your site&rsquo;s overlays directory:</p>
+<pre><code>  bash deploy-qkb.sh registry.mycompany.com/myownqkb:v1 &gt;&gt; $deploy/site-config/data-quality/custom-qkbs.yaml
+</code></pre>
+<p>This command appends the job configuration for the new QKB to the file called &ldquo;custom-qkbs.yaml&rdquo;.  This is a convenient place to store all custom QKB jobs, and is suitable for inclusion into the SAS Viya base kustomization.yaml file as a resource overlay.  </p>
+<p>If you do not yet have a $deploy/site-config/data-quality directory, you can create and initialize it as follows:</p>
+<pre><code>  mkdir -p $deploy/site-config/data-quality
+  cp $deploy/sas-bases/overlays/data-quality/* $deploy/site-config/data-quality
+</code></pre>
+<p>To attach custom-qkbs.yaml to your SAS Viya configuration, edit your base kustomization.yaml file, and find or create the &ldquo;resources:&rdquo; section.  Under that section, add the following line:</p>
+<pre><code>  - site-config/data-quality
+</code></pre>
+<p>You can re-apply these kustomizations to bring the new QKB into the SAS Viya system.</p>
+<hr />
+<h3 id="list-qkbssh"><code>list-qkbs.sh</code></h3>
+<h4 id="usage_2">Usage</h4>
+<pre><code>  list-qkbs.sh
+</code></pre>
+<h4 id="description_2">Description</h4>
+<p>A parameter-less script that generates Kubernetes Job YAML to list the names of all QKBs available on sas-quality-knowledge-bases volume.  Output is sent to the log for the pod created by the job.</p>
+<h4 id="examples_1">Examples</h4>
+<pre><code>  $ bash list-qkbs.sh | kubectl apply -n name-of-namespace -f -
+  job.batch/sas-quality-knowledge-base-list-job-ifvw01lr created
+
+  $ kubectl -n name-of-namespace logs job.batch/sas-quality-knowledge-base-list-job-ifvw01lr
+  QKB CI 31
+  My Own QKB
+
+  $ kubectl -n name-of-namespace delete job.batch/sas-quality-knowledge-base-list-job-ifvw01lr
+  job.batch "sas-quality-knowledge-base-list-job-ifvw01lr" deleted
+</code></pre>
+<p>If a QKB is in the process of being deployed, or was aborted for some reason, you may see the string &ldquo;(incomplete)&rdquo; after that QKB&rsquo;s name:</p>
+<pre><code>  $ kubectl -n name-of-namespace logs job.batch/sas-quality-knowledge-base-list-job-ifvw01lr
+  QKB CI 31
+  My Own QKB  (incomplete)
+</code></pre>
+<hr />
+<h3 id="remove-qkbsh"><code>remove-qkb.sh</code></h3>
+<h4 id="usage_3">Usage</h4>
+<pre><code>  remove-qkb.sh NAME
+</code></pre>
+<h4 id="description_3">Description</h4>
+<p>Generates Kubernetes Job YAML that removes a QKB from the sas-quality-knowledge-bases volume.  The QKB to remove is specified by NAME, which is returned by <code>list-qkbs.sh</code>.  Any errors or other output is written to the associated pod&rsquo;s log and can be viewed using the <code>kubectl logs</code> command.</p>
+<h4 id="examples_2">Examples:</h4>
+<pre><code>  $ bash remove-qkb.sh "My Own QKB" | kubectl apply -n name-of-namespace -f -
+  job.batch/sas-quality-knowledge-base-remove-job-zbl4sxmq created
+
+  $ kubectl logs -n name-of-namespace job.batch/sas-quality-knowledge-base-remove-job-zbl4sxmq
+  Reference data content "My Own QKB" was removed.
+
+  $ kubectl delete -n name-of-namespace job.batch/sas-quality-knowledge-base-remove-job-zbl4sxmq
+  job.batch "sas-quality-knowledge-base-remove-job-zbl4sxmq" deleted
+</code></pre>
+<hr />
+<h2 id="additional-resources">Additional Resources</h2>
+<p>For more information about the QKB, see the SAS Data Quality documentation.</p>
+    </body>
+</html>

@@ -1,0 +1,3647 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+generatorOptions:
+  disableNameSuffixHash: true
+resources:
+- resources.yaml
+transformers:
+- annotations.yaml
+- add_image_secrets.yaml
+configMapGenerator:
+- name: postgresql-custom
+  literals:
+    - "postgres-ha.yaml=---\nbootstrap:\n  dcs:\n    postgresql:\n      parameters:\n
+      \       archive_timeout:  \n        max_connections: 1280\n        log_min_duration_statement: -1\n        log_statement:
+      \ none\n  initdb:\n  - encoding: UTF8\n  - no-locale\npostgresql:  \n  pg_hba:\n    - local all postgres peer\n
+      \   - local all all trust\n    - local all crunchyadm peer\n    - host replication 
+      primaryuser 0.0.0.0/0 md5\n    - host all all 127.0.0.1/32 md5\n    - host all all 0.0.0.0/0 md5\n"
+    - |
+      postgresql.conf=
+        # -----------------------------
+        # crunchy PostgreSQL configuration file
+        # -----------------------------
+        #
+        # This file consists of lines of the form:
+        #
+        #   name = value
+        #
+        # (The "=" is optional.)  Whitespace may be used.  Comments are introduced with
+        # "#" anywhere on a line.  The complete list of parameter names and allowed
+        # values can be found in the PostgreSQL documentation.
+        #
+        # The commented-out settings shown in this file represent the default values.
+        # Re-commenting a setting is NOT sufficient to revert it to the default value;
+        # you need to reload the server.
+        #
+        # This file is read on server startup and when the server receives a SIGHUP
+        # signal.  If you edit the file on a running system, you have to SIGHUP the
+        # server for the changes to take effect, or use "pg_ctl reload".  Some
+        # parameters, which are marked below, require a server shutdown and restart to
+        # take effect.
+        #
+        # Any parameter can also be given as a command-line option to the server, e.g.,
+        # "postgres -c log_connections=on".  Some parameters can be changed at run time
+        # with the "SET" SQL command.
+        #
+        # Memory units:  kB = kilobytes        Time units:  ms  = milliseconds
+        #                MB = megabytes                     s   = seconds
+        #                GB = gigabytes                     min = minutes
+        #                TB = terabytes                     h   = hours
+        #                                                   d   = days
+
+
+        #------------------------------------------------------------------------------
+        # FILE LOCATIONS
+        #------------------------------------------------------------------------------
+
+        # The default values of these variables are driven from the -D command-line
+        # option or PGDATA environment variable, represented here as ConfigDir.
+
+        #data_directory = 'ConfigDir'           # use data in another directory
+                                                # (change requires restart)
+        #hba_file = 'ConfigDir/pg_hba.conf'     # host-based authentication file
+                                                # (change requires restart)
+        #ident_file = 'ConfigDir/pg_ident.conf' # ident configuration file
+                                                # (change requires restart)
+
+        # If external_pid_file is not explicitly set, no extra PID file is written.
+        #external_pid_file = ''                 # write an extra PID file
+                                                # (change requires restart)
+
+
+        #------------------------------------------------------------------------------
+        # CONNECTIONS AND AUTHENTICATION
+        #------------------------------------------------------------------------------
+
+        # - Connection Settings -
+
+        listen_addresses = '*'          # what IP address(es) to listen on;
+                                                # comma-separated list of addresses;
+                                                # defaults to 'localhost'; use '*' for all
+                                                # (change requires restart)
+        port = 5432                             # (change requires restart)
+        max_connections = 1280                  # (change requires restart)
+        #superuser_reserved_connections = 3     # (change requires restart)
+        unix_socket_directories = '/tmp'        # comma-separated list of directories
+                                                # (change requires restart)
+        #unix_socket_group = ''                 # (change requires restart)
+        unix_socket_permissions = 0777          # begin with 0 to use octal notation
+                                                # (change requires restart)
+        #bonjour = off                          # advertise server via Bonjour
+                                                # (change requires restart)
+        #bonjour_name = ''                      # defaults to the computer name
+                                                # (change requires restart)
+
+        # - Security and Authentication -
+
+        #authentication_timeout = 1min          # 1s-600s
+        #ssl = off                              # (change requires restart)
+        #ssl_ciphers = 'HIGH:MEDIUM:+3DES:!aNULL' # allowed SSL ciphers
+                                                # (change requires restart)
+        #ssl_prefer_server_ciphers = on         # (change requires restart)
+        #ssl_ecdh_curve = 'prime256v1'          # (change requires restart)
+        #ssl_cert_file = 'server.crt'           # (change requires restart)
+        #ssl_key_file = 'server.key'            # (change requires restart)
+        #ssl_ca_file = ''                       # (change requires restart)
+        #ssl_crl_file = ''                      # (change requires restart)
+        #password_encryption = on
+        #db_user_namespace = off
+        #row_security = on
+
+        # GSSAPI using Kerberos
+        #krb_server_keyfile = ''
+        #krb_caseins_users = off
+
+        # - TCP Keepalives -
+        # see "man 7 tcp" for details
+
+        #tcp_keepalives_idle = 0                # TCP_KEEPIDLE, in seconds;
+                                                # 0 selects the system default
+        #tcp_keepalives_interval = 0            # TCP_KEEPINTVL, in seconds;
+                                                # 0 selects the system default
+        #tcp_keepalives_count = 0               # TCP_KEEPCNT;
+                                                # 0 selects the system default
+
+
+        #------------------------------------------------------------------------------
+        # RESOURCE USAGE (except WAL)
+        #------------------------------------------------------------------------------
+
+        # - Memory -
+
+        shared_buffers = 128MB                  # min 128kB
+                                                # (change requires restart)
+        #huge_pages = try                       # on, off, or try
+                                                # (change requires restart)
+        temp_buffers = 8MB                      # min 800kB
+        #max_prepared_transactions = 0          # zero disables the feature
+                                                # (change requires restart)
+        # Caution: it is not advisable to set max_prepared_transactions nonzero unless
+        # you actively intend to use prepared transactions.
+        work_mem = 4MB                          # min 64kB
+        #maintenance_work_mem = 64MB            # min 1MB
+        #replacement_sort_tuples = 150000       # limits use of replacement selection sort
+        #autovacuum_work_mem = -1               # min 1MB, or -1 to use maintenance_work_mem
+        #max_stack_depth = 2MB                  # min 100kB
+        dynamic_shared_memory_type = posix      # the default is the first option
+                                                # supported by the operating system:
+                                                #   posix
+                                                #   sysv
+                                                #   windows
+                                                #   mmap
+                                                # use none to disable dynamic shared memory
+
+        # - Disk -
+
+        #temp_file_limit = -1                   # limits per-process temp file space
+                                                # in kB, or -1 for no limit
+
+        # - Kernel Resource Usage -
+
+        #max_files_per_process = 1000           # min 25
+                                                # (change requires restart)
+        shared_preload_libraries = 'pgaudit.so,pg_stat_statements.so'           # (change requires restart)
+
+        # - Cost-Based Vacuum Delay -
+
+        #vacuum_cost_delay = 0                  # 0-100 milliseconds
+        #vacuum_cost_page_hit = 1               # 0-10000 credits
+        #vacuum_cost_page_miss = 10             # 0-10000 credits
+        #vacuum_cost_page_dirty = 20            # 0-10000 credits
+        #vacuum_cost_limit = 200                # 1-10000 credits
+
+        # - Background Writer -
+
+        #bgwriter_delay = 200ms                 # 10-10000ms between rounds
+        #bgwriter_lru_maxpages = 100            # 0-1000 max buffers written/round
+        #bgwriter_lru_multiplier = 2.0          # 0-10.0 multiplier on buffers scanned/round
+        #bgwriter_flush_after = 512kB           # measured in pages, 0 disables
+
+        # - Asynchronous Behavior -
+
+        #effective_io_concurrency = 1           # 1-1000; 0 disables prefetching
+        #max_worker_processes = 8               # (change requires restart)
+        #max_parallel_workers_per_gather = 0    # taken from max_worker_processes
+        #old_snapshot_threshold = -1            # 1min-60d; -1 disables; 0 is immediate
+                                                # (change requires restart)
+        #backend_flush_after = 0                # measured in pages, 0 disables
+
+
+        #------------------------------------------------------------------------------
+        # WRITE AHEAD LOG
+        #------------------------------------------------------------------------------
+
+        # - Settings -
+
+        wal_level = hot_standby                 # minimal, replica, or logical
+                                                # (change requires restart)
+        #fsync = on                             # flush data to disk for crash safety
+                                                        # (turning this off can cause
+                                                        # unrecoverable data corruption)
+        #synchronous_commit = on                # synchronization level;
+                                                # off, local, remote_write, remote_apply, or on
+        #wal_sync_method = fsync                # the default is the first option
+                                                # supported by the operating system:
+                                                #   open_datasync
+                                                #   fdatasync (default on Linux)
+                                                #   fsync
+                                                #   fsync_writethrough
+                                                #   open_sync
+        #full_page_writes = on                  # recover from partial page writes
+        #wal_compression = off                  # enable compression of full-page writes
+        #wal_log_hints = off                    # also do full page writes of non-critical updates
+                                                # (change requires restart)
+        #wal_buffers = -1                       # min 32kB, -1 sets based on shared_buffers
+                                                # (change requires restart)
+        #wal_writer_delay = 200ms               # 1-10000 milliseconds
+        #wal_writer_flush_after = 1MB           # measured in pages, 0 disables
+
+        #commit_delay = 0                       # range 0-100000, in microseconds
+        #commit_siblings = 5                    # range 1-1000
+
+        # - Checkpoints -
+
+        #checkpoint_timeout = 5min              # range 30s-1d
+        #max_wal_size = 1GB
+        #min_wal_size = 80MB
+        #checkpoint_completion_target = 0.5     # checkpoint target duration, 0.0 - 1.0
+        #checkpoint_flush_after = 256kB         # measured in pages, 0 disables
+        #checkpoint_warning = 30s               # 0 disables
+
+        # - Archiving -
+
+        #archive_mode = off             # enables archiving; off, on, or always
+                                        # (change requires restart)
+        #archive_command = ''           # command to use to archive a logfile segment
+                                        # placeholders: %p = path of file to archive
+                                        #               %f = file name only
+                                        # e.g. 'test ! -f /mnt/server/archivedir/%f && cp %p /mnt/server/archivedir/%f'
+        #archive_timeout = 0            # force a logfile segment switch after this
+                                        # number of seconds; 0 disables
+
+
+        #------------------------------------------------------------------------------
+        # REPLICATION
+        #------------------------------------------------------------------------------
+
+        # - Sending Server(s) -
+
+        # Set these on the master and on any standby that will send replication data.
+
+        max_wal_senders = 6             # max number of walsender processes
+                                        # (change requires restart)
+        wal_keep_segments = 400         # in logfile segments, 16MB each; 0 disables
+        #wal_sender_timeout = 60s       # in milliseconds; 0 disables
+
+        #max_replication_slots = 0      # max number of replication slots
+                                        # (change requires restart)
+        #track_commit_timestamp = off   # collect timestamp of transaction commit
+                                        # (change requires restart)
+
+        # - Master Server -
+
+        # These settings are ignored on a standby server.
+
+        #synchronous_standby_names = '' # standby servers that provide sync rep
+                                        # number of sync standbys and comma-separated list of application_name
+                                        # from standby(s); '*' = all
+        #vacuum_defer_cleanup_age = 0   # number of xacts by which cleanup is delayed
+
+        # - Standby Servers -
+
+        # These settings are ignored on a master server.
+
+        hot_standby = on                        # "on" allows queries during recovery
+                                                # (change requires restart)
+        max_standby_archive_delay = 30s # max delay before canceling queries
+                                                # when reading WAL from archive;
+                                                # -1 allows indefinite delay
+        max_standby_streaming_delay = 30s       # max delay before canceling queries
+                                                # when reading streaming WAL;
+                                                # -1 allows indefinite delay
+        wal_receiver_status_interval = 10s      # send replies at least this often
+                                                # 0 disables
+        #hot_standby_feedback = off             # send info from standby to prevent
+                                                # query conflicts
+        #wal_receiver_timeout = 60s             # time that receiver waits for
+                                                # communication from master
+                                                # in milliseconds; 0 disables
+        #wal_retrieve_retry_interval = 5s       # time to wait before retrying to
+                                                # retrieve WAL after a failed attempt
+
+
+        #------------------------------------------------------------------------------
+        # QUERY TUNING
+        #------------------------------------------------------------------------------
+
+        # - Planner Method Configuration -
+
+        #enable_bitmapscan = on
+        #enable_hashagg = on
+        #enable_hashjoin = on
+        #enable_indexscan = on
+        #enable_indexonlyscan = on
+        #enable_material = on
+        #enable_mergejoin = on
+        #enable_nestloop = on
+        #enable_seqscan = on
+        #enable_sort = on
+        #enable_tidscan = on
+
+        # - Planner Cost Constants -
+
+        #seq_page_cost = 1.0                    # measured on an arbitrary scale
+        #random_page_cost = 4.0                 # same scale as above
+        #cpu_tuple_cost = 0.01                  # same scale as above
+        #cpu_index_tuple_cost = 0.005           # same scale as above
+        #cpu_operator_cost = 0.0025             # same scale as above
+        #parallel_tuple_cost = 0.1              # same scale as above
+        #parallel_setup_cost = 1000.0   # same scale as above
+        #min_parallel_relation_size = 8MB
+        #effective_cache_size = 4GB
+
+        # - Genetic Query Optimizer -
+
+        #geqo = on
+        #geqo_threshold = 12
+        #geqo_effort = 5                        # range 1-10
+        #geqo_pool_size = 0                     # selects default based on effort
+        #geqo_generations = 0                   # selects default based on effort
+        #geqo_selection_bias = 2.0              # range 1.5-2.0
+        #geqo_seed = 0.0                        # range 0.0-1.0
+
+        # - Other Planner Options -
+
+        #default_statistics_target = 100        # range 1-10000
+        #constraint_exclusion = partition       # on, off, or partition
+        #cursor_tuple_fraction = 0.1            # range 0.0-1.0
+        #from_collapse_limit = 8
+        #join_collapse_limit = 8                # 1 disables collapsing of explicit
+                                                # JOIN clauses
+        #force_parallel_mode = off
+
+
+        #------------------------------------------------------------------------------
+        # ERROR REPORTING AND LOGGING
+        #------------------------------------------------------------------------------
+
+        # - Where to Log -
+
+        log_destination = 'stderr'              # Valid values are combinations of
+                                                # stderr, csvlog, syslog, and eventlog,
+                                                # depending on platform.  csvlog
+                                                # requires logging_collector to be on.
+
+        # This is used when logging to stderr:
+        logging_collector = on                  # Enable capturing of stderr and csvlog
+                                                # into log files. Required to be on for
+                                                # csvlogs.
+                                                # (change requires restart)
+
+        # These are only used if logging_collector is on:
+        log_directory = 'pg_log'                # directory where log files are written,
+                                                # can be absolute or relative to PGDATA
+        log_filename = 'postgresql-%a.log'      # log file name pattern,
+                                                # can include strftime() escapes
+        #log_file_mode = 0600                   # creation mode for log files,
+                                                # begin with 0 to use octal notation
+        log_truncate_on_rotation = on           # If on, an existing log file with the
+                                                # same name as the new log file will be
+                                                # truncated rather than appended to.
+                                                # But such truncation only occurs on
+                                                # time-driven rotation, not on restarts
+                                                # or size-driven rotation.  Default is
+                                                # off, meaning append to existing files
+                                                # in all cases.
+        log_rotation_age = 1d                   # Automatic rotation of logfiles will
+                                                # happen after that time.  0 disables.
+        log_rotation_size = 10MB                # Automatic rotation of logfiles will
+                                                # happen after that much log output.
+                                                # 0 disables.
+
+        # These are relevant when logging to syslog:
+        #syslog_facility = 'LOCAL0'
+        #syslog_ident = 'postgres'
+        #syslog_sequence_numbers = on
+        #syslog_split_messages = on
+
+        # This is only relevant when logging to eventlog (win32):
+        #event_source = 'PostgreSQL'
+
+        # - When to Log -
+
+        #client_min_messages = notice           # values in order of decreasing detail:
+                                                #   debug5
+                                                #   debug4
+                                                #   debug3
+                                                #   debug2
+                                                #   debug1
+                                                #   log
+                                                #   notice
+                                                #   warning
+                                                #   error
+
+        #log_min_messages = warning             # values in order of decreasing detail:
+                                                #   debug5
+                                                #   debug4
+                                                #   debug3
+                                                #   debug2
+                                                #   debug1
+                                                #   info
+                                                #   notice
+                                                #   warning
+                                                #   error
+                                                #   log
+                                                #   fatal
+                                                #   panic
+
+        #log_min_error_statement = error        # values in order of decreasing detail:
+                                                #   debug5
+                                                #   debug4
+                                                #   debug3
+                                                #   debug2
+                                                #   debug1
+                                                #   info
+                                                #   notice
+                                                #   warning
+                                                #   error
+                                                #   log
+                                                #   fatal
+                                                #   panic (effectively off)
+
+        log_min_duration_statement = -1         # -1 is disabled, 0 logs all statements
+                                                # and their durations, > 0 logs only
+                                                # statements running at least this number
+                                                # of milliseconds
+
+
+        # - What to Log -
+
+        #debug_print_parse = off
+        #debug_print_rewritten = off
+        #debug_print_plan = off
+        #debug_pretty_print = on
+        log_checkpoints = off
+        log_connections = off
+        log_disconnections = off
+        log_duration = off
+        #log_error_verbosity = default          # terse, default, or verbose messages
+        #log_hostname = off
+        log_line_prefix = '%t [%p]: [%l-1] user=%u,db=%d,app=%a,client=%h'                      # special values:
+                                                #   %a = application name
+                                                #   %u = user name
+                                                #   %d = database name
+                                                #   %r = remote host and port
+                                                #   %h = remote host
+                                                #   %p = process ID
+                                                #   %t = timestamp without milliseconds
+                                                #   %m = timestamp with milliseconds
+                                                #   %n = timestamp with milliseconds (as a Unix epoch)
+                                                #   %i = command tag
+                                                #   %e = SQL state
+                                                #   %c = session ID
+                                                #   %l = session line number
+                                                #   %s = session start timestamp
+                                                #   %v = virtual transaction ID
+                                                #   %x = transaction ID (0 if none)
+                                                #   %q = stop here in non-session
+                                                #        processes
+                                                #   %% = '%'
+                                                # e.g. '<%u%%%d> '
+        log_lock_waits = on                     # log lock waits >= deadlock_timeout
+        log_statement = 'none'          # none, ddl, mod, all
+        #log_replication_commands = off
+        #log_temp_files = -1                    # log temporary files equal or larger
+                                                # than the specified size in kilobytes;
+                                                # -1 disables, 0 logs all temp files
+        log_timezone = 'UTC'
+
+
+        # - Process Title -
+
+        #cluster_name = ''                      # added to process titles if nonempty
+                                                # (change requires restart)
+        #update_process_title = on
+
+
+        #------------------------------------------------------------------------------
+        # RUNTIME STATISTICS
+        #------------------------------------------------------------------------------
+
+        # - Query/Index Statistics Collector -
+
+        #track_activities = on
+        #track_counts = on
+        #track_io_timing = off
+        #track_functions = none                 # none, pl, all
+        #track_activity_query_size = 1024       # (change requires restart)
+        #stats_temp_directory = 'pg_stat_tmp'
+
+
+        # - Statistics Monitoring -
+
+        #log_parser_stats = off
+        #log_planner_stats = off
+        #log_executor_stats = off
+        #log_statement_stats = off
+
+
+        #------------------------------------------------------------------------------
+        # AUTOVACUUM PARAMETERS
+        #------------------------------------------------------------------------------
+
+        #autovacuum = on                        # Enable autovacuum subprocess?  'on'
+                                                # requires track_counts to also be on.
+        log_autovacuum_min_duration = -1        # -1 disables, 0 logs all actions and
+                                                # their durations, > 0 logs only
+                                                # actions running at least this number
+                                                # of milliseconds.
+        #autovacuum_max_workers = 3             # max number of autovacuum subprocesses
+                                                # (change requires restart)
+        #autovacuum_naptime = 1min              # time between autovacuum runs
+        #autovacuum_vacuum_threshold = 50       # min number of row updates before
+                                                # vacuum
+        #autovacuum_analyze_threshold = 50      # min number of row updates before
+                                                # analyze
+        #autovacuum_vacuum_scale_factor = 0.2   # fraction of table size before vacuum
+        #autovacuum_analyze_scale_factor = 0.1  # fraction of table size before analyze
+        #autovacuum_freeze_max_age = 200000000  # maximum XID age before forced vacuum
+                                                # (change requires restart)
+        #autovacuum_multixact_freeze_max_age = 400000000        # maximum multixact age
+                                                # before forced vacuum
+                                                # (change requires restart)
+        #autovacuum_vacuum_cost_delay = 20ms    # default vacuum cost delay for
+                                                # autovacuum, in milliseconds;
+                                                # -1 means use vacuum_cost_delay
+        #autovacuum_vacuum_cost_limit = -1      # default vacuum cost limit for
+                                                # autovacuum, -1 means use
+                                                # vacuum_cost_limit
+
+
+        #------------------------------------------------------------------------------
+        # CLIENT CONNECTION DEFAULTS
+        #------------------------------------------------------------------------------
+
+        # - Statement Behavior -
+
+        #search_path = '"$user", public'        # schema names
+        #default_tablespace = ''                # a tablespace name, '' uses the default
+        #temp_tablespaces = ''                  # a list of tablespace names, '' uses
+                                                # only default tablespace
+        #check_function_bodies = on
+        #default_transaction_isolation = 'read committed'
+        #default_transaction_read_only = off
+        #default_transaction_deferrable = off
+        #session_replication_role = 'origin'
+        #statement_timeout = 0                  # in milliseconds, 0 is disabled
+        #lock_timeout = 0                       # in milliseconds, 0 is disabled
+        #idle_in_transaction_session_timeout = 0                # in milliseconds, 0 is disabled
+        #vacuum_freeze_min_age = 50000000
+        #vacuum_freeze_table_age = 150000000
+        #vacuum_multixact_freeze_min_age = 5000000
+        #vacuum_multixact_freeze_table_age = 150000000
+        #bytea_output = 'hex'                   # hex, escape
+        #xmlbinary = 'base64'
+        #xmloption = 'content'
+        #gin_fuzzy_search_limit = 0
+        #gin_pending_list_limit = 4MB
+
+        # - Locale and Formatting -
+
+        datestyle = 'iso, mdy'
+        #intervalstyle = 'postgres'
+        timezone = 'UTC'
+        #timezone_abbreviations = 'Default'     # Select the set of available time zone
+                                                # abbreviations.  Currently, there are
+                                                #   Default
+                                                #   Australia (historical usage)
+                                                #   India
+                                                # You can create your own file in
+                                                # share/timezonesets/.
+        #extra_float_digits = 0                 # min -15, max 3
+        #client_encoding = sql_ascii            # actually, defaults to database
+                                                # encoding
+
+        # These settings are initialized by initdb, but they can be changed.
+        lc_messages = 'C'                       # locale for system error message
+                                                # strings
+        lc_monetary = 'C'                       # locale for monetary formatting
+        lc_numeric = 'C'                        # locale for number formatting
+        lc_time = 'C'                           # locale for time formatting
+
+        # default configuration for text search
+        default_text_search_config = 'pg_catalog.english'
+
+        # - Other Defaults -
+
+        #dynamic_library_path = '$libdir'
+        #local_preload_libraries = ''
+        #session_preload_libraries = ''
+
+
+        #------------------------------------------------------------------------------
+        # LOCK MANAGEMENT
+        #------------------------------------------------------------------------------
+
+        #deadlock_timeout = 1s
+        #max_locks_per_transaction = 64         # min 10
+                                                # (change requires restart)
+        #max_pred_locks_per_transaction = 64    # min 10
+                                                # (change requires restart)
+
+
+        #------------------------------------------------------------------------------
+        # VERSION/PLATFORM COMPATIBILITY
+        #------------------------------------------------------------------------------
+
+        # - Previous PostgreSQL Versions -
+
+        #array_nulls = on
+        #backslash_quote = safe_encoding        # on, off, or safe_encoding
+        #default_with_oids = off
+        #escape_string_warning = on
+        #lo_compat_privileges = off
+        #operator_precedence_warning = off
+        #quote_all_identifiers = off
+        #sql_inheritance = on
+        #standard_conforming_strings = on
+        #synchronize_seqscans = on
+
+        # - Other Platforms and Clients -
+
+        #transform_null_equals = off
+
+
+        #------------------------------------------------------------------------------
+        # ERROR HANDLING
+        #------------------------------------------------------------------------------
+
+        #exit_on_error = off                    # terminate session on any error?
+        #restart_after_crash = on               # reinitialize after backend crash?
+
+
+        #------------------------------------------------------------------------------
+        # CONFIG FILE INCLUDES
+        #------------------------------------------------------------------------------
+
+        # These options allow settings to be loaded from files other than the
+        # default postgresql.conf.
+
+        #include_dir = 'conf.d'                 # include files ending in '.conf' from
+                                                # directory 'conf.d'
+        #include_if_exists = 'exists.conf'      # include file only if it exists
+        #include = 'special.conf'               # include file
+
+
+        #------------------------------------------------------------------------------
+        # CUSTOMIZED OPTIONS
+        #------------------------------------------------------------------------------
+
+        # Add settings for extensions here
+
+        # Archive Configuration:
+        archive_mode = off
+        archive_timeout = 60
+- name: pgo-config
+  literals:
+    - |
+      README.txt=JSON templates are stored in this directory, the postgres-operator
+      will read these templates and use them for creating various Kube kinds     
+    - |
+      affinity.json=
+                  "nodeAffinity": {
+                    "preferredDuringSchedulingIgnoredDuringExecution": [
+                      {
+                        "weight": 1,
+                        "preference": {
+                          "matchExpressions": [
+                            {
+                              "key": "workload.sas.com/class",
+                              "operator": "In",
+                              "values": [
+                                "stateful"
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 1,
+                        "preference": {
+                          "matchExpressions": [
+                            {
+                              "key": "workload.sas.com/class",
+                              "operator": "NotIn",
+                              "values": [
+                                "compute",
+                                "cas",
+                                "stateless"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "requiredDuringSchedulingIgnoredDuringExecution": {
+                       "nodeSelectorTerms": [
+                          {
+                             "matchExpressions": [
+                                {
+                                   "key": "kubernetes.azure.com/mode",
+                                   "operator": "NotIn",
+                                   "values": [
+                                      "system"
+                                   ]
+                                }
+                             ]
+                          }
+                       ]
+                    }
+                  }
+    - |
+      backrest-job.json={
+          "apiVersion": "batch/v1",
+          "kind": "Job",
+          "metadata": {
+                      "name": "{{.JobName}}",
+                      "labels": {
+                          "vendor": "crunchydata",
+                          "pgo-backrest": "true",
+                          "pgo-backrest-job": "true",
+                          "backrest-command": "{{.Command}}",
+                          "pg-cluster": "{{.ClusterName}}"
+                      }
+          },
+          "spec": {
+              "backoffLimit": 0,
+              "template": {
+                  "metadata": {
+                      "name": "{{.JobName}}",
+                       "annotations": {
+                          "sidecar.istio.io/inject": "false"
+                       },
+                      "labels": {
+                          "vendor": "crunchydata",
+                          "pgo-backrest": "true",
+                          "pgo-backrest-job": "true",
+                          "backrest-command": "{{.Command}}",
+                          "pg-cluster": "{{.ClusterName}}"
+                      }
+                  },
+                  "spec": {
+                      "volumes": [
+                          {{.PgbackrestRestoreVolumes}}
+                      ],
+                      {{.SecurityContext}}
+                      "serviceAccountName": "pgo-backrest",
+                      "containers": [{
+                          "name": "backrest",
+                          "image": "{{.PGOImagePrefix}}/sas-crunchy-data-pgbackrest-job:CRUNCHY_PGBACKREST_JOB_IMAGE_TAG",
+                          "volumeMounts": [
+                              {{.PgbackrestRestoreVolumeMounts}}
+                          ],
+                          "env": [{
+                              "name": "COMMAND",
+                              "value": "{{.Command}}"
+                          }, {
+                              "name": "COMMAND_OPTS",
+                              "value": "{{.CommandOpts}}"
+                          }, {
+                              "name": "PITR_TARGET",
+                              "value": "{{.PITRTarget}}"
+                          }, {
+                              "name": "PODNAME",
+                              "value": "{{.PodName}}"
+                          }, {
+                              "name": "PGBACKREST_STANZA",
+                              "value": "{{.PgbackrestStanza}}"
+                          }, {
+                              "name": "PGBACKREST_DB_PATH",
+                              "value": "{{.PgbackrestDBPath}}"
+                          }, {
+                              "name": "PGBACKREST_REPO_PATH",
+                              "value": "{{.PgbackrestRepoPath}}"
+                          }, {
+                              "name": "PGBACKREST_REPO_TYPE",
+                              "value": "{{.PgbackrestRepoType}}"
+                          }, {
+                              "name": "PGHA_PGBACKREST_LOCAL_S3_STORAGE",
+                              "value": "{{.BackrestLocalAndS3Storage}}"
+                          }, {
+                              "name": "PGBACKREST_LOG_PATH",
+                              "value": "/tmp"
+                          }, {
+                              "name": "NAMESPACE",
+                              "valueFrom": {
+                                  "fieldRef": {
+                                      "fieldPath": "metadata.namespace"
+                                  }
+                              }
+                          }]
+                      }],
+                      "restartPolicy": "OnFailure"
+                  }
+              }
+          }
+      }
+    - |
+      backrest-restore-job.json={
+          "apiVersion": "batch/v1",
+          "kind": "Job",
+          "metadata": {
+                      "name": "{{.JobName}}",
+                      "labels": {
+                          "vendor": "crunchydata",
+                          "pgo-backrest-restore": "true",
+                          "pg-cluster": "{{.ClusterName}}",
+                          "backrest-restore-to-pvc": "{{.ToClusterPVCName}}",
+                          "workflowid": "{{.WorkflowID}}"
+                      }
+          },
+          "spec": {
+              "backoffLimit": 0,
+              "template": {
+                  "metadata": {
+                      "name": "{{.JobName}}",
+                       "annotations": {
+                          "sidecar.istio.io/inject": "false"
+                       },
+                      "labels": {
+                          "vendor": "crunchydata",
+                          "pgo-backrest-restore": "true",
+                          "backrest-restore-to-pvc": "{{.ToClusterPVCName}}",
+                          "pg-cluster": "{{.ClusterName}}",
+                          "service-name": "{{.ClusterName}}"
+                      }
+                  },
+                  "spec": {
+                      "volumes": [ {
+                          "name": "pgdata",
+                          "persistentVolumeClaim": {
+                              "claimName": "{{.ToClusterPVCName}}"
+                          }
+                      }, {
+                          "name": "sshd",
+                          "secret": {
+                              "secretName": "{{.ClusterName}}-backrest-repo-config",
+                              "defaultMode": 511
+                          }
+                      } ],
+                      {{.SecurityContext}}
+                      "serviceAccountName": "pgo-backrest",
+                      "containers": [{
+                          "name": "backrest",
+                          "image": "{{.PGOImagePrefix}}/pgo-backrest-restore:{{.PGOImageTag}}",
+                          "volumeMounts": [ {
+                              "mountPath": "/pgdata",
+                              "name": "pgdata",
+                              "readOnly": false
+                          }, {
+                              "mountPath": "/sshd",
+                              "name": "sshd",
+                              "readOnly": true
+                          } ],
+                          "env": [{
+                  {{.PgbackrestS3EnvVars}}
+                              "name": "COMMAND_OPTS",
+                              "value": "{{.CommandOpts}}"
+                          }, {
+                              "name": "PITR_TARGET",
+                              "value": "{{.PITRTarget}}"
+                          }, {
+                              "name": "PGBACKREST_STANZA",
+                              "value": "{{.PgbackrestStanza}}"
+                          }, {
+                              "name": "PGBACKREST_DB_PATH",
+                              "value": "{{.PgbackrestDBPath}}"
+                          }, {
+                              "name": "PGBACKREST_REPO1_PATH",
+                              "value": "{{.PgbackrestRepo1Path}}"
+                          }, {
+                              "name": "PGBACKREST_REPO1_HOST",
+                              "value": "{{.PgbackrestRepo1Host}}"
+                          }, {
+                              "name": "PGBACKREST_REPO_TYPE",
+                              "value": "{{.PgbackrestRepoType}}"
+                          }, {
+                              "name": "PGBACKREST_LOG_PATH",
+                              "value": "/tmp"
+                          }, {
+                              "name": "NAMESPACE",
+                              "valueFrom": {
+                                  "fieldRef": {
+                                      "fieldPath": "metadata.namespace"
+                                  }
+                              }
+                          }]
+                      }],
+                      "affinity": {
+              {{.NodeSelector}}
+                      },
+                      "restartPolicy": "Never"
+                  }
+              }
+          }
+      }
+    - |
+      backup-job.json={
+          "apiVersion": "batch/v1",
+          "kind": "Job",
+          "metadata": {
+              "name": "{{.JobName}}",
+              "labels": {
+                  "vendor": "crunchydata",
+                  "pgbackup": "true",
+                  "pg-cluster": "{{.Name}}"
+              }
+          },
+          "spec": {
+              "backoffLimit": 0,
+              "template": {
+                  "metadata": {
+                      "name": "{{.JobName}}",
+                      "labels": {
+                          "vendor": "crunchydata",
+                          "pgbackup": "true",
+                          "pg-cluster": "{{.Name}}"
+                      }
+                  },
+                  "spec": {
+                      "volumes": [{
+                          "name": "pgdata",
+                          {{.PvcName}}
+                      }],
+              {{.SecurityContext}}
+                      "serviceAccountName": "pgo-default",
+                      "containers": [{
+                          "name": "backup",
+                          "image": "{{.CCPImagePrefix}}/crunchy-backup:{{.CCPImageTag}}",
+                          "volumeMounts": [{
+                              "mountPath": "/pgdata",
+                              "name": "pgdata",
+                              "readOnly": false
+                          }],
+                          {{.ContainerResources }}
+                          "env": [{
+                              "name": "BACKUP_HOST",
+                              "value": "{{.BackupHost}}"
+                          }, {
+                              "name": "BACKUP_OPTS",
+                              "value": "{{.BackupOpts}}"
+                          }, {
+                              "name": "BACKUP_USER",
+                              "valueFrom": {
+                                  "secretKeyRef": {
+                                      "name": "{{.BackupUserSecret}}",
+                                      "key": "username"
+                                  }
+                              }
+                          }, {
+                              "name": "BACKUP_PASS",
+                              "valueFrom": {
+                                  "secretKeyRef": {
+                                      "name": "{{.BackupUserSecret}}",
+                                      "key": "password"
+                                  }
+                              }
+                          }, {
+                              "name": "BACKUP_PORT",
+                              "value": "{{.BackupPort}}"
+                          }]
+                      }],
+                      "restartPolicy": "Never"
+                  }
+              }
+          }
+      }
+    - |
+      cluster-deployment.json={
+          "kind": "Deployment",
+          "apiVersion": "apps/v1",
+          "metadata": {
+              "name": "{{.Name}}",
+              "labels": {
+                  "vendor": "crunchydata",
+                  "app.kubernetes.io/name": "{{.Name}}",
+                  "sas.com/deployment": "sas-viya",
+                  "workload.sas.com/class": "stateful",
+                  "pgo-pg-database": "true",
+                  {{.DeploymentLabels }}
+              },
+              "annotations": {
+                  "sas.com/certificate-file-format": "pem",
+                  "sas.com/duname": "sas-crunchy-data-postgres-12",
+                  "sas.com/component-name": "sas-crunchy-data-postgres-12"
+              }
+          },
+          "spec": {
+              "replicas": {{.Replicas}},
+              "selector": {
+              "matchLabels": {
+                  "vendor": "crunchydata",
+                  {{.DeploymentLabels }}
+              }
+              },
+              "template": {
+                  "metadata": {
+                      "labels": {
+                          "name": "{{.Name}}",
+                          "vendor": "crunchydata",
+                          "app.kubernetes.io/name": "{{.Name}}",
+                          "sas.com/deployment": "sas-viya", 
+                          "workload.sas.com/class": "stateful",
+                          "pgo-pg-database": "true",
+                          {{.PodLabels }}
+                      },
+                      "annotations": {
+                          "sas.com/certificate-file-format": "pem",
+                          "sas.com/duname": "sas-crunchy-data-postgres-12",
+                          "sas.com/component-name": "sas-crunchy-data-postgres-12"
+                      }
+                  },
+                  "spec": {
+                      "securityContext": {
+                          "runAsUser": 26,
+                          "runAsGroup": 26,
+                          "fsGroup": 1001
+                      },
+                      "serviceAccountName": "pgo-pg",
+                      "containers": [
+                  {
+                          "name": "database",
+                          "image": "{{.CCPImagePrefix}}/sas-crunchy-data-postgres-12:CRUNCHY_POSTGRES_IMAGE_TAG",
+                          "readinessProbe": {
+                              "exec": {
+                                  "command": [
+                                      "/opt/cpm/bin/pgha-readiness.sh"
+                                  ]
+                              },
+                              "initialDelaySeconds": 15
+                          },
+                          "livenessProbe": {
+                              "exec": {
+                                  "command": [
+                                      "/opt/cpm/bin/pgha-liveness.sh"
+                                  ]
+                              },
+                              "initialDelaySeconds": 30,
+                              "periodSeconds": 15,
+                              "timeoutSeconds": 10
+                          },
+      
+                  {{.ContainerResources }}
+      
+                          "env": [{
+                              "name": "PGHA_PG_PORT",
+                              "value": "{{.Port}}"
+                          }, {
+                              "name": "PGHA_USER",
+                              "value": "postgres"
+                          },
+                          {{if .IsInit}}
+                          {
+                              "name": "PGHA_INIT",
+                              "valueFrom": {
+                                  "configMapKeyRef": {
+                                     "name": "{{.ClusterName}}-pgha-default-config",
+                                     "key": "init"
+                                  }
+                               }
+                          },
+                          {{ end }}
+                          {
+                              "name": "PATRONI_POSTGRESQL_DATA_DIR",
+                              "value": "/pgdata/{{.Name}}"
+                          }, {
+                  {{.PgmonitorEnvVars}}
+                  {{.PgbackrestEnvVars}}
+                  {{.PgbackrestS3EnvVars}}
+                              "name": "PGHA_DATABASE",
+                              "value": "{{.Database}}"
+                          }, {
+                              "name": "PGHA_CRUNCHYADM",
+                              "value": "true"
+                          }, {
+                              "name": "PGHA_REPLICA_REINIT_ON_START_FAIL",
+                              "value": "{{.ReplicaReinitOnStartFail}}"
+                          },  {
+                              "name": "PGHA_SYNC_REPLICATION",
+                              "value": "{{.SyncReplication}}"
+                          },  {
+                              "name": "PATRONI_KUBERNETES_NAMESPACE",
+                              "valueFrom": {
+                                  "fieldRef": {
+                                      "fieldPath": "metadata.namespace"
+                                  }
+                              }
+                          },  {
+                              "name": "PATRONI_KUBERNETES_SCOPE_LABEL",
+                              "value": "{{.ScopeLabel}}"
+                          },  {
+                              "name": "PATRONI_SCOPE",
+                              "valueFrom": {
+                                  "fieldRef": {
+                                      "fieldPath": "metadata.labels['{{.ScopeLabel}}']"
+                                  }
+                              }
+                          }, {
+                              "name": "PATRONI_KUBERNETES_LABELS",
+                              "value": "{vendor: \"crunchydata\"}"
+                          }, {
+                              "name": "PATRONI_LOG_LEVEL",
+                              "value": "INFO"
+                          }, {
+                              "name": "PGHOST",
+                              "value": "/tmp"
+                          }],
+                          "envFrom": {{.TLSCONFIGMAP}},
+                          "volumeMounts": [{
+                                  "mountPath": "/pgdata",
+                                  "name": "pgdata",
+                                  "readOnly": false
+                              }, {{.TLSVOLUMEMOUNT}} {
+                                  "mountPath": "/backrestrepo",
+                                  "name": "backrestrepo"
+                              }, {
+                                  "mountPath": "/pgconf/pguser",
+                                  "name": "user-volume"
+                              }, {
+                                  "mountPath": "/pgconf/pgreplicator",
+                                  "name": "primary-volume"
+                              }, {
+                                  "mountPath": "/pgconf/pgsuper",
+                                  "name": "root-volume"
+                              }, {
+                                  "mountPath": "/pgwal",
+                                  "name": "pgwal-volume"
+                              }, {
+                                  "mountPath": "/sshd",
+                                  "name": "sshd",
+                                  "readOnly": true
+                              }, {
+                                  "mountPath": "/pgconf",
+                                  "name": "pgconf-volume"
+                              }, {
+                                  "mountPath": "/recover",
+                                  "name": "recover-volume"
+                              }, {
+                                  "mountPath": "/crunchyadm",
+                                  "name": "crunchyadm"
+                              }
+                          ],
+      
+                          "ports": [{
+                              "containerPort": 5432,
+                              "protocol": "TCP"
+                          }, {
+                              "containerPort": 8009,
+                              "protocol": "TCP"
+                          }],
+                          "resources": {},
+                          "imagePullPolicy": "Always"
+                      }{{if .EnableCrunchyadm}},
+                      {
+                          "name": "crunchyadm",
+                          "image": "{{.CCPImagePrefix}}/crunchy-admin:{{.CCPImageTag}}",
+                          "securityContext": {
+                              "runAsUser": 17
+                          },
+                          "readinessProbe": {
+                              "exec": {
+                                  "command": [
+                                      "/opt/cpm/bin/crunchyadm-readiness.sh"
+                                  ]
+                              },
+                              "initialDelaySeconds": 30,
+                              "timeoutSeconds": 10
+                          },
+                          "env": [
+                              {
+                                  "name": "PGHOST",
+                                  "value": "/crunchyadm"
+                              }
+                          ],
+                          "volumeMounts": [
+                              {
+                                  "mountPath": "/crunchyadm",
+                                  "name": "crunchyadm"
+                              }
+                          ],
+                          "imagePullPolicy": "Always"
+                      }{{ end }}
+      
+                      {{.CollectAddon }}
+      
+                      {{.BadgerAddon }}
+      
+                      ],
+                      "initContainers": {{.TLSINITCONTAINER}},
+                      "volumes": [{
+                              "name": "pgdata",
+                              {{.PVCName}}
+                          }, {{.TLSVOLUME}} {
+                              "name": "user-volume",
+                              "secret": {
+                                  "secretName": "{{.UserSecretName}}"
+                              }
+                          }, {
+                              "name": "primary-volume",
+                              "secret": {
+                                  "secretName": "{{.PrimarySecretName}}"
+                              }
+                          }, {
+                              "name": "collect-volume",
+                              {{.CollectVolume}}
+                          }, {
+                              "name": "sshd",
+                              "secret": {
+                                  "secretName": "{{.ClusterName}}-backrest-repo-config",
+                                  "defaultMode": 511
+                              }
+                          }, {
+                              "name": "root-volume",
+                              "secret": {
+                                  "secretName": "{{.RootSecretName}}"
+                              }
+                          }, {
+                              "name": "pgwal-volume",
+                              "emptyDir": { "medium": "Memory" }
+                          }, {
+                              "name": "recover-volume",
+                              "emptyDir": { "medium": "Memory" }
+                          }, {
+                              "name": "report",
+                              "emptyDir": { "medium": "Memory" }
+                          }, {
+                              "name": "backrestrepo",
+                              "emptyDir": { "medium": "Memory" }
+                          }, {
+                              "name": "crunchyadm",
+                              "emptyDir": {}
+                          }, {
+                              "name": "pgconf-volume",
+                              "projected": {
+                                  "sources": [
+                                      {{if .ConfVolume}}
+                                      {
+                                          "configMap": {
+                                              "name": {{.ConfVolume}}
+                                          }
+                                      },
+                                      {{end}}
+                                      {
+                                          "configMap": {
+                                              "name": "{{.ClusterName}}-pgha-default-config",
+                                              "optional": true
+                                          }
+                                      }
+                                  ]
+                              }
+                          }
+      
+                      ],
+                      "tolerations": [
+                         {
+                            "key": "workload.sas.com/class",
+                            "operator": "Equal",
+                            "value": "stateful",
+                            "effect": "NoSchedule"
+                         },
+                         {
+                            "key": "workload.sas.com/class",
+                            "operator": "Equal",
+                            "value": "stateless",
+                            "effect": "NoSchedule"
+                         }
+                      ],
+                      "affinity": {
+                  "nodeAffinity": {
+                    "preferredDuringSchedulingIgnoredDuringExecution": [
+                      {
+                        "weight": 1,
+                        "preference": {
+                          "matchExpressions": [
+                            {
+                              "key": "workload.sas.com/class",
+                              "operator": "In",
+                              "values": [
+                                "stateful"
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 1,
+                        "preference": {
+                          "matchExpressions": [
+                            {
+                              "key": "workload.sas.com/class",
+                              "operator": "NotIn",
+                              "values": [
+                                "compute",
+                                "cas",
+                                "stateless"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "requiredDuringSchedulingIgnoredDuringExecution": {
+                       "nodeSelectorTerms": [
+                          {
+                             "matchExpressions": [
+                                {
+                                   "key": "kubernetes.azure.com/mode",
+                                   "operator": "NotIn",
+                                   "values": [
+                                      "system"
+                                   ]
+                                }
+                             ]
+                          }
+                       ]
+                    }
+                  },
+              {{.NodeSelector}}
+              {{if and .NodeSelector .PodAntiAffinity}},{{end}}
+              {{.PodAntiAffinity}}
+                      },
+                      "restartPolicy": "Always",
+                      "dnsPolicy": "ClusterFirst"
+                  }
+              },
+              "strategy": {
+                  "type": "RollingUpdate",
+                  "rollingUpdate": {
+                      "maxUnavailable": 1,
+                      "maxSurge": 1
+                  }
+              }
+          }
+      }
+    - |
+      cluster-service.json={
+          "kind": "Service",
+          "apiVersion": "v1",
+          "metadata": {
+              "name": "{{.Name}}",
+              "labels": {
+                  "vendor": "crunchydata",
+                  "pg-cluster": "{{.ClusterName}}",
+                  "app.kubernetes.io/name": "{{.Name}}",
+                  "name": "{{.Name}}"
+              }
+          },
+          "spec": {
+              "ports": [
+          {
+               "name": "postgres",
+                  "protocol": "TCP",
+                  "port": {{.Port}},
+                  "targetPort": {{.Port}},
+                  "nodePort": 0
+              }, {
+          "name": "pgbadger",
+          "protocol": "TCP",
+          "port": {{.PGBadgerPort}},
+          "targetPort": {{.PGBadgerPort}},
+          "nodePort": 0
+          }, {
+          "name": "sshd",
+          "protocol": "TCP",
+          "port": 2022,
+          "targetPort": 2022,
+          "nodePort": 0
+          }, {
+          "name": "postgres-exporter",
+          "protocol": "TCP",
+          "port": {{.ExporterPort}},
+          "targetPort": {{.ExporterPort}},
+          "nodePort": 0
+          }, {
+          "name": "patroni",
+          "protocol": "TCP",
+          "port": 8009,
+          "targetPort": 8009,
+          "nodePort": 0
+          }
+          ],
+              "selector": {
+                  {{ if or (eq .Name .ClusterName) (eq .Name (printf "%s%s" .ClusterName "-replica")) }}
+                  "pg-cluster": "{{.ClusterName}}",
+                  {{ if eq .Name (printf "%s%s" .ClusterName "-replica") }}
+                  "role": "replica"
+                  {{else}}
+                  "role": "master"
+                  {{end}}
+                  {{else}}
+                  "service-name": "{{.ServiceName}}"
+                  {{end}}
+              },
+              "type": "{{.ServiceType}}",
+              "sessionAffinity": "None"
+          }
+      }
+    - |
+      collect.json=,{
+          "name": "collect",
+          "imagePullPolicy": "Always",
+          "image": "{{.CCPImagePrefix}}/sas-crunchy-data-collect:CRUNCHY_COLLECT_IMAGE_TAG",
+          "ports": [{
+              "containerPort": {{.ExporterPort}},
+              "protocol": "TCP"
+          }],
+          "resources": {
+              "limits": {
+                  "cpu": "500m",
+                  "memory": "500Mi"
+              },
+              "requests": {
+                  "cpu": "5m",
+                  "memory": "90Mi"
+              }
+          },
+          "env": [
+              {
+                  "name": "COLLECT_PG_HOST",
+                  "value": "127.0.0.1"
+              },
+              {
+                  "name": "COLLECT_PG_PORT",
+                  "value": "{{.PgPort}}"
+              },
+              {
+                  "name": "COLLECT_PG_DATABASE",
+                  "value": "postgres"
+              },
+              {
+                  "name": "COLLECT_PG_PARAMS",
+                  "value": "sslmode=disable"
+              },
+              {
+                  "name": "JOB_NAME",
+                  "value": "{{.JobName}}"
+              },{
+                  "name": "POSTGRES_EXPORTER_PORT",
+                  "value": "{{.ExporterPort}}"
+              }
+          ],
+          "volumeMounts": [
+              {
+                  "mountPath": "/collect-pguser",
+                  "name": "collect-volume"
+              }
+          ]
+      }
+    - |
+      container-resources.json=            "resources": {
+                      "requests": {
+                          "memory": "{{.RequestsMemory}}",
+                          "cpu": "{{.RequestsCPU}}"
+                      },
+                      "limits": {
+                          "memory": "{{.LimitsMemory}}",
+                          "cpu": "{{.LimitsCPU}}"
+                      }
+                  },
+    - |
+      pgbackrest-env-vars.json=                        "name": "PGBACKREST_STANZA",
+                              "value": "{{.PgbackrestStanza}}"
+                          }, {
+                              "name": "PGBACKREST_REPO1_HOST",
+                              "value": "{{.PgbackrestRepo1Host}}"
+                          }, {
+                              "name": "BACKREST_SKIP_CREATE_STANZA",
+                              "value": "true"
+                          }, {
+                              "name": "PGHA_PGBACKREST",
+                              "value": "true"
+                          }, {
+                              "name": "PGBACKREST_REPO1_PATH",
+                              "value": "{{.PgbackrestRepo1Path}}"
+                          }, {
+                              "name": "PGBACKREST_DB_PATH",
+                              "value": "{{.PgbackrestDBPath}}"
+                          }, {
+                              "name": "ENABLE_SSHD",
+                              "value": "true"
+                          }, {
+                              "name": "PGBACKREST_LOG_PATH",
+                              "value": "/tmp"
+                          }, {
+                              "name": "PGBACKREST_PG1_SOCKET_PATH",
+                              "value": "/tmp"
+                          }, {
+                              "name": "PGBACKREST_PG1_PORT",
+                              "value": "{{.PgbackrestPGPort}}"
+                          }, {
+                              "name": "PGBACKREST_REPO_TYPE",
+                              "value": "{{.PgbackrestRepo1Type}}"
+                          }, {
+                              "name": "PGHA_PGBACKREST_LOCAL_S3_STORAGE",
+                              "value": "{{.PgbackrestLocalAndS3Storage}}"
+                          }, {
+    - |-
+      pgbackrest-s3-env-vars.json=                    "name": "PGBACKREST_REPO1_S3_BUCKET",
+                          "value": "{{.PgbackrestS3Bucket}}"
+                          }, {
+                          "name": "PGBACKREST_REPO1_S3_ENDPOINT",
+                          "value": "{{.PgbackrestS3Endpoint}}"
+                          }, {
+                          "name": "PGBACKREST_REPO1_S3_REGION",
+                          "value": "{{.PgbackrestS3Region}}"
+                          }, {
+                          "name": "PGBACKREST_REPO1_S3_KEY",
+                          "value": "{{.PgbackrestS3Key}}"
+                          }, {
+                          "name": "PGBACKREST_REPO1_S3_KEY_SECRET",
+                          "value": "{{.PgbackrestS3KeySecret}}"
+                          }, {
+                          "name": "PGBACKREST_REPO1_S3_CA_FILE",
+                          "value": "/sshd/aws-s3-ca.crt"
+                          }, {
+                          "name": "PGBACKREST_REPO1_HOST_CMD",
+                          "value": "/usr/local/bin/archive-push-s3.sh"
+                          }, {
+    - |
+      pgbadger.json=            ,{
+                      "name": "pgbadger",
+                      "image": "{{.CCPImagePrefix}}/sas-crunchy-data-pgbadger:CRUNCHY_PGBADGER_IMAGE_TAG",
+                      "imagePullPolicy": "Always",
+                      "ports": [ {
+                              "containerPort": {{.PGBadgerPort}},
+                              "protocol": "TCP"
+                          }
+                      ],
+                      "readinessProbe": {
+                          "tcpSocket": {
+                              "port": {{.PGBadgerPort}}
+                          },
+                          "initialDelaySeconds": 20,
+                          "periodSeconds": 10
+                      },
+                      "resources": {
+                          "limits": {
+                              "cpu": "1000m",
+                              "memory": "500Mi"
+                           },
+                           "requests": {
+                               "cpu": "10m",
+                               "memory": "90Mi"
+                           }
+                      },
+                      "env": [ {
+                          "name": "BADGER_TARGET",
+                          "value": "{{.BadgerTarget}}"
+                      }, {
+                          "name": "PGBADGER_SERVICE_PORT",
+                          "value": "{{.PGBadgerPort}}"
+                      } ],
+                      "volumeMounts": [
+                          {
+                              "mountPath": "/pgdata",
+                              "name": "pgdata",
+                              "readOnly": true
+                          },
+                          {
+                              "mountPath": "/report",
+                              "name": "report",
+                              "readOnly": false
+                          }
+                      ]
+                  }
+    - |-
+      pgbasebackup-restore-job.json={
+          "apiVersion":"batch/v1",
+          "kind":"Job",
+          "metadata":{
+              "name":"{{.JobName}}",
+              "labels":{
+                  "vendor":"crunchydata",
+                  "pgo-pgbasebackup-restore":"true",
+                  "pgbasebackup-restore-to-pvc": "{{.ToClusterPVCName}}",
+                  "pg-cluster":"{{.ClusterName}}",
+                  "pg-task": "{{.TaskName}}",
+                  "workflowid":"{{.WorkflowID}}"
+              }
+          },
+          "spec":{
+              "backoffLimit":0,
+              "template":{
+                  "metadata":{
+                      "name":"{{.JobName}}",
+                      "labels":{
+                          "vendor":"crunchydata",
+                          "pgo-pgbasebackup-restore":"true",
+                          "pg-cluster":"{{.ClusterName}}",
+                          "pg-task": "{{.TaskName}}"
+                      }
+                  },
+                  "spec":{
+                      {{.SecurityContext}}
+                      "serviceAccountName": "pgo-default",
+                      "containers":[
+                          {
+                              "name":"pgbasebackup-restore",
+                              "image":"{{.CCPImagePrefix}}/crunchy-pgbasebackup-restore:{{.CCPImageTag}}",
+                              "env":[
+                                  {
+                                      "name":"BACKUP_PATH",
+                                      "value":"{{.BackupPath}}"
+                                  },
+                                  {
+                                      "name":"PGDATA_PATH",
+                                      "value":"{{.PgdataPath}}"
+                                  }
+                              ],
+                              "volumeMounts":[
+                                  {
+                                      "mountPath":"/pgdata",
+                                      "name":"pgdata"
+                                  },
+                                  {
+                                      "mountPath":"/backup",
+                                      "name":"backup"
+                                  }
+                              ]
+                          }
+                      ],
+                      "volumes":[
+                          {
+                              "name":"pgdata",
+                              "persistentVolumeClaim":{
+                                  "claimName":"{{.ToClusterPVCName}}"
+                              }
+                          },
+                          {
+                              "name":"backup",
+                              "persistentVolumeClaim":{
+                                  "claimName":"{{.BackupPVCName}}"
+                              }
+                          }
+                      ],
+              {{.NodeSelector}}
+                      "restartPolicy":"Never"
+                  }
+              }
+          }
+      }
+    - |
+      pgbench-job.json={
+          "apiVersion": "batch/v1",
+          "kind": "Job",
+          "metadata": {
+              "name": "{{.JobName}}",
+              "labels": {
+                  "name": "{{.JobName}}",
+                  "vendor": "crunchydata",
+                  "pgo-benchmark": "true",
+                  "pg-cluster": "{{.ClusterName}}",
+                  "created": "{{.Created}}",
+                  "workflowname": "{{.WorkflowName}}"
+              }
+          },
+          "spec": {
+              "backoffLimit": 0,
+              "template": {
+                  "metadata": {
+                      "name": "{{.JobName}}",
+                      "labels": {
+                          "vendor": "crunchydata",
+                          "pgo-benchmark": "true",
+                          "pg-cluster": "{{.ClusterName}}",
+                          "created": "{{.Created}}",
+                          "workflowname": "{{.WorkflowName}}"
+                      }
+                  },
+                  "spec": {
+                      "serviceAccountName": "pgo-default",
+                      "containers": [
+                          {
+                              "name": "pgbench",
+                              "image": "SAS_IMAGE_BENCH_LOCATION/sas-crunchy-data-pgbench:SAS_BENCH_IMAGE_TAG",
+                              "env": [
+                                  {
+                                      "name": "PG_DATABASE",
+                                      "value": "{{.PGDatabase}}"
+                                  },
+                                  {
+                                      "name": "PG_HOSTNAME",
+                                      "value": "{{.PGHost}}"
+                                  },
+                                  {
+                                      "name": "PG_PORT",
+                                      "value": "{{.PGPort}}"
+                                  },
+                                  {
+                                      "name": "PG_PASSWORD",
+                                      "valueFrom": {
+                                          "secretKeyRef": {
+                                              "name": "{{.PGUserSecret}}",
+                                              "key": "password"
+                                          }
+                                      }
+                                  },
+                                  {
+                                      "name": "PG_USERNAME",
+                                      "valueFrom": {
+                                          "secretKeyRef": {
+                                              "name": "{{.PGUserSecret}}",
+                                              "key": "username"
+                                          }
+                                      }
+                                  },
+                                  {
+                                      "name": "PGBENCH_BENCHMARK_OPTS",
+                                      "value": "{{.PGBenchOpts}}"
+                                  },
+                                  {
+                                      "name": "PGBENCH_INIT_OPTS",
+                                      "value": "{{.PGBenchInitOpts}}"
+                                  },
+                                  {
+                                      "name": "PGBENCH_CLIENTS",
+                                      "value": "{{.PGBenchClients}}"
+                                  },
+                                  {
+                                      "name": "PGBENCH_JOBS",
+                                      "value": "{{.PGBenchJobs}}"
+                                  },
+                                  {
+                                      "name": "PGBENCH_SCALE",
+                                      "value": "{{.PGBenchScale}}"
+                                  },
+                                  {
+                                      "name": "PGBENCH_TRANSACTIONS",
+                                      "value": "{{.PGBenchTransactions}}"
+                                  }
+                              ],
+                              "volumeMounts": [
+                                  {
+                                      "mountPath": "/pgconf",
+                                      "name": "pgconf-volume"
+                                  }
+                              ]
+                          }
+                      ],
+                      "serviceAccountName": "postgres-operator",
+                      "volumes": [
+                          {
+                              "name": "pgconf-volume",
+                              {{.PGBenchConfigMap}}
+                          }
+                      ],
+                      "restartPolicy": "Never"
+                  }
+              }
+          }
+      }
+    - |
+      pgbouncer-template.json={
+          "kind": "Deployment",
+          "apiVersion": "apps/v1",
+          "metadata": {
+              "name": "{{.Name}}",
+              "labels": {
+                  "name": "{{.Name}}",
+                  "crunchy-pgbouncer": "true",
+                  "pg-cluster": "{{.ClusterName}}",
+                  "service-name": "{{.Name}}",
+                  "vendor": "crunchydata"
+              }
+          },
+          "spec": {
+              "replicas": 1,
+              "selector": {
+                  "matchLabels": {
+                      "name": "{{.Name}}",
+                      "crunchy-pgbouncer": "true",
+                      "pg-cluster": "{{.ClusterName}}",
+                      "service-name": "{{.Name}}",
+                      "vendor": "crunchydata"
+                  }
+              },
+              "template": {
+                  "metadata": {
+                      "labels": {
+                          "name": "{{.Name}}",
+                          "crunchy-pgbouncer": "true",
+                          "pg-cluster": "{{.ClusterName}}",
+                          "service-name": "{{.Name}}",
+                          "vendor": "crunchydata"
+                      }
+                  },
+                  "spec": {
+                      "containers": [{
+                          "name": "pgbouncer",
+                          "image": "{{.CCPImagePrefix}}/crunchy-pgbouncer:{{.CCPImageTag}}",
+                          "ports": [{
+                              "containerPort": {{.Port}},
+                              "protocol": "TCP"
+                          }],
+                          {{.ContainerResources }}
+                          "env": [{
+                              "name": "PG_USERNAME",
+                              "valueFrom": {
+                                  "secretKeyRef": {
+                                      "name": "{{.PGBouncerSecret}}",
+                                      "key": "username"
+                                  }
+                              }
+                          }, {
+                              "name": "PG_PASSWORD",
+                              "valueFrom": {
+                                  "secretKeyRef": {
+                                      "name": "{{.PGBouncerSecret}}",
+                                      "key": "password"
+                                  }
+                              }
+                          }, {
+                              "name": "PG_PRIMARY_SERVICE_NAME",
+                              "value": "{{.PrimaryServiceName}}"
+                          }, {
+                              "name": "PG_REPLICA_SERVICE_NAME",
+                              "value": "{{.ReplicaServiceName}}"
+                          }],
+                          "volumeMounts": [{
+                              "name": "pgbouncer-conf",
+                              "mountPath": "/pgconf/",
+                              "readOnly": false
+                          }]
+                      }],
+                      "volumes": [{
+                      "name": "pgbouncer-conf",
+                      "secret": {
+                          "secretName": "{{.PGBouncerSecret}}",
+                          "defaultMode": 511
+                          }
+                      }],
+                      "restartPolicy": "Always",
+                      "dnsPolicy": "ClusterFirst"
+                  }
+              },
+              "strategy": {
+                  "type": "RollingUpdate",
+                  "rollingUpdate": {
+                      "maxUnavailable": 1,
+                      "maxSurge": 1
+                  }
+              }
+          }
+      }
+    - |
+      pgbouncer.ini=[databases]
+      {{.PG_PRIMARY_SERVICE_NAME}} = host={{.PG_PRIMARY_SERVICE_NAME}} port={{.PG_PORT}} auth_user={{.PG_USERNAME}} dbname={{.PG_DATABASE}}
+      [pgbouncer]
+      listen_port = 5432
+      listen_addr = *
+      auth_type = md5
+      auth_file = /pgconf/users.txt
+      auth_query = SELECT username, password from pgbouncer.get_auth($1)
+      pidfile = /tmp/pgbouncer.pid
+      logfile = /dev/stdout
+      admin_users = {{.PG_USERNAME}}
+      stats_users = {{.PG_USERNAME}}
+      default_pool_size = 20
+      max_client_conn = 100
+      max_db_connections = 0
+      min_pool_size = 0
+      pool_mode = session
+      reserve_pool_size = 0
+      reserve_pool_timeout = 5
+      query_timeout = 0
+      ignore_startup_parameters = extra_float_digits
+    - |
+      pgbouncer_hba.conf=host    all         all         0.0.0.0/0          md5
+    - |
+      pgdump-job.json={
+          "apiVersion": "batch/v1",
+          "kind": "Job",
+          "metadata": {
+              "name": "{{.JobName}}",
+              "labels": {
+                      "vendor": "crunchydata",
+                      "pgdump": "true",
+                      "pg-cluster": "{{.ClusterName}}",
+                      "pg-task": "{{.TaskName}}"
+              }
+          },
+          "spec": {
+              "backoffLimit": 0,
+              "template": {
+                  "metadata": {
+                      "name": "{{.JobName}}",
+                      "labels": {
+                          "vendor":"crunchydata",
+                          "pgdump":"true",
+                          "pg-cluster":"{{.ClusterName}}"
+                      }
+                  },
+                  "spec": {
+                      "volumes": [
+                          {
+                              "name": "pgdata",
+                              "persistentVolumeClaim": {
+                                  "claimName": "{{.PgDumpPVC}}"
+                              }
+                          }
+                      ],
+                      {{.SecurityContext}}
+                      "serviceAccountName": "postgres-operator",
+                      "containers": [{
+                              "name": "pgdump",
+                              "image": "SAS_IMAGE_LOCATION/sas-crunchy-data-pgdump:SAS_IMAGE_TAG",
+                              "volumeMounts": [
+                                  {
+                                      "mountPath": "/pgdata",
+                                      "name": "pgdata",
+                                      "readOnly": false
+                                  }
+                              ],
+                              {{.ContainerResources}}
+                              "env": [
+                                  {
+                                      "name": "PGDUMP_HOST",
+                                      "value": "{{.PgDumpHost}}"
+                                  },
+                                  {
+                                      "name": "PGDUMP_USER",
+                                      "valueFrom": {
+                                          "secretKeyRef": {
+                                              "name": "{{.PgDumpUserSecret}}",
+                                              "key": "username"
+                                          }
+                                      }
+                                  },
+                                  {
+                                      "name": "PGDUMP_PASS",
+                                      "valueFrom": {
+                                          "secretKeyRef": {
+                                              "name": "{{.PgDumpUserSecret}}",
+                                              "key": "password"
+                                          }
+                                      }
+                                  },
+                                  {
+                                      "name": "PGDUMP_DB",
+                                      "value": "{{.PgDumpDB}}"
+                                  },
+                                  {
+                                      "name": "PGDUMP_PORT",
+                                      "value": "{{.PgDumpPort}}"
+                                  },
+                                  {
+                                      "name": "PGDUMP_CUSTOM_OPTS",
+                                      "value": "{{.PgDumpOpts}}"
+                                  },
+                                  {
+                                      "name": "PGDUMP_FILENAME",
+                                      "value": "{{.PgDumpFilename}}"
+                                  },
+                                  {
+                                      "name": "PGDUMP_ALL",
+                                      "value": "{{.PgDumpAll}}"
+                                  }
+                              ]
+                          }
+                      ],
+                      "restartPolicy": "Never"
+                  }
+              }
+          }
+      }
+    - |
+      pgmonitor-env-vars.json=                        "name": "PGMONITOR_PASSWORD",
+                              "value": "{{.PgmonitorPassword}}"
+                          }, {
+    - |
+      pgo-backrest-repo-service-template.json={
+              "kind": "Service",
+              "apiVersion": "v1",
+              "metadata": {
+                  "name": "{{.Name}}",
+                  "labels": {
+                      "vendor": "crunchydata",
+                      "name": "{{.Name}}",
+                      "pgo-backrest-repo": "true",
+                      "pg-cluster": "{{.ClusterName}}"
+                  }
+              },
+              "spec": {
+                  "ports": [{
+                      "protocol": "TCP",
+                      "port": {{.Port}},
+                      "targetPort": {{.Port}},
+                      "nodePort": 0
+                  }],
+                  "selector": {
+                      "name": "{{.Name}}"
+                  },
+                  "type": "ClusterIP",
+                  "sessionAffinity": "None"
+              }
+      }
+    - |
+      pgo-backrest-repo-template.json={
+          "kind": "Deployment",
+          "apiVersion": "apps/v1",
+          "metadata": {
+              "name": "{{.Name}}",
+              "labels": {
+                  "name": "{{.Name}}",
+                  "pg-cluster": "{{.ClusterName}}",
+                  "service-name": "{{.Name}}",
+                  "vendor": "crunchydata",
+                  "pgo-backrest-repo": "true"
+              }
+          },
+          "spec": {
+              "replicas": 1,
+              "selector": {
+                  "matchLabels": {
+                          "name": "{{.Name}}",
+                          "pg-cluster": "{{.ClusterName}}",
+                          "service-name": "{{.Name}}",
+                          "workload.sas.com/class": "stateful",
+                          "vendor": "crunchydata",
+                          "{{.PodAntiAffinityLabelName}}": "{{.PodAntiAffinityLabelValue}}",
+                          "pgo-backrest-repo": "true"
+                  }
+              },
+              "template": {
+                  "metadata": {
+                       "annotations": {
+                          "sidecar.istio.io/inject": "false"
+                       },
+                      "labels": {
+                          "name": "{{.Name}}",
+                          "pg-cluster": "{{.ClusterName}}",
+                          "service-name": "{{.Name}}",
+                          "vendor": "crunchydata",
+                          "workload.sas.com/class": "stateful",
+                          "{{.PodAntiAffinityLabelName}}": "{{.PodAntiAffinityLabelValue}}",
+                          "pgo-backrest-repo": "true"
+                      }
+                  },
+                  "spec": {
+                      {{.SecurityContext}}
+                      "serviceAccountName": "pgo-default",
+                      "containers": [{
+                          "name": "database",
+                          "image": "{{.PGOImagePrefix}}/sas-crunchy-data-pgbackrest:CRUNCHY_PGBACKREST_IMAGE_TAG",
+                          "ports": [{
+                              "containerPort": {{.SshdPort}},
+                              "protocol": "TCP"
+                          }],
+                          "resources": {
+                              "limits": {
+                                  "cpu": "500m",
+                                  "memory": "1Gi"
+                              },
+                              "requests": {
+                                  "cpu": "5m",
+                                  "memory": "500Mi"
+                              }
+                          },
+                          "env": [{
+                  {{.PgbackrestS3EnvVars}}
+                              "name": "PGBACKREST_STANZA",
+                              "value": "{{.PgbackrestStanza}}"
+                          }, {
+                              "name": "SSHD_PORT",
+                              "value": "{{.SshdPort}}"
+                          }, {
+                              "name": "PGBACKREST_DB_PATH",
+                              "value": "{{.PgbackrestDBPath}}"
+                          }, {
+                              "name": "PGBACKREST_REPO_PATH",
+                              "value": "{{.PgbackrestRepoPath}}"
+                          }, {
+                              "name": "PGBACKREST_PG1_PORT",
+                              "value": "{{.PgbackrestPGPort}}"
+                          }, {
+                              "name": "PGBACKREST_LOG_PATH",
+                              "value": "/tmp"
+                          }, {
+                              "name": "PGBACKREST_PG1_SOCKET_PATH",
+                              "value": "/tmp"
+                          }, {
+                              "name": "PGBACKREST_DB_HOST",
+                              "value": "{{.PGbackrestDBHost}}"
+                          }],
+                          "volumeMounts": [{
+                              "name": "sshd",
+                              "mountPath": "/sshd",
+                              "readOnly": true
+                          }, {
+                              "name": "backrestrepo",
+                              "mountPath": "/backrestrepo",
+                              "readOnly": false
+                          }]
+                      }],
+                      "volumes": [{
+                          "name": "sshd",
+                          "secret": {
+                              "secretName": "{{.ClusterName}}-backrest-repo-config",
+                              "defaultMode": 511
+                          }
+                      }, {
+                          "name": "backrestrepo",
+                          "persistentVolumeClaim": {
+                              "claimName": "{{.BackrestRepoClaimName}}"
+                          }
+                      }],
+                      "tolerations": [
+                         {
+                            "key": "workload.sas.com/class",
+                            "operator": "Equal",
+                            "value": "stateful",
+                            "effect": "NoSchedule"
+                         },
+                         {
+                            "key": "workload.sas.com/class",
+                            "operator": "Equal",
+                            "value": "stateless",
+                            "effect": "NoSchedule"
+                         }
+                      ],
+                      "affinity": {
+                  "nodeAffinity": {
+                    "preferredDuringSchedulingIgnoredDuringExecution": [
+                      {
+                        "weight": 1,
+                        "preference": {
+                          "matchExpressions": [
+                            {
+                              "key": "workload.sas.com/class",
+                              "operator": "In",
+                              "values": [
+                                "stateful"
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "weight": 1,
+                        "preference": {
+                          "matchExpressions": [
+                            {
+                              "key": "workload.sas.com/class",
+                              "operator": "NotIn",
+                              "values": [
+                                "compute",
+                                "cas",
+                                "stateless"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "requiredDuringSchedulingIgnoredDuringExecution": {
+                       "nodeSelectorTerms": [
+                          {
+                             "matchExpressions": [
+                                {
+                                   "key": "kubernetes.azure.com/mode",
+                                   "operator": "NotIn",
+                                   "values": [
+                                      "system"
+                                   ]
+                                }
+                             ]
+                          }
+                       ]
+                    }
+                  },
+                  {{.PodAntiAffinity}}
+                      },
+                      "restartPolicy": "Always",
+                      "dnsPolicy": "ClusterFirst"
+                  }
+              },
+              "strategy": {
+                  "type": "RollingUpdate",
+                  "rollingUpdate": {
+                      "maxUnavailable": 1,
+                      "maxSurge": 1
+                  }
+              }
+          }
+      }
+    - |
+      pgo-backrest-role-binding.json={
+          "apiVersion": "rbac.authorization.k8s.io/v1",
+          "kind": "RoleBinding",
+          "metadata": {
+              "name": "pgo-backrest-role-binding",
+              "namespace": "{{.TargetNamespace}}"
+          },
+          "roleRef": {
+              "apiGroup": "rbac.authorization.k8s.io",
+              "kind": "Role",
+              "name": "pgo-backrest-role"
+          },
+          "subjects": [
+              {
+                  "kind": "ServiceAccount",
+                  "name": "pgo-backrest",
+                  "namespace": "{{.TargetNamespace}}"
+              }
+          ]
+      }
+    - |
+      pgo-backrest-role.json={
+          "apiVersion": "rbac.authorization.k8s.io/v1",
+          "kind": "Role",
+          "metadata": {
+              "name": "pgo-backrest-role",
+              "namespace": "{{.TargetNamespace}}"
+          },
+          "rules": [
+              {
+                  "apiGroups": [
+                      ""
+                  ],
+                  "resources": [
+                      "pods"
+                  ],
+                  "verbs": [
+                      "get",
+                      "list"
+                  ]
+              },
+              {
+                  "apiGroups": [
+                      ""
+                  ],
+                  "resources": [
+                      "pods/exec"
+                  ],
+                  "verbs": [
+                      "create"
+                  ]
+              }
+          ]
+      }
+    - |
+      pgo-backrest-sa.json={
+          "apiVersion": "v1",
+          "kind": "ServiceAccount",
+          "metadata": {
+              "name": "pgo-backrest",
+              "namespace": "{{.TargetNamespace}}"
+          }
+      }
+    - |
+      pod-anti-affinity.json=
+          "podAntiAffinity": {
+              "{{.AffinityType}}": [
+                  {
+                      {{if eq .AffinityType "preferredDuringSchedulingIgnoredDuringExecution"}}                
+                      "weight": 1,
+                      "podAffinityTerm": {
+                      {{end}}
+                          "labelSelector": {
+                              "matchExpressions": [
+                                  {
+                                      "key": "{{.VendorLabelKey}}",
+                                      "operator": "In",
+                                      "values": [
+                                          "{{.VendorLabelValue}}"
+                                      ]
+                                  },
+                                  {
+                                      "key": "{{.PodAntiAffinityLabelKey}}",
+                                      "operator": "Exists"
+                                  },
+                                  {
+                                      "key": "pg-cluster",
+                                      "operator": "In",
+                                      "values": [
+                                          "{{.ClusterName}}"
+                                      ]
+                                  }
+                              ]
+                          },
+                          "topologyKey": "kubernetes.io/hostname"
+                      {{if eq .AffinityType "preferredDuringSchedulingIgnoredDuringExecution"}}     
+                      }
+                      {{end}}
+                  }
+              ]
+          }
+    - |
+      pgo-scc.yaml=allowHostDirVolumePlugin: false
+      allowHostIPC: false
+      allowHostNetwork: false
+      allowHostPID: false
+      allowHostPorts: false
+      allowPrivilegeEscalation: true
+      allowPrivilegedContainer: false
+      allowedCapabilities: null
+      apiVersion: security.openshift.io/v1
+      defaultAddCapabilities: null
+      fsGroup:
+        type: MustRunAs
+        ranges:
+        - max: 26
+          min: 26
+      groups:
+      - system:authenticated
+      kind: SecurityContextConstraints
+      metadata:
+        annotations:
+          kubernetes.io/description: scc for postgres
+        name: pgo
+      priority: null
+      readOnlyRootFilesystem: false
+      requiredDropCapabilities:
+      - KILL
+      - MKNOD
+      - SETUID
+      - SETGID
+      runAsUser:
+        type: MustRunAsRange
+      seLinuxContext:
+        type: RunAsAny
+      supplementalGroups:
+        type: RunAsAny
+      users: []
+      volumes:
+      - configMap
+      - downwardAPI
+      - emptyDir
+      - persistentVolumeClaim
+      - projected
+      - secret
+    - |
+      pgo-target-role-binding.json={
+          "apiVersion": "rbac.authorization.k8s.io/v1",
+          "kind": "RoleBinding",
+          "metadata": {
+              "name": "pgo-target-role-binding",
+              "namespace": "{{.TargetNamespace}}"
+          },
+          "roleRef": {
+              "apiGroup": "rbac.authorization.k8s.io",
+              "kind": "Role",
+              "name": "pgo-target-role"
+          },
+          "subjects": [
+              {
+                  "kind": "ServiceAccount",
+                  "name": "postgres-operator",
+                  "namespace": "{{.OperatorNamespace}}"
+              },
+              {
+                  "kind": "ServiceAccount",
+                  "name": "pgo-target",
+                  "namespace": "{{.TargetNamespace}}"
+              }
+          ]
+      }
+    - |
+      pgo-target-role.json={
+      
+          "apiVersion": "rbac.authorization.k8s.io/v1",
+          "kind": "Role",
+          "metadata": {
+              "name": "pgo-target-role",
+              "namespace": "{{.TargetNamespace}}"
+          },
+          "rules": [
+              {
+                  "apiGroups": [
+                      "crunchydata.com"
+                  ],
+                  "resources": [
+                      "pgclusters",
+                      "pgpolicies",
+                      "pgtasks",
+                      "pgbackups",
+                      "pgreplicas"
+                  ],
+                  "verbs": [
+                      "*"
+                  ]
+              },
+              {
+                  "apiGroups": [
+                      "apps"
+                  ],
+                  "resources": [
+                      "deployments"
+                  ],
+                  "verbs": [
+                      "*"
+                  ]
+              },
+              {
+                  "apiGroups": [
+                      ""
+                  ],
+                  "resources": [
+                      "secrets",
+                      "pods",
+                      "configmaps",
+                      "pods/exec",
+                      "pods/log",
+                      "services",
+                      "replicasets",
+                      "endpoints",
+                      "persistentvolumeclaims"
+                  ],
+                  "verbs": [
+                      "*"
+                  ]
+              },
+              {
+                  "apiGroups": [
+                      ""
+                  ],
+                  "resources": [
+                      "nodes",
+                      "storageclasses"
+                  ],
+                  "verbs": [
+                      "get",
+                      "list"
+                  ]
+              },
+              {
+                  "apiGroups": [
+                      "batch",
+                      "extensions"
+                  ],
+                  "resources": [
+                      "jobs"
+                  ],
+                  "verbs": [
+                      "*"
+                  ]
+              },
+              {
+                  "apiGroups": [
+                      "extensions"
+                  ],
+                  "resources": [
+                      "deployments"
+                  ],
+                  "verbs": [
+                      "patch"
+                  ]
+              }
+          ]
+      }
+    - |
+      pgo-target-sa.json={
+          "apiVersion": "v1",
+          "kind": "ServiceAccount",
+          "metadata": {
+              "name": "pgo-target",
+              "namespace": "{{.TargetNamespace}}"
+          }
+      }
+    - |
+      pgo.load-template.json={
+          "apiVersion": "batch/v1",
+          "kind": "Job",
+          "metadata": {
+              "name": "{{.Name}}"
+          },
+          "spec": {
+              "backoffLimit": 0,
+              "template": {
+                  "metadata": {
+                      "name": "{{.Name}}",
+                      "labels": {
+                          "vendor": "crunchydata",
+                          "pgo-load": "true",
+                          "pg-cluster": "{{.DbHost}}"
+                      }
+                  },
+                  "spec": {
+                      "volumes": [{
+                          "name": "pgdata",
+                          "persistentVolumeClaim" : {
+                              "claimName": "{{.PVCName}}"
+                          }
+                      }],
+              {{.SecurityContext}}
+                      "serviceAccountName": "pgo-backrest",
+                      "containers": [{
+                          "name": "csvload",
+                          "image": "{{.PGOImagePrefix}}/pgo-load:{{.PGOImageTag}}",
+                          "volumeMounts": [{
+                              "mountPath": "/pgdata",
+                              "name": "pgdata",
+                              "readOnly": true
+                          }],
+                          {{.ContainerResources }}
+                          "env": [{
+                              "name": "TABLE_TO_LOAD",
+                              "value": "{{.TableToLoad}}"
+                          }, {
+                              "name": "FILE_PATH",
+                              "value": "{{.FilePath}}"
+                          }, {
+                              "name": "FILE_TYPE",
+                              "value": "{{.FileType}}"
+                          }, {
+                              "name": "DB_HOST",
+                              "value": "{{.DbHost}}"
+                          }, {
+                              "name": "DB_DATABASE",
+                              "value": "{{.DbDatabase}}"
+                          }, {
+                              "name": "DB_USER",
+                              "valueFrom": {
+                                  "secretKeyRef": {
+                                      "name": "{{.PGUserSecret}}",
+                                      "key": "username"
+                                  }
+                              }
+                          }, {
+                              "name": "DB_PASS",
+                              "valueFrom": {
+                                  "secretKeyRef": {
+                                      "name": "{{.PGUserSecret}}",
+                                      "key": "password"
+                                  }
+                              }
+                          }, {
+                              "name": "DB_PORT",
+                              "value": "{{.DbPort}}"
+                          }]
+                      }],
+                      "restartPolicy": "Never"
+                  }
+              }
+          }
+      }
+    - |
+      pgo.lspvc-template.json={
+          "kind": "Pod",
+          "apiVersion": "v1",
+          "metadata": {
+              "name": "{{.Name}}",
+              "labels": {
+                  "vendor": "crunchydata",
+                  "name": "lspvc",
+                  "pg-cluster": "{{.ClusterName}}",
+                  "pvcname": "{{.PVCName}}"
+              }
+          },
+          "spec": {
+              {{.NodeSelector}}
+              "restartPolicy": "Never",
+              "containers": [{
+                  "name": "lspvc",
+                  "securityContext": {
+                      "privileged": false
+                  },
+                  "image": "{{.PGOImagePrefix}}/pgo-lspvc:{{.PGOImageTag}}",
+                  {{.ContainerResources }}
+                  "env": [{
+                      "name": "BACKUP_ROOT",
+                      "value": "{{.BackupRoot}}"
+                  }],
+                  "volumeMounts": [{
+                      "mountPath": "/pgdata",
+                      "name": "pgdata",
+                      "readOnly": true
+                  }]
+              }],
+              "volumes": [{
+                  "name": "pgdata",
+                  "persistentVolumeClaim": {
+                      "claimName": "{{.PVCName}}"
+                  }
+              }]
+          }
+      }
+    - |
+      pgo.sqlrunner-template.json={
+          "apiVersion": "batch/v1",
+          "kind": "Job",
+          "metadata": {
+              "name": "{{.JobName}}",
+              "labels": {
+                  "vendor": "crunchydata",
+                  "pgo-sqlrunner": "true",
+                  "pg-cluster": "{{.ClusterName}}"
+              }
+          },
+          "spec": {
+              "backoffLimit": 0,
+              "template": {
+                  "metadata": {
+                      "name": "{{.JobName}}",
+                      "labels": {
+                          "vendor": "crunchydata",
+                          "pgo-sqlrunner": "true",
+                          "pg-cluster": "{{.ClusterName}}"
+                      }
+                  },
+                  "spec": {
+                      "containers": [
+                          {
+                              "name": "sqlrunner",
+                              "image": "{{.PGOImagePrefix}}/pgo-sqlrunner:{{.PGOImageTag}}",
+                              "env": [
+                                  {
+                                      "name": "PG_HOST",
+                                      "value": "{{.PGHost}}"
+                                  },
+                                  {
+                                      "name": "PG_PORT",
+                                      "value": "{{.PGPort}}"
+                                  },
+                                  {
+                                      "name": "PG_DATABASE",
+                                      "value": "{{.PGDatabase}}"
+                                  },
+                                  {
+                                      "name": "PG_USER",
+                                      "valueFrom": {
+                                          "secretKeyRef": {
+                                              "name": "{{.PGUserSecret}}",
+                                              "key": "username"
+                                          }
+                                      }
+                                  },
+                                  {
+                                      "name": "PG_PASSWORD",
+                                      "valueFrom": {
+                                          "secretKeyRef": {
+                                              "name": "{{.PGUserSecret}}",
+                                              "key": "password"
+                                          }
+                                      }
+                                  }
+                              ],
+                              "volumeMounts": [
+                                  {
+                                      "mountPath": "/pgconf",
+                                      "name": "pgconf",
+                                      "readOnly": true
+                                  }
+                              ]
+                          }
+                      ],
+                      "volumes": [
+                          {
+                              "name": "pgconf",
+                              "configMap": {
+                                  "name": "{{.PGSQLConfigMap}}"
+                              }
+                          }
+                      ],
+                      "restartPolicy": "Never"
+                  }
+              }
+          }
+      }
+    - "pgo.yaml=Cluster:\n  PrimaryNodeLabel:\n  ReplicaNodeLabel:\n  CCPImagePrefix:  registry.unx.sas.com/crunchydata\n
+      \ CCPImageTag:  ubi7-12.2-4.3.2\n  CCPImage:  crunchydata-postgres\n
+      \ DisableAutofail:  false\n  AutofailReplaceReplica:  true\n  Backrest:  true\n  BackrestPort:
+      \ 2022\n  BackrestS3Bucket: \n  BackrestS3Endpoint: \n  BackrestS3Region: \n  Metrics:
+      \ false\n  Badger:  false\n  Port:  5432\n  PGBadgerPort: 10000\n  ExporterPort:
+      9187\n  User:  testuser\n  Database:  userdb\n  PasswordAgeDays:  60\n  PasswordLength:
+      \ 20\n  Strategy:  1\n  Replicas:  0\n  ArchiveMode:  true\n  ArchiveTimeout:  60\n
+      \ ServiceType:  ClusterIP\n  LogStatement: none\n  LogMinDurationStatement:  60000\nPrimaryStorage:
+      storageos\nBackupStorage: storageos\nReplicaStorage: storageos\nBackrestStorage:
+      storageos\nStorage:\n  hostpathstorage:\n    AccessMode:  ReadWriteMany\n    Size:
+      \ 1G\n    StorageType:  create\n  replicastorage:\n    AccessMode:  ReadWriteMany\n
+      \   Size:  700M\n    StorageType:  create\n  nfsstorage:\n    AccessMode:  ReadWriteMany\n
+      \   Size:  1G\n    StorageType:  create\n    SupplementalGroups: 65534\n  nfsstoragered:\n
+      \   AccessMode:  ReadWriteMany\n    Size:  1G\n    StorageType:  create\n    MatchLabels:
+      crunchyzone=red\n    SupplementalGroups: 65534\n  storageos:\n    AccessMode:  ReadWriteMany\n
+      \   Size:  300M\n    StorageType:  create\n    StorageClass: hostpath\n    Fsgroup:
+      26\n  primarysite:\n    AccessMode:  ReadWriteOnce\n    Size:  4G\n    StorageType:
+      \ dynamic\n    StorageClass: primarysite\n    Fsgroup: 26\n  alternatesite:\n    AccessMode:
+      \ ReadWriteOnce\n    Size:  4G\n    StorageType:  dynamic\n    StorageClass: alternatesite\n
+      \   Fsgroup: 26\n  gce:\n    AccessMode:  ReadWriteOnce\n    Size:  300M\n    StorageType:
+      \ dynamic\n    StorageClass: standard\n    Fsgroup: 26\n  rook:\n    AccessMode:
+      \ ReadWriteOnce\n    Size:  1Gi\n    StorageType:  dynamic\n    StorageClass: rook-ceph-block\n
+      \   Fsgroup: 26\nDefaultContainerResources: \nDefaultLoadResources: \nDefaultLspvcResources:
+      \nDefaultRmdataResources: \nDefaultBackupResources: \nDefaultPgbouncerResources:
+      \nDefaultPgpoolResources: \nContainerResources:\n  small:\n    RequestsMemory: 512Mi\n
+      \   RequestsCPU: 0.1\n    LimitsMemory: 512Mi\n    LimitsCPU: 0.1\n  large:\n    RequestsMemory:
+      2Gi\n    RequestsCPU: 2.0\n    LimitsMemory: 2Gi\n    LimitsCPU: 4.0\nPgo:\n  AutofailSleepSeconds:
+      \ 9\n  Audit:  false\n  LSPVCTemplate:  /pgo-config/pgo.lspvc-template.json\n  LoadTemplate:
+      \ /pgo-config/pgo.load-template.json\n  PGOImagePrefix:  registry.unx.sas.com/crunchydata\n  PGOImageTag:
+      \ latest\n"
+    - |
+      pgpool-template.json={
+          "kind": "Deployment",
+          "apiVersion": "apps/v1",
+          "metadata": {
+              "name": "{{.Name}}",
+              "labels": {
+                  "name": "{{.Name}}",
+                  "pg-cluster": "{{.ClusterName}}",
+                  "crunchy-pgpool-pod": "true",
+                  "service-name": "{{.Name}}",
+                  "vendor": "crunchydata"
+              }
+          },
+          "spec": {
+              "replicas": 1,
+              "selector": {
+                  "matchLabels": {
+                      "name": "{{.Name}}",
+                      "pg-cluster": "{{.ClusterName}}",
+                      "crunchy-pgpool-pod": "true",
+                      "service-name": "{{.Name}}",
+                      "vendor": "crunchydata"
+                  }
+              },
+              "template": {
+                  "metadata": {
+                      "labels": {
+                          "name": "{{.Name}}",
+                          "pg-cluster": "{{.ClusterName}}",
+                          "crunchy-pgpool-pod": "true",
+                          "service-name": "{{.Name}}",
+                          "vendor": "crunchydata"
+                      }
+                  },
+                  "spec": {
+                      "containers": [{
+                          "name": "pgpool",
+                          "image": "{{.CCPImagePrefix}}/crunchy-pgpool:{{.CCPImageTag}}",
+                          "ports": [{
+                              "containerPort": {{.Port}},
+                              "protocol": "TCP"
+                          }],
+                          {{.ContainerResources }}
+                          "env": [{
+                              "name": "PG_USERNAME",
+                              "valueFrom": {
+                                  "secretKeyRef": {
+                                      "name": "{{.PGUserSecret}}",
+                                      "key": "username"
+                                  }
+                              }
+                          }, {
+                              "name": "PG_PASSWORD",
+                              "valueFrom": {
+                                  "secretKeyRef": {
+                                      "name": "{{.PGUserSecret}}",
+                                      "key": "password"
+                                  }
+                              }
+                          }, {
+                              "name": "PG_PRIMARY_SERVICE_NAME",
+                              "value": "{{.PrimaryServiceName}}"
+                          }, {
+                              "name": "PG_REPLICA_SERVICE_NAME",
+                              "value": "{{.ReplicaServiceName}}"
+                          }],
+                          "volumeMounts": [{
+                              "name": "pgpool-conf",
+                              "mountPath": "/pgconf/pgpoolconfigdir",
+                              "readOnly": false
+                          }]
+                      }],
+                      "volumes": [{
+                      "name": "pgpool-conf",
+                      "secret": {
+                          "secretName": "{{.PGPoolSecret}}",
+                          "defaultMode": 511
+                          }
+                      }],
+                      "restartPolicy": "Always",
+                      "dnsPolicy": "ClusterFirst"
+                  }
+              },
+              "strategy": {
+                  "type": "RollingUpdate",
+                  "rollingUpdate": {
+                      "maxUnavailable": 1,
+                      "maxSurge": 1
+                  }
+              }
+          }
+      }
+    - |
+      pgpool.conf=# ----------------------------
+      # pgPool-II configuration file a custom version
+      # ----------------------------
+      #
+      # This file consists of lines of the form:
+      #
+      #   name = value
+      #
+      # Whitespace may be used.  Comments are introduced with "#" anywhere on a line.
+      # The complete list of parameter names and allowed values can be found in the
+      # pgPool-II documentation.
+      #
+      # This file is read on server startup and when the server receives a SIGHUP
+      # signal.  If you edit the file on a running system, you have to SIGHUP the
+      # server for the changes to take effect, or use "pgpool reload".  Some
+      # parameters, which are marked below, require a server shutdown and restart to
+      # take effect.
+      #
+      #------------------------------------------------------------------------------
+      # CONNECTIONS
+      #------------------------------------------------------------------------------
+      # - pgpool Connection Settings -
+      listen_addresses = '*'
+                                         # Host name or IP address to listen on:
+                                         # '*' for all, '' for no TCP/IP connections
+                                         # (change requires restart)
+      #port = 9999
+      port = 5432
+                                         # Port number
+                                         # (change requires restart)
+      socket_dir = '/tmp'
+                                         # Unix domain socket path
+                                         # The Debian package defaults to
+                                         # /var/run/postgresql
+                                         # (change requires restart)
+      # - pgpool Communication Manager Connection Settings -
+      pcp_port = 9898
+                                         # Port number for pcp
+                                         # (change requires restart)
+      pcp_socket_dir = '/tmp'
+                                         # Unix domain socket path for pcp
+                                         # The Debian package defaults to
+                                         # /var/run/postgresql
+                                         # (change requires restart)
+      # - Backend Connection Settings -
+      backend_hostname0 = '{{.PG_PRIMARY_SERVICE_NAME}}'
+      backend_port0 = 5432
+      backend_weight0= 1
+      backend_flag0= 'ALLOW_TO_FAILOVER'
+      backend_hostname1 = '{{.PG_REPLICA_SERVICE_NAME}}'
+      backend_port1 = 5432
+      backend_weight1= 1
+      backend_flag1= 'ALLOW_TO_FAILOVER'
+      #backend_hostname0 = 'master'
+                                         # Host name or IP address to connect to for backend 0
+      #backend_port0 = 5432
+                                         # Port number for backend 0
+      #backend_weight0 = 1
+                                         # Weight for backend 0 (only in load balancing mode)
+      #backend_data_directory0 = '/data'
+                                         # Data directory for backend 0
+      #backend_flag0 = 'ALLOW_TO_FAILOVER'
+                                         # Controls various backend behavior
+                                         # ALLOW_TO_FAILOVER or DISALLOW_TO_FAILOVER
+      #backend_hostname1 = 'standby'
+      #backend_port1 = 5432
+      #backend_weight1 = 1
+      #backend_data_directory1 = '/data1'
+      #backend_flag1 = 'ALLOW_TO_FAILOVER'
+      # - Authentication -
+      enable_pool_hba = on
+                                         # Use pool_hba.conf for client authentication
+      pool_passwd = 'pool_passwd'
+                                         # File name of pool_passwd for md5 authentication.
+                                         # "" disables pool_passwd.
+                                         # (change requires restart)
+      authentication_timeout = 60
+                                         # Delay in seconds to complete client authentication
+                                         # 0 means no timeout.
+      # - SSL Connections -
+      ssl = off
+                                         # Enable SSL support
+                                         # (change requires restart)
+      #ssl_key = './server.key'
+                                         # Path to the SSL private key file
+                                         # (change requires restart)
+      #ssl_cert = './server.cert'
+                                         # Path to the SSL public certificate file
+                                         # (change requires restart)
+      #ssl_ca_cert = ''
+                                         # Path to a single PEM format file
+                                         # containing CA root certificate(s)
+                                         # (change requires restart)
+      #ssl_ca_cert_dir = ''
+                                         # Directory containing CA root certificate(s)
+                                         # (change requires restart)
+      #------------------------------------------------------------------------------
+      # POOLS
+      #------------------------------------------------------------------------------
+      # - Pool size -
+      num_init_children = 5
+                                         # Number of pools
+                                         # (change requires restart)
+      max_pool = 1
+                                         # Number of connections per pool
+                                         # (change requires restart)
+      # - Life time -
+      child_life_time = 300
+                                         # Pool exits after being idle for this many seconds
+      child_max_connections = 0
+                                         # Pool exits after receiving that many connections
+                                         # 0 means no exit
+      connection_life_time = 0
+                                         # Connection to backend closes after being idle for this many seconds
+                                         # 0 means no close
+      client_idle_limit = 0
+                                         # Client is disconnected after being idle for that many seconds
+                                         # (even inside an explicit transactions!)
+                                         # 0 means no disconnection
+      #------------------------------------------------------------------------------
+      # LOGS
+      #------------------------------------------------------------------------------
+      # - Where to log -
+      log_destination = 'stderr'
+                                         # Where to log
+                                         # Valid values are combinations of stderr,
+                                         # and syslog. Default to stderr.
+      # - What to log -
+      print_timestamp = on
+                                         # Print timestamp on each line
+                                         # (change requires restart)
+      log_connections = on
+                                         # Log connections
+      log_hostname = on
+                                         # Hostname will be shown in ps status
+                                         # and in logs if connections are logged
+      log_statement = on
+                                         # Log all statements
+      log_per_node_statement = off
+                                         # Log all statements
+                                         # with node and backend informations
+      log_standby_delay = 'if_over_threshold'
+                                         # Log standby delay
+                                         # Valid values are combinations of always,
+                                         # if_over_threshold, none
+      # - Syslog specific -
+      syslog_facility = 'LOCAL0'
+                                         # Syslog local facility. Default to LOCAL0
+      syslog_ident = 'pgpool'
+                                         # Syslog program identification string
+                                         # Default to 'pgpool'
+      # - Debug -
+      debug_level = 0
+                                         # Debug message verbosity level
+                                         # 0 means no message, 1 or more mean verbose
+      #------------------------------------------------------------------------------
+      # FILE LOCATIONS
+      #------------------------------------------------------------------------------
+      pid_file_name = '/tmp/pgpool.pid'
+                                         # PID file name
+                                         # (change requires restart)
+      logdir = '/tmp'
+                                         # Directory of pgPool status file
+                                         # (change requires restart)
+      #------------------------------------------------------------------------------
+      # CONNECTION POOLING
+      #------------------------------------------------------------------------------
+      connection_cache = off
+                                         # Activate connection pools
+                                         # (change requires restart)
+                                         # Semicolon separated list of queries
+                                         # to be issued at the end of a session
+                                         # The default is for 8.3 and later
+      reset_query_list = 'ABORT; DISCARD ALL'
+                                         # The following one is for 8.2 and before
+      #reset_query_list = 'ABORT; RESET ALL; SET SESSION AUTHORIZATION DEFAULT'
+      #------------------------------------------------------------------------------
+      # REPLICATION MODE
+      #------------------------------------------------------------------------------
+      replication_mode = off
+                                         # Activate replication mode
+                                         # (change requires restart)
+      replicate_select = off
+                                         # Replicate SELECT statements
+                                         # when in replication or parallel mode
+                                         # replicate_select is higher priority than
+                                         # load_balance_mode.
+      insert_lock = off
+                                         # Automatically locks a dummy row or a table
+                                         # with INSERT statements to keep SERIAL data
+                                         # consistency
+                                         # Without SERIAL, no lock will be issued
+      lobj_lock_table = ''
+                                         # When rewriting lo_creat command in
+                                         # replication mode, specify table name to
+                                         # lock
+      # - Degenerate handling -
+      replication_stop_on_mismatch = off
+                                         # On disagreement with the packet kind
+                                         # sent from backend, degenerate the node
+                                         # which is most likely "minority"
+                                         # If off, just force to exit this session
+      failover_if_affected_tuples_mismatch = off
+                                         # On disagreement with the number of affected
+                                         # tuples in UPDATE/DELETE queries, then
+                                         # degenerate the node which is most likely
+                                         # "minority".
+                                         # If off, just abort the transaction to
+                                         # keep the consistency
+      #------------------------------------------------------------------------------
+      # LOAD BALANCING MODE
+      #------------------------------------------------------------------------------
+      load_balance_mode = on
+                                         # Activate load balancing mode
+                                         # (change requires restart)
+      ignore_leading_white_space = on
+                                         # Ignore leading white spaces of each query
+      white_function_list = ''
+                                         # Comma separated list of function names
+                                         # that don't write to database
+                                         # Regexp are accepted
+      black_function_list = 'currval,lastval,nextval,setval'
+                                         # Comma separated list of function names
+                                         # that write to database
+                                         # Regexp are accepted
+      #------------------------------------------------------------------------------
+      # MASTER/SLAVE MODE
+      #------------------------------------------------------------------------------
+      master_slave_mode = on
+                                         # Activate master/slave mode
+                                         # (change requires restart)
+      master_slave_sub_mode = 'stream'
+                                         # Master/slave sub mode
+                                         # Valid values are combinations slony or
+                                         # stream. Default is slony.
+                                         # (change requires restart)
+      # - Streaming -
+      sr_check_period = 10
+                                         # Streaming replication check period
+                                         # Disabled (0) by default
+      sr_check_user = '{{.PG_USERNAME}}'
+                                         # Streaming replication check user
+                                         # This is neccessary even if you disable streaming
+                                         # replication delay check by sr_check_period = 0
+      sr_check_password = '{{.PG_PASSWORD}}'
+                                         # Password for streaming replication check user
+      delay_threshold = 10000000
+                                         # Threshold before not dispatching query to standby node
+                                         # Unit is in bytes
+                                         # Disabled (0) by default
+      # - Special commands -
+      follow_master_command = ''
+                                         # Executes this command after master failover
+                                         # Special values:
+                                         #   %d = node id
+                                         #   %h = host name
+                                         #   %p = port number
+                                         #   %D = database cluster path
+                                         #   %m = new master node id
+                                         #   %H = hostname of the new master node
+                                         #   %M = old master node id
+                                         #   %P = old primary node id
+                                         #   %r = new master port number
+                                         #   %R = new master database cluster path
+                                         #   %% = '%' character
+      #------------------------------------------------------------------------------
+      # PARALLEL MODE
+      #------------------------------------------------------------------------------
+      parallel_mode = off
+                                         # Activates parallel query mode
+                                         # (change requires restart)
+      pgpool2_hostname = ''
+                                         # Set pgpool2 hostname
+                                         # (change requires restart)
+      # - System DB info -
+      #system_db_hostname  = 'localhost'
+                                         # (change requires restart)
+      #system_db_port = 5432
+                                         # (change requires restart)
+      #system_db_dbname = 'pgpool'
+                                         # (change requires restart)
+      #system_db_schema = 'pgpool_catalog'
+                                         # (change requires restart)
+      #system_db_user = 'pgpool'
+                                         # (change requires restart)
+      #system_db_password = ''
+                                         # (change requires restart)
+      #------------------------------------------------------------------------------
+      # HEALTH CHECK
+      #------------------------------------------------------------------------------
+      health_check_period = 20
+                                         # Health check period
+                                         # Disabled (0) by default
+      health_check_timeout = 10
+                                         # Health check timeout
+                                         # 0 means no timeout
+      health_check_user = '{{.PG_USERNAME}}'
+                                         # Health check user
+      health_check_password = '{{.PG_PASSWORD}}'
+                                         # Password for health check user
+      health_check_max_retries = 3
+      connect_timeout = 10000            # Timeout value in milliseconds before giving up to connect to backend.
+                                         # Maximum number of times to retry a failed health check before giving up.
+      health_check_retry_delay = 1
+                                         # Amount of time to wait (in seconds) between retries.
+      #------------------------------------------------------------------------------
+      # FAILOVER AND FAILBACK
+      #------------------------------------------------------------------------------
+      failover_command = ''
+                                         # Executes this command at failover
+                                         # Special values:
+                                         #   %d = node id
+                                         #   %h = host name
+                                         #   %p = port number
+                                         #   %D = database cluster path
+                                         #   %m = new master node id
+                                         #   %H = hostname of the new master node
+                                         #   %M = old master node id
+                                         #   %P = old primary node id
+                                         #   %r = new master port number
+                                         #   %R = new master database cluster path
+                                         #   %% = '%' character
+      failback_command = ''
+                                         # Executes this command at failback.
+                                         # Special values:
+                                         #   %d = node id
+                                         #   %h = host name
+                                         #   %p = port number
+                                         #   %D = database cluster path
+                                         #   %m = new master node id
+                                         #   %H = hostname of the new master node
+                                         #   %M = old master node id
+                                         #   %P = old primary node id
+                                         #   %r = new master port number
+                                         #   %R = new master database cluster path
+                                         #   %% = '%' character
+      fail_over_on_backend_error = off
+                                         # Initiates failover when reading/writing to the
+                                         # backend communication socket fails
+                                         # If set to off, pgpool will report an
+                                         # error and disconnect the session.
+      search_primary_node_timeout = 10
+                                         # Timeout in seconds to search for the
+                                         # primary node when a failover occurs.
+                                         # 0 means no timeout, keep searching
+                                         # for a primary node forever.
+      #------------------------------------------------------------------------------
+      # ONLINE RECOVERY
+      #------------------------------------------------------------------------------
+      recovery_user = '{{.PG_USERNAME}}'
+                                         # Online recovery user
+      recovery_password = '{{.PG_PASSWORD}}'
+                                         # Online recovery password
+      recovery_1st_stage_command = ''
+                                         # Executes a command in first stage
+      recovery_2nd_stage_command = ''
+                                         # Executes a command in second stage
+      recovery_timeout = 90
+                                         # Timeout in seconds to wait for the
+                                         # recovering node's postmaster to start up
+                                         # 0 means no wait
+      client_idle_limit_in_recovery = 0
+                                         # Client is disconnected after being idle
+                                         # for that many seconds in the second stage
+                                         # of online recovery
+                                         # 0 means no disconnection
+                                         # -1 means immediate disconnection
+      #------------------------------------------------------------------------------
+      # WATCHDOG
+      #------------------------------------------------------------------------------
+      # - Enabling -
+      use_watchdog = off
+                                          # Activates watchdog
+                                          # (change requires restart)
+      # -Connection to up stream servers -
+      trusted_servers = ''
+                                          # trusted server list which are used
+                                          # to confirm network connection
+                                          # (hostA,hostB,hostC,...)
+                                          # (change requires restart)
+      ping_path = '/bin'
+                                          # ping command path
+                                          # (change requires restart)
+      # - Watchdog communication Settings -
+      wd_hostname = ''
+                                          # Host name or IP address of this watchdog
+                                          # (change requires restart)
+      wd_port = 9000
+                                          # port number for watchdog service
+                                          # (change requires restart)
+      wd_authkey = ''
+                                          # Authentication key for watchdog communication
+                                          # (change requires restart)
+      # - Virtual IP control Setting -
+      delegate_IP = ''
+                                          # delegate IP address
+                                          # If this is empty, virtual IP never bring up.
+                                          # (change requires restart)
+      ifconfig_path = '/sbin'
+                                          # ifconfig command path
+                                          # (change requires restart)
+      if_up_cmd = 'ifconfig eth0:0 inet $_IP_$ netmask 255.255.255.0'
+                                          # startup delegate IP command
+                                          # (change requires restart)
+      if_down_cmd = 'ifconfig eth0:0 down'
+                                          # shutdown delegate IP command
+                                          # (change requires restart)
+      arping_path = '/usr/sbin'           # arping command path
+                                          # (change requires restart)
+      arping_cmd = 'arping -U $_IP_$ -w 1'
+                                          # arping command
+                                          # (change requires restart)
+      # - Behaivor on escalation Setting -
+      clear_memqcache_on_escalation = on
+                                          # Clear all the query cache on shared memory
+                                          # when standby pgpool escalate to active pgpool
+                                          # (= virtual IP holder).
+                                          # This should be off if client connects to pgpool
+                                          # not using virtual IP.
+                                          # (change requires restart)
+      wd_escalation_command = ''
+                                          # Executes this command at escalation on new active pgpool.
+                                          # (change requires restart)
+      # - Lifecheck Setting -
+      # -- common --
+      wd_lifecheck_method = 'heartbeat'
+                                          # Method of watchdog lifecheck ('heartbeat' or 'query')
+                                          # (change requires restart)
+      wd_interval = 10
+                                          # lifecheck interval (sec) > 0
+                                          # (change requires restart)
+      # -- heartbeat mode --
+      wd_heartbeat_port = 9694
+                                          # Port number for receiving heartbeat signal
+                                          # (change requires restart)
+      wd_heartbeat_keepalive = 2
+                                          # Interval time of sending heartbeat signal (sec)
+                                          # (change requires restart)
+      wd_heartbeat_deadtime = 30
+                                          # Deadtime interval for heartbeat signal (sec)
+                                          # (change requires restart)
+      heartbeat_destination0 = 'host0_ip1'
+                                          # Host name or IP address of destination 0
+                                          # for sending heartbeat signal.
+                                          # (change requires restart)
+      heartbeat_destination_port0 = 9694
+                                          # Port number of destination 0 for sending
+                                          # heartbeat signal. Usually this is the
+                                          # same as wd_heartbeat_port.
+                                          # (change requires restart)
+      heartbeat_device0 = ''
+                                          # Name of NIC device (such like 'eth0')
+                                          # used for sending/receiving heartbeat
+                                          # signal to/from destination 0.
+                                          # This works only when this is not empty
+                                          # and pgpool has root privilege.
+                                          # (change requires restart)
+      #heartbeat_destination1 = 'host0_ip2'
+      #heartbeat_destination_port1 = 9694
+      #heartbeat_device1 = ''
+      # -- query mode --
+      wd_life_point = 3
+                                          # lifecheck retry times
+                                          # (change requires restart)
+      wd_lifecheck_query = 'SELECT 1'
+                                          # lifecheck query to pgpool from watchdog
+                                          # (change requires restart)
+      wd_lifecheck_dbname = 'template1'
+                                          # Database name connected for lifecheck
+                                          # (change requires restart)
+      wd_lifecheck_user = 'nobody'
+                                          # watchdog user monitoring pgpools in lifecheck
+                                          # (change requires restart)
+      wd_lifecheck_password = ''
+                                          # Password for watchdog user in lifecheck
+                                          # (change requires restart)
+      # - Other pgpool Connection Settings -
+      #other_pgpool_hostname0 = 'host0'
+                                          # Host name or IP address to connect to for other pgpool 0
+                                          # (change requires restart)
+      #other_pgpool_port0 = 5432
+                                          # Port number for othet pgpool 0
+                                          # (change requires restart)
+      #other_wd_port0 = 9000
+                                          # Port number for othet watchdog 0
+                                          # (change requires restart)
+      #other_pgpool_hostname1 = 'host1'
+      #other_pgpool_port1 = 5432
+      #other_wd_port1 = 9000
+      #------------------------------------------------------------------------------
+      # OTHERS
+      #------------------------------------------------------------------------------
+      relcache_expire = 0
+                                         # Life time of relation cache in seconds.
+                                         # 0 means no cache expiration(the default).
+                                         # The relation cache is used for cache the
+                                         # query result against PostgreSQL system
+                                         # catalog to obtain various information
+                                         # including table structures or if it's a
+                                         # temporary table or not. The cache is
+                                         # maintained in a pgpool child local memory
+                                         # and being kept as long as it survives.
+                                         # If someone modify the table by using
+                                         # ALTER TABLE or some such, the relcache is
+                                         # not consistent anymore.
+                                         # For this purpose, cache_expiration
+                                         # controls the life time of the cache.
+      relcache_size = 256
+                                         # Number of relation cache
+                                         # entry. If you see frequently:
+                                         # "pool_search_relcache: cache replacement happend"
+                                         # in the pgpool log, you might want to increate this number.
+      check_temp_table = on
+                                         # If on, enable temporary table check in SELECT statements.
+                                         # This initiates queries against system catalog of primary/master
+                                         # thus increases load of master.
+                                         # If you are absolutely sure that your system never uses temporary tables
+                                         # and you want to save access to primary/master, you could turn this off.
+                                         # Default is on.
+      #------------------------------------------------------------------------------
+      # ON MEMORY QUERY MEMORY CACHE
+      #------------------------------------------------------------------------------
+      memory_cache_enabled = off
+                                         # If on, use the memory cache functionality, off by default
+      memqcache_method = 'shmem'
+                                         # Cache storage method. either 'shmem'(shared memory) or
+                                         # 'memcached'. 'shmem' by default
+                                         # (change requires restart)
+      memqcache_memcached_host = 'localhost'
+                                         # Memcached host name or IP address. Mandatory if
+                                         # memqcache_method = 'memcached'.
+                                         # Defaults to localhost.
+                                         # (change requires restart)
+      memqcache_memcached_port = 11211
+                                         # Memcached port number. Mondatory if memqcache_method = 'memcached'.
+                                         # Defaults to 11211.
+                                         # (change requires restart)
+      memqcache_total_size = 67108864
+                                         # Total memory size in bytes for storing memory cache.
+                                         # Mandatory if memqcache_method = 'shmem'.
+                                         # Defaults to 64MB.
+                                         # (change requires restart)
+      memqcache_max_num_cache = 1000000
+                                         # Total number of cache entries. Mandatory
+                                         # if memqcache_method = 'shmem'.
+                                         # Each cache entry consumes 48 bytes on shared memory.
+                                         # Defaults to 1,000,000(45.8MB).
+                                         # (change requires restart)
+      memqcache_expire = 0
+                                         # Memory cache entry life time specified in seconds.
+                                         # 0 means infinite life time. 0 by default.
+                                         # (change requires restart)
+      memqcache_auto_cache_invalidation = on
+                                         # If on, invalidation of query cache is triggered by corresponding
+                                         # DDL/DML/DCL(and memqcache_expire).  If off, it is only triggered
+                                         # by memqcache_expire.  on by default.
+                                         # (change requires restart)
+      memqcache_maxcache = 409600
+                                         # Maximum SELECT result size in bytes.
+                                         # Must be smaller than memqcache_cache_block_size. Defaults to 400KB.
+                                         # (change requires restart)
+      memqcache_cache_block_size = 1048576
+                                         # Cache block size in bytes. Mandatory if memqcache_method = 'shmem'.
+                                         # Defaults to 1MB.
+                                         # (change requires restart)
+      memqcache_oiddir = '/var/log/pgpool/oiddir'
+                                         # Temporary work directory to record table oids
+                                         # (change requires restart)
+      white_memqcache_table_list = ''
+                                         # Comma separated list of table names to memcache
+                                         # that don't write to database
+                                         # Regexp are accepted
+      black_memqcache_table_list = ''
+                                         # Comma separated list of table names not to memcache
+                                         # that don't write to database
+                                         # Regexp are accepted
+    - |
+      pgrestore-job.json={
+          "apiVersion": "batch/v1",
+          "kind": "Job",
+          "metadata": {
+              "name": "{{.JobName}}",
+              "labels": {
+                  "vendor": "crunchydata",
+                  "pgrestore": "true",
+                  "pg-cluster": "{{.ClusterName}}",
+                  "pg-task": "{{.TaskName}}"
+              }
+          },
+          "spec": {
+              "template": {
+                  "metadata": {
+                      "name": "{{.JobName}}",
+                      "labels": {
+                          "vendor": "crunchydata",
+                          "pgrestore": "true",
+                          "pg-cluster": "{{.ClusterName}}"
+                      }
+                  },
+                  "spec": {
+                      "volumes": [
+                          {
+                              "name": "pgdata",
+                              "persistentVolumeClaim": {
+                                  "claimName": "{{.FromClusterPVCName}}"
+                              }
+                          }
+                      ],
+                          {{.SecurityContext}}
+                      "serviceAccountName": "pgo-default",
+                      "containers": [
+                          {
+                              "name": "pgrestore",
+                              "image": "{{.CCPImagePrefix}}/crunchy-pgrestore:{{.CCPImageTag}}",
+                              "volumeMounts": [
+                                  {
+                                      "mountPath": "/pgdata",
+                                      "name": "pgdata",
+                                      "readOnly": true
+                                  }
+                              ],
+                              "env": [
+                                  {
+                                      "name": "PGRESTORE_USER",
+                                      "valueFrom": {
+                                          "secretKeyRef": {
+                                              "name": "{{.PgRestoreUserSecret}}",
+                                              "key": "username"
+                                          }
+                                      }
+                                  },
+                                  {
+                                      "name": "PGRESTORE_PASS",
+                                      "valueFrom": {
+                                          "secretKeyRef": {
+                                              "name": "{{.PgRestoreUserSecret}}",
+                                              "key": "password"
+                                          }
+                                      }
+                                  },
+                                  {
+                                      "name": "PGRESTORE_HOST",
+                                      "value": "{{.PgRestoreHost}}"
+                                  },
+                                  {
+                                      "name": "PGRESTORE_DB",
+                                      "value": "{{.PgRestoreDB}}"
+                                  },
+                                  {
+                                      "name": "PG_PRIMARY_PORT",
+                                      "value": "5432"
+                                  },
+                                  {
+                                      "name": "PGRESTORE_CUSTOM_OPTS",
+                                      "value": "{{.PGRestoreOpts}}"
+                                  },
+                                  {
+                                      "name": "PGRESTORE_BACKUP_TIMESTAMP",
+                                      "value": "{{.PITRTarget}}"
+                                  }
+                              ]
+                          }
+                      ],
+              {{.NodeSelector}}
+                              "restartPolicy": "Never"
+                  }
+              }
+          }
+      }
+    - |
+      pool_hba.conf=# pgpool Client Authentication Configuration File a custom version
+      # ===============================================
+      #
+      # The format rule in this file follows the rules in the PostgreSQL
+      # Administrator's Guide. Refer to chapter "Client Authentication" for a
+      # complete description.  A short synopsis follows.
+      #
+      # This file controls: which hosts are allowed to connect, how clients
+      # are authenticated, which user names they can use, which databases they
+      # can access.  Records take one of these forms:
+      #
+      # local      DATABASE  USER  METHOD  [OPTION]
+      # host       DATABASE  USER  CIDR-ADDRESS  METHOD  [OPTION]
+      #
+      # (The uppercase items must be replaced by actual values.)
+      #
+      # The first field is the connection type: "local" is a Unix-domain
+      # socket, "host" is either a plain or SSL-encrypted TCP/IP socket.
+      #
+      # DATABASE can be "all", "sameuser", a database name, or a comma-separated
+      # list thereof. Note that "samegroup" like in PostgreSQL's pg_hba.conf
+      # file is not supported, since pgpool does not know which group a user
+      # belongs to. Also note that the database specified here may not exist in
+      # the backend PostgreSQL. pgpool will authenticate based on the database's
+      # name, not based on whether it exists or not.
+      #
+      # USER can be "all", a user name, or a comma-separated list thereof.  In
+      # both the DATABASE and USER fields you can also write a file name prefixed
+      # with "@" to include names from a separate file. Note that a group name
+      # prefixed with "+" like in PostgreSQL's pg_hba.conf file is not supported
+      # because of the same reason as "samegroup" token. Also note that a user
+      # name specified here may not exist in the backend PostgreSQL. pgpool will
+      # authenticate based on the user's name, not based on whether he/she exists.
+      #
+      # CIDR-ADDRESS specifies the set of hosts the record matches.
+      # It is made up of an IP address and a CIDR mask that is an integer
+      # (between 0 and 32 (IPv4) that specifies the number of significant bits in
+      # the mask.  Alternatively, you can write an IP address and netmask in
+      # separate columns to specify the set of hosts.
+      #
+      # METHOD can be "trust", "reject", "md5" or "pam".  Note that "pam" sends passwords
+      # in clear text.
+      #
+      # OPTION is the name of the PAM service. Default service name is "pgpool"
+      #
+      # Database and user names containing spaces, commas, quotes and other special
+      # characters must be quoted. Quoting one of the keywords "all" or "sameuser"
+      # makes the name lose its special character, and just match a database or
+      # username with that name.
+      #
+      # This file is read on pgpool startup.  If you edit the file on a running
+      # system, you have to restart the pgpool  for the changes to take effect.
+      # Put your actual configuration here
+      # ----------------------------------
+      #
+      # If you want to allow non-local connections, you need to add more
+      # "host" records. In that case you will also need to make pgpool listen
+      # on a non-local interface via the listen_addresses configuration parameter.
+      #
+      # TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
+      # "local" is for Unix domain socket connections only
+      #local   all         all                               trust
+      # IPv4 local connections:
+      host    all         all         0.0.0.0/0          md5
+    - |
+      pool_passwd={{range $key, $value := .}}{{.Username}}:{{.Password}}
+      {{end}}
+    - |
+      pvc-matchlabels.json="selector": { "matchLabels": { "{{.Key}}": "{{.Value}}" } },
+    - |
+      pvc-storageclass.json={
+          "kind": "PersistentVolumeClaim",
+          "apiVersion": "v1",
+          "metadata": {
+              "name": "{{.Name}}",
+              "labels": {
+                  "vendor": "crunchydata",
+                  "pgremove": "true",
+                  "pg-cluster": "{{.ClusterName}}"
+              }
+          },
+          "spec": {
+              "accessModes": [
+                  "{{.AccessMode}}"
+              ],
+          "storageClassName": "{{.StorageClass}}",
+              "resources": {
+                  "requests": {
+                      "storage": "{{.Size}}"
+                  }
+              }
+          }
+      }
+    - |
+      pvc.json={
+          "kind": "PersistentVolumeClaim",
+          "apiVersion": "v1",
+          "metadata": {
+              "name": "{{.Name}}",
+              "labels": {
+                  "vendor": "crunchydata",
+                  "pgremove": "true",
+                  "pg-cluster": "{{.ClusterName}}"
+              }
+          },
+          "spec": {
+          {{.MatchLabels}}
+              "accessModes": [
+                  "{{.AccessMode}}"
+              ],
+              "resources": {
+                  "requests": {
+                      "storage": "{{.Size}}"
+                  }
+              }
+          }
+      }
+    - |
+      rmdata-job.json={
+          "apiVersion": "batch/v1",
+          "kind": "Job",
+          "metadata": {
+              "name": "{{.JobName}}",
+              "labels": {
+                  "vendor": "crunchydata",
+                  "pgrmdata": "true",
+                  "pg-cluster": "{{.ClusterName}}"
+              }
+          },
+          "spec": {
+              "backoffLimit": 0,
+              "template": {
+                  "metadata": {
+                      "name": "{{.JobName}}",
+                      "labels": {
+                          "vendor": "crunchydata",
+                          "pgrmdata": "true",
+                          "pg-cluster": "{{.ClusterName}}"
+                      }
+                  },
+                  "spec": {
+                      "serviceAccountName": "pgo-target",
+                      "containers": [{
+                          "name": "rmdata",
+                          "image": "SAS_IMAGE_LOCATION/sas-crunchy-data-delete-postgres-cluster:SAS_IMAGE_TAG",
+                          {{.ContainerResources }}
+                          "env": [{
+                              "name": "PG_CLUSTER",
+                              "value": "{{.ClusterName}}"
+                          }, {
+                              "name": "REPLICA_NAME",
+                              "value": "{{.ReplicaName}}"
+                          }, {
+                              "name": "REMOVE_DATA",
+                              "value": "{{.RemoveData}}"
+                          }, {
+                              "name": "REMOVE_BACKUP",
+                              "value": "{{.RemoveBackup}}"
+                          }, {
+                              "name": "IS_BACKUP",
+                              "value": "{{.IsBackup}}"
+                          }, {
+                              "name": "IS_REPLICA",
+                              "value": "{{.IsReplica}}"
+                          }, {
+                              "name": "NAMESPACE",
+                              "valueFrom": {
+                                  "fieldRef": {
+                                      "fieldPath": "metadata.namespace"
+                                  }
+                              }
+                          }]
+                      }],
+                      "restartPolicy": "Never"
+                  }
+              }
+          }
+      }
+    - |
+      users.txt={{range $key, $value := .}}"{{.Username}}" "{{.Password}}"
+      {{end}}
+generators:
+- ccpConfigMap.yaml
+patchesStrategicMerge:
+- tolerations-affinity-patch.yaml

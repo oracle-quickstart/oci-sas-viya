@@ -1,0 +1,55 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: update-postgres-credentials
+patch: |-
+  # SAS PostgreSQL User Secrets
+  - op: add
+    path: /spec/template/spec/volumes/-
+    value:
+      name: postgres
+      secret:
+        secretName: postgres-sas-user
+
+  - op: add
+    path: /spec/template/spec/containers/0/volumeMounts/-
+    value:
+      name: postgres
+      mountPath: /pgcredentials/postgres
+      readOnly: true
+
+target:
+  group: apps
+  kind: Deployment
+  name: sas-data-server-utility
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: add-pg-connection-info-to-consumers
+patch: |-
+  - op: add
+    path: /spec/template/spec/containers/0/env/-
+    value:
+      name: SPRING_DATASOURCE_USERNAME
+      valueFrom:
+        secretKeyRef:
+          key: username
+          name: postgres-sas-user
+  - op: add
+    path: /spec/template/spec/containers/0/env/-
+    value:
+      name: SPRING_DATASOURCE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: postgres-sas-user
+  - op: add
+    path: /spec/template/spec/containers/0/envFrom/-
+    value:
+      configMapRef:
+        name: sas-postgres-config
+target:
+  group: apps
+  annotationSelector: sas.com/database-consumer

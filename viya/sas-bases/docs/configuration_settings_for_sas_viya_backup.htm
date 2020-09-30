@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="sas.css"/>
+        <title>Configuration Settings for SAS Viya Backup</title>
+    </head>
+    <body>
+        <h1 id="configuration-settings-for-sas-viya-backup">Configuration Settings for SAS Viya Backup</h1>
+<h2 id="overview">Overview</h2>
+<p>This readme describes how to revise and apply the settings available for
+configuring backup jobs.</p>
+<h2 id="change-storage-size-for-sas-common-backup-data-persistent-volume-claim">Change storage size for <code>sas-common-backup-data</code> persistent volume claim</h2>
+<h2 id="instructions">Instructions</h2>
+<ol>
+<li>
+<p>Copy the file <code>$deploy/sas-bases/examples/backup/configure/sas-common-backup-data-storage-size-transformer.yaml</code>
+to a location of your choice under <code>$deploy/site-config</code>, such as <code>$deploy/site-config/backup</code>.</p>
+</li>
+<li>
+<p>Follow the instructions in the copied sas-common-backup-data-storage-size-transformer.yaml
+file to change the values in that file as necessary.</p>
+</li>
+<li>
+<p>Add the full path of the copied file to the transformers block of the base
+kustomization.yaml file (<code>$deploy/kustomization.yaml</code>). For example, if you
+moved the file to <code>$deploy/site-config/backup</code>, you would modify the
+base kustomization.yaml file like this:</p>
+</li>
+</ol>
+<pre class="highlight"><code>...
+transformers:
+...
+- site-config/backup/sas-common-backup-data-storage-size-transformer.yaml
+...</code></pre>
+    </body>
+</html>

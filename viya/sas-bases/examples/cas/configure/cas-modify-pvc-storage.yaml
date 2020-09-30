@@ -1,0 +1,41 @@
+# This block of code is for modifying the default storage
+# size of the PersistentVolumeClaims that are partitioned
+# for CAS.  The initial values represent the default sizes, which
+# are 8Gi for cas-data-default, 100Mi for cas-default-permstore,
+# are 8Gi for sas-cas-backup-data.
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: cas-default-data-resize
+patch: |-
+  - op: replace
+    path: /spec/resources/requests/storage
+    value: 8Gi
+target:
+  kind: PersistentVolumeClaim
+  name: cas-default-data
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: cas-default-permstore-resize
+patch: |-
+  - op: replace
+    path: /spec/resources/requests/storage
+    value: 100Mi
+target:
+  kind: PersistentVolumeClaim
+  name: cas-default-permstore
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-cas-backup-data-resize
+patch: |-
+  - op: replace
+    path: /spec/resources/requests/storage
+    value: 8Gi
+target:
+  kind: PersistentVolumeClaim
+  name: sas-cas-backup-data

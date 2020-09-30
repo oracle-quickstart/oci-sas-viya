@@ -1,0 +1,28 @@
+apiVersion: crunchydata.com/v1
+kind: Pgtask
+metadata:
+  name: backup-sas-crunchy-data-postgres-pgdump
+spec:
+  name: backup-sas-crunchy-data-postgres-pgdump
+  namespace: ""
+  parameters:
+    containername: database
+    pg-cluster: sas-crunchy-data-postgres
+    pgdump: pgdump
+    pgdump-all: "false"
+    pgdump-db: {{ DATABASE-NAME }}
+    pgdump-host: sas-crunchy-data-postgres
+    pgdump-opts: ""
+    pgdump-port: "5432"
+    pgdump-user: sas-crunchy-data-postgres-postgres-secret
+    pvc-name: sas-db
+  storagespec:
+    accessmode: ReadWriteMany
+    fsgroup: "26"
+    matchLabels: ""
+    name: ""
+    size: 300M
+    storageclass: ""
+    storagetype: create
+    supplementalgroups: ""
+  tasktype: pgdump

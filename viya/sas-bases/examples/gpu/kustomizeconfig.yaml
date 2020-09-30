@@ -1,0 +1,20 @@
+nameReference:
+- kind: ConfigMap
+  version: v1
+  fieldSpecs:
+  - path: spec/controllerTemplate/spec/containers/envFrom/configMapRef/name
+    kind: CASDeployment
+  - path: spec/controllerTemplate/spec/containers/env/valueFrom/configMapKeyRef/name
+    kind: CASDeployment
+  - path: spec/controllerTemplate/spec/volumes/configMap/name
+    kind: CASDeployment
+- kind: Secret
+  version: v1
+  fieldSpecs:
+  - path: spec/controllerTemplate/spec/containers/env/valueFrom/secretKeyRef/name
+    kind: CASDeployment
+- kind: Secret
+  version: v1
+  fieldSpecs:
+  - path: spec/controllerTemplate/spec/imagePullSecrets/name
+    kind: CASDeployment

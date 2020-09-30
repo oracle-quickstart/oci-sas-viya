@@ -1,0 +1,89 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    sas.com/component-name: sas-crunchy-data-postgres-operator
+    sas.com/component-version: 20.3.2-20200824.1598301017591
+    sas.com/tls-enabled-ports: all
+    sas.com/version: 20.3.2
+  labels:
+    sas.com/admin: cluster-wide
+    sas.com/deployment: sas-viya
+    sas.com/pod-security: psp-elevated
+    vendor: crunchydata
+  name: pgo-target-role
+  namespace: viya
+rules:
+- apiGroups:
+  - crunchydata.com
+  resources:
+  - pgclusters
+  - pgpolicies
+  - pgtasks
+  - pgbackups
+  - pgreplicas
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - patch
+  - update
+  - delete
+  - deletecollection
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - patch
+  - update
+  - delete
+  - deletecollection
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  - pods
+  - configmaps
+  - pods/exec
+  - pods/log
+  - services
+  - replicasets
+  - endpoints
+  - persistentvolumeclaims
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - patch
+  - update
+  - delete
+  - deletecollection
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  - storageclasses
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - patch
+  - update
+  - delete
+  - deletecollection

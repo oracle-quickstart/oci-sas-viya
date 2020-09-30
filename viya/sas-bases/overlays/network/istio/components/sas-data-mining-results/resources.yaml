@@ -1,0 +1,41 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-data-mining-results
+spec:
+  host: sas-data-mining-results
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /dataMiningResults/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-data-mining-results
+    sas.com/admin: namespace
+  name: sas-data-mining-results
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /dataMiningResults
+    - uri:
+        prefix: /dataMiningResults/
+    route:
+    - destination:
+        host: sas-data-mining-results
+    timeout: 300s
+

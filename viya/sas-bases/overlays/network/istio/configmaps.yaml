@@ -1,0 +1,6 @@
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: ingress-input
+literals:
+- INGRESS_HOST=*

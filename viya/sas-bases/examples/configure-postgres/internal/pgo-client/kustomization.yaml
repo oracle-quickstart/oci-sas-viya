@@ -1,0 +1,14 @@
+resources:
+- resources.yaml
+configMapGenerator:
+  - name: pgo-command
+    behavior: merge
+    literals:
+      #- pgo-sub-command=pgo status sas-crunchy-data-postgres
+      - pgo-sub-command=pgo test sas-crunchy-data-postgres
+      #- pgo-sub-command=pgo failover --query sas-crunchy-data-postgres
+      #- pgo-sub-command=pgo show user sas-crunchy-data-postgres
+      #- pgo-sub-command=yes|pgo restart sas-crunchy-data-postgres
+      #- pgo-sub-command=yes|pgo scale --replica-count 1 sas-crunchy-data-postgres
+      #- pgo-sub-command=yes|pgo update cluster --shutdown sas-crunchy-data-postgres
+      #- pgo-sub-command=yes|pgo update cluster --startup sas-crunchy-data-postgres

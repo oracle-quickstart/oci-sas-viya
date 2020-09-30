@@ -1,0 +1,16 @@
+#patch transformer to disable crunchy pgbadger
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-disable-crunchy-pgbadger
+patch: |-
+  - op: replace
+    path: /metadata/labels/crunchy-pgbadger
+    value: "false"
+target:
+  group: crunchydata.com
+  kind: Pgcluster
+  name: .*
+  version: v1
+---

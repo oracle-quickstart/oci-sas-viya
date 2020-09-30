@@ -1,0 +1,104 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-transformations
+    sas.com/admin: namespace
+  name: sas-catalog
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /catalog
+    - uri:
+        prefix: /catalog/
+    route:
+    - destination:
+        host: sas-catalog
+    timeout: 300s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-transformations
+    sas.com/admin: namespace
+  name: sas-data-discovery
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /dataDiscovery
+    - uri:
+        prefix: /dataDiscovery/
+    route:
+    - destination:
+        host: sas-data-discovery
+    timeout: 300s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-transformations
+    sas.com/admin: namespace
+  name: sas-discovery-table-provider
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /discoveryTableProvider
+    - uri:
+        prefix: /discoveryTableProvider/
+    route:
+    - destination:
+        host: sas-discovery-table-provider
+    timeout: 300s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-transformations
+    sas.com/admin: namespace
+  name: sas-transformations
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /transformations
+    - uri:
+        prefix: /transformations/
+    route:
+    - destination:
+        host: sas-transformations
+    timeout: 300s
+

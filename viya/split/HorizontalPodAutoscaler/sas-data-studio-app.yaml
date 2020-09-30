@@ -1,0 +1,27 @@
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  annotations:
+    sas.com/component-name: sas-data-studio-app
+    sas.com/component-version: 1.21.7-20200901.1598957624638
+    sas.com/version: 1.21.7
+  labels:
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-data-studio-app
+  namespace: viya
+spec:
+  maxReplicas: 1
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 80
+        type: Utilization
+    type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: sas-data-studio-app

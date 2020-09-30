@@ -1,0 +1,24 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-model-publish-kaniko-transformer
+patch: |-
+  - op: add
+    path: /spec/template/spec/serviceAccountName
+    value: sas-model-publish
+  - op: add
+    path: /spec/template/spec/containers/0/volumeMounts/-
+    value:
+      name: kaniko
+      mountPath: /models/kaniko
+  - op: add
+    path: /spec/template/spec/volumes/-
+    value:
+      name: kaniko
+      persistentVolumeClaim:
+        claimName: sas-model-publish-kaniko
+target:
+  name: sas-model-publish
+  group: apps
+  kind: Deployment
+  version: v1

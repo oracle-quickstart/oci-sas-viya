@@ -1,0 +1,19 @@
+# patch transformer to disable crunchy collect metrics
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-disable-crunchy-collect-1
+patch: |-
+  - op: replace
+    path: /metadata/labels/crunchy_collect
+    value: "false"
+  - op: replace
+    path: /spec/userlabels/crunchy_collect
+    value: "false"
+target:
+  group: crunchydata.com
+  kind: Pgcluster
+  name: .*
+  version: v1
+---

@@ -1,0 +1,41 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-geo-enrichment
+spec:
+  host: sas-geo-enrichment
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /geoEnrichment/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-geo-enrichment
+    sas.com/admin: namespace
+  name: sas-geo-enrichment
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /geoEnrichment
+    - uri:
+        prefix: /geoEnrichment/
+    route:
+    - destination:
+        host: sas-geo-enrichment
+    timeout: 300s
+

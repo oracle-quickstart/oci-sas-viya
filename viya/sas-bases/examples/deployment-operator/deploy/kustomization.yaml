@@ -1,0 +1,7 @@
+resources:
+  - operator-base
+generators:
+  - sas-bases/base/secrets.yaml
+transformers:
+  - sas-bases/overlays/required/transformers.yaml
+  - site-config/transformer.yaml

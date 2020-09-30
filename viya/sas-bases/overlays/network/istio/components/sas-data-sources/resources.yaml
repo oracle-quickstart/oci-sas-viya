@@ -1,0 +1,135 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-data-sources
+spec:
+  host: sas-data-sources
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /dataSources/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-data-tables
+spec:
+  host: sas-data-tables
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /dataTables/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-row-sets
+spec:
+  host: sas-row-sets
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /rowSets/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-data-sources
+    sas.com/admin: namespace
+  name: sas-data-sources
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /dataSources
+    - uri:
+        prefix: /dataSources/
+    route:
+    - destination:
+        host: sas-data-sources
+      headers:
+        request:
+          set:
+            X-Sas-Ingress-Request: "true"
+    timeout: 300s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-data-tables
+    sas.com/admin: namespace
+  name: sas-data-tables
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /dataTables
+    - uri:
+        prefix: /dataTables/
+    route:
+    - destination:
+        host: sas-data-tables
+      headers:
+        request:
+          set:
+            X-Sas-Ingress-Request: "true"
+    timeout: 300s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-row-sets
+    sas.com/admin: namespace
+  name: sas-row-sets
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /rowSets
+    - uri:
+        prefix: /rowSets/
+    route:
+    - destination:
+        host: sas-row-sets
+      headers:
+        request:
+          set:
+            X-Sas-Ingress-Request: "true"
+    timeout: 300s
+

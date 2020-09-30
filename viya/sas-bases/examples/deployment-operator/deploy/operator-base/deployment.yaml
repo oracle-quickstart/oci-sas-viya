@@ -1,0 +1,62 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sas-deployment-operator
+spec:
+  replicas: 1
+  selector:
+    matchExpressions: []
+    matchLabels:
+      app.kubernetes.io/name: sas-deployment-operator
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8080"
+        prometheus.io/scheme: http
+        prometheus.io/scrape: "true"
+    spec:
+      containers:
+        - args:
+            - reconcile
+          command: []
+          env:
+            - name: SERVICE_ACCOUNT_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.serviceAccountName
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: sas-deployment-operator
+          envFrom: []
+          image: sas-orchestration
+          imagePullPolicy: Always
+          name: sas-deployment-operator
+          ports: []
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8081
+            initialDelaySeconds: 300
+            periodSeconds: 300
+          volumeDevices: []
+          volumeMounts:
+            - mountPath: /work
+              name: work
+      hostAliases: []
+      imagePullSecrets: []
+      initContainers: []
+      readinessGates: []
+      serviceAccountName: sas-deployment-operator
+      tolerations: []
+      volumes:
+        - emptyDir: {}
+          name: work

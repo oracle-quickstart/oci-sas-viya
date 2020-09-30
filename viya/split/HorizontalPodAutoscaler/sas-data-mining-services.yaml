@@ -1,0 +1,27 @@
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  annotations:
+    sas.com/component-name: sas-data-mining-services
+    sas.com/component-version: 39.15.35-20200903.1599159371879
+    sas.com/version: 39.15.35
+  labels:
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-data-mining-services
+  namespace: viya
+spec:
+  maxReplicas: 1
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 80
+        type: Utilization
+    type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: sas-data-mining-services

@@ -1,0 +1,17 @@
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: enable-ha-hpa-replicas
+patch: |-
+  - op: replace
+    path: /spec/maxReplicas
+    value: 2
+  - op: replace
+    path: /spec/minReplicas
+    value: 2
+target:
+  kind: HorizontalPodAutoscaler
+  version: v2beta2
+  apps: autoscaling
+---

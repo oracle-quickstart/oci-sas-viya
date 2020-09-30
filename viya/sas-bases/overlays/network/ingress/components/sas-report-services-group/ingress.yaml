@@ -1,0 +1,130 @@
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+    nginx.ingress.kubernetes.io/proxy-body-size: 2048m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
+    nginx.ingress.kubernetes.io/session-cookie-path: /reportAlerts/
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-report-alerts
+    sas.com/admin: namespace
+  name: sas-report-alerts
+spec:
+  rules:
+  - host: $(INGRESS_HOST)
+    http:
+      paths:
+      - backend:
+          serviceName: sas-report-alerts
+          servicePort: 80
+        path: /reportAlerts
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+    nginx.ingress.kubernetes.io/proxy-body-size: 2048m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
+    nginx.ingress.kubernetes.io/session-cookie-path: /reportImages/
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-report-images
+    sas.com/admin: namespace
+  name: sas-report-images
+spec:
+  rules:
+  - host: $(INGRESS_HOST)
+    http:
+      paths:
+      - backend:
+          serviceName: sas-report-images
+          servicePort: 80
+        path: /reportImages
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+    nginx.ingress.kubernetes.io/proxy-body-size: 2048m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
+    nginx.ingress.kubernetes.io/session-cookie-path: /reportTemplates/
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-report-templates
+    sas.com/admin: namespace
+  name: sas-report-templates
+spec:
+  rules:
+  - host: $(INGRESS_HOST)
+    http:
+      paths:
+      - backend:
+          serviceName: sas-report-templates
+          servicePort: 80
+        path: /reportTemplates
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+    nginx.ingress.kubernetes.io/proxy-body-size: 2048m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
+    nginx.ingress.kubernetes.io/session-cookie-path: /reportTransforms/
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-report-transforms
+    sas.com/admin: namespace
+  name: sas-report-transforms
+spec:
+  rules:
+  - host: $(INGRESS_HOST)
+    http:
+      paths:
+      - backend:
+          serviceName: sas-report-transforms
+          servicePort: 80
+        path: /reportTransforms
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+    nginx.ingress.kubernetes.io/proxy-body-size: 2048m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
+    nginx.ingress.kubernetes.io/session-cookie-path: /reports/
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-reports
+    sas.com/admin: namespace
+  name: sas-reports
+spec:
+  rules:
+  - host: $(INGRESS_HOST)
+    http:
+      paths:
+      - backend:
+          serviceName: sas-reports
+          servicePort: 80
+        path: /reports
+

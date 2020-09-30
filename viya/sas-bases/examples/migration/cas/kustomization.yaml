@@ -1,0 +1,12 @@
+resources:
+- cas-components/deployment.yaml
+- cas-components/provider-pvc.yaml
+#- {{ CONVERTED CAS MIGRATION CR }}.yaml
+configurations:
+- cas-components/kustomizeconfig.yaml
+transformers:
+- cas-components/cas-sssd-sidecar.yaml
+- cas-components/cas-fsgroup-security-context.yaml
+- cas-components/annotations.yaml
+- cas-components/backup-agent-patch.yaml
+- cas-components/cas-migration.yaml

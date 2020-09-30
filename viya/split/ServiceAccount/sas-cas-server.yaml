@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    sas.com/component-name: sas-cas-operator
+    sas.com/component-version: 2.5.19-20200910.1599746345742
+    sas.com/version: 2.5.19
+  labels:
+    sas.com/admin: cluster-wide
+    sas.com/deployment: sas-viya
+  name: sas-cas-server
+  namespace: viya

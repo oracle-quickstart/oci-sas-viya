@@ -1,0 +1,21 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  annotations:
+    sas.com/component-name: sas-backup-job
+    sas.com/component-version: 1.2.1-20200908.1599590394140
+    sas.com/version: 1.2.1
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-viya-backuprunner
+  namespace: viya
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: sas-viya-backuprunner
+subjects:
+- kind: ServiceAccount
+  name: sas-viya-backuprunner
+  namespace: viya

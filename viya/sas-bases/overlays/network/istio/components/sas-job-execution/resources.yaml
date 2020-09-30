@@ -1,0 +1,82 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-job-definitions
+spec:
+  host: sas-job-definitions
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /jobDefinitions/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-job-execution
+spec:
+  host: sas-job-execution
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /jobExecution/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-job-execution
+    sas.com/admin: namespace
+  name: sas-job-definitions
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /jobDefinitions
+    - uri:
+        prefix: /jobDefinitions/
+    route:
+    - destination:
+        host: sas-job-definitions
+    timeout: 300s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-job-execution
+    sas.com/admin: namespace
+  name: sas-job-execution
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /jobExecution
+    - uri:
+        prefix: /jobExecution/
+    route:
+    - destination:
+        host: sas-job-execution
+    timeout: 300s
+

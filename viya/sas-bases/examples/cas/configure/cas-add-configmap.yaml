@@ -1,0 +1,31 @@
+# This block of code is for adding a configMap, which allows you to
+# store environment variables, port numbers, and other configuration
+# artifacts separately from your pods.
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: cas-add-configmap
+patch: |-
+  - op: add
+    path: /spec/controllerTemplate/spec/volumes/-
+    value:
+      name: {{ MOUNT-NAME }}
+      configMap:
+        name: {{ CONFIGMAP-NAME }}
+        defaultMode: {{ DEFAULT-PERMISSIONS }}
+        items:
+        - key: {{ KEY-REPRESENTING-DATA-FILE-SOURCE }}
+          mode: {{ FILE-PERMISSION }}
+          path: {{ DATASOURCE-FILE }}
+
+  - op: add
+    path: /spec/controllerTemplate/spec/containers/0/volumeMounts/-
+    value:
+      name: {{ MOUNT-NAME }}
+      mountPath: {{ DATASOURCE-PATH }}
+target:
+  group: viya.sas.com
+  kind: CASDeployment
+  name: .*
+  version: v1alpha1

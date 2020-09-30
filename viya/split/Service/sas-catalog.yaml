@@ -1,0 +1,27 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    sas.com/component-name: sas-transformations
+    sas.com/component-version: 2.22.4-20200904.1599226286861
+    sas.com/kustomize-base: base
+    sas.com/registry-sync: default
+    sas.com/registry-tags: proxy
+    sas.com/version: 2.22.4
+  labels:
+    app.kubernetes.io/name: sas-transformations
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-catalog
+  namespace: viya
+spec:
+  ports:
+  - name: catalog
+    port: 80
+    protocol: TCP
+    targetPort: catalog
+  selector:
+    app.kubernetes.io/name: sas-transformations
+    sas.com/deployment: sas-viya
+  type: ClusterIP

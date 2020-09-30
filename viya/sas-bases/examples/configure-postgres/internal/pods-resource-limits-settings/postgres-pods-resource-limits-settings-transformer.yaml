@@ -1,0 +1,60 @@
+## Example postgres-pods-resource-limits-settings-transformer 
+##   - To set PostgreSQL pods resource minimum and maximum values for CPU and memory on your Kubernetes cluster.
+##   - Internal PostgreSQL only.
+##   - In the following code, user-defined values are indicated by a capitalized and
+##     hyphenated name set off by curly braces and a space at each end. To replace
+##     the variable, replace the curly braces, interior spaces, and the variable name.
+##   - For instance,
+##       {{ LIMITS-CPU-COUNT }} should be replaced by a decimal number, such as "4.0".
+##       {{ LIMITS-MEMORY-SIZE }} should be replaced by a number and unit, such as "4Gi" or "756Mi".
+##       {{ REQUEST-CPU-COUNT }} should be replaced by a decimal number, such as "1.0".
+##       {{ REQUEST-MEMORY-SIZE }} should be replaced by a number and unit, such as "1Gi" or "512Mi".
+##
+##   NOTE: 
+##     1. Ensure the values are enclosed in double quotation marks and, if needed, 
+##        include proper unit values. In Kubernetes, the units for megabytes is Mi and gigabytes is Gi.
+##     2. The request value represents the minimum resource and must be less then or equal to the limits, or the maximum resource,  
+##        value. Do not use zero (0) or negative values. 
+##     3. As a best practice, SAS recommends that if you change one value, you change its companion value. 
+##        For example, if you change the {{ LIMITS-MEMORY-SIZE }}, you should also change {{ REQUEST-MEMORY-SIZE }}.
+##     4. If you do not follow these guidelines, the PostgreSQL pods might not start or come up.
+##
+
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: postgres-pods-resource-limits-settings-transformer
+patch: |-
+
+#   # Limits (maximum resource)
+
+#   # Transform PostgreSQL Pods Limits (maximum) CPU Count is a decimal number i.e. "4.0".
+#   - op: replace
+#     path: /spec/limits/cpu
+#     value: "{{ LIMITS-CPU-COUNT }}"
+
+#   # The LIMITS-MEMORY-SIZE should be a numeric value followed by the units
+#   # Transform PostgreSQL Pods Upper Memory Size Limits
+#   - op: replace
+#     path: /spec/limits/memory
+#     value: "{{ LIMITS-MEMORY-SIZE }}"
+
+
+#   # Request (minimum resource) 
+
+#   # Transform PostgreSQL Pods Request (minimum) CPU Count is a decimal number i.e. "1.0".
+#   - op: replace
+#     path: /spec/resources/cpu
+#     value: "{{ REQUEST-CPU-COUNT }}"
+
+#   # Transform PostgreSQL Pods Memory Size
+#   # The REQUEST-MEMORY-SIZE should be a numeric value followed by the units
+#   - op: replace
+#     path: /spec/resources/memory
+#     value: "{{ REQUEST-MEMORY-SIZE }}"
+
+target:
+  group: crunchydata.com
+  kind: Pgcluster
+  name: .*
+  version: v1

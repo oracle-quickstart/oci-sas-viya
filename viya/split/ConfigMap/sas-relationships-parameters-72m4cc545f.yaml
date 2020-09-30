@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+data:
+  SAS_CONTEXT_PATH: relationships
+  SAS_DU_NAME: sas-relationships
+  SAS_SERVICE_NAME: sas-relationships
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-relationships-parameters-72m4cc545f
+  namespace: viya

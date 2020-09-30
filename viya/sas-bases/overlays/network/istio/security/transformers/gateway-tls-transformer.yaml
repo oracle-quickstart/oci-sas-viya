@@ -1,0 +1,43 @@
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: gateway-tls-patch
+patch: |-
+  kind: Gateway
+  metadata:
+    name: public-gateway
+  spec:
+    servers:
+    - hosts:
+      - $(INGRESS_HOST)
+      port:
+        name: https
+        number: 443
+        protocol: HTTPS
+      tls:
+        credentialName: THIS-SHOULD-BE-PATCHED-WITH-CUSTOMER-PROVIDED-ISTIO-GATWAY-CERTIFICATE-SDS-YAML
+        mode: SIMPLE
+target:
+  Kind: Gateway
+  name: public-gateway
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: serviceentry-tls-patch
+patch: |-
+  kind: ServiceEntry
+  metadata:
+    name: public-serviceentry
+  spec:
+    hosts:
+    - $(INGRESS_HOST)
+    ports:
+    - name: https
+      number: 443
+      protocol: HTTPS
+    resolution: DNS
+target:
+  Kind: ServiceEntry
+  name: public-serviceentry

@@ -1,0 +1,29 @@
+- op: add
+  path: /template/spec/containers/0/env/-
+  value:
+    name: LD_LIBRARY_PATH
+    value: /opt/sas/viya/home/lib64/accessclients/lib:/opt/sas/viya/home/lib64:/lib:/lib64
+
+- op: add
+  path: /template/spec/containers/0/env/-
+  value:
+    name: ODBCHOME
+    value: /opt/sas/viya/home/lib64/accessclients
+
+- op: add
+  path: /template/spec/containers/0/env/-
+  value:
+    name: ODBCINI
+    value: /opt/sas/viya/home/lib64/accessclients/odbc.ini
+
+- op: add
+  path: /template/spec/containers/0/env/-
+  value:
+    name: ODBCINST
+    value: /opt/sas/viya/home/lib64/accessclients/odbcinst.ini
+
+- op: add
+  path: /template/spec/containers/0/env/-
+  value:
+    name: ODBCSYSINI
+    value: /opt/sas/viya/home/lib64/accessclients/

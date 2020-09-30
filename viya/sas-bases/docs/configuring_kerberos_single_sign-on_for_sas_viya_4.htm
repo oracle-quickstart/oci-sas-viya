@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="sas.css"/>
+        <title>Configuring Kerberos Single Sign-On for SAS Viya 4</title>
+    </head>
+    <body>
+        <h1 id="configuring-kerberos-single-sign-on-for-sas-viya-4">Configuring Kerberos Single Sign-On for SAS Viya 4</h1>
+<p>This README describes the steps necessary to configure your SAS Viya 4 deployment for single sign-on
+using Kerberos.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before you start the deployment, obtain the Kerberos configuration file and keytab for the HTTP
+service account. Make sure you have tested the keytab before proceeding with the installation.</p>
+<h2 id="installation">Installation</h2>
+<ol>
+<li>
+<p>Copy the files in the <code>$deploy/sas-bases/examples/kerberos/http</code> directory to the <code>$deploy/site-config/kerberos/http</code> directory. Create the target directory, if it does not already exist.</p>
+</li>
+<li>
+<p>Copy your Kerberos keytab and configuration files into the <code>$deploy/site-config/kerberos/http</code> directory, naming them <code>keytab</code> and <code>krb5.conf</code> respectively.</p>
+</li>
+<li>
+<p>Modify the parameters in <code>$deploy/site-config/kerberos/http/configmaps.yaml</code>.</p>
+</li>
+<li>Replace {{ PRINCIPAL-NAME-IN-KEYTAB }} with the name of the principal as it appears in the keytab.</li>
+<li>
+<p>Replace {{ SPN }} with the name of the SPN. This should have a format of <code>HTTP/&lt;hostname&gt;</code> and may be the same as the principal name in the keytab.</p>
+</li>
+<li>
+<p>Make the following changes to the base kustomization.yaml file in the $deploy directory.</p>
+</li>
+<li>Add site-config/kerberos/http to the resources block.</li>
+<li>
+<p>Add sas-bases/overlays/kerberos/http/transformers.yaml to the transformers block.</p>
+</li>
+<li>
+<p>Use the deployment commands described in <a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=dplyml0phy0dkr&amp;docsetTarget=titlepage.htm">SAS Viya Deployment Guide</a> to apply the new settings.</p>
+</li>
+</ol>
+    </body>
+</html>

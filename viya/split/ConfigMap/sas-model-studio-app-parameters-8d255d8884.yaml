@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+data:
+  CNTR_REPO_PREFIX: convoy
+  SAS_CONTEXT_PATH: SASModelStudio
+  SAS_DU_NAME: sas-model-studio-app
+  SAS_SERVICE_NAME: sas-model-studio-app
+  SG_PROJECT: model-studio
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-model-studio-app-parameters-8d255d8884
+  namespace: viya

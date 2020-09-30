@@ -1,0 +1,3 @@
+generators:
+- secrets.yaml
+- configmaps.yaml

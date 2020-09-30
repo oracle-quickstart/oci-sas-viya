@@ -1,0 +1,55 @@
+# TODO
+# Update the sasenv_local to read some new property eg, SAS_LD_LIBRARY_PATH and prepend it to LD_LIBRARY_PATH
+# Make sure we're comfortable with that read dereferencing env vars (like ORACLE_HOME) so we don't have to repeat the path
+# Setup a default path that is automatically included into LD_LIBRARY_PATH, if you create /data/drivers or something like that, we'll honor any .so in there automatically
+# ditto defaults for ORACLE_HOME, etc, etc - so you can ideally just hook up the volumes to the right places and it just works (tm)
+# The example below uses NFS, there is a commented out example of how you consume local to the worker libraries.
+# The automounter tends to be unreliable, I've had luck by 'touching' the path first outside so it gets mounted, then k8s can use it.
+
+##########################
+# Environment variables
+##########################
+
+# Full LD_LIBRARY_PATH
+# /opt/sas/viya/home/lib64/accessclients/lib : SAS-branded DataDirect ODBC drivers
+# /opt/sas/viya/home/lib64                   : Postgres driver
+# /lib                                       : Standard libs
+# /lib64                                     : Standard libs
+# CAS scrubs externally set LD_LIBRARY_PATHs. The CAS startup script will append any environment
+# variable beginning with CASLLP_ (per tkcas/script/cas_init.sh)
+- op: add
+  path: /spec/controllerTemplate/spec/containers/0/env/-
+  value:
+    name: CASLLP_01_ODBC
+    value: /opt/sas/viya/home/lib64/accessclients/lib
+
+- op: add
+  path: /spec/controllerTemplate/spec/containers/0/env/-
+  value:
+    name: CASLLP_02_POSTGRES
+    value: /opt/sas/viya/home/lib64
+
+# ODBC ENVs
+- op: add
+  path: /spec/controllerTemplate/spec/containers/0/env/-
+  value:
+    name: ODBCHOME
+    value: /opt/sas/viya/home/lib64/accessclients
+
+- op: add
+  path: /spec/controllerTemplate/spec/containers/0/env/-
+  value:
+    name: ODBCINI
+    value: /opt/sas/viya/home/lib64/accessclients/odbc.ini
+
+- op: add
+  path: /spec/controllerTemplate/spec/containers/0/env/-
+  value:
+    name: ODBCINST
+    value: /opt/sas/viya/home/lib64/accessclients/odbcinst.ini
+
+- op: add
+  path: /spec/controllerTemplate/spec/containers/0/env/-
+  value:
+    name: ODBCSYSINI
+    value: /opt/sas/viya/home/lib64/accessclients/

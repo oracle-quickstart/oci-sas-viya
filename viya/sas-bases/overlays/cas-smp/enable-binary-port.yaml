@@ -1,0 +1,15 @@
+# PatchTransformer to set and publish binary ports for CAS
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: cas-publish-binary
+patch: |-
+   - op: add
+     path: /spec/publishBinaryService
+     value: true
+target:
+  group: viya.sas.com
+  kind: CASDeployment
+  name: .*
+  version: v1alpha1

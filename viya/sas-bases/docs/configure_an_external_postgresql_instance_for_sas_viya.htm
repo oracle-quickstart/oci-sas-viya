@@ -1,0 +1,159 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="sas.css"/>
+        <title>Configure an External PostgreSQL Instance for SAS Viya</title>
+    </head>
+    <body>
+        <h1 id="configure-an-external-postgresql-instance-for-sas-viya">Configure an External PostgreSQL Instance for SAS Viya</h1>
+<h2 id="overview">Overview</h2>
+<p>By default, SAS Viya will not add a PostgreSQL instance to the Kubernetes
+deployment. SAS Viya includes two options for your PostgreSQL server: an
+internal instance provided by SAS or an external PostgreSQL that you want SAS
+to use. </p>
+<p>This readme describes the files used to customize your SAS Viya deployment to
+use an external PostgreSQL instance. Using these files means that you do not
+wish to use the PostgreSQL server provided by SAS. Instead, you will create
+your own and have SAS use of it. </p>
+<p><strong>Note:</strong> If you want to use an internal instance of PostgreSQL, you should
+refer to the readme file located at
+<code>$deploy/sas-bases/overlays/internal-postgres/README.md</code>.</p>
+<p>The SAS Viya deployment performs the following tasks to configure your external 
+database for use:</p>
+<ul>
+<li>Registers the connection information so services can find it.</li>
+<li>If not already provided, attempts to create a database that is owned by the
+  SAS user using the name provided by the sas-postgresql-config configMap.</li>
+</ul>
+<p><strong>Note:</strong> If you wish to limit the SAS Database Role to only one database on
+your server, create the database and role prior to deployment and ensure both
+have your desired permissions. If you don&rsquo;t provide a database, SAS attempts
+to create one using the name in the sas-postgresql-config configMap. For this,
+the SAS role must have CREATEDB permissions, otherwise you&rsquo;ll get an error.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before beginning the SAS Viya deployment, your PostgreSQL server should be set
+up and running.</p>
+<p>Your external PostgreSQL server must support max connections and max prepared
+transactions of at least 1024.</p>
+<p>When the server is set up, you should record the following
+information for later steps.</p>
+<ul>
+<li>Database Role/Password: The account to be used by the services to create
+  databases (if applicable), schemas, and tables and to perform database
+  transactions.</li>
+<li>Database name: The database SAS services will use. By default, SAS expects
+  &lsquo;SharedServices&rsquo;.</li>
+<li>Server Host: The fully qualified domain name (FQDN) of the host of the
+  cluster entry point of your PostgreSQL server.</li>
+<li>Server Port: The port for the cluster entry point process for your PostgreSQL 
+  server. Typically PostgreSQL or PGPool port (if used).</li>
+</ul>
+<h2 id="instructions">Instructions</h2>
+<p>This section describes how to modify the base kustomization.yaml file 
+(<code>$deploy/kustomization.yaml</code>) to use an external PostgreSQL instance. To see an 
+example of a completed base kustomization.yaml 
+file for an external PostgreSQL instance, see
+<code>$deploy/sas-bases/examples/configure-postgres/external-kustomization.yaml</code>.</p>
+<h3 id="create-secretgenerator-and-configmapgenerator">Create secretGenerator and configMapGenerator</h3>
+<p>To populate the SAS deployment with the information that you gathered in the
+&ldquo;Prerequisites&rdquo; section, you must add some generators to the base
+kustomization.yaml file.</p>
+<p>In the base kustomization.yaml file (<code>$deploy/kustomization.yaml</code>), add a
+secretGenerator and a configMapGenerator, both of which are described below.
+In the generators, you will see tags that look like <code>{{ VARIABLE-NAME }}</code>.
+Replace these tags with the appropriate values gathered in the &ldquo;Prerequisites&rdquo;
+section.</p>
+<p>The mapping of tags to values is as follows:</p>
+<ul>
+<li>Database Role Username: <code>{{ EXTERNAL-ADMIN-USERNAME }}</code></li>
+<li>Database Role Password: <code>{{ EXTERNAL-ADMIN-PASSWORD }}</code></li>
+<li>Server Host: <code>{{ EXTERNAL-HOST }}</code></li>
+<li>Server Port: <code>{{ EXTERNAL-PORT }}</code></li>
+</ul>
+<p>Add the following secretGenerator to the base kustomization.yaml file:</p>
+<pre class="highlight"><code class="language-yaml">secretGenerator:
+- name: postgres-sas-user  # THIS IS FOR INTERNAL USE ONLY - DO NOT EDIT
+  literals:
+  - username={{ EXTERNAL-ADMIN-USERNAME }}
+  - password={{ EXTERNAL-ADMIN-PASSWORD }}</code></pre>
+
+<p>Then add the following configMapGenerator:</p>
+<pre class="highlight"><code class="language-yaml">configMapGenerator:
+- name: sas-postgres-config  # THIS IS FOR INTERNAL USE ONLY - DO NOT EDIT
+  behavior: merge
+  literals:
+  - DATABASE_HOST={{ EXTERNAL-HOST }}
+  - DATABASE_PORT={{ EXTERNAL-PORT }}
+  - DATABASE_SSL_ENABLED="true"
+  - DATABASE_NAME=SharedServices
+  - EXTERNAL_DATABASE="true"  # THIS IS FOR INTERNAL USE ONLY - DO NOT EDIT
+  - SAS_DATABASE_DATABASESERVERNAME="postgres"</code></pre>
+
+<p>For example, a kustomization.yaml which has been properly edited with your
+external database info generators might look like this:</p>
+<pre class="highlight"><code class="language-yaml">secretGenerator:
+- name: postgres-sas-user  # THIS IS FOR INTERNAL USE ONLY - DO NOT EDIT
+  literals:
+  - username=dbmsowner
+  - password=password
+
+configMapGenerator:
+- name: sas-postgres-config  # THIS IS FOR INTERNAL USE ONLY - DO NOT EDIT
+  behavior: merge
+  literals:
+  - DATABASE_HOST=myProvider.myPostgreSQLHost
+  - DATABASE_PORT=5432
+  - DATABASE_SSL_ENABLED="true"
+  - DATABASE_NAME=SharedServices
+  - EXTERNAL_DATABASE="true"  # THIS IS FOR INTERNAL USE ONLY - DO NOT EDIT
+  - SAS_DATABASE_DATABASESERVERNAME="postgres"</code></pre>
+
+<h3 id="configure-transformers">Configure Transformers</h3>
+<p>Kustomize needs to know where to look for the external PostgreSQL transformer.
+Add the following content to the transformers block of the base
+kustomization.yaml file:</p>
+<pre class="highlight"><code class="language-yaml">transformers:
+- sas-bases/overlays/external-postgres/external-postgres-transformer.yaml</code></pre>
+
+<h2 id="build">Build</h2>
+<p>After you revise the base kustomization.yaml file, continue your SAS Viya
+deployment as documented in
+<a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=dplyml0phy0dkr&amp;docsetTarget=titlepage.htm&amp;locale=en">SAS Viya Deployment Guide</a>.</p>
+<h2 id="additional-resources">Additional Resources</h2>
+<p>For more information about the difference between the internal and external
+instances of PostgreSQL, see
+<a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=itopssr&amp;docsetTarget=n1rbbuql9epqa0n1pg3bvfx3dmvc.htm">SAS Infrastructure Data Server Requirements</a>.</p>
+<h2 id="changelog">Changelog</h2>
+<h3 id="202003">2020.0.3</h3>
+<hr />
+<pre><code>                         Deprecation Statement
+</code></pre>
+<hr />
+<p>Effective in 2020.0.3 the following changes go into effect:</p>
+<ul>
+<li>
+<p><em>postgres-config</em> ConfigMap name changed to <em>sas-postgres-config</em>.</p>
+</li>
+<li>
+<p><em>sas-postgres-config</em> modifies an existing ConfigMap. You must add the line
+  <code>behavior: merge</code> to <em>sas-postgres-config</em> configMapGenerator in the base
+  <em>kustomization.yaml</em> file.</p>
+</li>
+<li>
+<p>The configMapGenerator for <em>sas-shared-config</em> in the base
+  <em>kustomization.yaml</em> file is no longer required and should be removed.</p>
+</li>
+<li>
+<p>In the <em>sas-postgres-config</em> ConfigMap, must modify the base
+  <em>kustomization.yaml</em> to include <code>SAS_DATABASE_DATABASESERVERNAME="postgres"</code>.</p>
+</li>
+</ul>
+<p>Support has been added for these changes in the 2020.0.2 cadence.  Please make
+the edits to your base kustomization.yml file prior to taking the 2020.0.3 or
+later cadence.  Failure to do so may result in unintended results in your
+environment up to and including that it may no longer work.</p>
+<hr />
+<pre><code>                      End of Deprecation Statement
+</code></pre>
+<hr />
+    </body>
+</html>

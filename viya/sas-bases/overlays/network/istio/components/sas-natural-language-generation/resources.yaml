@@ -1,0 +1,41 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-natural-language-generation
+spec:
+  host: sas-natural-language-generation
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /naturalLanguageGeneration/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-natural-language-generation
+    sas.com/admin: namespace
+  name: sas-natural-language-generation
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /naturalLanguageGeneration
+    - uri:
+        prefix: /naturalLanguageGeneration/
+    route:
+    - destination:
+        host: sas-natural-language-generation
+    timeout: 300s
+

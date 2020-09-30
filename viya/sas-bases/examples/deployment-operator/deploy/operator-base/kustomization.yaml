@@ -1,0 +1,9 @@
+resources:
+  - clusterrole_binding.yaml
+  - deployment.yaml
+  - orchestration.sas.com_sasdeployments.yaml
+  - role.yaml
+  - role_binding.yaml
+  - service_account.yaml
+transformers:
+  - transformer.yaml

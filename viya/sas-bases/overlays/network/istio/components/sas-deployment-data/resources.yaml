@@ -1,0 +1,41 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-deployment-data
+spec:
+  host: sas-deployment-data
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /deploymentData/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-deployment-data
+    sas.com/admin: namespace
+  name: sas-deployment-data
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /deploymentData
+    - uri:
+        prefix: /deploymentData/
+    route:
+    - destination:
+        host: sas-deployment-data
+    timeout: 300s
+

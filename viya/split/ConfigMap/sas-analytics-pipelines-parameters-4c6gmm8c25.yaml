@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+data:
+  SAS_CONTEXT_PATH: analyticsPipelines
+  SAS_PORT_NAME: aapipelines
+  SAS_SERVICE_NAME: sas-analytics-pipelines
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-analytics-pipelines-parameters-4c6gmm8c25
+  namespace: viya

@@ -1,0 +1,17 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: migration-job-nfs-volume-patch
+patch: |-
+  - op: add
+    path: /spec/template/spec/volumes/-
+    value:
+      name: migration
+      nfs:
+        path: {{ NFS-PATH }}
+        server: {{ NFS-SERVER }}
+target:
+  apiVersion: v1
+  group: batch
+  kind: Job
+  labelSelector: app.kubernetes.io/name=sas-migration-job

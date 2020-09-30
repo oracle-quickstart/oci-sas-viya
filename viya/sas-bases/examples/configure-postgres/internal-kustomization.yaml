@@ -1,0 +1,9 @@
+# To specify you wish to use the internal, SAS provided PostgreSQL for your
+# SAS deployment, add the following to your kustomization.yaml. For more
+# information, see $deploy/sas-bases/overlays/internal-postgres/README.md.
+
+resources:
+- sas-bases/overlays/internal-postgres
+
+transformers:
+- sas-bases/overlays/internal-postgres/internal-postgres-transformer.yaml

@@ -1,0 +1,4 @@
+resources:
+- sas-migration-job.yaml
+transformers:
+- annotations.yaml

@@ -1,0 +1,27 @@
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  annotations:
+    sas.com/component-name: sas-graph-templates
+    sas.com/component-version: 1.49.1-20200909.1599664423397
+    sas.com/version: 1.49.1
+  labels:
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-graph-templates
+  namespace: viya
+spec:
+  maxReplicas: 1
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 80
+        type: Utilization
+    type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: sas-graph-templates

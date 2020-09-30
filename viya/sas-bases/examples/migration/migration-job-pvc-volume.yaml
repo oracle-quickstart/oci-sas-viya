@@ -1,0 +1,16 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: migration-job-pvc-volume-patch
+patch: |-
+  - op: add
+    path: /spec/template/spec/volumes/-
+    value:
+      name: migration
+      persistentVolumeClaim:
+        claimName: {{ EXISTING-K8S-PVC-NAME }}
+target:
+  apiVersion: v1
+  group: batch
+  kind: Job
+  labelSelector: app.kubernetes.io/name=sas-migration-job

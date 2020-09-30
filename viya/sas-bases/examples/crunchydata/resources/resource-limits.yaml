@@ -1,0 +1,26 @@
+# Example resource-limits.yaml contains resource limits to be specified for
+# your postgres pods.
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-storage-class-1
+patch: |-
+  - op: replace
+    path: /spec/ContainerResources/limitscpu
+    value: "4.0"
+  - op: replace
+    path: /spec/ContainerResources/limitsmemory
+    value: "2Gi"
+  - op: replace
+    path: /spec/ContainerResources/requestscpu
+    value: "2.0"
+  - op: replace
+    path: /spec/ContainerResources/requestsmemory
+    value: "2Gi"
+target:
+  group: crunchydata.com
+  kind: Pgcluster
+  name: .*
+  version: v1
+---

@@ -1,0 +1,16 @@
+# sample kustomization file
+generators:
+- base/secrets.yaml
+- base/configmaps.yaml
+- base/components/configmaps.yaml
+namespace: mynamespace
+resources:
+- overlays/internal-postgres
+- base/components/sas-data-server-utility
+- base/components/sas-consul-server
+- overlays/crunchydata
+- overlays/crunchydata_pgadmin       # <---- make sure this line is present in your base kustomization.yaml
+transformers:
+- overlays/required/transformers.yaml
+- overlays/internal-postgres/internal-postgres-transformer.yaml
+- postgres-storage.yaml

@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="sas.css"/>
+        <title>Configuration Settings for PostgreSQL Replicas Count</title>
+    </head>
+    <body>
+        <h1 id="configuration-settings-for-postgresql-replicas-count">Configuration Settings for PostgreSQL Replicas Count</h1>
+<h2 id="overview">Overview</h2>
+<p>PostgreSQL High Availability (HA) cluster deployments have one master database
+and one or more standby databases. Data is replicated from the master database
+to the standby database. In Kubernetes, a standby database is referred to as
+a replica. This readme describes how to configure the number of replicas in
+a PostgreSQL HA cluster.</p>
+<h2 id="installation">Installation</h2>
+<ol>
+<li>
+<p>The example file contains comments to assist in revising the file
+   appropriately.</p>
+</li>
+<li>
+<p>The variable in the file is set off by curly braces and spaces, such as
+   {{ REPLICAS-COUNT }}. Replace the entire variable string, including the
+   braces, with the value you want to use.</p>
+</li>
+<li>
+<p>After you have edited the file, add a reference to it in the transformer
+   block of the base kustomization.yaml file.</p>
+</li>
+</ol>
+<h2 id="examples">Examples</h2>
+<p>The example file is located at
+<code>sas-bases/examples/configure-postgres/internal/replicas/postgres-replicas-transformer.yaml</code>.</p>
+<h2 id="additional-resources">Additional Resources</h2>
+<p>For more information about using the example file, see the
+<a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=dplyml0phy0dkr&amp;docsetTarget=titlepage.htm">SAS Viya Deployment Guide</a>.</p>
+<p>For more information about pgo.yaml configuration, go
+<a href="https://access.crunchydata.com/documentation/postgres-operator/4.2.2/configuration/pgo-yaml-configuration/">here</a>.</p>
+    </body>
+</html>

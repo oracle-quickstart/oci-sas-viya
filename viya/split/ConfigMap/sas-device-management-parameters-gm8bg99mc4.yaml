@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+data:
+  SAS_CONTEXT_PATH: deviceManagement
+  SAS_DU_NAME: sas-device-management
+  SAS_SERVICE_NAME: sas-device-management
+  SG_PROJECT: device-management
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-device-management-parameters-gm8bg99mc4
+  namespace: viya

@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+data:
+  CNTR_REPO_PREFIX: convoy
+  SAS_CONTEXT_PATH: dataFlows
+  SAS_DU_NAME: sas-data-flows
+  SAS_SERVICE_NAME: sas-data-flows
+  SG_PROJECT: data-flows
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-data-flows-parameters-k694h9kc62
+  namespace: viya

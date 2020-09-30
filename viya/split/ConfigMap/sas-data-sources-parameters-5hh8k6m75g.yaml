@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+data:
+  SAS_CONTEXT_PATH: dataSources
+  SAS_PORT_NAME: datasources
+  SAS_SERVICE_NAME: sas-data-sources
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-data-sources-parameters-5hh8k6m75g
+  namespace: viya

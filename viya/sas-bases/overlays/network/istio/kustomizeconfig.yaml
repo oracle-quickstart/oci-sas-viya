@@ -1,0 +1,5 @@
+varReference:
+- path: spec/servers/hosts
+  kind: Gateway
+- path: spec/hosts
+  kind: ServiceEntry

@@ -1,0 +1,27 @@
+## Example ConfigMapGenerator to generate the ConfigMap to contain customer provided trusted CA Certificates
+##
+## In the following code, the locations that require user specified values are indicated by a capitalized and
+## hyphenated name set off by curly braces and a space at each end. You should replace this token with the
+## actual value.
+## Replace the curly braces, interior spaces, and the variable name.
+## For instance, "{{ CA_CERTIFICATE_FILE_NAME Example: site-config/security/cacerts/trustedcerts.pem }}"
+## should be replaced by the path to a .pem file containing your ca certificate(s).
+## The name of the token is intended to provide a suitable example.  If you are following the suggested example
+## the correct, final syntax would be:
+## - site-config/security/cacerts/trustedcerts.pem
+##
+##
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-customer-provided-ca-certificates
+behavior: merge
+files:
+#
+#
+## List of one or more files containing the CA certificates to be added to trust bundles used by SAS applications
+##   * the files must be in pem format
+##   * the path to the files should be relative to the directory that contains the kustomization.yaml file
+##   * one file per line.  The files themselves can contain multiple certificates in pem file syntax
+##
+- {{ CA_CERTIFICATE_FILE_NAME Example: site-config/security/cacerts/trustedcerts.pem }}

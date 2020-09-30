@@ -1,0 +1,88 @@
+---
+apiVersion: v1
+data:
+  sas-rdcopy.sh: |+
+    #!/bin/sh
+    umask 022
+    SAS_RDNAME="`cat /payload/name`"
+    echo "Attempting to deploy reference data '$SAS_RDNAME'..."
+    SRCSHAFILE="/payload/check.sha1"
+    SRCSHA=`cat "$SRCSHAFILE"`
+    SRCDIR=/payload/content
+    DSTDIR="/tgtdata/$SAS_RDNAME"
+    DSTSHAFILE="/tgtdata/$SAS_RDNAME/$SAS_RDNAME.sha1"
+    DSTSHA=
+    [ -f "$DSTSHAFILE" ] && DSTSHA=`cat "$DSTSHAFILE"`
+    COPYIT=1
+    if [ -d "$DSTDIR" -a -n "$DSTSHA" ] ; then
+        if [ "$SRCSHA" == "$DSTSHA" ] ; then
+            echo "- Reference data with this same name and content already exists."
+            echo "- No copy necessary."
+        else
+            echo "- Reference data with this same name, but different content, already exists."
+            echo "- Skipping copy; existing content will not be overwritten."
+        fi
+        COPYIT=0
+    fi
+    if [ $COPYIT -eq 1 ] ; then
+        echo "- Copying payload..."
+        mkdir -p "$DSTDIR"
+        cp -R "$SRCDIR"/* "$DSTDIR"
+        cp "$SRCSHAFILE" "$DSTSHAFILE"
+        chmod 644 "$DSTDIR"/*
+        echo "- Done."
+    fi
+
+  sas-rdinit.sh: |+
+    #!/bin/bash
+    #/rdutil/sas-rdwait.sh || exit 1
+
+  sas-rdlist.sh: |+
+    #!/bin/sh
+    ls /rdata | while read RD ; do
+        INCTAG=
+        [ -f "/rdata/$RD/$RD.sha1" ] || INCTAG=" (incomplete)"
+        echo "$RD" "$INCTAG"
+    done
+
+  sas-rdremove.sh: |+
+    #!/bin/sh
+
+    RD_LABEL="$1"
+    if [ ! -d "/rdata/$RD_LABEL" ] ; then
+        echo "Reference data content \"$RD_LABEL\" was not found."
+        exit 1
+    fi
+    rm -rf "/rdata/$RD_LABEL"
+    echo "Reference data content \"$RD_LABEL\" was removed."
+
+  sas-rdwait.sh: |+
+    #!/bin/bash
+    DATAPATH=/opt/sas/viya/home/share/refdata/qkb
+    QKBCFGDIR=/qkb/config
+    SAS_RDNAME="`cat $QKBCFGDIR/default`"
+    if [ -z "$SAS_RDNAME" ] ; then
+        echo "- No QKB configuration detected."
+        exit 0
+    fi
+    SHAFILE="$DATAPATH/$SAS_RDNAME/$SAS_RDNAME.sha1"
+    echo "Checking reference data: $SAS_RDNAME ..."
+    while [ ! -f "$SHAFILE" ] ; do
+        echo "- No SHA1 file at $SHAFILE; waiting..."
+        sleep 10
+    done
+    echo "- Reference data $SAS_RDNAME is available."
+
+
+kind: ConfigMap
+metadata:
+  annotations:
+    orchestration.sas.com/literal: "true"
+    sas.com/component-name: sas-data-quality-services
+    sas.com/component-version: 3.7.2-20200908.1599577992906
+    sas.com/version: 3.7.2
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-reference-data-scripts
+  namespace: viya

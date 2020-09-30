@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="sas.css"/>
+        <title>SMP CAS Server for SAS Viya 4</title>
+    </head>
+    <body>
+        <h1 id="smp-cas-server-for-sas-viya-4">SMP CAS Server for SAS Viya 4</h1>
+<p>This directory contains files to customize your SAS Viya 4 deployment to use
+a single-node SAS Cloud Analytic Services (CAS) server, referred to as SMP.</p>
+<h2 id="instructions">Instructions</h2>
+<h3 id="edit-the-kustomizationyaml-file">Edit the kustomization.yaml File</h3>
+<p>In order to make your CAS server SMP, add a reference to the SMP overlay
+to the resources block of the base kustomization.yaml file (<code>$deploy/kustomization.yaml</code>).</p>
+<pre class="highlight"><code class="language-yaml">resources:
+- sas-bases/overlays/cas-smp</code></pre>
+
+<h3 id="patch-transformations">Patch Transformations</h3>
+<p>You can make modifications to the overlay through the use of
+Patch Transformers. Examples are located in <code>/$deploy/sas-bases/examples/cas/configure</code>,
+including how to add additional volume mounts and data connectors, modifying CAS
+server resource allocation, and changing the default PVC access modes. </p>
+<p>To be included in the manifest, any yaml files containing Patch Transformers must
+also be added to the trnsformers block of the base kustomization.yaml file:</p>
+<pre class="highlight"><code class="language-yaml">transformers:
+- {{ PATCH-FILE-1 }}
+- {{ PATCH-FILE-2 }}</code></pre>
+
+<h3 id="cas-configuration-on-an-openshift-cluster">CAS Configuration on an OpenShift Cluster</h3>
+<p>The <code>/$deploy/sas-bases/examples/cas/configure</code> directory contains a file to 
+grant Security Context Constraints for fsgroup 26 on an OpenShift cluster. A
+Kubernetes cluster administrator should add these Security Context Constraints 
+to their OpenShift cluster prior to deploying SAS Viya 4. Use one of the 
+following commands:</p>
+<pre class="highlight"><code class="language-yaml">kubectl apply -f cas-scc.yaml</code></pre>
+
+<p>or</p>
+<pre class="highlight"><code class="language-yaml">oc create -f cas-scc.yam</code></pre>
+
+<h2 id="build">Build</h2>
+<p>After you configure Kustomize, continue your SAS Viya deployment as documented.</p>
+<h2 id="additional-resources">Additional Resources</h2>
+<p>For more information about the difference between SMP and MPP CAS, see <a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=itopscon&amp;docsetTarget=n0tx1x9gu37i7qn1nuv8inwzrfet.htm&amp;locale=en#n0dj3c2j49krjhn1jho4z6daw5n1">What is the CAS Server, SMP, and MPP?</a>.</p>
+    </body>
+</html>

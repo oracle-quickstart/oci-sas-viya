@@ -1,0 +1,23 @@
+# Migration Backup Patch Transformers
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: cas-pvc-mount
+patch: |-
+  - op: add
+    path: /spec/controllerTemplate/spec/volumes/-
+    value:
+      name: cas-backup
+      persistentVolumeClaim:
+        claimName: {{ PVC-NAME }}
+  - op: add
+    path: /spec/controllerTemplate/spec/containers/0/volumeMounts/-
+    value:
+      name: cas-backup
+      mountPath: /casbackup
+target:
+  group: viya.sas.com
+  kind: CASDeployment
+  name: .*
+  version: v1alpha1

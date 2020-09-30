@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="sas.css"/>
+        <title>Update Checker Cron Job</title>
+    </head>
+    <body>
+        <h1 id="update-checker-cron-job">Update Checker Cron Job</h1>
+<h2 id="overview">Overview</h2>
+<p>The Update Checker cron job builds a report comparing the currently
+deployed release with available releases in the upstream repository.
+The report is written to the stdout of the launched job pod and
+indicates when new content related to the deployment is available.
+Unless you use the Update Checker job, your SAS Viya 4 deployment
+does not have an automated way to receive indication of changes that
+are available.</p>
+<h2 id="installation">Installation</h2>
+<p>To add the Update Checker cron job to your deployment,
+add this overlay directory to the resources block of the
+base kustomization.yaml.</p>
+<p>Here is an example:</p>
+<pre class="highlight"><code class="language-yaml">...
+resources:
+- sas-bases/overlays/update-checker</code></pre>
+
+<p>After the base kustomization.yaml has been modified, build and apply
+the manifest according to the instructions in <a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=dplyml0phy0dkr&amp;docsetTarget=titlepage.htm&amp;locale=en">SAS Viya Deployment Guide</a>.</p>
+<h2 id="usage">Usage</h2>
+<p>The job runs weekly. To view the report:</p>
+<ol>
+<li>
+<p>Determine the full names of pods for the update checker:</p>
+<pre class="highlight"><code>kubectl get pods | grep sas-update</code></pre>
+
+<p>The results will look something like this:</p>
+<pre class="highlight"><code>sas-update-checker-1592301600-q2scv 0/1 Completed 0 2d2h
+sas-update-checker-1592388000-pk7rw 0/1 Completed 0 26h
+sas-update-checker-1592474400-r7dd2 0/1 Completed 0 154m</code></pre>
+
+</li>
+<li>
+<p>Select the most recently created pod from the list and use it in the following command:</p>
+<pre class="highlight"><code>kubectl logs -f sas-update-checker-[unique hash value]</code></pre>
+
+<p>Using the example above, the command would look like this:</p>
+<pre class="highlight"><code>kubectl logs -f sas-update-checker-1592474400-r7dd2</code></pre>
+
+</li>
+</ol>
+    </body>
+</html>

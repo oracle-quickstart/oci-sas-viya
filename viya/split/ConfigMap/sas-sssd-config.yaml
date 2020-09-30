@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+data:
+  SSSD_CONF: |
+    [sssd]
+    config_file_version = 2
+    domains = gelldap.com
+    services = nss, pam
+
+    [nss]
+
+    [pam]
+
+    [domain/gelldap.com]
+
+    # uncomment for high level of debugging
+    #debug_level = 9
+
+    id_provider = ldap
+    auth_provider = ldap
+    chpass_provider = ldap
+    access_provider = permit
+
+    ldap_uri = ldap://gelldap-service.gelldap.svc.cluster.local:389
+
+    ldap_default_bind_dn = cn=admin,dc=gelldap,dc=com
+    ldap_default_authtok = lnxsas
+
+    ldap_tls_reqcert = never
+    ldap_id_use_start_tls = false
+
+    ldap_search_base = dc=gelldap,dc=com
+
+    ldap_user_fullname = displayName
+    ldap_user_member_of = memberOf
+
+    ldap_group_object_class = groupOfNames
+    ldap_group_name = cn
+    ldap_group_gid_number = gidNumber
+    ldap_group_member = memberUid
+    ldap_group_member_of = memberOf
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-sssd-config
+  namespace: viya

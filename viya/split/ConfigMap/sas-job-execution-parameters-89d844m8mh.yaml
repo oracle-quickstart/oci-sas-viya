@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+data:
+  SAS_CONTEXT_PATH: jobExecution
+  SAS_SERVICE_NAME: sas-job-execution
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-job-execution-parameters-89d844m8mh
+  namespace: viya

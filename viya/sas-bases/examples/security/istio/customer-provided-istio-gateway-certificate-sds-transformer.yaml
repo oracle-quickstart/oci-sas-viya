@@ -1,0 +1,33 @@
+## Example PatchTransformer to patch the secret used by Istio Gateway objects
+## Only one of the following files should be included in the site-config location:
+## * customer-provided-istio-gateway-certificate-filepath-transformer.yaml
+##       This is a good option if you only have a few certificates to be displayed by the ingress gateway
+##       as, each additional certificate will require a restart of the ingress-gateway pod.
+## * customer-provided-istio-gateway-certificate-sds-transformer.yaml
+##       This is a good option if you want many unique certificates to be displayed by the ingress gateway.
+##       Additional certificates can be added to ingress-gateway without editing the deployment.
+##       As each certificate is unique and namespace specific, it is important that the secretNames
+##       are also designed in a way to avoid collision.
+##
+## In the following code, the locations that require user specified values are indicated by a capitalized and
+## hyphenated name set off by curly braces and a space at each end. You should replace this token with the
+## actual value.
+## Replace the curly braces, interior spaces, and the variable name.
+## For instance, "{{ GATEWAY-CERTIFICATE-SECRET-NAME Example: deploymentNamespace-credential }}"
+## should be replaced with the name of the secret that contains the certificate and key that will
+## be used to secure the ingress gateway.
+## If you are following the example, the correct final syntax will look like:
+##   value: deploymentNamespace-credential
+##
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: gateway-tls-credential-name-patch
+patch: |-
+  - op: replace
+    path: /spec/servers/0/tls/credentialName
+    value: {{ GATEWAY-CERTIFICATE-SECRET-NAME Example: deploymentNamespace-credential }} # Should match the secret name from customer-provided-istio-gateway-certificate.yaml
+target:
+  Kind: Gateway
+  name: public-gateway

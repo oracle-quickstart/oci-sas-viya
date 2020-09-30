@@ -1,0 +1,35 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    sas.com/component-name: sas-data-server-utility
+    sas.com/component-version: 20.3.6-20200904.1599231017278
+    sas.com/version: 20.3.6
+  labels:
+    sas.com/admin: cluster-wide
+    sas.com/deployment: sas-viya
+  name: sas-data-server-utility
+  namespace: viya
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - services
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - watch
+- apiGroups:
+  - crunchydata.com
+  resources:
+  - pgclusters
+  verbs:
+  - get
+  - patch

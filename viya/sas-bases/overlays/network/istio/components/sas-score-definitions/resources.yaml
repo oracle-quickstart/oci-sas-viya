@@ -1,0 +1,41 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-score-definitions
+spec:
+  host: sas-score-definitions
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /scoreDefinitions/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-score-definitions
+    sas.com/admin: namespace
+  name: sas-score-definitions
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /scoreDefinitions
+    - uri:
+        prefix: /scoreDefinitions/
+    route:
+    - destination:
+        host: sas-score-definitions
+    timeout: 300s
+

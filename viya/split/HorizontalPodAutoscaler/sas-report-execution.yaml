@@ -1,0 +1,27 @@
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  annotations:
+    sas.com/component-name: sas-report-execution
+    sas.com/component-version: 1.10.5-20200909.1599629955021
+    sas.com/version: 1.10.5
+  labels:
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-report-execution
+  namespace: viya
+spec:
+  maxReplicas: 1
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 80
+        type: Utilization
+    type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: sas-report-execution

@@ -1,0 +1,16 @@
+# Used for updating  the default docker tags for sas-crunchy images
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-components
+behavior: merge
+literals:
+- SAS_COMPONENT_TAG_sas-crunchy-data-postgres-12=REPLACE_THIS_WITH_DOCKER_TAG_FOR_POSTGRES
+- SAS_COMPONENT_TAG_sas-crunchy-data-collect=REPLACE_THIS_WITH_DOCKER_TAG_FOR_COLLECT
+- SAS_COMPONENT_TAG_sas-crunchy-data-pgadmin=REPLACE_THIS_WITH_DOCKER_TAG_FOR_PGADMIN
+- SAS_COMPONENT_TAG_sas-crunchy-data-pgbackrest=REPLACE_THIS_WITH_DOCKER_TAG_FOR_PGBACKREST
+- SAS_COMPONENT_TAG_sas-crunchy-data-pgbackrest-job=REPLACE_THIS_WITH_DOCKER_TAG_FOR_PGBACKREST_JOB
+- SAS_COMPONENT_TAG_sas-crunchy-data-pgbadger=REPLACE_THIS_WITH_DOCKER_TAG_FOR_PGBADGER
+- SAS_COMPONENT_TAG_sas-crunchy-data-pgbench=REPLACE_THIS_WITH_DOCKER_TAG_FOR_PGBENCH
+- SAS_COMPONENT_TAG_sas-crunchy-data-pgdump=REPLACE_THIS_WITH_DOCKER_TAG_FORPGDUMP

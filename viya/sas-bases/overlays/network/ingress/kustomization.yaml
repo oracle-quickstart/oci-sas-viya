@@ -1,0 +1,92 @@
+resources:
+- components/sas-analytics-components/
+- components/sas-analytics-events/
+- components/sas-analytics-services/
+- components/sas-analytics-services-2/
+- components/sas-annotations/
+- components/sas-app-registry/
+- components/sas-audit/
+- components/sas-authorization/
+- components/sas-batch/
+- components/sas-cas-administration/
+- components/sas-cas-control/
+- components/sas-comments/
+- components/sas-compute/
+- components/sas-config-reconciler/
+- components/sas-configuration/
+- components/sas-conversation-designer-app/
+- components/sas-credentials/
+- components/sas-crossdomainproxy/
+- components/sas-data-explorer-app/
+- components/sas-data-flows/
+- components/sas-data-mining-models/
+- components/sas-data-mining-project-settings/
+- components/sas-data-mining-results/
+- components/sas-data-mining-services/
+- components/sas-data-plans/
+- components/sas-data-profiles/
+- components/sas-data-quality-services/
+- components/sas-data-sources/
+- components/sas-data-studio-app/
+- components/sas-deployment-data/
+- components/sas-device-management/
+- components/sas-drive-app/
+- components/sas-environment-manager-app/
+- components/sas-files/
+- components/sas-folders/
+- components/sas-fonts/
+- components/sas-geo-enrichment/
+- components/sas-graph-builder-app/
+- components/sas-graph-templates/
+- components/sas-identities/
+- components/sas-import-9/
+- components/sas-job-execution/
+- components/sas-job-execution-app/
+- components/sas-job-flow-scheduling/
+- components/sas-launcher/
+- components/sas-lineage-app/
+- components/sas-links/
+- components/sas-localization/
+- components/sas-logon-app/
+- components/sas-mail/
+- components/sas-maps/
+- components/sas-model-publish/
+- components/sas-model-repository/
+- components/sas-model-studio-app/
+- components/sas-natural-language-conversations/
+- components/sas-natural-language-generation/
+- components/sas-natural-language-understanding/
+- components/sas-notifications/
+- components/sas-preferences/
+- components/sas-projects/
+- components/sas-relationships/
+- components/sas-report-distribution/
+- components/sas-report-execution/
+- components/sas-report-renderer/
+- components/sas-report-services-group/
+- components/sas-scheduler/
+- components/sas-score-definitions/
+- components/sas-score-execution/
+- components/sas-search/
+- components/sas-studio-app/
+- components/sas-templates/
+- components/sas-theme-content/
+- components/sas-theme-designer-app/
+- components/sas-themes/
+- components/sas-thumbnails/
+- components/sas-transfer/
+- components/sas-transformations/
+- components/sas-types/
+- components/sas-visual-analytics-administration/
+- components/sas-visual-analytics-app/
+- components/sas-web-data-access/
+generators:
+- configmaps.yaml
+vars:
+- name: INGRESS_HOST
+  objref:
+    kind: ConfigMap
+    name: ingress-input
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.INGRESS_HOST

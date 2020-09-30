@@ -1,0 +1,27 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    sas.com/component-name: sas-folders
+    sas.com/component-version: 2.55.1-20200827.1598534597482
+    sas.com/kustomize-base: base
+    sas.com/registry-sync: default
+    sas.com/registry-tags: proxy
+    sas.com/version: 2.55.1
+  labels:
+    app.kubernetes.io/name: sas-folders
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-folders
+  namespace: viya
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  selector:
+    app.kubernetes.io/name: sas-folders
+    sas.com/deployment: sas-viya
+  type: ClusterIP

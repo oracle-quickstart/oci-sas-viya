@@ -1,0 +1,22 @@
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    sas.com/component-name: sas-crunchy-data-postgres-operator
+    sas.com/component-version: 20.3.2-20200824.1598301017591
+    sas.com/tls-enabled-ports: all
+    sas.com/version: 20.3.2
+  labels:
+    sas.com/admin: cluster-wide
+    sas.com/deployment: sas-viya
+  name: pgreplicas.crunchydata.com
+spec:
+  group: crunchydata.com
+  names:
+    kind: Pgreplica
+    listKind: PgreplicaList
+    plural: pgreplicas
+    singular: pgreplica
+  scope: Namespaced
+  version: v1

@@ -1,0 +1,110 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="sas.css"/>
+        <title>Set Up an Internal PostgreSQL Instance for SAS Viya</title>
+    </head>
+    <body>
+        <h1 id="set-up-an-internal-postgresql-instance-for-sas-viya">Set Up an Internal PostgreSQL Instance for SAS Viya</h1>
+<p>By default, SAS Viya will not add a PostgreSQL instance to the Kubernetes
+deployment. SAS Viya includes two options for your PostgreSQL server: an
+internal instance provided by SAS or an external PostgreSQL that you want SAS
+to use.</p>
+<p>This readme describes the files used to customize your SAS Viya deployment to
+use the internal PostgreSQL provided by SAS. The internal PostgreSQL instance is
+created using the
+<a href="https://github.com/crunchydata">PostgreSQL Operator and Containers</a>
+provided by <a href="https://www.crunchydata.com/">Crunchy Data</a></p>
+<p><strong>Note:</strong> If you want to use an external instance of PostgreSQL, you should
+refer to the readme file located at
+<code>$deploy/sas-bases/overlays/external-postgres/README.md</code>.</p>
+<h2 id="instructions">Instructions</h2>
+<p>In order to use the internal PostgreSQL instance, you must customize your
+deployment to point to the required overlay.</p>
+<ol>
+<li>
+<p>Go to the base kustomization.yaml file (<code>$deploy/kustomization.yaml</code>). In the
+   resources block of that file, add the following content, including adding
+   the block if it does not already exist.</p>
+<pre class="highlight"><code class="language-yaml">resources:
+- sas-bases/overlays/internal-postgres</code></pre>
+
+</li>
+<li>
+<p>Then add the following content to the transformers block.</p>
+<pre class="highlight"><code class="language-yaml">transformers:
+- sas-bases/overlays/internal-postgres/internal-postgres-transformer.yaml</code></pre>
+
+<p><strong>Note:</strong> The initial kustomization.yaml file described in
+ <a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=dplyml0phy0dkr&amp;docsetTarget=titlepage.htm&amp;locale=en">SAS Viya Deployment Guide</a>
+ includes the content necessary to deploy an internal PostgreSQL instance.
+ Also, an example of a completed base kustomization.yaml file for an
+ internal PostgreSQL instance is located at
+ <code>$deploy/sas-bases/examples/configure-postgres/internal-kustomization.yaml</code>.</p>
+</li>
+<li>
+<p>After you revise the base kustomization.yaml file, continue your SAS Viya
+   Deployment as documented in
+   <a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=dplyml0phy0dkr&amp;docsetTarget=titlepage.htm&amp;locale=en">SAS Viya Deployment Guide</a>.</p>
+</li>
+</ol>
+<h2 id="upgrade-the-postgresql-operator-and-postgresql-cluster">Upgrade the PostgreSQL Operator and PostgreSQL Cluster</h2>
+<h3 id="overview">Overview</h3>
+<p>If you are updating your software, you must perform the following steps.
+If you are performing a new deployment of your software, these steps can be
+safely ignored.</p>
+<p>The directory
+<code>$deploy/sas-bases/overlays/internal-postgres/postgres-cluster-update</code>
+contains files to stage your existing SAS Viya 4 deployment for an internal
+PostgreSQL server update and internal PostgreSQL Operator update.</p>
+<h3 id="instructions_1">Instructions</h3>
+<p><strong>Note:</strong> These instructions only apply to the internal instance of PostgreSQL
+server. If you are using an external instance of PostgreSQL, do not perform
+any of these steps.</p>
+<p>The following steps need to be performed before applying your manifest for the
+new version of SAS Viya. Replace the entire variable
+<code>{{ KUBERNETES-NAMESPACE }}</code>, including the braces, with the Kubernetes
+namespace used for SAS Viya.</p>
+<ol>
+<li>
+<p>As an administrator with namespace permissions, run the following
+   <code>kubectl apply</code> command. The command instructs the internal PostgreSQL
+   Operator to terminate the existing internal PostgreSQL cluster.</p>
+<pre class="highlight"><code class="language-bash">kubectl apply -f sas-bases/overlays/internal-postgres/postgres-cluster-update/pgtask-rmdata.yaml -n {{ KUBERNETES-NAMESPACE }}</code></pre>
+
+</li>
+<li>
+<p>As an administrator with namespace permissions, run the following command.
+   The command ensures that internal PostgreSQL pods are in the terminating 
+   state.</p>
+<pre class="highlight"><code class="language-bash">kubectl get po -l  pg-cluster=sas-crunchy-data-postgres -n {{ KUBERNETES-NAMESPACE }}</code></pre>
+
+<p>If the pods are in a Running state, repeat this command until they are in a
+ Terminating state.</p>
+</li>
+<li>
+<p>As an administrator with namespace permissions, scale down the existing
+   internal PostgreSQL Operator deployment:</p>
+<pre class="highlight"><code class="language-bash">kubectl scale deployment --replicas=0 sas-crunchy-data-postgres-operator -n {{ KUBERNETES-NAMESPACE }}</code></pre>
+
+</li>
+<li>
+<p>As an administrator with namespace permissions, run the following command.
+   The command ensures that there are no pods running the internal PosgreSQL
+   operator.</p>
+<pre class="highlight"><code class="language-bash">kubectl get po -l vendor=crunchydata,pgrmdata!=true,name!=sas-crunchy-data-pgadmin -n {{ KUBERNETES-NAMESPACE }}</code></pre>
+
+<p>This is the expected output for this command:</p>
+<pre class="highlight"><code>No resources found in &lt; KUBERNETES-NAMESPACE &gt; namespace</code></pre>
+
+<p>Do not continue with your SAS Viya software update until the command
+ indicates that no resources have been found.</p>
+<p>For more information on SAS Viya software updates, see
+ <a href="http://documentation.sas.com/?cdcId=itopscdc&amp;cdcVersion=v_002&amp;docsetId=k8sag&amp;docsetTarget=p0hm2t63wm8qcqn1iqs6y8vw8y81.htm&amp;locale=en">Updating Your SAS Viya Software</a></p>
+</li>
+</ol>
+<h2 id="additional-resources">Additional Resources</h2>
+<p>For more information about the difference between the internal and external
+instance of PostgreSQL, see
+<a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=itopssr&amp;docsetTarget=n1rbbuql9epqa0n1pg3bvfx3dmvc.htm">SAS Infrastructure Data Server Requirements</a>.</p>
+    </body>
+</html>

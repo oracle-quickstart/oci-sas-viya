@@ -1,0 +1,21 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  annotations:
+    sas.com/component-name: sas-launcher
+    sas.com/component-version: 1.14.1-20200904.1599249847582
+    sas.com/version: 1.14.1
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-launcher
+  namespace: viya
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: sas-launcher
+subjects:
+- kind: ServiceAccount
+  name: sas-launcher
+  namespace: viya

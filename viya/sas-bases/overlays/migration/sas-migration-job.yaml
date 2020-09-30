@@ -1,0 +1,110 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    sas.com/certificate-file-format: pem
+  labels:
+    app.kubernetes.io/name: sas-migration-job
+    sas.com/backup-job-type: "migration"
+    workload.sas.com/class: stateless
+  name: sas-migration-job
+spec:
+  template:
+    metadata:
+      annotations:
+        sas.com/certificate-file-format: pem
+      labels:
+        workload.sas.com/class: stateless
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - preference:
+              matchExpressions:
+              - key: workload.sas.com/class
+                operator: In
+                values:
+                - stateless
+            weight: 100
+          - preference:
+              matchExpressions:
+              - key: workload.sas.com/class
+                operator: NotIn
+                values:
+                - compute
+                - cas
+                - stateful
+            weight: 50
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.azure.com/mode
+                operator: NotIn
+                values:
+                - system
+      containers:
+      - name: sas-migration-job
+        env:
+        - name: SAS_TLS_SKIP_VERIFY
+          value: "true"
+        - name: SAS_DEPLOYMENT_START_MODE
+          value: MIGRATION
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: JOB_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.labels['job-name']
+        envFrom:
+        - configMapRef:
+            name: sas-go-config
+        - configMapRef:
+            name: sas-shared-config
+        - configMapRef:
+            name: sas-java-config
+        - configMapRef:
+            name:  sas-restore-job-parameters
+        - secretRef:
+            name: sas-consul-client
+        image: sas-restore-job
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8082
+          name: http
+          protocol: TCP
+        volumeMounts:
+          - mountPath: /sasviyabackup
+            name: migration
+      - name: sas-configuration
+        env:
+        - name: spring.profiles.active
+          value: standalone
+        envFrom:
+        - configMapRef:
+            name: sas-shared-config
+        - configMapRef:
+            name: sas-java-config
+        - secretRef:
+            name: sas-consul-client
+        image: sas-configuration
+        imagePullPolicy: IfNotPresent
+        volumeMounts: []
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+      volumes: []
+      restartPolicy: Never
+      serviceAccountName: sas-viya-backuprunner
+      imagePullSecrets: []
+      tolerations:
+      - effect: NoSchedule
+        key: workload.sas.com/class
+        operator: Equal
+        value: stateful
+      - effect: NoSchedule
+        key: workload.sas.com/class
+        operator: Equal
+        value: stateless

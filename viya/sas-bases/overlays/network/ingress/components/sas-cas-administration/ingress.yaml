@@ -1,0 +1,52 @@
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+    nginx.ingress.kubernetes.io/proxy-body-size: 2048m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
+    nginx.ingress.kubernetes.io/session-cookie-path: /casManagement/
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-cas-management
+    sas.com/admin: namespace
+  name: sas-cas-management
+spec:
+  rules:
+  - host: $(INGRESS_HOST)
+    http:
+      paths:
+      - backend:
+          serviceName: sas-cas-management
+          servicePort: 80
+        path: /casManagement
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+    nginx.ingress.kubernetes.io/proxy-body-size: 2048m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
+    nginx.ingress.kubernetes.io/session-cookie-path: /casProxy/
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-cas-proxy
+    sas.com/admin: namespace
+  name: sas-cas-proxy
+spec:
+  rules:
+  - host: $(INGRESS_HOST)
+    http:
+      paths:
+      - backend:
+          serviceName: sas-cas-proxy
+          servicePort: 80
+        path: /casProxy
+

@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+data:
+  CCP_IMAGE_PATH: cr.sas.com
+  CCP_IMAGE_REPO: cr.sas.com
+kind: ConfigMap
+metadata:
+  annotations:
+    sas.com/component-name: sas-crunchy-data-postgres-operator
+    sas.com/component-version: 20.3.2-20200824.1598301017591
+    sas.com/tls-enabled-ports: all
+    sas.com/version: 20.3.2
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: ccp-image-location-hmtffbgg54
+  namespace: viya

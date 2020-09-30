@@ -1,0 +1,1349 @@
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: input
+literals:
+- IMAGE_REGISTRY=cr.sas.com
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-access-config
+literals:
+- COPLIB=
+- DIRLAX=
+- DSQUERY=
+- HANA=
+- IMPALA=
+- MONGODB=
+- MYSQL=
+- NETEZZA=
+- NZ_ODBC_INI_PATH=
+- ODBCHOME=/opt/sas/viya/home/lib64/accessclients
+- ODBCINI=/opt/sas/viya/home/lib64/accessclients/odbc.ini
+- ODBCINST=/opt/sas/viya/home/lib64/accessclients/odbcinst.ini
+- ODBCSYSINI=/opt/sas/viya/home/lib64/accessclients/
+- ORACLE=
+- ORACLE_HOME=
+- POSTGRES=/opt/sas/viya/home/lib64
+- R3=
+- SASODBC=/opt/sas/viya/home/lib64/accessclients/lib
+- SAS_EXT_LLP_ACCESS=/opt/sas/viya/home/lib64/accessclients/lib:/opt/sas/viya/home/lib64
+- SAS_EXT_PATH_ACCESS=
+- SNOWFLAKE=
+- SYBASE=
+- SYBASELIBS=
+- SYBASE_BIN=
+- SYB_SAS_BULK_NOTE=1
+- TERADATA=
+- TNS_ADMIN=
+- UNIXODBC=
+- VERTICA=
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-analytics-components-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_CONTEXT_PATH=analyticsComponents
+- SAS_DU_NAME=sas-analytics-components
+- SAS_SERVICE_NAME=sas-analytics-components
+- SG_PROJECT=analytics-components
+- SG_STATIC=false
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-analytics-data-segmentation-parameters
+literals:
+- SAS_CONTEXT_PATH=analyticsDataSegmentation
+- SAS_PORT_NAME=aasegmentatn
+- SAS_SERVICE_NAME=sas-analytics-data-segmentation
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-analytics-events-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_CONTEXT_PATH=analyticsEvents
+- SAS_DU_NAME=sas-analytics-events
+- SAS_SERVICE_NAME=sas-analytics-events
+- SG_PROJECT=analytics-events
+- SG_STATIC=false
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-analytics-flows-parameters
+literals:
+- SAS_CONTEXT_PATH=analyticsFlows
+- SAS_PORT_NAME=aaflows
+- SAS_SERVICE_NAME=sas-analytics-flows
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-analytics-gateway-parameters
+literals:
+- SAS_CONTEXT_PATH=analyticsGateway
+- SAS_PORT_NAME=aagateway
+- SAS_SERVICE_NAME=sas-analytics-gateway
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-analytics-localization-parameters
+literals:
+- SAS_CONTEXT_PATH=analyticsLocalization
+- SAS_PORT_NAME=aacaploclztn
+- SAS_SERVICE_NAME=sas-analytics-localization
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-analytics-pipelines-parameters
+literals:
+- SAS_CONTEXT_PATH=analyticsPipelines
+- SAS_PORT_NAME=aapipelines
+- SAS_SERVICE_NAME=sas-analytics-pipelines
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-analytics-services-2-parameters
+literals:
+- SAS_DU_NAME=sas-analytics-services-2
+- SAS_SERVICE_NAME=sas-analytics-services-2
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-analytics-services-parameters
+literals:
+- SAS_DU_NAME=sas-analytics-services
+- SAS_SERVICE_NAME=sas-analytics-services
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-analytics-validation-parameters
+literals:
+- SAS_CONTEXT_PATH=analyticsValidation
+- SAS_PORT_NAME=aavalidation
+- SAS_SERVICE_NAME=sas-analytics-validation
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-annotations-parameters
+literals:
+- SAS_CONTEXT_PATH=annotations
+- SAS_DU_NAME=sas-annotations
+- SAS_SERVICE_NAME=sas-annotations
+- SG_PROJECT=annotations
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-app-registry-parameters
+literals:
+- SAS_CONTEXT_PATH=appRegistry
+- SAS_DU_NAME=sas-app-registry
+- SAS_SERVICE_NAME=sas-app-registry
+- SG_PROJECT=app-registry
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-arke-parameters-h6hk5cgm5b
+literals:
+- SAS_DU_NAME=sas-arke
+- SAS_SERVICE_NAME=sas-arke
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-audit-parameters
+literals:
+- SAS_CONTEXT_PATH=audit
+- SAS_DU_NAME=sas-audit
+- SAS_SERVICE_NAME=sas-audit
+- SG_PROJECT=audit
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-authorization-parameters
+literals:
+- SAS_CONTEXT_PATH=authorization
+- SAS_DU_NAME=sas-authorization
+- SAS_SERVICE_NAME=sas-authorization
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-backup-agent-parameters
+literals:
+- SAS_CONTEXT_PATH=backupagent
+- SAS_DU_NAME=sas-backup-agent
+- SAS_SERVICE_NAME=sas-backup-agent
+- SAS_TOOL_RETRY_LIMIT=100
+- SAS_TOOL_RETRY_PERIOD=1m
+- SG_PROJECT=backup-agent
+- SG_STATIC=false
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-backup-job-parameters
+literals:
+- JOB_TIME_OUT=600
+- RETENTION_PERIOD=30
+- SAS_BACKUP_JOB_DU_NAME=sas-backup-job
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-batch-parameters
+literals:
+- SAS_CONTEXT_PATH=batch
+- SAS_DU_NAME=sas-batch
+- SAS_SERVICE_NAME=sas-batch
+- SG_PROJECT=batch
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-cachelocator-parameters
+literals:
+- SAS_CONTEXT_PATH=cachelocator
+- SAS_DU_NAME=sas-cachelocator
+- SAS_SERVICE_NAME=sas-cachelocator
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-cacheserver-parameters
+literals:
+- SAS_CONTEXT_PATH=cacheserver
+- SAS_DU_NAME=sas-cacheserver
+- SAS_SERVICE_NAME=sas-cacheserver
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-cas-access-management-parameters
+literals:
+- SAS_CONTEXT_PATH=casAccessManagement
+- SAS_PORT_NAME=casacl
+- SAS_SERVICE_NAME=sas-cas-access-management
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-cas-administration-parameters
+literals:
+- SAS_DU_NAME=sas-cas-administration
+- SAS_SERVICE_NAME=sas-cas-administration
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-cas-control-parameters
+literals:
+- SAS_CONTEXT_PATH=sas-cas-control
+- SAS_DU_NAME=sas-cas-control
+- SAS_PORT_NAME=cas-control
+- SAS_SERVICE_NAME=sas-cas-control
+- SG_PROJECT=cas-control
+- SG_STATIC=false
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-cas-formats-parameters
+literals:
+- SAS_CONTEXT_PATH=casFormats
+- SAS_PORT_NAME=cas-formats
+- SAS_SERVICE_NAME=sas-cas-formats
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-cas-management-parameters
+literals:
+- SAS_CONTEXT_PATH=casManagement
+- SAS_PORT_NAME=casmanagement
+- SAS_SERVICE_NAME=sas-cas-management
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-cas-proxy-parameters
+literals:
+- SAS_CONTEXT_PATH=casProxy
+- SAS_PORT_NAME=casproxy
+- SAS_SERVICE_NAME=sas-cas-proxy
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-cas-row-sets-parameters
+literals:
+- SAS_CONTEXT_PATH=casRowSets
+- SAS_PORT_NAME=cas-row-sets
+- SAS_SERVICE_NAME=sas-cas-row-sets
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-catalog-parameters
+literals:
+- SAS_CONTEXT_PATH=catalog
+- SAS_PORT_NAME=catalog
+- SAS_SERVICE_NAME=sas-catalog
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-comments-parameters
+literals:
+- SAS_CONTEXT_PATH=comments
+- SAS_DU_NAME=sas-comments
+- SAS_SERVICE_NAME=sas-comments
+- SG_PROJECT=comments
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-compute-parameters
+literals:
+- SAS_CONTEXT_PATH=compute
+- SAS_DU_NAME=sas-compute
+- SAS_SERVICE_NAME=sas-compute
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-compute-server-config
+literals:
+- AUTOEXEC_USERMODS_FILE=autoexec.sas
+- COMPUTESERVER_USER_CONFIG=/config/
+- COMPUTESERVER_VAR_PATH=/viya/
+- CONFIG_USERMODS_FILE=sasv9.cfg
+- SAS_CONSUL_TOKEN_PATH=/config/consul.token
+- SAS_INIT_CONFIG_FILE1=autoexec.sas
+- SAS_INIT_CONFIG_FILE2=sasv9.cfg
+- SAS_INIT_CONFIG_FILE3=startscript.sh
+- SAS_INIT_CONFIG_KEY1=config/compute/sas.compute.server/autoexec_code/contents
+- SAS_INIT_CONFIG_KEY2=config/compute/sas.compute.server/configuration_options/contents
+- SAS_INIT_CONFIG_KEY3=config/compute/sas.compute.server/startup_commands/contents
+- SAS_LANG_FILE_IN=/config/startscript.sh
+- SCRIPT_USERMODS_FILE=startscript.sh
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-config-reconciler-parameters
+literals:
+- SAS_CONTEXT_PATH=configReconciler
+- SAS_DU_NAME=sas-config-reconciler
+- SAS_SERVICE_NAME=sas-config-reconciler
+- SG_PROJECT=config-reconciler
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-configuration-parameters
+literals:
+- SAS_CONTEXT_PATH=configuration
+- SAS_DU_NAME=sas-configuration
+- SAS_SERVICE_NAME=sas-configuration
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-consul-config
+literals:
+- SITEDEFAULT_CONF=
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-conversation-designer-app-parameters
+literals:
+- SAS_CONTEXT_PATH=SASConversationDesigner
+- SAS_DU_NAME=sas-conversation-designer-app
+- SAS_SERVICE_NAME=sas-conversation-designer-app
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-credentials-parameters
+literals:
+- SAS_CONTEXT_PATH=credentials
+- SAS_DU_NAME=sas-credentials
+- SAS_SERVICE_NAME=sas-credentials
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-crossdomainproxy-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_CONTEXT_PATH=crossdomainproxy
+- SAS_DU_NAME=sas-crossdomainproxy
+- SAS_SERVICE_NAME=sas-crossdomainproxy
+- SG_PROJECT=crossdomainproxy
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-data-discovery-parameters
+literals:
+- SAS_CONTEXT_PATH=dataDiscovery
+- SAS_PORT_NAME=datadiscovery
+- SAS_SERVICE_NAME=sas-data-discovery
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-data-explorer-app-parameters
+literals:
+- JAVA_OPTION_FJPCP=java.util.concurrent.ForkJoinPool.common.parallelism=16
+- SAS_CONTEXT_PATH=SASDataExplorer
+- SAS_DU_NAME=sas-data-explorer-app
+- SAS_SERVICE_NAME=sas-data-explorer-app
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-data-flows-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_CONTEXT_PATH=dataFlows
+- SAS_DU_NAME=sas-data-flows
+- SAS_SERVICE_NAME=sas-data-flows
+- SG_PROJECT=data-flows
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-data-mining-models-parameters
+literals:
+- SAS_CONTEXT_PATH=dataMiningModels
+- SAS_DU_NAME=sas-data-mining-models
+- SAS_SERVICE_NAME=sas-data-mining-models
+- SG_PROJECT=data-mining-models
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-data-mining-parameters
+literals:
+- SAS_CONTEXT_PATH=dataMining
+- SAS_PORT_NAME=dmine
+- SAS_SERVICE_NAME=sas-data-mining
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-data-mining-project-settings-parameters
+literals:
+- SAS_CONTEXT_PATH=dataMiningProjectSettings
+- SAS_DU_NAME=sas-data-mining-project-settings
+- SAS_SERVICE_NAME=sas-data-mining-project-settings
+- SG_PROJECT=data-mining-project-settings
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-data-mining-results-parameters
+literals:
+- SAS_CONTEXT_PATH=dataMiningResults
+- SAS_DU_NAME=sas-data-mining-results
+- SAS_SERVICE_NAME=sas-data-mining-results
+- SG_PROJECT=data-mining-results
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-data-mining-services-parameters
+literals:
+- SAS_DU_NAME=sas-data-mining-services
+- SAS_SERVICE_NAME=sas-data-mining-services
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-data-mining-warehouse-parameters
+literals:
+- SAS_CONTEXT_PATH=dataMiningWarehouse
+- SAS_PORT_NAME=dminewh
+- SAS_SERVICE_NAME=sas-data-mining-warehouse
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-data-plans-parameters
+literals:
+- SAS_CONTEXT_PATH=dataPlans
+- SAS_DU_NAME=sas-data-plans
+- SAS_SERVICE_NAME=sas-data-plans
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-data-profiles-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_CONTEXT_PATH=dataProfiles
+- SAS_DU_NAME=sas-data-profiles
+- SAS_SERVICE_NAME=sas-data-profiles
+- SG_PROJECT=data-profiles
+- SG_STATIC=false
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-data-quality-parameters
+literals:
+- SAS_CONTEXT_PATH=dataQuality
+- SAS_PORT_NAME=dataquality
+- SAS_SERVICE_NAME=sas-data-quality
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-data-quality-services-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_DU_NAME=sas-data-quality-services
+- SAS_PORT_NAME=dq-services
+- SAS_SERVICE_NAME=sas-data-quality-services
+- SG_PROJECT=data-quality
+- SG_STATIC=false
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-data-sources-parameters
+literals:
+- SAS_CONTEXT_PATH=dataSources
+- SAS_PORT_NAME=datasources
+- SAS_SERVICE_NAME=sas-data-sources
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-data-sources-root-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_DU_NAME=sas-data-sources
+- SAS_PORT_NAME=data-sources
+- SAS_SERVICE_NAME=sas-data-sources
+- SG_PROJECT=data-sources
+- SG_STATIC=false
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-data-studio-app-parameters
+literals:
+- SAS_CONTEXT_PATH=SASDataStudio
+- SAS_DU_NAME=sas-data-studio-app
+- SAS_SERVICE_NAME=sas-data-studio-app
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-data-tables-parameters
+literals:
+- SAS_CONTEXT_PATH=dataTables
+- SAS_PORT_NAME=datatables
+- SAS_SERVICE_NAME=sas-data-tables
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-deployment-data-parameters
+literals:
+- SAS_DEPLOY_CONTEXT_PATH=deploymentData
+- SAS_DU_NAME=sas-deployment-data
+- SAS_METERING_CONTEXT_PATH=metering
+- SAS_SERVICE_NAME=sas-deployment-data
+- SG_PROJECT=deployment-data
+- SG_TEST_TAGS=testca
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-deployment-metadata
+literals:
+- SAS_BUILD_TYPE=x64_oci_linux_2-docker
+- SAS_CADENCE_DISPLAY_NAME=Stable 2020.0.5
+- SAS_CADENCE_NAME=stable
+- SAS_CADENCE_RELEASE=20200924.1600985745738
+- SAS_CADENCE_VERSION=2020.0.5
+- SAS_DEPLOYMENT_TYPE=default
+- SAS_REPOSITORY_WAREHOUSE_URL=https://ses.sas.download/ses
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-device-management-parameters
+literals:
+- SAS_CONTEXT_PATH=deviceManagement
+- SAS_DU_NAME=sas-device-management
+- SAS_SERVICE_NAME=sas-device-management
+- SG_PROJECT=device-management
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-discovery-table-provider-parameters
+literals:
+- SAS_CONTEXT_PATH=discoveryTableProvider
+- SAS_PORT_NAME=dscvrytblprvdr
+- SAS_SERVICE_NAME=sas-discovery-table-provider
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-drive-app-parameters
+literals:
+- SAS_CONTEXT_PATH=SASDrive
+- SAS_DU_NAME=sas-drive-app
+- SAS_SERVICE_NAME=sas-drive-app
+- SG_PROJECT=drive-app
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-environment-manager-app-parameters
+literals:
+- SAS_CONTEXT_PATH=SASEnvironmentManager
+- SAS_DU_NAME=sas-environment-manager-app
+- SAS_SERVICE_NAME=sas-environment-manager-app
+- SG_PROJECT=environment-manager
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-files-parameters
+literals:
+- SAS_CONTEXT_PATH=files
+- SAS_DU_NAME=sas-files
+- SAS_SERVICE_NAME=sas-files
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-folders-parameters
+literals:
+- SAS_CONTEXT_PATH=folders
+- SAS_DU_NAME=sas-folders
+- SAS_SERVICE_NAME=sas-folders
+- SG_PROJECT=folders
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-fonts-parameters
+literals:
+- SAS_CONTEXT_PATH=fonts
+- SAS_DU_NAME=sas-fonts
+- SAS_SERVICE_NAME=sas-fonts
+- SG_PROJECT=fonts
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-geo-enrichment-parameters
+literals:
+- SAS_CONTEXT_PATH=geoEnrichment
+- SAS_DU_NAME=sas-geo-enrichment
+- SAS_SERVICE_NAME=sas-geo-enrichment
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-go-config
+literals:
+- CONSUL_HTTP_ADDR=http://sas-consul-server:8500
+- SAS_RECONCILER_SERVICES_ENABLED=true
+- SAS_REGISTRY_REGISTER_ENABLED=false
+- SAS_TLS_LISTENER_ENABLED=false
+- SAS_TLS_SKIP_VERIFY=true
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-graph-builder-app-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_CONTEXT_PATH=SASGraphBuilder
+- SAS_DU_NAME=sas-graph-builder-app
+- SAS_SERVICE_NAME=sas-graph-builder-app
+- SG_PROJECT=graph-builder
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-graph-templates-parameters
+literals:
+- SAS_CONTEXT_PATH=graphTemplates
+- SAS_DU_NAME=sas-graph-templates
+- SAS_SERVICE_NAME=sas-graph-templates
+- SG_PROJECT=graph-templates
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-identities-parameters
+literals:
+- SAS_CONTEXT_PATH=identities
+- SAS_DU_NAME=sas-identities
+- SAS_SERVICE_NAME=sas-identities
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-import-9-parameters
+literals:
+- SAS_CONTEXT_PATH=import9
+- SAS_DU_NAME=sas-import-9
+- SAS_SERVICE_NAME=sas-import-9
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-java-config
+literals:
+- CONSUL_HTTP_ADDR=http://sas-consul-server:8500
+- JAVA_OPTION_GEODE_LOG=-Dlogging.level.org.apache.geode.internal.net.SocketCreator=ERROR
+- JAVA_OPTION_SERVER_PORT=-Dserver.port=8080
+- SASLOGROOT=
+- SAS_LOG_FORMAT=json
+- SAS_REGISTRY_REGISTER_ENABLED=false
+- SAS_SERVICES_METRICS_SECURED=false
+- SPRING_CLOUD_CONSUL_DISCOVERY_PREFERIPADDRESS=true
+- SPRING_CLOUD_CONSUL_DISCOVERY_REGISTER=false
+- SPRING_CLOUD_CONSUL_ENABLED=true
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-job-definitions-parameters
+literals:
+- SAS_CONTEXT_PATH=jobDefinitions
+- SAS_SERVICE_NAME=sas-job-definitions
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-job-execution-app-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_CONTEXT_PATH=SASJobExecution
+- SAS_DU_NAME=sas-job-execution-app
+- SAS_SERVICE_NAME=sas-job-execution-app
+- SG_PROJECT=jobexecapp
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-job-execution-parameters
+literals:
+- SAS_CONTEXT_PATH=jobExecution
+- SAS_SERVICE_NAME=sas-job-execution
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-job-execution-root-parameters
+literals:
+- SAS_DU_NAME=sas-job-execution
+- SAS_SERVICE_NAME=sas-job-execution
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-job-flow-scheduling-parameters
+literals:
+- SAS_CONTEXT_PATH=jobFlowScheduling
+- SAS_DU_NAME=sas-job-flow-scheduling
+- SAS_SERVICE_NAME=sas-job-flow-scheduling
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-launcher-parameters
+literals:
+- SAS_CONTEXT_PATH=launcher
+- SAS_DU_NAME=sas-launcher
+- SAS_SERVICE_NAME=sas-launcher
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-licenses-parameters
+literals:
+- SAS_CONTEXT_PATH=licenses
+- SAS_PORT_NAME=licenses
+- SAS_SERVICE_NAME=sas-licenses
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-lineage-app-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_CONTEXT_PATH=SASLineage
+- SAS_DU_NAME=sas-lineage-app
+- SAS_SERVICE_NAME=sas-lineage-app
+- SG_PROJECT=sas-lineage-app
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-links-parameters
+literals:
+- SAS_CONTEXT_PATH=links
+- SAS_DU_NAME=sas-links
+- SAS_SERVICE_NAME=sas-links
+- SG_PROJECT=links
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-localization-parameters
+literals:
+- SAS_CONTEXT_PATH=localization
+- SAS_DU_NAME=sas-localization
+- SAS_SERVICE_NAME=sas-localization
+- SG_PROJECT=localization
+- SG_STATIC=false
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-logon-app-parameters
+literals:
+- SAS_CONTEXT_PATH=SASLogon
+- SAS_DU_NAME=sas-logon-app
+- SAS_SERVICE_NAME=sas-logon-app
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-mail-parameters
+literals:
+- SAS_CONTEXT_PATH=mail
+- SAS_DU_NAME=sas-mail
+- SAS_SERVICE_NAME=sas-mail
+- SG_PROJECT=mail
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-maps-parameters
+literals:
+- SAS_CONTEXT_PATH=maps
+- SAS_DU_NAME=sas-maps
+- SAS_SERVICE_NAME=sas-maps
+- SG_PROJECT=maps
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-ml-pipeline-automation-parameters
+literals:
+- SAS_CONTEXT_PATH=mlPipelineAutomation
+- SAS_PORT_NAME=mlpa
+- SAS_SERVICE_NAME=sas-ml-pipeline-automation
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-model-publish-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_CONTEXT_PATH=modelPublish
+- SAS_DU_NAME=sas-model-publish
+- SAS_SERVICE_NAME=sas-model-publish
+- SG_PROJECT=model-publish
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-model-repository-parameters
+literals:
+- SAS_CONTEXT_PATH=modelRepository
+- SAS_DU_NAME=sas-model-repository
+- SAS_SERVICE_NAME=sas-model-repository
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-model-studio-app-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_CONTEXT_PATH=SASModelStudio
+- SAS_DU_NAME=sas-model-studio-app
+- SAS_SERVICE_NAME=sas-model-studio-app
+- SG_PROJECT=model-studio
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-natural-language-conversations-parameters
+literals:
+- SAS_CONTEXT_PATH=naturalLanguageConversations
+- SAS_DU_NAME=sas-natural-language-conversations
+- SAS_SERVICE_NAME=sas-natural-language-conversations
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-natural-language-generation-parameters
+literals:
+- SAS_CONTEXT_PATH=naturalLanguageGeneration
+- SAS_DU_NAME=sas-natural-language-generation
+- SAS_SERVICE_NAME=sas-natural-language-generation
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-natural-language-understanding-parameters
+literals:
+- SAS_CONTEXT_PATH=naturalLanguageUnderstanding
+- SAS_DU_NAME=sas-natural-language-understanding
+- SAS_SERVICE_NAME=sas-natural-language-understanding
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-notifications-parameters
+literals:
+- SAS_CONTEXT_PATH=notifications
+- SAS_DU_NAME=sas-notifications
+- SAS_ENTITY_REAPER_ENABLED=true
+- SAS_ENTITY_REAPER_INTERVAL=24h
+- SAS_ENTITY_REAPER_RETENTION=720h
+- SAS_SERVICE_NAME=sas-notifications
+- SG_PROJECT=notifications
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-postgres-config
+literals:
+- DATABASE_HOST=sas-crunchy-data-postgres
+- DATABASE_NAME=SharedServices
+- DATABASE_PORT=5432
+- DATABASE_SSL_ENABLED=false
+- EXTERNAL_DATABASE=false
+- NSQ_MAX_TRIES=60
+- SAS_DATABASE_DATABASESERVERNAME=sas-crunchy-data-postgres
+- SAS_DATABASE_SCHEMA=${application.schema}
+- SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-preferences-parameters
+literals:
+- SAS_CONTEXT_PATH=preferences
+- SAS_DU_NAME=sas-preferences
+- SAS_SERVICE_NAME=sas-preferences
+- SG_PROJECT=preferences
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-prepull-parameters
+literals:
+- PREPULLED_HOSTS=
+- SAS_CONTEXT_PATH=prepull
+- SAS_DU_NAME=sas-prepull
+- SAS_PREPULL_STATUS=unran
+- SAS_SERVICE_NAME=sas-prepull
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-projects-parameters
+literals:
+- SAS_CONTEXT_PATH=projects
+- SAS_DU_NAME=sas-projects
+- SAS_SERVICE_NAME=sas-projects
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-qkb-management-parameters
+literals:
+- SAS_CONTEXT_PATH=qkbManagement
+- SAS_PORT_NAME=qkbmanagement
+- SAS_SERVICE_NAME=sas-qkb-management
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-rabbitmq-server-parameters-6fmt27b8f4
+literals:
+- SAS_DU_NAME=sas-rabbitmq-server
+- SAS_SERVICE_NAME=sas-rabbitmq-server
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-readiness-parameters
+literals:
+- SAS_CONTEXT_PATH=readiness
+- SAS_DU_NAME=sas-readiness
+- SAS_SERVICE_NAME=sas-readiness
+- SG_PROJECT=readiness
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-relationships-parameters
+literals:
+- SAS_CONTEXT_PATH=relationships
+- SAS_DU_NAME=sas-relationships
+- SAS_SERVICE_NAME=sas-relationships
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-report-alerts-parameters
+literals:
+- SAS_CONTEXT_PATH=reportAlerts
+- SAS_PORT_NAME=reportalerts
+- SAS_SERVICE_NAME=sas-report-alerts
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-report-data-parameters
+literals:
+- SAS_CONTEXT_PATH=reportData
+- SAS_PORT_NAME=reportdata
+- SAS_SERVICE_NAME=sas-report-data
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-report-distribution-parameters
+literals:
+- SAS_CONTEXT_PATH=reportDistribution
+- SAS_DU_NAME=sas-report-distribution
+- SAS_SERVICE_NAME=sas-report-distribution
+- SG_PROJECT=report-distribution
+- SG_STATIC=false
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-report-execution-parameters
+literals:
+- SAS_DU_NAME=sas-report-execution
+- SAS_SERVICE_NAME=sas-report-execution
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-report-images-parameters
+literals:
+- SAS_CONTEXT_PATH=reportImages
+- SAS_PORT_NAME=reportimages
+- SAS_SERVICE_NAME=sas-report-images
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-report-packages-parameters
+literals:
+- SAS_CONTEXT_PATH=reportPackages
+- SAS_PORT_NAME=reportpackages
+- SAS_SERVICE_NAME=sas-report-packages
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-report-renderer-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_CONTEXT_PATH=reportRenderer
+- SAS_DU_NAME=sas-report-renderer
+- SAS_SERVICE_NAME=sas-report-renderer
+- SG_PROJECT=report-renderer
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-report-services-group-parameters
+literals:
+- SAS_DU_NAME=sas-report-services-group
+- SAS_SERVICE_NAME=sas-report-services-group
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-report-templates-parameters
+literals:
+- SAS_CONTEXT_PATH=reportTemplates
+- SAS_PORT_NAME=reporttemplates
+- SAS_SERVICE_NAME=sas-report-templates
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-report-transforms-parameters
+literals:
+- SAS_CONTEXT_PATH=reportTransforms
+- SAS_PORT_NAME=reporttransform
+- SAS_SERVICE_NAME=sas-report-transforms
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-reports-parameters
+literals:
+- SAS_CONTEXT_PATH=reports
+- SAS_PORT_NAME=reports
+- SAS_SERVICE_NAME=sas-reports
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-restore-job-parameters
+literals:
+- SAS_RESTORE_JOB_DU_NAME=sas-restore-job
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-row-sets-parameters
+literals:
+- SAS_CONTEXT_PATH=rowSets
+- SAS_PORT_NAME=rowsets
+- SAS_SERVICE_NAME=sas-row-sets
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-scheduler-parameters
+literals:
+- SAS_CONTEXT_PATH=scheduler
+- SAS_DU_NAME=sas-scheduler
+- SAS_SERVICE_NAME=sas-scheduler
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-score-definitions-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_CONTEXT_PATH=scoreDefinitions
+- SAS_DU_NAME=sas-score-definitions
+- SAS_SERVICE_NAME=sas-score-definitions
+- SG_PROJECT=score-definitions
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-score-execution-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_CONTEXT_PATH=scoreExecution
+- SAS_DU_NAME=sas-score-execution
+- SAS_SERVICE_NAME=sas-score-execution
+- SG_PROJECT=score-execution
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-search-index-parameters
+literals:
+- SAS_CONTEXT_PATH=searchIndex
+- SAS_PORT_NAME=searchindex
+- SAS_SERVICE_NAME=sas-search-index
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-search-parameters
+literals:
+- SAS_CONTEXT_PATH=search
+- SAS_PORT_NAME=search
+- SAS_SERVICE_NAME=sas-search
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-search-root-parameters
+literals:
+- SAS_DU_NAME=sas-search
+- SAS_SERVICE_NAME=sas-search
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-shared-config
+literals:
+- CONSUL_HTTP_TOKEN=tobeusedfordemoonly
+- CONSUL_TOKEN=tobeusedfordemoonly
+- SAS_MULTI_TENANCY_ENABLED=false
+- SAS_URL_SERVICE_SCHEME=http
+- SAS_URL_SERVICE_TEMPLATE=http://@k8s.service.name@
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-spring-management-config
+literals:
+- MANAGEMENT_ENDPOINTS_WEB_BASEPATH=/internal
+- MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=live, health, prometheus, ready
+- MANAGEMENT_ENDPOINTS_WEB_PATHMAPPING_PROMETHEUS=metrics
+- MANAGEMENT_ENDPOINT_LIVE_ENABLED=true
+- MANAGEMENT_ENDPOINT_METRICS_ENABLED=false
+- MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED=true
+- MANAGEMENT_ENDPOINT_READY_ENABLED=true
+- MANAGEMENT_SERVER_PORT=10445
+- MANAGEMENT_SERVER_SERVLET_CONTEXTPATH=/
+- SAS_MANAGEMENT_INDICATOR_BOOTSTRAP_ENABLED=true
+- SAS_MANAGEMENT_INDICATOR_COMMONS_ENABLED=true
+- SAS_MANAGEMENT_INDICATOR_LIVE_ENABLED=true
+- SAS_MANAGEMENT_INDICATOR_READY_ENABLED=true
+- SPRING_CLOUD_CONSUL_DISCOVERY_HEALTHCHECKPATH=/internal/health
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-studio-app-parameters
+literals:
+- SAS_CONTEXT_PATH=SASStudio
+- SAS_DU_NAME=sas-studio-app
+- SAS_SERVICE_NAME=sas-studio-app
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-templates-parameters
+literals:
+- SAS_CONTEXT_PATH=templates
+- SAS_DU_NAME=sas-templates
+- SAS_SERVICE_NAME=sas-templates
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-theme-content-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_CONTEXT_PATH=themeContent
+- SAS_DU_NAME=sas-theme-content
+- SAS_SERVICE_NAME=sas-theme-content
+- SG_PROJECT=theme-content
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-theme-designer-app-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_CONTEXT_PATH=SASThemeDesigner
+- SAS_DU_NAME=sas-theme-designer-app
+- SAS_SERVICE_NAME=sas-theme-designer-app
+- SG_PROJECT=theme-designer
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-themes-parameters
+literals:
+- SAS_CONTEXT_PATH=themes
+- SAS_DU_NAME=sas-themes
+- SAS_SERVICE_NAME=sas-themes
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-thumbnails-parameters
+literals:
+- SAS_CONTEXT_PATH=thumbnails
+- SAS_DU_NAME=sas-thumbnails
+- SAS_SERVICE_NAME=sas-thumbnails
+- SG_PROJECT=thumbnails
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-transfer-parameters
+literals:
+- SAS_CONTEXT_PATH=transfer
+- SAS_DU_NAME=sas-transfer
+- SAS_SERVICE_NAME=sas-transfer
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-transformations-parameters
+literals:
+- SAS_CONTEXT_PATH=transformations
+- SAS_PORT_NAME=transformations
+- SAS_SERVICE_NAME=sas-transformations
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-transformations-root-parameters
+literals:
+- SAS_DU_NAME=sas-transformations
+- SAS_SERVICE_NAME=sas-transformations
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-types-parameters
+literals:
+- SAS_CONTEXT_PATH=types
+- SAS_DU_NAME=sas-types
+- SAS_SERVICE_NAME=sas-types
+- SG_PROJECT=types
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-visual-analytics-administration-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_CONTEXT_PATH=visualAnalyticsAdministration
+- SAS_DU_NAME=sas-visual-analytics-administration
+- SAS_SERVICE_NAME=sas-visual-analytics-administration
+- SG_PROJECT=visualanalyticsadministration
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-visual-analytics-app-parameters
+literals:
+- CNTR_REPO_PREFIX=convoy
+- SAS_CONTEXT_PATH=SASVisualAnalytics
+- SAS_DU_NAME=sas-visual-analytics-app
+- SAS_SERVICE_NAME=sas-visual-analytics-app
+- SG_PROJECT=visual-analytics
+---
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: sas-web-data-access-parameters
+literals:
+- SAS_CONTEXT_PATH=webDataAccess
+- SAS_DU_NAME=sas-web-data-access
+- SAS_SERVICE_NAME=sas-web-data-access

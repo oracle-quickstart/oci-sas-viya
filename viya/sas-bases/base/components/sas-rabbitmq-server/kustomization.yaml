@@ -1,0 +1,6 @@
+resources:
+- resources.yaml
+
+transformers:
+- patches.yaml
+- annotations.yaml

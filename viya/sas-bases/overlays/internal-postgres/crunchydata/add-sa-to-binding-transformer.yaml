@@ -1,0 +1,36 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: add-sa-to-default-psp
+patch: |-
+  - op: add
+    path: /subjects/-
+    value:
+      kind: ServiceAccount
+      name: pgo-backrest
+  - op: add
+    path: /subjects/-
+    value:
+      kind: ServiceAccount
+      name: pgo-default
+  - op: add
+    path: /subjects/-
+    value:
+      kind: ServiceAccount
+      name: pgo-pg
+  - op: add
+    path: /subjects/-
+    value:
+      kind: ServiceAccount
+      name: pgo-target
+  - op: add
+    path: /subjects/-
+    value:
+      kind: ServiceAccount
+      name: postgres-operator
+target:
+  kind: RoleBinding
+  version: v1
+  group: rbac.authorization.k8s.io
+  labelSelector: sas.com/sas-role-binding in (psp-default, sas-certframe) 
+---

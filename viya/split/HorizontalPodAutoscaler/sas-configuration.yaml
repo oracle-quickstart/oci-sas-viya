@@ -1,0 +1,27 @@
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  annotations:
+    sas.com/component-name: sas-configuration
+    sas.com/component-version: 1.53.0-20200827.1598585619390
+    sas.com/version: 1.53.0
+  labels:
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-configuration
+  namespace: viya
+spec:
+  maxReplicas: 1
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 80
+        type: Utilization
+    type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: sas-configuration

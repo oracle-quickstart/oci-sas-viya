@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+data:
+  SAS_CONTEXT_PATH: dataMiningModels
+  SAS_DU_NAME: sas-data-mining-models
+  SAS_SERVICE_NAME: sas-data-mining-models
+  SG_PROJECT: data-mining-models
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-data-mining-models-parameters-5k9k65dttt
+  namespace: viya

@@ -1,0 +1,32 @@
+## Example PatchTransformer to patch the file objects used by Istio Gateway objects
+## Only one of the following files should be included in the site-config location:
+## * customer-provided-istio-gateway-certificate-filepath-transformer.yaml
+##       This is a good option if you only have a few certificates to be displayed by the ingress gateway
+##       as, each additional certificate will require a restart of the ingress-gateway pod.
+## * customer-provided-istio-gateway-certificate-sds-transformer.yaml
+##       This is a good option if you want many unique certificates to be displayed by the ingress gateway.
+##       Additional certificates can be added to ingress-gateway without editing the deployment.
+##
+## In the following code, the locations that require user specified values are indicated by a capitalized and
+## hyphenated name set off by curly braces and a space at each end. You should replace this token with the
+## actual value.
+## Replace the curly braces, interior spaces, and the variable name.
+## For instance, "{{ ISTIO-INGRESSGATEWAY-FILEPATH-TO-SERVER-CERTIFICATE Example: /etc/istio/ingressgateway-certs/tls.crt }}"
+## should be replaced with the file path that contains the certificate that will
+## be used to secure the ingress gateway.
+##
+## If you are following the example, the correct final syntax will look like:
+##   value: { mode: SIMPLE, serverCertificate: /etc/istio/ingressgateway-certs/tls.crt, privateKey: /etc/istio/ingressgateway-certs/tls.key }
+##
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: gateway-tls-credential-filepath-patch
+patch: |-
+  - op: replace
+    path: /spec/servers/0/tls
+    value: { mode: SIMPLE, serverCertificate: {{ ISTIO-INGRESSGATEWAY-FILEPATH-TO-SERVER-CERTIFICATE Example: /etc/istio/ingressgateway-certs/tls.crt }}, privateKey: {{ ISTIO-INGRESSGATEWAY-FILEPATH-TO-PRIVATE-KEY  Example: /etc/istio/ingressgateway-certs/tls.key }} }
+target:
+  Kind: Gateway
+  name: public-gateway

@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="sas.css"/>
+        <title>Enable or Disable TLS on PostgreSQL Servers</title>
+    </head>
+    <body>
+        <h1 id="enable-or-disable-tls-on-postgresql-servers">Enable or Disable TLS on PostgreSQL Servers</h1>
+<h2 id="overview">Overview</h2>
+<p>This readme describes the steps to enable or disable TLS for an internal 
+instance of PostgreSQSL in your SAS Viya deployment.</p>
+<h2 id="installation">Installation</h2>
+<p><strong>Note:</strong> These instructions only apply to the internal instance of
+PostgreSQL server. If you are using an external instance of PostgreSQL,
+do not perform any of these steps.</p>
+<h3 id="enable-tls">Enable TLS</h3>
+<p>To enable your deployment to use a TLS/SSL enabled PostgreSQL, add the
+following configMapGenerator to the base kustomization.yaml file
+(<code>$deploy/kustomization.yaml</code>):</p>
+<pre class="highlight"><code class="language-yaml">configMapGenerator:
+- name: sas-postgres-config
+  literals:
+  - DATABASE_SSL_ENABLED="true"
+  behavior: merge</code></pre>
+
+<h3 id="disable-tls">Disable TLS</h3>
+<p><strong>Note:</strong> TLS is disabled by default. This step is only necessary if you
+previously enabled TLS on the PostgreSQL servers and wish to disable it.</p>
+<p>To disable your deployment from using a TLS/SSL enabled PostgreSQL, add the
+following configMapGenerator to your base kustomization.yaml file
+(<code>$deploy/kustomization.yaml</code>):</p>
+<pre class="highlight"><code class="language-yaml">configMapGenerator:
+- name: sas-postgres-config
+  literals:
+  - DATABASE_SSL_ENABLED="false"
+  behavior: merge</code></pre>
+
+<h2 id="additional-resources">Additional Resources</h2>
+<p>For more information about the differences between internal and external instances
+of PostgreSQL, see
+<a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=itopssr&amp;docsetTarget=n1rbbuql9epqa0n1pg3bvfx3dmvc.htm">SAS Infrastructure Data Server Requirements</a>.</p>
+    </body>
+</html>

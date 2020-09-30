@@ -1,0 +1,19 @@
+varReference:
+  - path: data/SAS_CERTIFICATE_SAN_DNS
+    kind: ConfigMap
+nameReference:
+  - kind: ConfigMap
+    version: v1
+    fieldSpecs:
+      - path: spec/controllerTemplate/spec/containers/envFrom/configMapRef/name
+        kind: CASDeployment
+      - path: spec/controllerTemplate/spec/initContainers/envFrom/configMapRef/name
+        kind: CASDeployment
+      - path: spec/controllerTemplate/spec/volumes/configMap/name
+        kind: CASDeployment
+      - path: spec/certframe/containers/envFrom/configMapRef/name
+        kind: Pgcluster
+      - path: spec/certframe/initContainers/envFrom/configMapRef/name
+        kind: Pgcluster
+      - path: spec/certframe/volumes/configMap/name
+        kind: Pgcluster

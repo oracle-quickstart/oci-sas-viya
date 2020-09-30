@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+data:
+  CNTR_REPO_PREFIX: convoy
+  SAS_CONTEXT_PATH: analyticsEvents
+  SAS_DU_NAME: sas-analytics-events
+  SAS_SERVICE_NAME: sas-analytics-events
+  SG_PROJECT: analytics-events
+  SG_STATIC: "false"
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-analytics-events-parameters-58k27dd4kt
+  namespace: viya

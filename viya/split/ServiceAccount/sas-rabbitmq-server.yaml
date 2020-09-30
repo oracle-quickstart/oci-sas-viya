@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    sas.com/component-name: sas-rabbitmq-server
+    sas.com/component-version: 3.82002.3-20200911.1599853671505
+    sas.com/version: 3.82002.3
+  labels:
+    sas.com/admin: cluster-wide
+    sas.com/deployment: sas-viya
+  name: sas-rabbitmq-server
+  namespace: viya

@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="sas.css"/>
+        <title>Configure PostgreSQL</title>
+    </head>
+    <body>
+        <h1 id="configure-postgresql">Configure PostgreSQL</h1>
+<p>By default, Viya 4 will not add a PostgreSQL instance to the kubernetes
+deployment. This is because in Viya 4 you have two options for your
+PostgreSQL server: an internal instance provided by SAS or an external
+PostgreSQL that you would like SAS to utilize. So, before deploying we
+need you to select which of these options you would like to use for your
+SAS deployment.</p>
+<p>This is done by applying overlays to your deployment, which SAS has provided
+for you. We just need some additional information from you to apply them.</p>
+<h2 id="internal-postgresql">Internal PostgreSQL</h2>
+<p>If you wish for SAS to create a PostgreSQL instance for you and use that,
+apply the <code>interal-postgres</code> overlays. To do so, refer to the
+<code>$deploy/sas-bases/overlays/internal-postgres</code> directory. There you will find
+a README file describing the actions you need to take.</p>
+<h2 id="external-postgresql">External PostgreSQL</h2>
+<p>If you wish for SAS to make use of an external PostgreSQL provided and managed
+by you, apply the <code>external-postgres</code> overlay. To do so, refer to the
+<code>$deploy/sas-bases/overlays/external-postgres</code> directory. There you will find
+a README file describing the actions you need to take.</p>
+    </body>
+</html>

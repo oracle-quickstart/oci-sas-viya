@@ -1,0 +1,108 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="sas.css"/>
+        <title>SAS Viya Deployment Operator</title>
+    </head>
+    <body>
+        <h1 id="sas-viya-deployment-operator">SAS Viya Deployment Operator</h1>
+<h2 id="overview">Overview</h2>
+<p>The SAS Viya Deployment Operator can be used to manage SAS deployments in a
+single namespace or across the entire cluster.</p>
+<p><strong>Note:</strong> The operator is not part of the SAS Viya deployment but is deployed
+in a similar manner within the same cluster as what&rsquo;s described in SAS Viya:
+Deployment Guide. There are two distinct projects to manage when utilizing the
+operator. The first is for deployment of the operator itself which will watch
+for SAS Viya deployment changes to reconcile. Each SAS Viya deployment managed
+by the operator is represented by a separate discrete project containing a
+custom resource and associated user customizations.</p>
+<h2 id="deploying-the-operator">Deploying the Operator</h2>
+<p>The <code>$deploy/sas-bases/examples/deployment-operator/deploy/</code> directory contains
+resources to deploy the operator. The <code>site-config/transformer.yaml</code> files,
+which provides customization of the operator, is located inside this directory.
+Kustomize is used to configure the operator for the target environment.
+A sample custom resource providing input to the operator is also included.</p>
+<p>To install and customize the operator, perform the following steps.</p>
+<ol>
+<li>
+<p>Copy the recursive content of the <code>$deploy/sas-bases/examples/deployment-operator/deploy</code>
+   directory to the <code>$deploy</code> directory, beside the <code>$deploy/sas-bases</code> directory.
+   The result is a directory structure that looks like this:</p>
+<pre class="highlight"><code>$deploy
+|-- operator-base/
+|-- sas-bases/
+|-- site-config/
+|   +-- transformer.yaml
++-- kustomization.yaml</code></pre>
+
+</li>
+<li>
+<p>Edit the <code>$deploy/site-config/transformer.yaml</code> to set the namespace
+   for the target cluster. The default namespace value is <code>default</code>.</p>
+<pre class="highlight"><code>...
+patch: |-
+# namespace: MUST BE PROVIDED BY USER. DEFAULT VALUE IS 'default'
+  - op: add
+    path: /subjects/0/namespace
+    value:
+      default
+...</code></pre>
+
+</li>
+<li>
+<p>Apply the customizations by running the following command from the <code>$deploy</code> directory:</p>
+<pre class="highlight"><code>kustomize build . &gt; manifest.yaml</code></pre>
+
+</li>
+<li>
+<p>To install the operator and its supporting resources, run the following command:</p>
+<pre class="highlight"><code>kubectl apply -f manifest.yaml</code></pre>
+
+</li>
+</ol>
+<h2 id="using-the-operator-to-deploy-sas-viya">Using the Operator to Deploy SAS Viya</h2>
+<p>The SAS Viya Deployment Operator watches the cluster for a <code>SASDeployment</code> custom resource.
+The data in the SASDeployment custom resource is used by the operator when installing Viya.</p>
+<p>In a project separate from the one used to deploy the operator, create and apply a
+SASDeployment custom resource to the cluster. A sample custom resource is included in the
+<code>$deploy/sas-bases/examples</code> directory. To use the sample, perform the following steps.</p>
+<ol>
+<li>
+<p>Copy one of the sample <code>SASDeployment</code> files from
+   <code>$deploy/sas-bases/examples/deployment-operator/samples</code> directory as <code>sasdeployment.yaml</code>
+   to a newly created <code>$deploy</code> directory for this SAS Viya deployment. The result is a
+   directory structure that looks like this:</p>
+<pre class="highlight"><code>$deploy
++-- sasdeployment.yaml</code></pre>
+
+</li>
+<li>
+<p>Edit <code>$deploy/sasdeployment.yaml</code> to specify the cadence name, version, and release
+   information. The snippet below shows the edits made to specify the cadence name and
+   version: <code>stable</code>, <code>2020.0.6</code>. On the first application of the custom resource to the cluster,
+   the <code>cadenceRelease</code> property can be omitted or given the empty string value as in
+   the example below. The operator uses the latest release found in the repository warehouse
+   for the specified cadence name and version. To update the initial deployment, however,
+   you must explicitly include the <code>cadenceRelease</code> property in the custom resource.  Either
+   specify the empty string, in which case the operator will choose the latest, or the
+   <code>cadenceRelease</code> value to which you&rsquo;d like to upgrade.
+   <pre class="highlight"><code>...
+spec:
+  cadenceName: "stable"
+  cadenceVersion: "2020.0.6"
+  cadenceRelease: ""
+...</code></pre>
+   Perform this step in addition to the kustomization.yaml and site-config creation
+   described in <a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=dplyml0phy0dkr&amp;docsetTarget=titlepage.htm">SAS Viya: Deployment Guide</a>.  Your SAS Viya configuration may be embedded
+   into the custom resource, or referenced externally with a go-getter URL.</p>
+</li>
+<li>
+<p>Apply the resource to the cluster:</p>
+<pre class="highlight"><code>kubectl apply -f sasdeployment.yaml</code></pre>
+
+</li>
+</ol>
+<h2 id="additional-resources">Additional Resources</h2>
+<p>For more information about the SAS Viya Deployment Operator, see
+<a href="http://documentation.sas.com/?softwareId=mysas&amp;softwareVersion=prod&amp;docsetId=dplyml0phy0dkr&amp;&amp;docsetTarget=p0p81scwp19aghn0z8trji3arf99.htm&amp;locale=en">Using the SAS Viya Deployment Operator</a>.</p>
+    </body>
+</html>

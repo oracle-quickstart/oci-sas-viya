@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+data:
+  SAS_CONTEXT_PATH: SASDataStudio
+  SAS_DU_NAME: sas-data-studio-app
+  SAS_SERVICE_NAME: sas-data-studio-app
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-data-studio-app-parameters-7f9t897942
+  namespace: viya

@@ -1,0 +1,49 @@
+## This is a SSSD configmap file, matching the OpenLDAP deployed by the manifest.
+## You don't "kubectl apply this file".
+## Instead you will reference it in via kustomization.yaml
+
+---
+# Source: default/templates/sas-sssd-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sas-sssd-config
+data:
+  SSSD_CONF: |
+    [sssd]
+    config_file_version = 2
+    domains = gelldap.com
+    services = nss, pam
+
+    [nss]
+
+    [pam]
+
+    [domain/gelldap.com]
+
+    # uncomment for high level of debugging
+    #debug_level = 9
+
+    id_provider = ldap
+    auth_provider = ldap
+    chpass_provider = ldap
+    access_provider = permit
+
+    ldap_uri = ldap://gelldap-service.gelldap.svc.cluster.local:389
+
+    ldap_default_bind_dn = cn=admin,dc=gelldap,dc=com
+    ldap_default_authtok = lnxsas
+
+    ldap_tls_reqcert = never
+    ldap_id_use_start_tls = false
+
+    ldap_search_base = dc=gelldap,dc=com
+
+    ldap_user_fullname = displayName
+    ldap_user_member_of = memberOf
+
+    ldap_group_object_class = groupOfNames
+    ldap_group_name = cn
+    ldap_group_gid_number = gidNumber
+    ldap_group_member = memberUid
+    ldap_group_member_of = memberOf

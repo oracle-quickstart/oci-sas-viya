@@ -1,0 +1,28 @@
+apiVersion: crunchydata.com/v1
+kind: Pgtask
+metadata:
+  labels:
+    pg-cluster: sas-crunchy-data-postgres
+    pgrmdata: "true"
+  name: sas-crunchy-data-postgres-rmdata
+spec:
+  name: sas-crunchy-data-postgres-rmdata
+  parameters:
+    crunchy-pgha-scope: sas-crunchy-data-postgres
+    delete-backups: "false"
+    delete-data: "false"
+    is-backup: "false"
+    is-replica: "false"
+    pg-cluster: sas-crunchy-data-postgres
+    replica-name: ""
+  status: ""
+  storagespec:
+    accessmode: ""
+    fsgroup: ""
+    matchLabels: ""
+    name: ""
+    size: ""
+    storageclass: ""
+    storagetype: ""
+    supplementalgroups: ""
+  tasktype: delete-data

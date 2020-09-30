@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+data:
+  CNTR_REPO_PREFIX: convoy
+  SAS_CONTEXT_PATH: SASThemeDesigner
+  SAS_DU_NAME: sas-theme-designer-app
+  SAS_SERVICE_NAME: sas-theme-designer-app
+  SG_PROJECT: theme-designer
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-theme-designer-app-parameters-kg2b75cd4h
+  namespace: viya

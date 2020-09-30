@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    sas.com/component-name: sas-readiness
+    sas.com/component-version: 0.2.1-20200909.1599650626815
+    sas.com/kustomize-base: base
+    sas.com/registry-sync: default
+    sas.com/version: 0.2.1
+  labels:
+    app.kubernetes.io/name: sas-readiness
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-readiness
+  namespace: viya
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  selector:
+    app.kubernetes.io/name: sas-readiness
+    sas.com/deployment: sas-viya
+  type: ClusterIP

@@ -1,0 +1,16 @@
+#   # NOTE:
+#   # STORAGE-SIZE-IN-GB should be a numeric value followed by the
+#   # units, such as 128Gi for 128 gigabytes. In Kubernetes, the units for
+#   # gigabytes is Gi.
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-common-backup-data-storage-size-transformer
+patch: |-
+  - op: replace
+    path: /spec/resources/requests/storage
+    value: {{ STORAGE-SIZE-IN-GB }}
+target:
+  kind: PersistentVolumeClaim
+  name: sas-common-backup-data
+  version: v1

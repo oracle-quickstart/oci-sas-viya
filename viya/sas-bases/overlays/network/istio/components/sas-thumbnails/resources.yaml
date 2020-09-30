@@ -1,0 +1,41 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-thumbnails
+spec:
+  host: sas-thumbnails
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /thumbnails/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-thumbnails
+    sas.com/admin: namespace
+  name: sas-thumbnails
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /thumbnails
+    - uri:
+        prefix: /thumbnails/
+    route:
+    - destination:
+        host: sas-thumbnails
+    timeout: 300s
+

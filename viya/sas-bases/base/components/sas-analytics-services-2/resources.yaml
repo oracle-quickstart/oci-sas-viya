@@ -1,0 +1,175 @@
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+    sas.com/registry-providers: jobExecution-provider,jobExecution-provider-analyticsGateway,jobExecution-provider-analyticsSegmentExecution
+    sas.com/registry-sync: default
+    sas.com/registry-tags: proxy
+  labels:
+    app.kubernetes.io/name: sas-analytics-services-2
+    sas.com/admin: namespace
+  name: sas-analytics-gateway
+spec:
+  ports:
+  - name: aagateway
+    port: 80
+    protocol: TCP
+    targetPort: aagateway
+  selector:
+    app.kubernetes.io/name: sas-analytics-services-2
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    sas.com/certificate-file-format: jks
+    sas.com/kustomize-base: spring
+    sas.com/pod-uses-readiness-probe: http
+    sidecar.istio.io/proxyCPU: 15m
+    sidecar.istio.io/proxyMemory: 115Mi
+  labels:
+    app.kubernetes.io/name: sas-analytics-services-2
+    sas.com/admin: namespace
+    sas.com/deployment-base: spring
+    workload.sas.com/class: stateless
+  name: sas-analytics-services-2
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sas-analytics-services-2
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /internal/metrics
+        prometheus.io/port: "10445"
+        prometheus.io/scheme: http
+        prometheus.io/scrape: "true"
+        sas.com/certificate-file-format: jks
+        sas.com/kustomize-base: spring
+        sas.com/pod-uses-readiness-probe: http
+        sidecar.istio.io/proxyCPU: 15m
+        sidecar.istio.io/proxyMemory: 115Mi
+      labels:
+        app: sas-analytics-services-2
+        app.kubernetes.io/name: sas-analytics-services-2
+        workload.sas.com/class: stateless
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - preference:
+              matchExpressions:
+              - key: workload.sas.com/class
+                operator: In
+                values:
+                - stateless
+            weight: 100
+          - preference:
+              matchExpressions:
+              - key: workload.sas.com/class
+                operator: NotIn
+                values:
+                - compute
+                - cas
+                - stateful
+            weight: 50
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.azure.com/mode
+                operator: NotIn
+                values:
+                - system
+      containers:
+      - env:
+        - name: SAS_K8S_DEPLOYMENT_NAME
+          value: sas-analytics-services-2
+        - name: JAVA_OPTION_SERVER_PORT
+        - name: MANAGEMENT_SERVER_PORT
+          value: ${sas.${spring.application.name}.management.server.port:10445}
+        envFrom:
+        - configMapRef:
+            name: sas-java-config
+        - configMapRef:
+            name: sas-shared-config
+        - secretRef:
+            name: sas-consul-client
+        - configMapRef:
+            name: sas-spring-management-config
+        image: sas-analytics-services-2
+        imagePullPolicy: IfNotPresent
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - sh
+              - -c
+              - sleep 5
+        name: sas-analytics-services-2
+        ports:
+        - containerPort: 10445
+          name: http-internal
+          protocol: TCP
+        - containerPort: 8084
+          name: aagateway
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /internal/ready
+            port: http-internal
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 2Gi
+          requests:
+            cpu: 50m
+            memory: 1Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - mountPath: /tmp
+          name: tmp
+        - mountPath: /opt/sas/viya/config/tmp
+          name: tmp
+      imagePullSecrets: []
+      securityContext:
+        runAsNonRoot: true
+      tolerations:
+      - effect: NoSchedule
+        key: workload.sas.com/class
+        operator: Equal
+        value: stateful
+      - effect: NoSchedule
+        key: workload.sas.com/class
+        operator: Equal
+        value: stateless
+      volumes:
+      - emptyDir: {}
+        name: tmp
+
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: sas-analytics-services-2
+spec:
+  maxReplicas: 1
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 80
+        type: Utilization
+    type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: sas-analytics-services-2

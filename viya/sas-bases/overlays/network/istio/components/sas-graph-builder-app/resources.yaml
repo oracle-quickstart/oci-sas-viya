@@ -1,0 +1,41 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-graph-builder-app
+spec:
+  host: sas-graph-builder-app
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /SASGraphBuilder/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-graph-builder-app
+    sas.com/admin: namespace
+  name: sas-graph-builder-app
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /SASGraphBuilder
+    - uri:
+        prefix: /SASGraphBuilder/
+    route:
+    - destination:
+        host: sas-graph-builder-app
+    timeout: 300s
+

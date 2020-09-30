@@ -1,0 +1,82 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-data-quality
+spec:
+  host: sas-data-quality
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /dataQuality/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-qkb-management
+spec:
+  host: sas-qkb-management
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /qkbManagement/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-data-quality
+    sas.com/admin: namespace
+  name: sas-data-quality
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /dataQuality
+    - uri:
+        prefix: /dataQuality/
+    route:
+    - destination:
+        host: sas-data-quality
+    timeout: 600s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-qkb-management
+    sas.com/admin: namespace
+  name: sas-qkb-management
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /qkbManagement
+    - uri:
+        prefix: /qkbManagement/
+    route:
+    - destination:
+        host: sas-qkb-management
+    timeout: 600s
+

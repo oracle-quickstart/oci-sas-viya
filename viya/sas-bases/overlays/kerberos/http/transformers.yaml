@@ -1,0 +1,40 @@
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-logon-app-configmaps
+patch: |-
+  - op: add
+    path: /spec/template/spec/containers/0/envFrom/-
+    value:
+      configMapRef:
+        name: sas-kerberos-config
+target:
+  kind: Deployment
+  name: sas-logon-app
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-logon-app-volumes
+patch: |-
+  metadata:
+    name: sas-logon-app-patch
+  kind: Deployment
+  spec:
+    template:
+      spec:
+        containers:
+        - name: sas-logon-app
+          volumeMounts:
+            - name: sas-kerberos-secrets-volume
+              mountPath: /opt/kerberos
+              readOnly: true
+        volumes:
+        - name: sas-kerberos-secrets-volume
+          secret:
+           secretName: sas-kerberos-secrets
+target:
+  kind: Deployment
+  name: sas-logon-app
+---

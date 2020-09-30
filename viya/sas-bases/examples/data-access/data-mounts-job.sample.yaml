@@ -1,0 +1,36 @@
+# General example for adding mounts to SAS containers with a 
+# PatchTransformer
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: data-mounts-job
+patch: |-
+  ## Host path example - these should be mounted and available on every kubernetes worker
+  - op: add
+    path: /template/spec/containers/0/volumeMounts/-
+    value:
+      name: wine
+      mountPath: "/data/wine"
+  - op: add
+    path: /template/spec/volumes/-
+    value:
+     name: wine
+     hostPath: 
+       path: /net/example.com/ifs/edm_data/Testdata/modeling/wine
+
+  ## NFS path example - kubernetes will mount these for you
+  - op: add
+    path: /template/spec/containers/0/volumeMounts/-
+    value:
+      name: insight
+      mountPath: "/data/insight"
+  - op: add
+    path: /template/spec/volumes/-
+    value:
+     name: insight
+     nfs:
+       path: /ifs/Datasets/Insight
+       server: example.com 
+target:
+  kind: PodTemplate
+  annotationSelector: sas.com/sas-access-config=true

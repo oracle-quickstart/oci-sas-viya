@@ -1,0 +1,7 @@
+apiVersion: builtin
+kind: ConfigMapGenerator
+metadata:
+  name: ccp-image-location
+literals:
+- CCP_IMAGE_PATH=cr.sas.com
+- CCP_IMAGE_REPO=cr.sas.com

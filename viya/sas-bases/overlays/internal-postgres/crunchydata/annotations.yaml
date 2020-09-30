@@ -1,0 +1,11 @@
+apiVersion: builtin
+kind: AnnotationsTransformer
+metadata:
+  name: annotations-transformer-crunchydata-1
+annotations:
+  sas.com/component-name: sas-crunchy-data-postgres-operator
+  sas.com/tls-enabled-ports: all
+fieldSpecs:
+- path: metadata/annotations
+  create: true
+---

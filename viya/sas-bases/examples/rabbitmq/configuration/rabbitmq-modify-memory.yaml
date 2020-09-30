@@ -1,0 +1,21 @@
+# This block of code is for specifying the memory resources for RabbitMQ nodes.
+# The default required value is 1Gi, the default limit is 2Gi.
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: rabbitmq-modify-memory
+patch: |-
+    - op: replace
+      path: /spec/template/spec/containers/0/resources/requests/memory
+      value:
+        {{ MEMORY_REQUIRED }}
+    - op: replace
+      path: /spec/template/spec/containers/0/resources/limits/memory
+      value:
+        {{ MEMORY_LIMIT }}
+target:
+  group: apps
+  kind: StatefulSet
+  name: sas-rabbitmq-server
+  version: v1

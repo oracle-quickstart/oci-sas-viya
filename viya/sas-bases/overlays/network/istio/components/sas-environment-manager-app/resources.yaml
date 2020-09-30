@@ -1,0 +1,41 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sas-environment-manager-app
+spec:
+  host: sas-environment-manager-app
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpCookie:
+          name: sas-ingress-istio
+          path: /SASEnvironmentManager/
+          ttl: 0s
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  annotations:
+    sas.com/kustomize-base: base
+  labels:
+    app.kubernetes.io/name: sas-environment-manager-app
+    sas.com/admin: namespace
+  name: sas-environment-manager-app
+spec:
+  gateways:
+  - public-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /SASEnvironmentManager
+    - uri:
+        prefix: /SASEnvironmentManager/
+    route:
+    - destination:
+        host: sas-environment-manager-app
+    timeout: 300s
+

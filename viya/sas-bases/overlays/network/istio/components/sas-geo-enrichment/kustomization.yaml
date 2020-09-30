@@ -1,0 +1,4 @@
+resources:
+- resources.yaml
+transformers:
+- annotations.yaml

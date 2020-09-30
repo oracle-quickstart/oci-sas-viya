@@ -1,0 +1,59 @@
+# PatchTransformer to add environment variables to a PodTemplate
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-access-podtemplate-env
+patch: |-
+  - op: add
+    path: /template/spec/containers/0/env/-
+    value:
+      name: SAS_EXT_LLP_ACCESS
+      value: $(SASODBC):$(UNIXODBC):$(MYSQL):$(IMPALA):$(POSTGRES):$(MYSQL):$(TERADATA):$(ORACLE):$(HANA):$(SNOWFLAKE):$(NETEZZA):$(MONGODB):$(VERTICA):$(R3):$(SYBASELIBS)
+  - op: add
+    path: /template/spec/containers/0/env/-
+    value:
+      name: SAS_EXT_PATH_ACCESS
+      value: $(SYBASE_BIN)
+target:
+  kind: PodTemplate
+  annotationSelector: sas.com/sas-access-config=true
+---
+# PatchTransformer to add environment variables to a CASDeployment
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-access-casdeployment-env
+patch: |-
+  - op: add
+    path: /spec/controllerTemplate/spec/containers/0/env/-
+    value:
+      name: SAS_EXT_LLP_ACCESS
+      value: $(SASODBC):$(UNIXODBC):$(MYSQL):$(IMPALA):$(POSTGRES):$(MYSQL):$(TERADATA):$(ORACLE):$(HANA):$(SNOWFLAKE):$(NETEZZA):$(MONGODB):$(VERTICA):$(R3):$(SYBASELIBS)
+  - op: add
+    path: /spec/controllerTemplate/spec/containers/0/env/-
+    value:
+      name: SAS_EXT_PATH_ACCESS
+      value: $(SYBASE_BIN)
+target:
+  kind: CASDeployment
+  annotationSelector: sas.com/sas-access-config=true
+---
+# PatchTransformer to add environment variables to a Deployment
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-access-deployment-env
+patch: |-
+  - op: add
+    path: /spec/template/spec/containers/0/env/-
+    value:
+      name: SAS_EXT_LLP_ACCESS
+      value: $(SASODBC):$(UNIXODBC):$(MYSQL):$(IMPALA):$(POSTGRES):$(MYSQL):$(TERADATA):$(ORACLE):$(HANA):$(SNOWFLAKE):$(NETEZZA):$(MONGODB):$(VERTICA):$(R3):$(SYBASELIBS)
+  - op: add
+    path: /spec/template/spec/containers/0/env/-
+    value:
+      name: SAS_EXT_PATH_ACCESS
+      value: $(SYBASE_BIN)
+target:
+  kind: Deployment
+  annotationSelector: sas.com/sas-access-config=true       

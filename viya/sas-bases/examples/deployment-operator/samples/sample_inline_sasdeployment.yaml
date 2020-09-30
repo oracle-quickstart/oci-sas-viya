@@ -1,0 +1,18 @@
+apiVersion: orchestration.sas.com/v1alpha1
+kind: SASDeployment
+metadata:
+  name: sample-inline-sasdeployment
+spec:
+  cadenceName: "a_cadence_name"
+  cadenceVersion: "a_cadence_version"
+  cadenceRelease: ""
+  # The following is an example of how to specify inline user content.
+  userContent:
+    files:
+      "kustomization.yaml": |-
+        resources:
+        - sas-bases/base
+        transformers:
+        - sas-bases/overlays/required/transformers.yaml
+  # See documentation for specifying license, client certificate,
+  # and certificate authority certificate.

@@ -1,0 +1,17 @@
+# This block of code is for specifying the persistent volume claim size for RabbitMQ nodes.
+# The default value is 2Gi.
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: rabbitmq-modify-pvc-size
+patch: |-
+    - op: replace
+      path: /spec/volumeClaimTemplates/0/spec/resources/requests/storage
+      value:
+        {{ PVC_SIZE }}
+target:
+  group: apps
+  kind: StatefulSet
+  name: sas-rabbitmq-server
+  version: v1

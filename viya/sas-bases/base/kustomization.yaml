@@ -1,0 +1,6 @@
+resources:
+- components
+
+generators:
+- secrets.yaml
+- configmaps.yaml

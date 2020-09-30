@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+data:
+  SAS_DU_NAME: sas-transformations
+  SAS_SERVICE_NAME: sas-transformations
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-transformations-root-parameters-f6mgb2fk49
+  namespace: viya

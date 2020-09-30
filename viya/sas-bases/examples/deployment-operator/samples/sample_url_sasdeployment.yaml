@@ -1,0 +1,20 @@
+apiVersion: orchestration.sas.com/v1alpha1
+kind: SASDeployment
+metadata:
+  name: sample-url-sasdeployment
+spec:
+  cadenceName: "a_cadence_name"
+  cadenceVersion: "a_cadence_version"
+  cadenceRelease: ""
+  # The following is an example of using URLs to specify user
+  # content, a license, a client certificate, and a CA certiciate.
+  userContent:
+    # See HashiCorp's Go Getter "URL Format" documentation for details:
+    #    https://pkg.go.dev/github.com/hashicorp/go-getter@v1.4.1?tab=overview#url-format
+    url: git::https://url_to_my_git_repository
+  license:
+    url: http://url_to_my_license.jwt
+  clientCertificate:
+    url: http://url_to_my_client_certificate.pem
+  caCertificate:
+    url: http://url_to_my_ca_certificate.pem

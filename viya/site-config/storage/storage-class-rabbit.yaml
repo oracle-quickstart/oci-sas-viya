@@ -1,0 +1,12 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-storage-class-rabbit
+patch: |-
+  - op: add
+    path: /spec/volumeClaimTemplates/0/spec/storageClassName
+    value: trident
+target:
+  kind: StatefulSet
+  name: sas-rabbitmq-server
+  version: v1

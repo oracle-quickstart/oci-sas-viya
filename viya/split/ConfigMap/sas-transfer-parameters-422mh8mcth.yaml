@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+data:
+  SAS_CONTEXT_PATH: transfer
+  SAS_DU_NAME: sas-transfer
+  SAS_SERVICE_NAME: sas-transfer
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-transfer-parameters-422mh8mcth
+  namespace: viya

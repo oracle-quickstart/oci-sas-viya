@@ -1,0 +1,1051 @@
+## this is a manifest file.
+## It describes 2 configmaps, a deployment, and a service.
+## When you apply this manifest in a namespace, it will create a Demo OpenLDAP server in import_tasks
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gelldap
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gelldap-bootstrap-users
+  namespace: gelldap
+  labels:
+    app.kubernetes.io/part-of: gelldap
+data:
+  bootstrap.ldif: |
+    version: 1
+
+    dn: ou=users,dc=gelldap,dc=com
+    objectClass: organizationalUnit
+    objectClass: top
+    ou: users
+
+    dn: ou=groups,dc=gelldap,dc=com
+    objectClass: organizationalUnit
+    objectClass: top
+    ou: groups
+
+    dn: uid=sasldap,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: person
+    objectClass: top
+    cn: sasldap
+    gidNumber: 1003
+    sn: LDAP
+    displayName: SAS LDAP Service Account
+    givenName: SAS LDAP
+    l: Cary
+    mail: sasldap@gelldap.com
+    o: GELLDAP
+    uid: sasldap
+    uidNumber: 1003
+    homeDirectory: /home/sasldap
+    userPassword: lnxsas
+
+    dn: uid=sas,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: sas
+    gidNumber: 1001
+    homeDirectory: /home/sas
+    sn: Installer
+    uid: sas
+    uidNumber: 1001
+    displayName: SAS System Account
+    givenName: SAS
+    l: Cary
+    loginShell: /bin/bash
+    mail: sas@gelldap.com
+    o: GELLDAP
+    userPassword: lnxsas
+
+    dn: uid=cas,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: cas
+    gidNumber: 1001
+    homeDirectory: /home/cas
+    sn: System Account
+    uid: cas
+    uidNumber: 1002
+    displayName: CAS System Account
+    givenName: CAS
+    l: Cary
+    loginShell: /bin/bash
+    mail: cas@gelldap.com
+    o: GELLDAP
+    userPassword: lnxsas
+
+    dn: cn=sasldap_grp,ou=groups,dc=gelldap,dc=com
+    objectClass: extensibleObject
+    objectClass: groupOfNames
+    objectClass: posixGroup
+    objectClass: top
+    cn: sasldap_grp
+    description: SAS LDAP Service Accounts
+    displayName: SAS LDAP Service Accounts
+    gidNumber: 1003
+    name: SASLDAP
+    member: uid=sasldap,ou=users,dc=gelldap,dc=com
+    memberUid: sasldap
+    o: GELLDAP
+
+    dn: cn=sas_grp,ou=groups,dc=gelldap,dc=com
+    objectClass: extensibleObject
+    objectClass: groupOfNames
+    objectClass: posixGroup
+    objectClass: top
+    cn: sas_grp
+    displayName: SAS
+    gidNumber: 1001
+    name: sas
+    member: uid=cas,ou=users,dc=gelldap,dc=com
+    member: uid=sas,ou=users,dc=gelldap,dc=com
+    memberUid: cas
+    memberUid: sas
+    o: GELLDAP
+
+    dn: cn=cas_grp,ou=groups,dc=gelldap,dc=com
+    objectClass: extensibleObject
+    objectClass: groupOfNames
+    objectClass: posixGroup
+    objectClass: top
+    cn: cas_grp
+    displayName: CAS
+    gidNumber: 1002
+    name: cas
+    member: uid=cas,ou=users,dc=gelldap,dc=com
+    memberUid: cas
+    o: GELLDAP
+
+    dn: uid=sasadm,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: sasadm
+    gidNumber: 2002
+    homeDirectory: /home/sasadm
+    sn: Admin
+    uid: sasadm
+    uidNumber: 2002
+    displayName: SAS Administrator
+    givenName: SAS
+    l: Cary
+    loginShell: /bin/bash
+    mail: sasadm@gelldap.com
+    o: GELLDAP
+    userPassword: lnxsas
+
+    dn: uid=sastest1,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: sastest1
+    gidNumber: 2003
+    homeDirectory: /home/sastest1
+    sn: Test User 1
+    uid: sastest1
+    uidNumber: 2003
+    displayName: SAS Test User 1
+    givenName: SAS
+    l: Cary
+    loginShell: /bin/bash
+    mail: sastest1@gelldap.com
+    o: GELLDAP
+    userPassword: lnxsas
+
+    dn: uid=sastest2,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: sastest2
+    gidNumber: 2003
+    homeDirectory: /home/sastest2
+    sn: Test User 2
+    uid: sastest2
+    uidNumber: 2004
+    displayName: SAS Test User 2
+    givenName: SAS
+    l: Cary
+    loginShell: /bin/bash
+    mail: sastest2@gelldap.com
+    o: GELLDAP
+    userPassword: lnxsas
+
+    dn: cn=sasadmins,ou=groups,dc=gelldap,dc=com
+    objectClass: extensibleObject
+    objectClass: groupOfNames
+    objectClass: posixGroup
+    objectClass: top
+    cn: sasadmins
+    member: uid=geladm,ou=users,dc=gelldap,dc=com
+    member: uid=sas,ou=users,dc=gelldap,dc=com
+    member: uid=sasadm,ou=users,dc=gelldap,dc=com
+    memberOf: cn=gelldap,ou=groups,dc=gelldap,dc=com
+    displayName: IT Admins
+    gidNumber: 2002
+    memberUid: geladm
+    memberUid: sas
+    memberUid: sasadm
+    name: SASAdmins
+    o: GELLDAP
+
+    dn: cn=sasusers,ou=groups,dc=gelldap,dc=com
+    objectClass: extensibleObject
+    objectClass: groupOfNames
+    objectClass: posixGroup
+    objectClass: top
+    cn: sasusers
+    member: cn=gelldap,ou=groups,dc=gelldap,dc=com
+    member: uid=geladm,ou=users,dc=gelldap,dc=com
+    member: uid=sasadm,ou=users,dc=gelldap,dc=com
+    member: uid=sastest1,ou=users,dc=gelldap,dc=com
+    member: uid=sastest2,ou=users,dc=gelldap,dc=com
+    member: uid=sas,ou=users,dc=gelldap,dc=com
+    displayName: SAS Users
+    gidNumber: 2003
+    memberUid: gelldap
+    memberUid: geladm
+    memberUid: sas
+    memberUid: sasadm
+    memberUid: sastest1
+    memberUid: sastest2
+    name: SASUsers
+    o: GELLDAP
+
+    dn: uid=geladm,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: geladm
+    gidNumber: 2002
+    homeDirectory: /home/geladm
+    sn: geladm
+    uid: geladm
+    uidNumber: 4000
+    displayName: geladm
+    employeeNumber: P301
+    l: Cary
+    loginShell: /bin/bash
+    mail: geladm@gelldap.com
+    o: GELLDAP
+    title: Platform Administrator
+    userPassword: lnxsas
+
+    dn: uid=Douglas,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Douglas
+    gidNumber: 2003
+    homeDirectory: /home/Douglas
+    sn: Douglas
+    uid: Douglas
+    uidNumber: 4001
+    displayName: Douglas
+    employeeNumber: P217
+    l: Cary
+    loginShell: /bin/bash
+    mail: Douglas@gelldap.com
+    o: GELLDAP
+    title: Data Manager (Sales)
+    userPassword: lnxsas
+
+    dn: uid=Delilah,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Delilah
+    gidNumber: 2003
+    homeDirectory: /home/Delilah
+    sn: Delilah
+    uid: Delilah
+    uidNumber: 4002
+    displayName: Delilah
+    employeeNumber: P218
+    l: Cary
+    loginShell: /bin/bash
+    mail: Delilah@gelldap.com
+    o: GELLDAP
+    title: Data Manager (HR)
+    userPassword: lnxsas
+
+    dn: uid=Alex,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Alex
+    gidNumber: 2003
+    homeDirectory: /home/Alex
+    sn: Alex
+    uid: Alex
+    uidNumber: 4003
+    displayName: Alex
+    employeeNumber: P302
+    l: Cary
+    loginShell: /bin/bash
+    mail: Alex@gelldap.com
+    o: GELLDAP
+    title: Content Administrator
+    userPassword: lnxsas
+
+    dn: uid=Amanda,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Amanda
+    gidNumber: 2003
+    homeDirectory: /home/Amanda
+    sn: Amanda
+    uid: Amanda
+    uidNumber: 4004
+    displayName: Amanda
+    employeeNumber: P302
+    l: Cary
+    loginShell: /bin/bash
+    mail: Amanda@gelldap.com
+    o: GELLDAP
+    title: Platform Administrator
+    userPassword: lnxsas
+
+    dn: uid=Ahmed,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Ahmed
+    gidNumber: 2003
+    homeDirectory: /home/Ahmed
+    sn: Ahmed
+    uid: Ahmed
+    uidNumber: 4005
+    displayName: Ahmed
+    employeeNumber: P301
+    l: Cary
+    loginShell: /bin/bash
+    mail: Ahmed@gelldap.com
+    o: GELLDAP
+    title: Platform Administrator
+    userPassword: lnxsas
+
+    dn: uid=Fay,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Fay
+    gidNumber: 2003
+    homeDirectory: /home/Fay
+    sn: Fay
+    displayName: Fay
+    employeeNumber: P212
+    l: Cary
+    loginShell: /bin/bash
+    mail: Fay@gelldap.com
+    o: GELLDAP
+    title: Business User
+    uid: Fay
+    uidNumber: 4006
+    userPassword: lnxsas
+
+    dn: uid=Fernanda,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Fernanda
+    gidNumber: 2003
+    homeDirectory: /home/Fernanda
+    sn: Fernanda
+    displayName: Fernanda
+    employeeNumber: P213
+    l: Cary
+    loginShell: /bin/bash
+    mail: Fernanda@gelldap.com
+    o: GELLDAP
+    title: Application Developer
+    uid: Fernanda
+    uidNumber: 4007
+    userPassword: lnxsas
+
+    dn: uid=Fiona,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Fiona
+    gidNumber: 2003
+    homeDirectory: /home/Fiona
+    sn: Fiona
+    displayName: Fiona
+    employeeNumber: P216
+    l: Cary
+    loginShell: /bin/bash
+    mail: Fiona@gelldap.com
+    o: GELLDAP
+    title: Application Developer
+    uid: Fiona
+    uidNumber: 4008
+    userPassword: lnxsas
+
+    dn: uid=Frank,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Frank
+    gidNumber: 2003
+    homeDirectory: /home/Frank
+    sn: Frank
+    displayName: Frank
+    employeeNumber: P214
+    l: Cary
+    loginShell: /bin/bash
+    mail: Frank@gelldap.com
+    o: GELLDAP
+    title: Application Developer
+    uid: Frank
+    uidNumber: 4009
+    userPassword: lnxsas
+
+    dn: uid=Fred,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Fred
+    gidNumber: 2003
+    homeDirectory: /home/Fred
+    sn: Fred
+    displayName: Fred
+    employeeNumber: P215
+    l: Cary
+    loginShell: /bin/bash
+    mail: Fred@gelldap.com
+    o: GELLDAP
+    title: Application Developer
+    uid: Fred
+    uidNumber: 4010
+    userPassword: lnxsas
+
+    dn: uid=Hamish,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Hamish
+    gidNumber: 2003
+    homeDirectory: /home/Hamish
+    sn: Hamish
+    displayName: Hamish
+    employeeNumber: P202
+    l: Cary
+    loginShell: /bin/bash
+    mail: Hamish@gelldap.com
+    o: GELLDAP
+    title: Business Analyst
+    uid: Hamish
+    uidNumber: 4011
+    userPassword: lnxsas
+
+    dn: uid=Hazel,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Hazel
+    gidNumber: 2003
+    homeDirectory: /home/Hazel
+    sn: Hazel
+    displayName: Hazel
+    employeeNumber: P210
+    l: Cary
+    loginShell: /bin/bash
+    mail: Hazel@gelldap.com
+    o: GELLDAP
+    title: Business User
+    uid: Hazel
+    uidNumber: 4012
+    userPassword: lnxsas
+
+    dn: uid=Heather,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Heather
+    gidNumber: 2003
+    homeDirectory: /home/Heather
+    sn: Heather
+    displayName: Heather
+    employeeNumber: P204
+    l: Cary
+    loginShell: /bin/bash
+    mail: Heather@gelldap.com
+    o: GELLDAP
+    title: Business Analyst
+    uid: Heather
+    uidNumber: 4013
+    userPassword: lnxsas
+
+    dn: uid=Helena,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Helena
+    gidNumber: 2003
+    homeDirectory: /home/Helena
+    sn: Helena
+    displayName: Helena
+    employeeNumber: P219
+    l: Cary
+    loginShell: /bin/bash
+    mail: Helena@gelldap.com
+    o: GELLDAP
+    title: Manager
+    uid: Helena
+    uidNumber: 4014
+    userPassword: lnxsas
+
+    dn: uid=Henrik,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Henrik
+    gidNumber: 2003
+    homeDirectory: /home/Henrik
+    sn: Henrik
+    displayName: Henrik
+    employeeNumber: P208
+    l: Cary
+    loginShell: /bin/bash
+    mail: Henrik@gelldap.com
+    o: GELLDAP
+    title: Business User
+    uid: Henrik
+    uidNumber: 4015
+    userPassword: lnxsas
+
+    dn: uid=Hugh,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Hugh
+    gidNumber: 2003
+    homeDirectory: /home/Hugh
+    sn: Hugh
+    displayName: Hugh
+    employeeNumber: P201
+    l: Cary
+    loginShell: /bin/bash
+    mail: Hugh@gelldap.com
+    o: GELLDAP
+    title: Business Analyst
+    uid: Hugh
+    uidNumber: 4016
+    userPassword: lnxsas
+
+    dn: uid=Santiago,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Santiago
+    gidNumber: 2003
+    homeDirectory: /home/Santiago
+    sn: Santiago
+    displayName: Santiago
+    employeeNumber: P207
+    l: Cary
+    loginShell: /bin/bash
+    mail: Santiago@gelldap.com
+    o: GELLDAP
+    title: Business User
+    uid: Santiago
+    uidNumber: 4017
+    userPassword: lnxsas
+
+    dn: uid=Sarah,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Sarah
+    gidNumber: 2003
+    homeDirectory: /home/Sarah
+    sn: Sarah
+    displayName: Sarah
+    employeeNumber: P211
+    l: Cary
+    loginShell: /bin/bash
+    mail: Sarah@gelldap.com
+    o: GELLDAP
+    title: Business User
+    uid: Sarah
+    uidNumber: 4018
+    userPassword: lnxsas
+
+    dn: uid=Sasha,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Sasha
+    gidNumber: 2003
+    homeDirectory: /home/Sasha
+    sn: Sasha
+    displayName: Sasha
+    employeeNumber: P205
+    l: Cary
+    loginShell: /bin/bash
+    mail: Sasha@gelldap.com
+    o: GELLDAP
+    title: Business Analyst
+    uid: Sasha
+    uidNumber: 4019
+    userPassword: lnxsas
+
+    dn: uid=Sean,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Sean
+    gidNumber: 2003
+    homeDirectory: /home/Sean
+    sn: Sean
+    displayName: Sean
+    employeeNumber: P206
+    l: Cary
+    loginShell: /bin/bash
+    mail: Sean@gelldap.com
+    o: GELLDAP
+    title: Business Analyst
+    uid: Sean
+    uidNumber: 4020
+    userPassword: lnxsas
+
+    dn: uid=Sebastian,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Sebastian
+    gidNumber: 2003
+    homeDirectory: /home/Sebastian
+    sn: Sebastian
+    displayName: Sebastian
+    employeeNumber: P219
+    l: Cary
+    loginShell: /bin/bash
+    mail: Sebastian@gelldap.com
+    o: GELLDAP
+    title: Data Scientist
+    uid: Sebastian
+    uidNumber: 4021
+    userPassword: lnxsas
+
+    dn: uid=Shannon,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Shannon
+    gidNumber: 2003
+    homeDirectory: /home/Shannon
+    sn: Shannon
+    displayName: Shannon
+    employeeNumber: P203
+    l: Cary
+    loginShell: /bin/bash
+    mail: Shannon@gelldap.com
+    o: GELLDAP
+    title: Business Analyst
+    uid: Shannon
+    uidNumber: 4022
+    userPassword: lnxsas
+
+    dn: uid=Sheldon,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Sheldon
+    gidNumber: 2003
+    homeDirectory: /home/Sheldon
+    sn: Sheldon
+    displayName: Sheldon
+    employeeNumber: P209
+    l: Cary
+    loginShell: /bin/bash
+    mail: Sheldon@gelldap.com
+    o: GELLDAP
+    title: Business User
+    uid: Sheldon
+    uidNumber: 4023
+    userPassword: lnxsas
+
+    dn: uid=Sophia,ou=users,dc=gelldap,dc=com
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: posixAccount
+    objectClass: top
+    cn: Sophia
+    gidNumber: 2003
+    homeDirectory: /home/Sophia
+    sn: Sophia
+    displayName: Sophia
+    employeeNumber: P219
+    l: Cary
+    loginShell: /bin/bash
+    mail: Sophia@gelldap.com
+    o: GELLDAP
+    title: Manager
+    uid: Sophia
+    uidNumber: 4024
+    userPassword: lnxsas
+
+    dn: cn=HR,ou=groups,dc=gelldap,dc=com
+    objectClass: extensibleObject
+    objectClass: groupOfNames
+    objectClass: posixGroup
+    objectClass: top
+    cn: HR
+    displayName: HR
+    gidNumber: 3001
+    name: HR
+    member: uid=cas,ou=users,dc=gelldap,dc=com
+    member: uid=Delilah,ou=users,dc=gelldap,dc=com
+    member: uid=geladm,ou=users,dc=gelldap,dc=com
+    member: uid=Hamish,ou=users,dc=gelldap,dc=com
+    member: uid=Hazel,ou=users,dc=gelldap,dc=com
+    member: uid=Heather,ou=users,dc=gelldap,dc=com
+    member: uid=Helena,ou=users,dc=gelldap,dc=com
+    member: uid=Henrik,ou=users,dc=gelldap,dc=com
+    member: uid=Hugh,ou=users,dc=gelldap,dc=com
+    member: uid=sasadm,ou=users,dc=gelldap,dc=com
+    memberUid: cas
+    memberUid: Delilah
+    memberUid: geladm
+    memberUid: Hamish
+    memberUid: Hazel
+    memberUid: Heather
+    memberUid: Helena
+    memberUid: Henrik
+    memberUid: Hugh
+    memberUid: sasadm
+    memberOf: cn=gelldap,ou=groups,dc=gelldap,dc=com
+    o: GELLDAP
+
+    dn: cn=Sales,ou=groups,dc=gelldap,dc=com
+    objectClass: extensibleObject
+    objectClass: groupOfNames
+    objectClass: posixGroup
+    objectClass: top
+    cn: Sales
+    displayName: Sales
+    gidNumber: 3003
+    name: Sales
+    member: uid=cas,ou=users,dc=gelldap,dc=com
+    member: uid=Douglas,ou=users,dc=gelldap,dc=com
+    member: uid=geladm,ou=users,dc=gelldap,dc=com
+    member: uid=Santiago,ou=users,dc=gelldap,dc=com
+    member: uid=Sarah,ou=users,dc=gelldap,dc=com
+    member: uid=sasadm,ou=users,dc=gelldap,dc=com
+    member: uid=Sasha,ou=users,dc=gelldap,dc=com
+    member: uid=Sean,ou=users,dc=gelldap,dc=com
+    member: uid=Sebastian,ou=users,dc=gelldap,dc=com
+    member: uid=Shannon,ou=users,dc=gelldap,dc=com
+    member: uid=Sheldon,ou=users,dc=gelldap,dc=com
+    member: uid=Sophia,ou=users,dc=gelldap,dc=com
+    memberUid: cas
+    memberUid: Douglas
+    memberUid: geladm
+    memberUid: Santiago
+    memberUid: Sarah
+    memberUid: sasadm
+    memberUid: Sasha
+    memberUid: Sean
+    memberUid: Sebastian
+    memberUid: Shannon
+    memberUid: Sheldon
+    memberUid: Sophia
+    memberOf: cn=gelldap,ou=groups,dc=gelldap,dc=com
+    o: GELLDAP
+
+    dn: cn=Finance,ou=groups,dc=gelldap,dc=com
+    objectClass: extensibleObject
+    objectClass: groupOfNames
+    objectClass: posixGroup
+    objectClass: top
+    cn: Finance
+    displayName: Finance
+    gidNumber: 3004
+    name: Finance
+    member: uid=cas,ou=users,dc=gelldap,dc=com
+    member: uid=Fay,ou=users,dc=gelldap,dc=com
+    member: uid=Fernanda,ou=users,dc=gelldap,dc=com
+    member: uid=Fiona,ou=users,dc=gelldap,dc=com
+    member: uid=Frank,ou=users,dc=gelldap,dc=com
+    member: uid=Fred,ou=users,dc=gelldap,dc=com
+    member: uid=geladm,ou=users,dc=gelldap,dc=com
+    member: uid=sasadm,ou=users,dc=gelldap,dc=com
+    memberUid: cas
+    memberUid: Fay
+    memberUid: Fernanda
+    memberUid: Fiona
+    memberUid: Frank
+    memberUid: Fred
+    memberUid: geladm
+    memberUid: sasadm
+    memberOf: cn=gelldap,ou=groups,dc=gelldap,dc=com
+    o: GELLDAP
+
+    dn: cn=Managers,ou=groups,dc=gelldap,dc=com
+    objectClass: extensibleObject
+    objectClass: groupOfNames
+    objectClass: posixGroup
+    objectClass: top
+    cn: Managers
+    displayName: Managers
+    gidNumber: 3002
+    name: Managers
+    member: uid=Helena,ou=users,dc=gelldap,dc=com
+    member: uid=Sophia,ou=users,dc=gelldap,dc=com
+    memberUid: Helena
+    memberUid: Sophia
+    memberOf: cn=gelldap,ou=groups,dc=gelldap,dc=com
+    o: GELLDAP
+
+    dn: cn=gelldap,ou=groups,dc=gelldap,dc=com
+    objectClass: extensibleObject
+    objectClass: groupOfNames
+    objectClass: posixGroup
+    objectClass: top
+    cn: gelldap
+    displayName: All GELLDAP Users
+    gidNumber: 3000
+    name: gelldap
+    member: cn=Finance,ou=groups,dc=gelldap,dc=com
+    member: cn=GELLDAPContentAdmins,ou=groups,dc=gelldap,dc=com
+    member: cn=GELLDAPSystemAdmins,ou=groups,dc=gelldap,dc=com
+    member: cn=HR,ou=groups,dc=gelldap,dc=com
+    member: cn=Managers,ou=groups,dc=gelldap,dc=com
+    member: cn=powerusers,ou=groups,dc=gelldap,dc=com
+    member: cn=Sales,ou=groups,dc=gelldap,dc=com
+    member: cn=sasadmins,ou=groups,dc=gelldap,dc=com
+    memberUid: Finance
+    memberUid: GELLDAPContentAdmins
+    memberUid: GELLDAPSystemAdmins
+    memberUid: HR
+    memberUid: Managers
+    memberUid: powerusers
+    memberUid: Sales
+    memberUid: sasadmins
+    memberOf: cn=sasusers,ou=groups,dc=gelldap,dc=com
+    o: GELLDAP
+
+    dn: cn=GELLDAPContentAdmins,ou=groups,dc=gelldap,dc=com
+    objectClass: extensibleObject
+    objectClass: groupOfNames
+    objectClass: posixGroup
+    objectClass: top
+    cn: GELLDAPContentAdmins
+    displayName: GELLDAP Content Admins
+    gidNumber: 3005
+    name: GELLDAPContentAdmins
+    member: uid=Alex,ou=users,dc=gelldap,dc=com
+    memberUid: Alex
+    memberOf: cn=gelldap,ou=groups,dc=gelldap,dc=com
+    o: GELLDAP
+
+    dn: cn=GELLDAPSystemAdmins,ou=groups,dc=gelldap,dc=com
+    objectClass: extensibleObject
+    objectClass: groupOfNames
+    objectClass: posixGroup
+    objectClass: top
+    cn: GELLDAPSystemAdmins
+    displayName: GELLDAP System Admins
+    gidNumber: 3006
+    name: GELLDAPSystemAdmins
+    member: uid=Ahmed,ou=users,dc=gelldap,dc=com
+    member: uid=Amanda,ou=users,dc=gelldap,dc=com
+    member: uid=geladm,ou=users,dc=gelldap,dc=com
+    member: uid=sasadm,ou=users,dc=gelldap,dc=com
+    memberUid: Ahmed
+    memberUid: Amanda
+    memberUid: geladm
+    memberUid: sasadm
+    memberOf: cn=gelldap,ou=groups,dc=gelldap,dc=com
+    o: GELLDAP
+
+    dn: cn=powerusers,ou=groups,dc=gelldap,dc=com
+    objectClass: extensibleObject
+    objectClass: groupOfNames
+    objectClass: posixGroup
+    objectClass: top
+    cn: powerusers
+    displayName: GELLDAP Power Users
+    gidNumber: 3007
+    name: powerusers
+    member: uid=Ahmed,ou=users,dc=gelldap,dc=com
+    member: uid=Amanda,ou=users,dc=gelldap,dc=com
+    member: uid=Delilah,ou=users,dc=gelldap,dc=com
+    member: uid=Douglas,ou=users,dc=gelldap,dc=com
+    member: uid=geladm,ou=users,dc=gelldap,dc=com
+    member: uid=sasadm,ou=users,dc=gelldap,dc=com
+    memberUid: Ahmed
+    memberUid: Amanda
+    memberUid: Delilah
+    memberUid: Douglas
+    memberUid: geladm
+    memberUid: sasadm
+    memberOf: cn=gelldap,ou=groups,dc=gelldap,dc=com
+    o: GELLDAP
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gelldap-memberof-overlay
+  namespace: gelldap
+  labels:
+    app.kubernetes.io/part-of: gelldap
+data:
+  03-memberOf.ldif: |
+    # Load memberof module
+    dn: cn=module{0},cn=config
+    changetype: modify
+    add: olcModuleLoad
+    olcModuleLoad: memberof
+
+    # Backend memberOf overlay
+    dn: olcOverlay={0}memberof,olcDatabase={1}{{ LDAP_BACKEND }},cn=config
+    changetype: add
+    objectClass: olcOverlayConfig
+    objectClass: olcMemberOf
+    olcOverlay: {0}memberof
+    olcMemberOfDangling: ignore
+    olcMemberOfRefInt: TRUE
+    olcMemberOfGroupOC: posixGroup
+    olcMemberOfMemberAD: member
+    olcMemberOfMemberOfAD: memberOf
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gelldap-server
+  namespace: gelldap
+  labels:
+    app: gelldap-server
+    app.kubernetes.io/part-of: gelldap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gelldap-server
+  template:
+    metadata:
+      labels:
+        app: gelldap-server
+        app.kubernetes.io/part-of: gelldap
+    spec:
+      containers:
+        - name: gelldap-server
+          image: osixia/openldap:1.4.0
+          imagePullPolicy: IfNotPresent
+          args:
+            - --copy-service
+          volumeMounts:
+            - name: gelldap-volume-users
+              mountPath: /container/service/slapd/assets/config/bootstrap/ldif/custom/bootstrap.ldif
+              subPath: bootstrap.ldif
+            - name: gelldap-volume-overlay
+              mountPath: /container/service/slapd/assets/config/bootstrap/ldif/03-memberOf.ldif
+              subPath: 03-memberOf.ldif
+            - name: ldap-data
+              mountPath: /var/lib/ldap
+            - name: ldap-config
+              mountPath: /etc/ldap/slapd.d
+            - name: ldap-certs
+              mountPath: /container/service/slapd/assets/certs
+          ports:
+            - containerPort: 389
+              name: openldap
+            - containerPort: 636
+              name: openldaps
+          env:
+            - name: LDAP_TLS
+              value: "false"
+            - name: LDAP_ORGANISATION
+              value: "GELLDAP"
+            - name: LDAP_DOMAIN
+              value: "gelldap.com"
+            - name: LDAP_ADMIN_PASSWORD
+              value: "lnxsas"
+            - name: LDAP_CONFIG_PASSWORD
+              value: "lnxsas"
+            - name: LDAP_READONLY_USER
+              value: "false"
+            - name: LDAP_REMOVE_CONFIG_AFTER_SETUP
+              value: "false"
+            - name: LDAP_RFC2307BIS_SCHEMA
+              value: "true"
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 50m
+              memory: 50Mi
+      volumes:
+        - name: gelldap-volume-users
+          configMap:
+            name: gelldap-bootstrap-users
+        - name: gelldap-volume-overlay
+          configMap:
+            name: gelldap-memberof-overlay
+        - name: ldap-data
+          emptyDir: {}
+        - name: ldap-config
+          emptyDir: {}
+        - name: ldap-certs
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gelldap-service
+  namespace: gelldap
+  labels:
+    app: gelldap-service
+    app.kubernetes.io/part-of: gelldap
+spec:
+  ports:
+    - name: openldap-insecure-port
+      port: 389
+      targetPort: 389
+      protocol: TCP
+  selector:
+    app: gelldap-server

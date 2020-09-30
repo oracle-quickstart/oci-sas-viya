@@ -1,0 +1,1142 @@
+
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-analytics-components
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-analytics-components
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-analytics-events
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-analytics-events
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-analytics-services
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-analytics-services
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-analytics-services-2
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-analytics-services-2
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-annotations
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-annotations
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-app-registry
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-app-registry
+
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-audit
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-audit
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-authorization
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-authorization
+
+
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-batch
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-batch
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-cachelocator
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: StatefulSet
+  name: sas-cachelocator
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-cacheserver
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: StatefulSet
+  name: sas-cacheserver
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-cas-administration
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-cas-administration
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-cas-control
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-cas-control
+
+
+
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-comments
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-comments
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-compute
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-compute
+
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-config-reconciler
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-config-reconciler
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-ingress-annotation-transformer-sas-config-reconciler-compat
+patch: |-
+  - op: add
+    path: /metadata/annotations/sas.com~1kustomize-base
+    value: base
+target:
+  kind: Ingress
+  name: sas-config-reconciler-compat
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-configuration
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-configuration
+
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-conversation-designer-app
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-conversation-designer-app
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-credentials
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-credentials
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-crossdomainproxy
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-crossdomainproxy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-data-explorer-app
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-data-explorer-app
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-data-flows
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-data-flows
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-data-mining-models
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-data-mining-models
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-data-mining-project-settings
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-data-mining-project-settings
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-data-mining-results
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-data-mining-results
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-data-mining-services
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-data-mining-services
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-data-plans
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-data-plans
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-data-profiles
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-data-profiles
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-data-quality-services
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-data-quality-services
+
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-data-sources
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-data-sources
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-data-studio-app
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-data-studio-app
+
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-deployment-data
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-deployment-data
+
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-device-management
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-device-management
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-drive-app
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-drive-app
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-environment-manager-app
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-environment-manager-app
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-files
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-files
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-folders
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-folders
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-fonts
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-fonts
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-geo-enrichment
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-geo-enrichment
+
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-graph-builder-app
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-graph-builder-app
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-graph-templates
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-graph-templates
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-identities
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-identities
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-import-9
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-import-9
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-job-execution
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-job-execution
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-job-execution-app
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-job-execution-app
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-job-flow-scheduling
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-job-flow-scheduling
+
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-launcher
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-launcher
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-lineage-app
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-lineage-app
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-links
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-links
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-localization
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-localization
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-logon-app
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-logon-app
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-mail
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-mail
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-maps
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-maps
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-model-publish
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-model-publish
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-model-repository
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-model-repository
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-model-studio-app
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-model-studio-app
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-natural-language-conversations
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-natural-language-conversations
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-natural-language-generation
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-natural-language-generation
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-natural-language-understanding
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-natural-language-understanding
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-notifications
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-notifications
+
+
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-preferences
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-preferences
+
+
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-projects
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-projects
+
+
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-readiness
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-readiness
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-relationships
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-relationships
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-report-distribution
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-report-distribution
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-report-execution
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-report-execution
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-report-renderer
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-report-renderer
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-report-services-group
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-report-services-group
+
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-scheduler
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-scheduler
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-score-definitions
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-score-definitions
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-score-execution
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-score-execution
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-search
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-search
+
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-studio-app
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-studio-app
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-templates
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-templates
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-theme-content
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-theme-content
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-theme-designer-app
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-theme-designer-app
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-themes
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-themes
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-thumbnails
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-thumbnails
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-transfer
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-transfer
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-transformations
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-transformations
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-types
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-types
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-visual-analytics-administration
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-visual-analytics-administration
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-visual-analytics-app
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-visual-analytics-app
+
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-tls-readiness-probe-transformer-sas-web-data-access
+patch: |-
+  - op: replace
+    path: /spec/template/spec/containers/0/readinessProbe/httpGet/scheme
+    value: HTTPS
+target:
+  kind: Deployment
+  name: sas-web-data-access

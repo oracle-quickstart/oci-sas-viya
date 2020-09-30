@@ -1,0 +1,839 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    sas.com/certificate-file-format: pem
+    sas.com/component-name: sas-crunchy-data-postgres-operator
+    sas.com/component-version: 11.5.250040-20200211.1581446422678
+    sas.com/duname: crdatasvrop
+    sas.com/version: 11.5.250040
+  labels:
+    app.kubernetes.io/name: sas-crunchy-data-postgres-operator
+    sas.com/deployment: sas-viya
+    vendor: crunchydata
+  name: sas-crunchy-data-postgres-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: sas-crunchy-data-postgres-operator
+      sas.com/deployment: sas-viya
+      vendor: crunchydata
+  template:
+    metadata:
+      annotations:
+        sas.com/certificate-file-format: pem
+        sas.com/component-name: sas-crunchy-data-postgres-operator
+        sas.com/component-version: 11.5.250040-20200211.1581446422678
+        sas.com/duname: crdatasvrop
+        sas.com/version: 11.5.250040
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/name: sas-crunchy-data-postgres-operator
+        name: sas-crunchy-data-postgres-operator
+        sas.com/deployment: sas-viya
+        vendor: crunchydata
+    spec:
+      serviceAccountName: postgres-operator
+      containers:
+      - name: apiserver
+        image: sas-crunchy-data-operator-api-server
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8443
+        readinessProbe:
+          httpGet:
+            path: "/healthz"
+            port: 8443
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: "/healthz"
+            port: 8443
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        env:
+        - name: CRUNCHY_DEBUG
+          value: 'true'
+        - name: PORT
+          value: '8443'
+        - name: PGO_INSTALLATION_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace  
+        - name: PGO_OPERATOR_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: TLS_CA_TRUST
+          value: ''
+        - name: TLS_NO_VERIFY
+          value: 'true'
+        - name: DISABLE_TLS
+          value: 'true'
+        - name: NOAUTH_ROUTES
+          value: ''
+        - name: ADD_OS_TRUSTSTORE
+          value: ''
+        - name: DISABLE_EVENTING
+          value: 'false'
+        - name: EVENT_ADDR
+          value: localhost:4150
+        envFrom: []
+        volumeMounts:
+        - name: security-ssh
+          mountPath: /security-ssh
+        - mountPath: /tmp
+          name: tmp
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 90Mi
+      - name: operator
+        image: sas-crunchy-data-postgres-operator
+        imagePullPolicy: IfNotPresent
+        readinessProbe:
+          exec:
+            command:
+            - ls
+            - "/tmp"
+          initialDelaySeconds: 4
+          periodSeconds: 5
+        envFrom:
+        - configMapRef:
+            name: ccp-image-location
+        - configMapRef:
+            name: input
+        env:
+        - name: CRUNCHY_POSTGRES_IMAGE
+          valueFrom:
+            configMapKeyRef:
+              name: sas-components
+              key: SAS_COMPONENT_RELPATH_sas-crunchy-data-postgres-12
+        - name: CRUNCHY_POSTGRES_IMAGE_TAG
+          valueFrom:
+            configMapKeyRef:
+              name: sas-components
+              key: SAS_COMPONENT_TAG_sas-crunchy-data-postgres-12
+        - name: CRUNCHY_COLLECT_IMAGE
+          valueFrom:
+            configMapKeyRef:
+              name: sas-components
+              key: SAS_COMPONENT_RELPATH_sas-crunchy-data-collect
+        - name: CRUNCHY_COLLECT_IMAGE_TAG
+          valueFrom:
+            configMapKeyRef:
+              name: sas-components
+              key: SAS_COMPONENT_TAG_sas-crunchy-data-collect
+        - name: CRUNCHY_PGBADGER_IMAGE
+          valueFrom:
+            configMapKeyRef:
+              name: sas-components
+              key: SAS_COMPONENT_RELPATH_sas-crunchy-data-pgbadger
+        - name: CRUNCHY_PGBADGER_IMAGE_TAG
+          valueFrom:
+            configMapKeyRef:
+              name: sas-components
+              key: SAS_COMPONENT_TAG_sas-crunchy-data-pgbadger
+        - name: CRUNCHY_PGBACKREST_IMAGE
+          valueFrom:
+            configMapKeyRef:
+              name: sas-components
+              key: SAS_COMPONENT_RELPATH_sas-crunchy-data-pgbackrest
+        - name: CRUNCHY_PGBACKREST_IMAGE_TAG
+          valueFrom:
+            configMapKeyRef:
+              name: sas-components
+              key: SAS_COMPONENT_TAG_sas-crunchy-data-pgbackrest
+        - name: CRUNCHY_PGBACKREST_JOB_IMAGE
+          valueFrom:
+            configMapKeyRef:
+              name: sas-components
+              key: SAS_COMPONENT_RELPATH_sas-crunchy-data-pgbackrest-job
+        - name: CRUNCHY_PGBACKREST_JOB_IMAGE_TAG
+          valueFrom:
+            configMapKeyRef:
+              name: sas-components
+              key: SAS_COMPONENT_TAG_sas-crunchy-data-pgbackrest-job
+        - name: CRUNCHY_DEBUG
+          value: 'true'
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: PGO_INSTALLATION_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: PGO_OPERATOR_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: DISABLE_EVENTING
+          value: 'false'
+        - name: EVENT_ADDR
+          value: localhost:4150
+        volumeMounts:
+        - name: security-ssh
+          mountPath: /security-ssh
+        - mountPath: /tmp
+          name: tmp
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 90Mi
+      - name: scheduler
+        image: sas-crunchy-data-operator-scheduler
+        livenessProbe:
+          exec:
+            command:
+            - bash
+            - "-c"
+            - test -n "$(find /tmp/scheduler.hb -newermt '61 sec ago')"
+          failureThreshold: 2
+          initialDelaySeconds: 60
+          periodSeconds: 60
+        env:
+        - name: CRUNCHY_DEBUG
+          value: 'true'
+        - name: PGO_OPERATOR_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: PGO_INSTALLATION_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: TIMEOUT
+          value: '3600'
+        - name: EVENT_ADDR
+          value: localhost:4150
+        volumeMounts:
+        - name: security-ssh
+          mountPath: /security-ssh
+        - mountPath: /tmp
+          name: tmp
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 90Mi
+        imagePullPolicy: IfNotPresent
+      - name: event
+        image: sas-crunchy-data-operator-event-manager
+        livenessProbe:
+          httpGet:
+            path: "/ping"
+            port: 4151
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        env:
+        - name: TIMEOUT
+          value: '3600'
+        volumeMounts:
+        - name: security-ssh
+          mountPath: /security-ssh
+        - mountPath: /tmp
+          name: tmp
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 100m
+            memory: 90Mi
+        imagePullPolicy: IfNotPresent
+      initContainers:
+      - name: sas-certframe-ssh-key-generator
+        image: sas-certframe
+        imagePullPolicy: Always
+        env:
+        - name: SAS_SSH_SECRET_NAME
+          value: sas-crunchy-data-postgres-backrest-repo-config
+        - name: SAS_SECURITY_ARTIFACTS_DIR
+          value: /security-ssh
+        volumeMounts:
+        - name: security-ssh
+          mountPath: /security-ssh
+      imagePullSecrets: []
+      volumes:
+      - emptyDir: {}
+        name: security-ssh
+      - emptyDir: {}
+        name: tmp
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: sas-crunchy-data-postgres-operator
+    app.kubernetes.io/name: sas-crunchy-data-postgres-operator
+  name: sas-crunchy-data-postgres-operator
+spec:
+  ports:
+  - name: apiserver
+    port: 8443
+    protocol: TCP
+    targetPort: 8443
+  - name: nsqadmin
+    port: 4171
+    protocol: TCP
+    targetPort: 4171
+  - name: nsqd
+    port: 4150
+    protocol: TCP
+    targetPort: 4150
+  selector:
+    name: sas-crunchy-data-postgres-operator
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: pgbackups.crunchydata.com
+  labels:
+    sas.com/admin: "cluster-wide"
+spec:
+  group: crunchydata.com
+  names:
+    kind: Pgbackup
+    listKind: PgbackupList
+    plural: pgbackups
+    singular: pgbackup
+  scope: Namespaced
+  version: v1
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: pgclusters.crunchydata.com
+  labels:
+    sas.com/admin: "cluster-wide"
+spec:
+  group: crunchydata.com
+  names:
+    kind: Pgcluster
+    listKind: PgclusterList
+    plural: pgclusters
+    singular: pgcluster
+  scope: Namespaced
+  version: v1
+  validation:
+    openAPIV3Schema:
+      properties:
+        spec:
+          properties:
+            clustername: { type: string }
+            ccpimage: { type: string }
+            ccpimagetag: { type: string }
+            database: { type: string }
+            exporterport: { type: string }
+            name: { type: string }
+            pgbadgerport: { type: string }
+            primarysecretname: { type: string }
+            PrimaryStorage: { type: object }
+            port: { type: string }
+            rootsecretname: { type: string }
+            userlabels: { type: object }
+            usersecretname: { type: string }
+        status:
+          properties:
+            state: { type: string }
+            message: { type: string }
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: pgpolicies.crunchydata.com
+  labels:
+    sas.com/admin: "cluster-wide"
+spec:
+  group: crunchydata.com
+  names:
+    kind: Pgpolicy
+    listKind: PgpolicyList
+    plural: pgpolicies
+    singular: pgpolicy
+  scope: Namespaced
+  version: v1
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: pgreplicas.crunchydata.com
+spec:
+  group: crunchydata.com
+  names:
+    kind: Pgreplica
+    listKind: PgreplicaList
+    plural: pgreplicas
+    singular: pgreplica
+  scope: Namespaced
+  version: v1
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: pgtasks.crunchydata.com
+  labels:
+    sas.com/admin: "cluster-wide"
+spec:
+  group: crunchydata.com
+  names:
+    kind: Pgtask
+    listKind: PgtaskList
+    plural: pgtasks
+    singular: pgtask
+  scope: Namespaced
+  version: v1
+---
+apiVersion: v1
+stringData:
+  permissions: "*"
+  rolename: pgoadmin
+kind: Secret
+metadata:
+  labels:
+    pgo-created-by: bootstrap
+    pgo-pgorole: "true"
+    rolename: pgoadmin
+    vendor: crunchydata
+  name: pgorole-pgoadmin
+type: Opaque
+---          
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: pgo-cluster-role
+rules:
+  - verbs:
+      - 'list'
+      - 'get'
+    apiGroups:
+      - ""
+    resources:
+      - namespaces
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: pgo-cluster-role
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: pgo-cluster-role
+subjects:
+- kind: ServiceAccount
+  name: postgres-operator
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: system:serviceaccounts          
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pgo-role
+rules:
+- apiGroups:
+  - crunchydata.com
+  resources:
+  - pgclusters
+  - pgpolicies
+  - pgtasks
+  - pgbackups
+  - pgreplicas
+  verbs:
+  - '*'
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - '*'
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  - pods
+  - configmaps
+  - pods/exec
+  - pods/log
+  - services
+  - replicasets
+  - endpoints
+  - persistentvolumeclaims
+  - namespaces
+  verbs:
+  - '*'
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  - storageclasses
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  verbs:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pgo-target-role
+rules:
+- apiGroups:
+  - crunchydata.com
+  resources:
+  - pgclusters
+  - pgpolicies
+  - pgtasks
+  - pgbackups
+  - pgreplicas
+  verbs:
+  - '*'
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - '*'
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  - pods
+  - configmaps
+  - pods/exec
+  - pods/log
+  - services
+  - replicasets
+  - endpoints
+  - persistentvolumeclaims
+  verbs:
+  - '*'
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  - storageclasses
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  verbs:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    vendor: crunchydata
+  name: pgo-pg-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+  - delete
+  - deletecollection
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pgo-backrest-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - ""
+  resources:
+  - pods/exec
+  verbs:
+  - create
+---
+apiVersion: v1
+imagePullSecrets: []
+kind: ServiceAccount
+metadata:
+  name: pgo-backrest
+---
+apiVersion: v1
+imagePullSecrets: []
+kind: ServiceAccount
+metadata:
+  name: pgo-default
+---
+apiVersion: v1
+imagePullSecrets: []
+kind: ServiceAccount
+metadata:
+  name: pgo-pg
+---
+apiVersion: v1
+imagePullSecrets: []
+kind: ServiceAccount
+metadata:
+  name: pgo-target
+---
+apiVersion: v1
+imagePullSecrets: []
+kind: ServiceAccount
+metadata:
+  name: postgres-operator
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    vendor: crunchydata
+  name: pgo-backrest-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: pgo-backrest-role
+subjects:
+- kind: ServiceAccount
+  name: pgo-backrest
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    vendor: crunchydata
+  name: pgo-pg-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: pgo-pg-role
+subjects:
+- kind: ServiceAccount
+  name: pgo-pg
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pgo-role
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: pgo-role
+subjects:
+- kind: ServiceAccount
+  name: postgres-operator
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pgo-target-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: pgo-target-role
+subjects:
+- kind: ServiceAccount
+  name: postgres-operator
+- kind: ServiceAccount
+  name: pgo-target
+---
+apiVersion: v1
+data:
+  aws-s3-ca.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURkekNDQWwrZ0F3SUJBZ0lFQWdBQXVUQU5CZ2txaGtpRzl3MEJBUVVGQURCYU1Rc3dDUVlEVlFRR0V3SkoKUlRFU01CQUdBMVVFQ2hNSlFtRnNkR2x0YjNKbE1STXdFUVlEVlFRTEV3cERlV0psY2xSeWRYTjBNU0l3SUFZRApWUVFERXhsQ1lXeDBhVzF2Y21VZ1EzbGlaWEpVY25WemRDQlNiMjkwTUI0WERUQXdNRFV4TWpFNE5EWXdNRm9YCkRUSTFNRFV4TWpJek5Ua3dNRm93V2pFTE1Ba0dBMVVFQmhNQ1NVVXhFakFRQmdOVkJBb1RDVUpoYkhScGJXOXkKWlRFVE1CRUdBMVVFQ3hNS1EzbGlaWEpVY25WemRERWlNQ0FHQTFVRUF4TVpRbUZzZEdsdGIzSmxJRU41WW1WeQpWSEoxYzNRZ1VtOXZkRENDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0NBUW9DZ2dFQkFLTUV1eUtyCm1EMVg2Q1p5bXJWNTFDbmk0ZWlWZ0xHdzQxdU9LeW1hWk4raFhlMndDUVZ0MnlndXptS2lZdjYwaU5vUzZ6anIKSVozQVFTc0JVbnVJZDlNY2o4ZTZ1WWkxYWdubmMrZ1JRS2ZSek1waWpTM2xqd3VtVU5Lb1VNTW82dldySlllSwptcFljcVdlNFB3elY5L2xTRXkvQ0c5VndjUENQd0JMS0JzdWE0ZG5LTTNwMzF2anN1ZkZvUkVKSUU5TEF3cVN1ClhtRCt0cVlGL0xUZEIxa0MxRmtZbUdQMXBXUGdrQXg5WGJJR2V2T0Y2dXZVQTY1ZWhENWYveFh0YWJ6NU9UWnkKZGM5M1VrM3p5WkFzdVQzbHlTTlRQeDhrbUNGY0I1a3B2Y1k2N09kdWhqcHJsM1JqTTcxb0dESHdlSTEydi95ZQpqbDBxaHFkTmtOd25HamtDQXdFQUFhTkZNRU13SFFZRFZSME9CQllFRk9XZFdUQ0NSMWpNclBvSVZEYUdlenExCkJFM3dNQklHQTFVZEV3RUIvd1FJTUFZQkFmOENBUU13RGdZRFZSMFBBUUgvQkFRREFnRUdNQTBHQ1NxR1NJYjMKRFFFQkJRVUFBNElCQVFDRkRGMk81RzlSYUVJRm9OMjdUeWNsaEFPOTkyVDlMZGN3NDZRUUYrdmFLU20yZVQ5Mgo5aGtUSTdnUUN2bFlwTlJoY0wwRVlXb1NpaGZWQ3IzRnZEQjgxdWtNSlkyR1FFL3N6S04rT01ZM0VVL3QzV2d4CmprelNzd0YwN3I1MVhnZElHbjl3L3haY2hNQjVoYmdGL1grK1pSR2pEOEFDdFBoU056a0UxYWt4ZWhpL29DcjAKRXBuM28wV0M0enhlOVoyZXRjaWVmQzdJcEo1T0NCUkxiZjF3YldzYVk3MWs1aCszenZEeW55NjdHN2Z5VUloegprc0xpNHhhTm1qSUNxNDRZM2VrUUVlNStOYXVRcno0d2xIclFNejJuWlEvMS9JNmVZczlIUkN3Qlhic2R0VExTClI5STRMdEQrZ2R3eWFoNjE3anpWL09lQkhSbkRKRUxxWXptcAotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+  aws-s3-credentials.yaml: LS0tCmF3cy1zMy1rZXk6IAphd3MtczMta2V5LXNlY3JldDogCg==
+  config: SG9zdCAqCglTdHJpY3RIb3N0S2V5Q2hlY2tpbmcgbm8KCUlkZW50aXR5RmlsZSAvdG1wL2lkX3JzYQoJUG9ydCAyMDIyCglVc2VyIHBnYmFja3Jlc3QK
+  sshd_config: IwkkT3BlbkJTRDogc3NoZF9jb25maWcsdiAxLjEwMCAyMDE2LzA4LzE1IDEyOjMyOjA0IG5hZGR5IEV4cCAkCgojIFRoaXMgaXMgdGhlIHNzaGQgc2VydmVyIHN5c3RlbS13aWRlIGNvbmZpZ3VyYXRpb24gZmlsZS4gIFNlZQojIHNzaGRfY29uZmlnKDUpIGZvciBtb3JlIGluZm9ybWF0aW9uLgoKIyBUaGlzIHNzaGQgd2FzIGNvbXBpbGVkIHdpdGggUEFUSD0vdXNyL2xvY2FsL2JpbjovdXNyL2JpbgoKIyBUaGUgc3RyYXRlZ3kgdXNlZCBmb3Igb3B0aW9ucyBpbiB0aGUgZGVmYXVsdCBzc2hkX2NvbmZpZyBzaGlwcGVkIHdpdGgKIyBPcGVuU1NIIGlzIHRvIHNwZWNpZnkgb3B0aW9ucyB3aXRoIHRoZWlyIGRlZmF1bHQgdmFsdWUgd2hlcmUKIyBwb3NzaWJsZSwgYnV0IGxlYXZlIHRoZW0gY29tbWVudGVkLiAgVW5jb21tZW50ZWQgb3B0aW9ucyBvdmVycmlkZSB0aGUKIyBkZWZhdWx0IHZhbHVlLgoKIyBJZiB5b3Ugd2FudCB0byBjaGFuZ2UgdGhlIHBvcnQgb24gYSBTRUxpbnV4IHN5c3RlbSwgeW91IGhhdmUgdG8gdGVsbAojIFNFTGludXggYWJvdXQgdGhpcyBjaGFuZ2UuCiMgc2VtYW5hZ2UgcG9ydCAtYSAtdCBzc2hfcG9ydF90IC1wIHRjcCAjUE9SVE5VTUJFUgojClBvcnQgMjAyMgojQWRkcmVzc0ZhbWlseSBhbnkKI0xpc3RlbkFkZHJlc3MgMC4wLjAuMAojTGlzdGVuQWRkcmVzcyA6OgoKSG9zdEtleSAvc3NoZC9zc2hfaG9zdF9yc2Ffa2V5CiNIb3N0S2V5IC9zc2hkL3NzaF9ob3N0X2VjZHNhX2tleQojSG9zdEtleSAvc3NoZC9zc2hfaG9zdF9lZDI1NTE5X2tleQoKIyBDaXBoZXJzIGFuZCBrZXlpbmcKI1Jla2V5TGltaXQgZGVmYXVsdCBub25lCgojIExvZ2dpbmcKI1N5c2xvZ0ZhY2lsaXR5IEFVVEgKU3lzbG9nRmFjaWxpdHkgQVVUSFBSSVYKI0xvZ0xldmVsIElORk8KCiMgQXV0aGVudGljYXRpb246CgojTG9naW5HcmFjZVRpbWUgMm0KUGVybWl0Um9vdExvZ2luIG5vClN0cmljdE1vZGVzIG5vCiNNYXhBdXRoVHJpZXMgNgojTWF4U2Vzc2lvbnMgMTAKClB1YmtleUF1dGhlbnRpY2F0aW9uIHllcwoKIyBUaGUgZGVmYXVsdCBpcyB0byBjaGVjayBib3RoIC5zc2gvYXV0aG9yaXplZF9rZXlzIGFuZCAuc3NoL2F1dGhvcml6ZWRfa2V5czIKIyBidXQgdGhpcyBpcyBvdmVycmlkZGVuIHNvIGluc3RhbGxhdGlvbnMgd2lsbCBvbmx5IGNoZWNrIC5zc2gvYXV0aG9yaXplZF9rZXlzCiNBdXRob3JpemVkS2V5c0ZpbGUJL3BnY29uZi9hdXRob3JpemVkX2tleXMKQXV0aG9yaXplZEtleXNGaWxlCS9zc2hkL2F1dGhvcml6ZWRfa2V5cwoKI0F1dGhvcml6ZWRQcmluY2lwYWxzRmlsZSBub25lCgojQXV0aG9yaXplZEtleXNDb21tYW5kIG5vbmUKI0F1dGhvcml6ZWRLZXlzQ29tbWFuZFVzZXIgbm9ib2R5CgojIEZvciB0aGlzIHRvIHdvcmsgeW91IHdpbGwgYWxzbyBuZWVkIGhvc3Qga2V5cyBpbiAvZXRjL3NzaC9zc2hfa25vd25faG9zdHMKI0hvc3RiYXNlZEF1dGhlbnRpY2F0aW9uIG5vCiMgQ2hhbmdlIHRvIHllcyBpZiB5b3UgZG9uJ3QgdHJ1c3Qgfi8uc3NoL2tub3duX2hvc3RzIGZvcgojIEhvc3RiYXNlZEF1dGhlbnRpY2F0aW9uCiNJZ25vcmVVc2VyS25vd25Ib3N0cyBubwojIERvbid0IHJlYWQgdGhlIHVzZXIncyB+Ly5yaG9zdHMgYW5kIH4vLnNob3N0cyBmaWxlcwojSWdub3JlUmhvc3RzIHllcwoKIyBUbyBkaXNhYmxlIHR1bm5lbGVkIGNsZWFyIHRleHQgcGFzc3dvcmRzLCBjaGFuZ2UgdG8gbm8gaGVyZSEKI1Bhc3N3b3JkQXV0aGVudGljYXRpb24geWVzCiNQZXJtaXRFbXB0eVBhc3N3b3JkcyBubwpQYXNzd29yZEF1dGhlbnRpY2F0aW9uIG5vCgojIENoYW5nZSB0byBubyB0byBkaXNhYmxlIHMva2V5IHBhc3N3b3JkcwpDaGFsbGVuZ2VSZXNwb25zZUF1dGhlbnRpY2F0aW9uIHllcwojQ2hhbGxlbmdlUmVzcG9uc2VBdXRoZW50aWNhdGlvbiBubwoKIyBLZXJiZXJvcyBvcHRpb25zCiNLZXJiZXJvc0F1dGhlbnRpY2F0aW9uIG5vCiNLZXJiZXJvc09yTG9jYWxQYXNzd2QgeWVzCiNLZXJiZXJvc1RpY2tldENsZWFudXAgeWVzCiNLZXJiZXJvc0dldEFGU1Rva2VuIG5vCiNLZXJiZXJvc1VzZUt1c2Vyb2sgeWVzCgojIEdTU0FQSSBvcHRpb25zCiNHU1NBUElBdXRoZW50aWNhdGlvbiB5ZXMKI0dTU0FQSUNsZWFudXBDcmVkZW50aWFscyBubwojR1NTQVBJU3RyaWN0QWNjZXB0b3JDaGVjayB5ZXMKI0dTU0FQSUtleUV4Y2hhbmdlIG5vCiNHU1NBUElFbmFibGVrNXVzZXJzIG5vCgojIFNldCB0aGlzIHRvICd5ZXMnIHRvIGVuYWJsZSBQQU0gYXV0aGVudGljYXRpb24sIGFjY291bnQgcHJvY2Vzc2luZywKIyBhbmQgc2Vzc2lvbiBwcm9jZXNzaW5nLiBJZiB0aGlzIGlzIGVuYWJsZWQsIFBBTSBhdXRoZW50aWNhdGlvbiB3aWxsCiMgYmUgYWxsb3dlZCB0aHJvdWdoIHRoZSBDaGFsbGVuZ2VSZXNwb25zZUF1dGhlbnRpY2F0aW9uIGFuZAojIFBhc3N3b3JkQXV0aGVudGljYXRpb24uICBEZXBlbmRpbmcgb24geW91ciBQQU0gY29uZmlndXJhdGlvbiwKIyBQQU0gYXV0aGVudGljYXRpb24gdmlhIENoYWxsZW5nZVJlc3BvbnNlQXV0aGVudGljYXRpb24gbWF5IGJ5cGFzcwojIHRoZSBzZXR0aW5nIG9mICJQZXJtaXRSb290TG9naW4gd2l0aG91dC1wYXNzd29yZCIuCiMgSWYgeW91IGp1c3Qgd2FudCB0aGUgUEFNIGFjY291bnQgYW5kIHNlc3Npb24gY2hlY2tzIHRvIHJ1biB3aXRob3V0CiMgUEFNIGF1dGhlbnRpY2F0aW9uLCB0aGVuIGVuYWJsZSB0aGlzIGJ1dCBzZXQgUGFzc3dvcmRBdXRoZW50aWNhdGlvbgojIGFuZCBDaGFsbGVuZ2VSZXNwb25zZUF1dGhlbnRpY2F0aW9uIHRvICdubycuCiMgV0FSTklORzogJ1VzZVBBTSBubycgaXMgbm90IHN1cHBvcnRlZCBpbiBSZWQgSGF0IEVudGVycHJpc2UgTGludXggYW5kIG1heSBjYXVzZSBzZXZlcmFsCiMgcHJvYmxlbXMuClVzZVBBTSB5ZXMKCiNBbGxvd0FnZW50Rm9yd2FyZGluZyB5ZXMKI0FsbG93VGNwRm9yd2FyZGluZyB5ZXMKI0dhdGV3YXlQb3J0cyBubwpYMTFGb3J3YXJkaW5nIHllcwojWDExRGlzcGxheU9mZnNldCAxMAojWDExVXNlTG9jYWxob3N0IHllcwojUGVybWl0VFRZIHllcwojUHJpbnRNb3RkIHllcwojUHJpbnRMYXN0TG9nIHllcwojVENQS2VlcEFsaXZlIHllcwojVXNlTG9naW4gbm8KVXNlUHJpdmlsZWdlU2VwYXJhdGlvbiBubwojUGVybWl0VXNlckVudmlyb25tZW50IG5vCiNDb21wcmVzc2lvbiBkZWxheWVkCiNDbGllbnRBbGl2ZUludGVydmFsIDAKI0NsaWVudEFsaXZlQ291bnRNYXggMwojU2hvd1BhdGNoTGV2ZWwgbm8KI1VzZUROUyB5ZXMKI1BpZEZpbGUgL3Zhci9ydW4vc3NoZC5waWQKI01heFN0YXJ0dXBzIDEwOjMwOjEwMAojUGVybWl0VHVubmVsIG5vCiNDaHJvb3REaXJlY3Rvcnkgbm9uZQojVmVyc2lvbkFkZGVuZHVtIG5vbmUKCiMgbm8gZGVmYXVsdCBiYW5uZXIgcGF0aAojQmFubmVyIG5vbmUKCiMgQWNjZXB0IGxvY2FsZS1yZWxhdGVkIGVudmlyb25tZW50IHZhcmlhYmxlcwpBY2NlcHRFbnYgTEFORyBMQ19DVFlQRSBMQ19OVU1FUklDIExDX1RJTUUgTENfQ09MTEFURSBMQ19NT05FVEFSWSBMQ19NRVNTQUdFUwpBY2NlcHRFbnYgTENfUEFQRVIgTENfTkFNRSBMQ19BRERSRVNTIExDX1RFTEVQSE9ORSBMQ19NRUFTVVJFTUVOVApBY2NlcHRFbnYgTENfSURFTlRJRklDQVRJT04gTENfQUxMIExBTkdVQUdFCkFjY2VwdEVudiBYTU9ESUZJRVJTCgojIG92ZXJyaWRlIGRlZmF1bHQgb2Ygbm8gc3Vic3lzdGVtcwpTdWJzeXN0ZW0Jc2Z0cAkvdXNyL2xpYmV4ZWMvb3BlbnNzaC9zZnRwLXNlcnZlcgoKIyBFeGFtcGxlIG9mIG92ZXJyaWRpbmcgc2V0dGluZ3Mgb24gYSBwZXItdXNlciBiYXNpcwojTWF0Y2ggVXNlciBhbm9uY3ZzCiMJWDExRm9yd2FyZGluZyBubwojCUFsbG93VGNwRm9yd2FyZGluZyBubwojCVBlcm1pdFRUWSBubwojCUZvcmNlQ29tbWFuZCBjdnMgc2VydmVyCg==
+kind: Secret
+metadata:
+  name: pgo-backrest-repo-config
+type: Opaque
+---
+apiVersion: v1
+data:
+  config: SG9zdCAqCglTdHJpY3RIb3N0S2V5Q2hlY2tpbmcgbm8KCUlkZW50aXR5RmlsZSAvdG1wL2lkX3JzYQoJUG9ydCAyMDIyCglVc2VyIHBnYmFja3Jlc3QK
+  sshd_config: IwkkT3BlbkJTRDogc3NoZF9jb25maWcsdiAxLjEwMCAyMDE2LzA4LzE1IDEyOjMyOjA0IG5hZGR5IEV4cCAkCgojIFRoaXMgaXMgdGhlIHNzaGQgc2VydmVyIHN5c3RlbS13aWRlIGNvbmZpZ3VyYXRpb24gZmlsZS4gIFNlZQojIHNzaGRfY29uZmlnKDUpIGZvciBtb3JlIGluZm9ybWF0aW9uLgoKIyBUaGlzIHNzaGQgd2FzIGNvbXBpbGVkIHdpdGggUEFUSD0vdXNyL2xvY2FsL2JpbjovdXNyL2JpbgoKIyBUaGUgc3RyYXRlZ3kgdXNlZCBmb3Igb3B0aW9ucyBpbiB0aGUgZGVmYXVsdCBzc2hkX2NvbmZpZyBzaGlwcGVkIHdpdGgKIyBPcGVuU1NIIGlzIHRvIHNwZWNpZnkgb3B0aW9ucyB3aXRoIHRoZWlyIGRlZmF1bHQgdmFsdWUgd2hlcmUKIyBwb3NzaWJsZSwgYnV0IGxlYXZlIHRoZW0gY29tbWVudGVkLiAgVW5jb21tZW50ZWQgb3B0aW9ucyBvdmVycmlkZSB0aGUKIyBkZWZhdWx0IHZhbHVlLgoKIyBJZiB5b3Ugd2FudCB0byBjaGFuZ2UgdGhlIHBvcnQgb24gYSBTRUxpbnV4IHN5c3RlbSwgeW91IGhhdmUgdG8gdGVsbAojIFNFTGludXggYWJvdXQgdGhpcyBjaGFuZ2UuCiMgc2VtYW5hZ2UgcG9ydCAtYSAtdCBzc2hfcG9ydF90IC1wIHRjcCAjUE9SVE5VTUJFUgojClBvcnQgMjAyMgojQWRkcmVzc0ZhbWlseSBhbnkKI0xpc3RlbkFkZHJlc3MgMC4wLjAuMAojTGlzdGVuQWRkcmVzcyA6OgoKSG9zdEtleSAvc3NoZC9zc2hfaG9zdF9yc2Ffa2V5CiNIb3N0S2V5IC9zc2hkL3NzaF9ob3N0X2VjZHNhX2tleQojSG9zdEtleSAvc3NoZC9zc2hfaG9zdF9lZDI1NTE5X2tleQoKIyBDaXBoZXJzIGFuZCBrZXlpbmcKI1Jla2V5TGltaXQgZGVmYXVsdCBub25lCgojIExvZ2dpbmcKI1N5c2xvZ0ZhY2lsaXR5IEFVVEgKU3lzbG9nRmFjaWxpdHkgQVVUSFBSSVYKI0xvZ0xldmVsIElORk8KCiMgQXV0aGVudGljYXRpb246CgojTG9naW5HcmFjZVRpbWUgMm0KUGVybWl0Um9vdExvZ2luIG5vClN0cmljdE1vZGVzIG5vCiNNYXhBdXRoVHJpZXMgNgojTWF4U2Vzc2lvbnMgMTAKClB1YmtleUF1dGhlbnRpY2F0aW9uIHllcwoKIyBUaGUgZGVmYXVsdCBpcyB0byBjaGVjayBib3RoIC5zc2gvYXV0aG9yaXplZF9rZXlzIGFuZCAuc3NoL2F1dGhvcml6ZWRfa2V5czIKIyBidXQgdGhpcyBpcyBvdmVycmlkZGVuIHNvIGluc3RhbGxhdGlvbnMgd2lsbCBvbmx5IGNoZWNrIC5zc2gvYXV0aG9yaXplZF9rZXlzCiNBdXRob3JpemVkS2V5c0ZpbGUJL3BnY29uZi9hdXRob3JpemVkX2tleXMKQXV0aG9yaXplZEtleXNGaWxlCS9zc2hkL2F1dGhvcml6ZWRfa2V5cwoKI0F1dGhvcml6ZWRQcmluY2lwYWxzRmlsZSBub25lCgojQXV0aG9yaXplZEtleXNDb21tYW5kIG5vbmUKI0F1dGhvcml6ZWRLZXlzQ29tbWFuZFVzZXIgbm9ib2R5CgojIEZvciB0aGlzIHRvIHdvcmsgeW91IHdpbGwgYWxzbyBuZWVkIGhvc3Qga2V5cyBpbiAvZXRjL3NzaC9zc2hfa25vd25faG9zdHMKI0hvc3RiYXNlZEF1dGhlbnRpY2F0aW9uIG5vCiMgQ2hhbmdlIHRvIHllcyBpZiB5b3UgZG9uJ3QgdHJ1c3Qgfi8uc3NoL2tub3duX2hvc3RzIGZvcgojIEhvc3RiYXNlZEF1dGhlbnRpY2F0aW9uCiNJZ25vcmVVc2VyS25vd25Ib3N0cyBubwojIERvbid0IHJlYWQgdGhlIHVzZXIncyB+Ly5yaG9zdHMgYW5kIH4vLnNob3N0cyBmaWxlcwojSWdub3JlUmhvc3RzIHllcwoKIyBUbyBkaXNhYmxlIHR1bm5lbGVkIGNsZWFyIHRleHQgcGFzc3dvcmRzLCBjaGFuZ2UgdG8gbm8gaGVyZSEKI1Bhc3N3b3JkQXV0aGVudGljYXRpb24geWVzCiNQZXJtaXRFbXB0eVBhc3N3b3JkcyBubwpQYXNzd29yZEF1dGhlbnRpY2F0aW9uIG5vCgojIENoYW5nZSB0byBubyB0byBkaXNhYmxlIHMva2V5IHBhc3N3b3JkcwpDaGFsbGVuZ2VSZXNwb25zZUF1dGhlbnRpY2F0aW9uIHllcwojQ2hhbGxlbmdlUmVzcG9uc2VBdXRoZW50aWNhdGlvbiBubwoKIyBLZXJiZXJvcyBvcHRpb25zCiNLZXJiZXJvc0F1dGhlbnRpY2F0aW9uIG5vCiNLZXJiZXJvc09yTG9jYWxQYXNzd2QgeWVzCiNLZXJiZXJvc1RpY2tldENsZWFudXAgeWVzCiNLZXJiZXJvc0dldEFGU1Rva2VuIG5vCiNLZXJiZXJvc1VzZUt1c2Vyb2sgeWVzCgojIEdTU0FQSSBvcHRpb25zCiNHU1NBUElBdXRoZW50aWNhdGlvbiB5ZXMKI0dTU0FQSUNsZWFudXBDcmVkZW50aWFscyBubwojR1NTQVBJU3RyaWN0QWNjZXB0b3JDaGVjayB5ZXMKI0dTU0FQSUtleUV4Y2hhbmdlIG5vCiNHU1NBUElFbmFibGVrNXVzZXJzIG5vCgojIFNldCB0aGlzIHRvICd5ZXMnIHRvIGVuYWJsZSBQQU0gYXV0aGVudGljYXRpb24sIGFjY291bnQgcHJvY2Vzc2luZywKIyBhbmQgc2Vzc2lvbiBwcm9jZXNzaW5nLiBJZiB0aGlzIGlzIGVuYWJsZWQsIFBBTSBhdXRoZW50aWNhdGlvbiB3aWxsCiMgYmUgYWxsb3dlZCB0aHJvdWdoIHRoZSBDaGFsbGVuZ2VSZXNwb25zZUF1dGhlbnRpY2F0aW9uIGFuZAojIFBhc3N3b3JkQXV0aGVudGljYXRpb24uICBEZXBlbmRpbmcgb24geW91ciBQQU0gY29uZmlndXJhdGlvbiwKIyBQQU0gYXV0aGVudGljYXRpb24gdmlhIENoYWxsZW5nZVJlc3BvbnNlQXV0aGVudGljYXRpb24gbWF5IGJ5cGFzcwojIHRoZSBzZXR0aW5nIG9mICJQZXJtaXRSb290TG9naW4gd2l0aG91dC1wYXNzd29yZCIuCiMgSWYgeW91IGp1c3Qgd2FudCB0aGUgUEFNIGFjY291bnQgYW5kIHNlc3Npb24gY2hlY2tzIHRvIHJ1biB3aXRob3V0CiMgUEFNIGF1dGhlbnRpY2F0aW9uLCB0aGVuIGVuYWJsZSB0aGlzIGJ1dCBzZXQgUGFzc3dvcmRBdXRoZW50aWNhdGlvbgojIGFuZCBDaGFsbGVuZ2VSZXNwb25zZUF1dGhlbnRpY2F0aW9uIHRvICdubycuCiMgV0FSTklORzogJ1VzZVBBTSBubycgaXMgbm90IHN1cHBvcnRlZCBpbiBSZWQgSGF0IEVudGVycHJpc2UgTGludXggYW5kIG1heSBjYXVzZSBzZXZlcmFsCiMgcHJvYmxlbXMuClVzZVBBTSBubyAKCiNBbGxvd0FnZW50Rm9yd2FyZGluZyB5ZXMKI0FsbG93VGNwRm9yd2FyZGluZyB5ZXMKI0dhdGV3YXlQb3J0cyBubwpYMTFGb3J3YXJkaW5nIHllcwojWDExRGlzcGxheU9mZnNldCAxMAojWDExVXNlTG9jYWxob3N0IHllcwojUGVybWl0VFRZIHllcwojUHJpbnRNb3RkIHllcwojUHJpbnRMYXN0TG9nIHllcwojVENQS2VlcEFsaXZlIHllcwojVXNlTG9naW4gbm8KVXNlUHJpdmlsZWdlU2VwYXJhdGlvbiBubwojUGVybWl0VXNlckVudmlyb25tZW50IG5vCiNDb21wcmVzc2lvbiBkZWxheWVkCiNDbGllbnRBbGl2ZUludGVydmFsIDAKI0NsaWVudEFsaXZlQ291bnRNYXggMwojU2hvd1BhdGNoTGV2ZWwgbm8KI1VzZUROUyB5ZXMKI1BpZEZpbGUgL3Zhci9ydW4vc3NoZC5waWQKI01heFN0YXJ0dXBzIDEwOjMwOjEwMAojUGVybWl0VHVubmVsIG5vCiNDaHJvb3REaXJlY3Rvcnkgbm9uZQojVmVyc2lvbkFkZGVuZHVtIG5vbmUKCiMgbm8gZGVmYXVsdCBiYW5uZXIgcGF0aAojQmFubmVyIG5vbmUKCiMgQWNjZXB0IGxvY2FsZS1yZWxhdGVkIGVudmlyb25tZW50IHZhcmlhYmxlcwpBY2NlcHRFbnYgTEFORyBMQ19DVFlQRSBMQ19OVU1FUklDIExDX1RJTUUgTENfQ09MTEFURSBMQ19NT05FVEFSWSBMQ19NRVNTQUdFUwpBY2NlcHRFbnYgTENfUEFQRVIgTENfTkFNRSBMQ19BRERSRVNTIExDX1RFTEVQSE9ORSBMQ19NRUFTVVJFTUVOVApBY2NlcHRFbnYgTENfSURFTlRJRklDQVRJT04gTENfQUxMIExBTkdVQUdFCkFjY2VwdEVudiBYTU9ESUZJRVJTCgojIG92ZXJyaWRlIGRlZmF1bHQgb2Ygbm8gc3Vic3lzdGVtcwpTdWJzeXN0ZW0Jc2Z0cAkvdXNyL2xpYmV4ZWMvb3BlbnNzaC9zZnRwLXNlcnZlcgoKIyBFeGFtcGxlIG9mIG92ZXJyaWRpbmcgc2V0dGluZ3Mgb24gYSBwZXItdXNlciBiYXNpcwojTWF0Y2ggVXNlciBhbm9uY3ZzCiMJWDExRm9yd2FyZGluZyBubwojCUFsbG93VGNwRm9yd2FyZGluZyBubwojCVBlcm1pdFRUWSBubwojCUZvcmNlQ29tbWFuZCBjdnMgc2VydmVyCg==
+kind: Secret
+metadata:
+  labels:
+    pg-cluster: sas-crunchy-data-postgres
+    pgo-backrest-repo: "true"
+  name: sas-crunchy-data-postgres-backrest-repo-config
+type: Opaque
+---
+apiVersion: v1
+data:
+  password: ZXhhbXBsZXBhc3N3b3Jk
+  roles: cGdvYWRtaW4=
+  username: cGdvYWRtaW4=
+kind: Secret
+metadata:
+  labels:
+    pgo-created-by: bootstrap
+    pgo-pgouser: "true"
+    username: pgoadmin
+    vendor: crunchydata
+  name: pgouser-admin
+type: Opaque          
+---
+apiVersion: v1
+stringData:
+  password: examplepassword
+  username: pgoadmin
+  roles: pgoadmin
+kind: Secret
+metadata:
+  annotations:
+    orchestration.sas.com/literal: "true"
+  labels:
+    pgo-created-by: bootstrap
+    pgo-pgouser: "true"
+    username: pgoadmin
+    vendor: crunchydata
+  name: pgouser-pgoadmin
+type: Opaque
+---          
+apiVersion: crunchydata.com/v1
+kind: Pgcluster
+metadata:
+  labels:
+    autofail: 'true'
+    crunchy-pgbadger: 'true'
+    crunchy-pgha-scope: postgres
+    crunchy_collect: 'true'
+    current-primary: sas-crunchy-data-postgres
+    deployment-name: sas-crunchy-data-postgres
+    name: sas-crunchy-data-postgres
+    pg-cluster: sas-crunchy-data-postgres
+    pg-pod-anti-affinity: ''
+    pgo-backrest: 'true'
+    pgo-version: 4.3.2
+    pgouser: pgoadmin
+    sas.com/deployment: sas-viya
+    primary: 'true'
+  name: sas-crunchy-data-postgres
+spec:
+  ArchiveStorage:
+    accessmode: ''
+    fsgroup: ''
+    matchLabels: ''
+    name: ''
+    size: ''
+    storageclass: ''
+    storagetype: ''
+    supplementalgroups: ''
+  BackrestStorage:
+    accessmode: ReadWriteOnce
+    fsgroup: '26'
+    matchLabels: ''
+    name: ''
+    size: 128Gi
+    storageclass: nfs-client
+    storagetype: create
+    supplementalgroups: ''
+  ContainerResources:
+    limitscpu: '8.0'
+    limitsmemory: '8Gi'
+    requestscpu: '0.01'
+    requestsmemory: '2Gi'
+  PrimaryStorage:
+    accessmode: ReadWriteOnce
+    fsgroup: '26'
+    matchLabels: ''
+    name: postgres
+    size: 128Gi
+    storageclass: nfs-client
+    storagetype: create
+    supplementalgroups: ''
+  ReplicaStorage:
+    accessmode: ReadWriteOnce
+    fsgroup: '26'
+    matchLabels: ''
+    name: ''
+    size: 128Gi
+    storageclass: nfs-client
+    storagetype: create
+    supplementalgroups: ''
+  ccpimage: crunchy-postgres-ha
+  ccpimagetag: latest
+  clustername: sas-crunchy-data-postgres
+  collectSecretName: postgres-collect-secret
+  customconfig: postgresql-custom
+  database: userdb
+  exporterport: '9187'
+  name: sas-crunchy-data-postgres
+  nodename: ''
+  pgbadgerport: '10000'
+  podPodAntiAffinity: ''
+  policies: ''
+  port: '5432'
+  primaryhost: sas-crunchy-data-postgres
+  primarysecretname: sas-crunchy-data-postgres-primaryuser-secret
+  replicas: '2'
+  rootsecretname: sas-crunchy-data-postgres-postgres-secret
+  secretfrom: ''
+  status: ''
+  strategy: '1'
+  syncReplication: 
+  user: testuser
+  userlabels:
+    crunchy_collect: 'true'
+    pg-pod-anti-affinity: ''
+    pgo-version: 4.3.2
+    pgouser: pgoadmin
+    pgo-backrest: 'true'
+  usersecretname: sas-crunchy-data-postgres-testuser-secret
+---            
+apiVersion: v1
+stringData:
+  password: password
+  username: ccp_monitoring
+kind: Secret
+metadata:
+  annotations:
+    orchestration.sas.com/literal: "true"
+  labels:
+    vendor: crunchydata
+  name: postgres-collect-secret
+type: Opaque
+---

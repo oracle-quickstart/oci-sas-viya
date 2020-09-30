@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+data:
+  CNTR_REPO_PREFIX: convoy
+  SAS_DU_NAME: sas-data-sources
+  SAS_PORT_NAME: data-sources
+  SAS_SERVICE_NAME: sas-data-sources
+  SG_PROJECT: data-sources
+  SG_STATIC: "false"
+kind: ConfigMap
+metadata:
+  labels:
+    sas.com/admin: cluster-local
+    sas.com/deployment: sas-viya
+  name: sas-data-sources-root-parameters-6cd745h285
+  namespace: viya

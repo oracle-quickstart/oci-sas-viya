@@ -1,0 +1,29 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: migration-replicas-zero-deployments-transformer
+patch: |-
+  - op: replace
+    path: /spec/replicas
+    value: 0
+target:
+  group: apps
+  kind: Deployment
+  version: v1
+  annotationSelector: sas.com/component-name notin (sas-crunchy-data-postgres-operator,sas-crunchy-data-postgres-12,sas-data-server-utility)
+---
+
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: migration-replicas-zero-statefulsets-transformer
+patch: |-
+  - op: replace
+    path: /spec/replicas
+    value: 0
+target:
+  group: apps
+  kind: StatefulSet
+  version: v1
+  annotationSelector: sas.com/component-name notin (sas-consul-server)
+---
