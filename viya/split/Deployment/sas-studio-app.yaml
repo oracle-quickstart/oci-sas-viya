@@ -85,17 +85,17 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: SAS_CADENCE_NAME
-              name: sas-deployment-metadata-4678c55bg2
+              name: sas-deployment-metadata-hm44g9m829
         - name: SAS_CADENCE_VERSION
           valueFrom:
             configMapKeyRef:
               key: SAS_CADENCE_VERSION
-              name: sas-deployment-metadata-4678c55bg2
+              name: sas-deployment-metadata-hm44g9m829
         - name: SAS_CADENCE_RELEASE
           valueFrom:
             configMapKeyRef:
               key: SAS_CADENCE_RELEASE
-              name: sas-deployment-metadata-4678c55bg2
+              name: sas-deployment-metadata-hm44g9m829
         - name: JAVA_OPTION_XMX
           value: -Xmx512m
         envFrom:

@@ -171,6 +171,34 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
+  name: patch-transformer-3b79e69e212eb7c7
+patch: |-
+  - op: add
+    path: /spec/template/spec/affinity/podAntiAffinity/requiredDuringSchedulingIgnoredDuringExecution
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-lineage-app
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-057957be3eae2d3b
+patch: |-
+  - op: add
+    path: /spec/template/spec/affinity/podAntiAffinity/preferredDuringSchedulingIgnoredDuringExecution/0/podAffinityTerm/namespaces
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-lineage-app
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
   name: patch-transformer-4da9138338ab6b35
 patch: |-
   - op: add

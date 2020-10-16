@@ -11,3 +11,11 @@ k apply -f service.yaml
 k apply -f ingress.yaml
 
 ```
+
+Or cheese out and let kustomize do em all
+
+```lang=bash
+
+kustomize build . | k apply -f -
+
+```

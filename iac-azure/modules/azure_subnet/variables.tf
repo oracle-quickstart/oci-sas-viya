@@ -5,15 +5,14 @@ variable name {
 variable "tags" {
   description = "Map of common tags to be placed on the Resources"
   type        = map
-  default     = { project_name = "viya", environment = "dev" }
 }
 
 variable "azure_rg_name" {
-  description = "Exising resource group name"
+  description = "Existing resource group name"
 }
 
 variable "azure_rg_location" {
-  description = "Exising resource group location"
+  description = "Existing resource group location"
 }
 
 variable "service_endpoints" {
@@ -26,7 +25,7 @@ variable "nsg" {
 }
 
 variable "vnet_name" {
-  description = "Exisitng vnet name"
+  description = "Existing vnet name"
 }
 
 variable "address_prefixes" {

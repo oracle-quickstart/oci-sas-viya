@@ -137,6 +137,7 @@ spec:
                 - compute
                 - cas
                 - stateful
+                - connect
             weight: 50
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
@@ -145,6 +146,18 @@ spec:
                 operator: NotIn
                 values:
                 - system
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - sas-launcher
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+      automountServiceAccountToken: true
       containers:
       - env:
         - name: SAS_LAUNCHER_NAMESPACE
@@ -218,6 +231,9 @@ spec:
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
+  annotations:
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: spring
   name: sas-launcher
 spec:
   maxReplicas: 1
@@ -291,6 +307,8 @@ template:
           name: sas-go-config
       - configMapRef:
           name: sas-shared-config
+      - secretRef:
+          name: sas-consul-client
       image: sas-config-init
       name: sas-config-init
       volumeMounts:

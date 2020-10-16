@@ -173,7 +173,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []

@@ -2,6 +2,10 @@ variable client_id {}
 
 variable client_secret {}
 
+variable subscription_id {}
+variable tenant_id {}
+
+
 variable "prefix" {
   description = "A prefix used in the name for all the Azure resources created by this script. The prefix string must start with lowercase letter and contain only alphanumeric characters and hyphen or dash(-), but can not start or end with '-'."
   type        = string
@@ -25,10 +29,7 @@ variable "node_vm_admin" {
   description = "OS Admin User for VMs of AKS Cluster nodes"
   default     = "azureuser"
 }
-variable "default_nodepool_node_count" {
-  description = "Number of nodes in AKS cluster default nodepool"
-  default     = 2
-}
+
 variable "default_nodepool_vm_type" {
   default = "Standard_D4_v2"
 }
@@ -36,16 +37,64 @@ variable "kubernetes_version" {
   description = "The AKS cluster K8s version"
   default     = "1.18.8"
 }
-variable "cluster_endpoint_public_access_cidrs" {
-  description = "Kubernetes cluster access IP ranges"
-  type        = list
+
+variable "default_public_access_cidrs" {
+  description = "List of CIDRs to access created resources"
+  type        = list(string)
+  default     = null
 }
+
+variable "cluster_endpoint_public_access_cidrs" {
+  description = "List of CIDRs to access Kubernetes cluster"
+  type        = list(string)
+  default     = null
+}
+
+variable "acr_public_access_cidrs" {
+  description = "List of CIDRs to access Azure Container Registry"
+  type        = list(string)
+  default     = null
+}
+
+variable "vm_public_access_cidrs" {
+  description = "List of CIDRs to access jump or nfs VM"
+  type        = list(string)
+  default     = null
+}
+
+variable "postgres_public_access_cidrs" {
+  description = "LList of CIDRs to access PostgreSQL server"
+  type        = list(string)
+  default     = null
+}
+
 
 # https://docs.microsoft.com/en-us/azure/aks/cluster-autoscaler
 variable "default_nodepool_auto_scaling" {
-  description = "Autoscal nodes in the AKS cluster default nodepool"
-  default     = false
+  description = "Autoscale nodes in the AKS cluster default nodepool"
+  default     = true
 }
+variable "default_nodepool_max_nodes" {
+  description = "(Required, when default_nodepool_auto_scaling=true) The maximum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100."
+  default     = 5
+}
+variable "default_nodepool_min_nodes" {
+  description = "(Required, when default_nodepool_auto_scaling=true) The minimum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100."
+  default     = 1
+}
+variable "default_nodepool_node_count" {
+  description = "The initial number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100 and between `default_nodepool_min_nodes` and `default_nodepool_max_nodes`."
+  default     = 2
+}
+variable "default_nodepool_os_disk_size" {
+  description = "(Optional) The size of the OS Disk which should be used for each agent in the Node Pool. Changing this forces a new resource to be created."
+  default     = 128
+}
+variable "default_nodepool_max_pods" {
+  description = "(Optional) The maximum number of pods that can run on each agent. Changing this forces a new resource to be created."
+  default     = 110
+}
+
 variable "default_nodepool_availability_zones" {
   type    = list
   default = []
@@ -54,14 +103,14 @@ variable "default_nodepool_availability_zones" {
 variable "tags" {
   description = "Map of common tags to be placed on the Resources"
   type        = map
-  default     = { project_name = "viya" }
+  default     = {}
 }
 
 ## PostgresSQL inputs
 variable "create_postgres" {
   description = "Create an Azure PostgresSQL database server instance"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "postgres_sku_name" {
@@ -90,7 +139,7 @@ variable "postgres_administrator_login" {
   default     = "pgadmin"
 
   validation {
-    condition     = ! contains(["auzre_superuser", "azure_pg_admin", "admin", "administrator", "root", "guest", "public"], var.postgres_administrator_login) && ! can(regex("^pg_", var.postgres_administrator_login))
+    condition     = ! contains(["azure_superuser", "azure_pg_admin", "admin", "administrator", "root", "guest", "public"], var.postgres_administrator_login) && ! can(regex("^pg_", var.postgres_administrator_login))
     error_message = "ERROR: The admin login name can't be azure_superuser, azure_pg_admin, admin, administrator, root, guest, or public. It can't start with pg_."
   }
 }
@@ -121,7 +170,7 @@ variable "postgres_ssl_enforcement_enabled" {
 }
 
 variable "postgres_db_names" {
-  description = "The list of names of PostgreSQL database to craete. Needs to be a valid PostgreSQL identifier. Changing this forces a new resource to be created."
+  description = "The list of names of PostgreSQL database to create. Needs to be a valid PostgreSQL identifier. Changing this forces a new resource to be created."
   default     = []
 }
 
@@ -135,36 +184,11 @@ variable "postgres_db_collation" {
   default     = "English_United States.1252"
 }
 
-variable "postgres_firewall_rules" {
-  description = "List of maps with PostgreSQL firewall rules."
-  type = list(object({
-    name     = string
-    start_ip = string
-    end_ip   = string
-  }))
-  default = []
-}
-
 variable "postgres_configurations" {
   description = "A map with PostgreSQL configurations to enable."
   type        = map
   default     = {}
 }
-
-# #[ ENABLE ON-DEMAND] Azure Log Analytics
-# variable log_analytics_workspace_name {
-#     default = "testLogAnalyticsWorkspaceName"
-# }
-
-# # refer https://azure.microsoft.com/global-infrastructure/services/?products=monitor for log analytics available regions
-# variable log_analytics_workspace_location {
-#     default = "eastus"
-# }
-
-# # refer https://azure.microsoft.com/pricing/details/monitor/ for log analytics pricing 
-# variable log_analytics_workspace_sku {
-#     default = "PerGB2018"
-# }
 
 # CAS Nodepool config
 variable "create_cas_nodepool" {
@@ -363,9 +387,15 @@ variable "stateful_nodepool_availability_zones" {
   default = []
 }
 
+variable "create_jump_vm" {
+  description = "Create bastion host VM"
+  default     = null
+}
+
 variable "create_jump_public_ip" {
   default = true
 }
+
 variable "jump_vm_admin" {
   description = "OS Admin User for Jump VM"
   default     = "jumpuser"
@@ -413,11 +443,6 @@ variable "container_registry_geo_replica_locs" {
 }
 
 # Azure NetApp Files
-variable create_netapp {
-  type        = bool
-  description = "Boolean flag to create Azure NetApp Files optionally"
-  default     = false
-}
 variable netapp_service_level {
   description = "When storage_type=ha, The target performance of the file system. Valid values include Premium, Standard, or Ultra"
   default     = "Premium"

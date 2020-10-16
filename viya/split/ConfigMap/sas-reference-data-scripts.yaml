@@ -79,7 +79,7 @@ metadata:
   annotations:
     orchestration.sas.com/literal: "true"
     sas.com/component-name: sas-data-quality-services
-    sas.com/component-version: 3.7.2-20200908.1599577992906
+    sas.com/component-version: 3.7.2-20201008.1602195245516
     sas.com/version: 3.7.2
   labels:
     sas.com/admin: cluster-local

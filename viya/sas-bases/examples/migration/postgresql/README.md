@@ -1,3 +1,8 @@
+---
+category: migration
+tocprty: 4
+---
+
 # Uncommon Migration Customizations
 
 ## Overview

@@ -83,7 +83,7 @@ spec:
           value: sas-deployment-data
         envFrom:
         - configMapRef:
-            name: sas-deployment-metadata-4678c55bg2
+            name: sas-deployment-metadata-hm44g9m829
         - configMapRef:
             name: sas-go-config-fb6bgt2k78
         - configMapRef:

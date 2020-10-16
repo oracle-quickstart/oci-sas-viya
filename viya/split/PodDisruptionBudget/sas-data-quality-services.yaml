@@ -1,0 +1,21 @@
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  annotations:
+    sas.com/component-name: sas-data-quality-services
+    sas.com/component-version: 3.7.2-20201008.1602195245516
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: base
+    sas.com/version: 3.7.2
+  labels:
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-data-quality-services
+  namespace: viya
+spec:
+  minAvailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sas-data-quality-services
+      sas.com/deployment: sas-viya

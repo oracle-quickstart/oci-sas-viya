@@ -142,3 +142,4 @@ Generates Kubernetes Job YAML that removes a QKB from the sas-quality-knowledge-
 ## Additional Resources
 
 For more information about the QKB, see the SAS Data Quality documentation.
+

@@ -5,8 +5,8 @@ metadata:
   annotations:
     sas.com/certificate-file-format: pem
     sas.com/component-name: sas-backup-job
-    sas.com/component-version: 1.2.1-20200908.1599590394140
-    sas.com/version: 1.2.1
+    sas.com/component-version: 1.2.14-20200923.1600853443561
+    sas.com/version: 1.2.14
   labels:
     app.kubernetes.io/name: sas-scheduled-backup-job
     sas.com/admin: namespace
@@ -21,8 +21,8 @@ spec:
     metadata:
       annotations:
         sas.com/component-name: sas-backup-job
-        sas.com/component-version: 1.2.1-20200908.1599590394140
-        sas.com/version: 1.2.1
+        sas.com/component-version: 1.2.14-20200923.1600853443561
+        sas.com/version: 1.2.14
       labels:
         app.kubernetes.io/name: sas-scheduled-backup-job
         sas.com/admin: namespace
@@ -35,8 +35,8 @@ spec:
           annotations:
             sas.com/certificate-file-format: pem
             sas.com/component-name: sas-backup-job
-            sas.com/component-version: 1.2.1-20200908.1599590394140
-            sas.com/version: 1.2.1
+            sas.com/component-version: 1.2.14-20200923.1600853443561
+            sas.com/version: 1.2.14
           labels:
             sas.com/deployment: sas-viya
             workload.sas.com/class: stateless
@@ -97,7 +97,7 @@ spec:
                 name: sas-backup-job-parameters-gb2b7ckggt
             - secretRef:
                 name: sas-consul-client
-            image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-backup-job:1.2.1-20200908.1599590394140
+            image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-backup-job:1.2.14-20200923.1600853443561
             imagePullPolicy: IfNotPresent
             name: sas-backup-job
             ports: []

@@ -16,6 +16,26 @@
 
 * [Configure Network Security and Encryption Using SAS Security Certificate Framework](./examples/security/README.md)
 
+## Migration
+
+* [Migrate to SAS Viya 4](./examples/migration/README.md)
+
+* [Migrate to SAS Viya 4 ](./overlays/migration/README.md)
+
+* [Uncommon Migration Customizations](./examples/migration/postgresql/README.md)
+
+## Backup and Restore
+
+* [Configuration Settings for SAS Viya Backup](./examples/backup/configure/README.md)
+
+* [Restore a SAS Viya Deployment](./examples/restore/README.md)
+
+* [Restore a SAS Viya Deployment](./overlays/restore/README.md)
+
+* [SAS Viya Backup](./examples/backup/README.md)
+
+* [Uncommon Restore Customizations](./examples/restore/postgresql/README.md)
+
 ## Update Checker
 
 * [Update Checker Cron Job](./examples/update-checker/README.md)
@@ -39,8 +59,6 @@
 * [Configuration Settings for PostgreSQL Storage Size, Storage Class, Storage Type, and Storage Access Mode](./examples/configure-postgres/internal/storage/README.md)
 
 * [Configuration Settings for RabbitMQ](./examples/rabbitmq/configuration/README.md)
-
-* [Configuration Settings for SAS Viya Backup](./examples/backup/configure/README.md)
 
 * [Configuration for the sas-model-publish-kaniko PVC](./examples/sas-model-publish/README.md)
 
@@ -72,25 +90,15 @@
 
 * [MPP CAS Server for SAS Viya 4](./overlays/cas-mpp/README.md)
 
-* [Migrate to SAS Viya 4](./examples/migration/README.md)
-
-* [Migrate to SAS Viya 4](./overlays/migration/README.md)
-
 * [Modify the sitedefault.yaml File](./examples/configuration/README.md)
 
 * [Quality Knowledge Base for SAS Viya](./examples/data-quality/storageclass/README.md)
-
-* [Restore a SAS Viya 4 Deployment](./examples/restore/README.md)
-
-* [Restore a SAS Viya 4 Deployment](./overlays/restore/README.md)
 
 * [Restore an Internal Instance of PostgreSQL Using pg_restore](./examples/configure-postgres/internal/pgrestore/README.md)
 
 * [SAS GPU Reservation Service](./examples/gpu/README.md)
 
 * [SAS Quality Knowledge Base Maintenance Scripts](./examples/data-quality/scripts/README.md)
-
-* [SAS Viya Backup](./examples/backup/README.md)
 
 * [SAS/ACCESS and Data Connectors for Viya 4](./overlays/data-access/README.md)
 
@@ -99,10 +107,6 @@
 * [Set Up an Internal PostgreSQL Instance for SAS Viya](./overlays/internal-postgres/README.md)
 
 * [Set the StorageClass for CrunchyData PostgreSQL](./examples/crunchydata/storageclass/README.md)
-
-* [Uncommon Migration Customizations](./examples/migration/postgresql/README.md)
-
-* [Uncommon Restore Customizations](./examples/restore/postgresql/README.md)
 
 * [Zero Scaling SAS Viya 4](./examples/scaling/zero-scale/README.md)
 

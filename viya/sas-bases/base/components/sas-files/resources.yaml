@@ -164,9 +164,26 @@ spec:
         name: tmp
 
 ---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  annotations:
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: base
+  name: sas-files
+spec:
+  minAvailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sas-files
+
+---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
+  annotations:
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: spring
   name: sas-files
 spec:
   maxReplicas: 1

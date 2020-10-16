@@ -1,3 +1,8 @@
+---
+category: backupRestore
+tocprty: 1
+---
+
 # SAS Viya Backup
 
 The files in this directory are used to create a backup of SAS Viya. You can

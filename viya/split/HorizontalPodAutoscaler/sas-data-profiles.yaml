@@ -4,8 +4,10 @@ kind: HorizontalPodAutoscaler
 metadata:
   annotations:
     sas.com/component-name: sas-data-profiles
-    sas.com/component-version: 4.31.1-20200902.1599072036811
-    sas.com/version: 4.31.1
+    sas.com/component-version: 4.31.2-20201008.1602195283263
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: golang
+    sas.com/version: 4.31.2
   labels:
     sas.com/admin: namespace
     sas.com/deployment: sas-viya

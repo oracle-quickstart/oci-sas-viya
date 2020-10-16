@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e 
+set -e
 TYPE_ADHOC=adhoc
 TYPE_SCHEDULED=scheduled
 TYPE_SCAN=scan
@@ -16,39 +16,39 @@ if [[ ${TYPE_ADHOC} == ${JOB_TYPE} ]]; then
 elif [[ ${TYPE_SCHEDULED} == ${JOB_TYPE} ]]; then
 
   CRON_EXPRESSION=$2
-  if [[ -z "${CRON_EXPRESSION}" ]]; then 
-    
+  if [[ -z "${CRON_EXPRESSION}" ]]; then
+
     echo 'ERROR: Cron expression cannot be empty!'
     echo 'Command to generate scheduled backup job is:'
     echo './generate-backup-job.sh scheduled "<cron expression>"'
     exit 1
-    
+
   fi
-    
+
   JOB_NAME=sas-scheduled-backup-$SUFFIX
   JOB_TEMPLATE_FILE_NAME=sas-scheduled-backup-job-template.yaml
-  
+
   sed -e "s%{{ JOB_NAME }}%${JOB_NAME}%" -e "s%{{ SCHEDULE_CRON_EXPR }}%${CRON_EXPRESSION}%" ${JOB_TEMPLATE_FILE_NAME} > ${JOB_NAME}.yaml
 
 elif [[ ${TYPE_SCAN} == ${JOB_TYPE} ]]; then
 
   USER=$2
-  if [[ -z "${USER}" ]]; then 
+  if [[ -z "${USER}" ]]; then
 
     echo 'ERROR: User value cannot be empty! Enter SASAdministrator LDAP user name stored in credentials'
     echo 'Command to generate scan job is:'
     echo './generate-backup-job.sh scan "<user>" "<compare>"'
     exit 1
 
-  fi 
-  
+  fi
+
   COMPARE=$3
-  if [[ ! -z "${COMPARE}" && ${COMPARE} != "3" &&  ${COMPARE} != "4" ]]; then 
+  if [[ ! -z "${COMPARE}" && ${COMPARE} != "3" &&  ${COMPARE} != "4" ]]; then
 
   echo 'ERROR: Invalid compare value! Valid values are "3", "4" or empty.'
   echo 'Command to generate scan job is:'
   echo './generate-backup-job.sh scan "<user>" "<compare>"'
-  
+
   exit 1
 
   fi
@@ -65,6 +65,6 @@ else
   echo './generate-backup-job.sh scheduled "<cron expression>"'
   echo './generate-backup-job.sh scan "<user>" "<compare>"'
   exit 1
-  
+
 fi
 echo "Manifest file ${JOB_NAME}.yaml generated."

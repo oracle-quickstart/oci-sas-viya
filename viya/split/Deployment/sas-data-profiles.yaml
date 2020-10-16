@@ -5,11 +5,11 @@ metadata:
   annotations:
     sas.com/certificate-file-format: pem
     sas.com/component-name: sas-data-profiles
-    sas.com/component-version: 4.31.1-20200902.1599072036811
+    sas.com/component-version: 4.31.2-20201008.1602195283263
     sas.com/kustomize-base: golang
     sas.com/pod-uses-db-migrator: "true"
     sas.com/pod-uses-readiness-probe: http
-    sas.com/version: 4.31.1
+    sas.com/version: 4.31.2
     sidecar.istio.io/proxyCPU: 15m
     sidecar.istio.io/proxyMemory: 115Mi
   labels:
@@ -35,10 +35,10 @@ spec:
         prometheus.io/scrape: "true"
         sas.com/certificate-file-format: pem
         sas.com/component-name: sas-data-profiles
-        sas.com/component-version: 4.31.1-20200902.1599072036811
+        sas.com/component-version: 4.31.2-20201008.1602195283263
         sas.com/kustomize-base: golang
         sas.com/pod-uses-readiness-probe: http
-        sas.com/version: 4.31.1
+        sas.com/version: 4.31.2
         sidecar.istio.io/proxyCPU: 15m
         sidecar.istio.io/proxyMemory: 115Mi
       labels:
@@ -66,6 +66,7 @@ spec:
                 - compute
                 - cas
                 - stateful
+                - connect
               matchFields: []
             weight: 50
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -76,6 +77,20 @@ spec:
                 values:
                 - system
               matchFields: []
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - sas-data-profiles
+              namespaces: []
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+          requiredDuringSchedulingIgnoredDuringExecution: []
+      automountServiceAccountToken: true
       containers:
       - args: null
         command: null
@@ -89,7 +104,7 @@ spec:
             name: sas-shared-config-5gc9794df6
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-profiles:4.31.1-20200902.1599072036811
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-profiles:4.31.2-20201008.1602195283263
         imagePullPolicy: IfNotPresent
         lifecycle:
           preStop:
@@ -140,7 +155,7 @@ spec:
         - -c
         env: []
         envFrom: []
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-profiles:4.31.1-20200902.1599072036811
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-profiles:4.31.2-20201008.1602195283263
         imagePullPolicy: IfNotPresent
         name: hydrator
         ports: []
@@ -173,7 +188,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []

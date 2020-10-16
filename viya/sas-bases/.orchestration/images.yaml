@@ -15,7 +15,7 @@ spec:
     sas-audit: viya-4-x64_oci_linux_2-docker/sas-audit:1.55.0-20200908.1599600364940
     sas-authorization: viya-4-x64_oci_linux_2-docker/sas-authorization:3.31.4-20200825.1598386398688
     sas-backup-agent: viya-4-x64_oci_linux_2-docker/sas-backup-agent:2.10.8-20200921.1600690954675
-    sas-backup-job: viya-4-x64_oci_linux_2-docker/sas-backup-job:1.2.1-20200908.1599590394140
+    sas-backup-job: viya-4-x64_oci_linux_2-docker/sas-backup-job:1.2.14-20200923.1600853443561
     sas-batch: viya-4-x64_oci_linux_2-docker/sas-batch:1.1.2-20200910.1599740359608
     sas-cachelocator: viya-4-x64_oci_linux_2-docker/sas-cachelocator:1.22.3-20200909.1599612403488
     sas-cacheserver: viya-4-x64_oci_linux_2-docker/sas-cacheserver:1.22.3-20200909.1599613671159
@@ -26,7 +26,7 @@ spec:
     sas-certframe: viya-4-x64_oci_linux_2-docker/sas-certframe:3.6.1-20200914.1600121603881
     sas-comments: viya-4-x64_oci_linux_2-docker/sas-comments:2.53.0-20200824.1598263982912
     sas-compute: viya-4-x64_oci_linux_2-docker/sas-compute:1.8.5-20200902.1599084232929
-    sas-config-init: viya-4-x64_oci_linux_2-docker/sas-config-init:1.2.4-20200828.1598660059032
+    sas-config-init: viya-4-x64_oci_linux_2-docker/sas-config-init:1.2.6-20200928.1601307316387
     sas-config-reconciler: viya-4-x64_oci_linux_2-docker/sas-config-reconciler:0.3.1-20200904.1599228595507
     sas-configuration: viya-4-x64_oci_linux_2-docker/sas-configuration:1.53.0-20200827.1598585619390
     sas-consul-server: viya-4-x64_oci_linux_2-docker/sas-consul-server:1.3.10056-20200629.1593425842188
@@ -56,17 +56,17 @@ spec:
     sas-data-mining-results: viya-4-x64_oci_linux_2-docker/sas-data-mining-results:22.19.1-20200821.1598015867355
     sas-data-mining-services: viya-4-x64_oci_linux_2-docker/sas-data-mining-services:39.15.35-20200903.1599159371879
     sas-data-plans: viya-4-x64_oci_linux_2-docker/sas-data-plans:1.21.3-20200901.1598992943634
-    sas-data-profiles: viya-4-x64_oci_linux_2-docker/sas-data-profiles:4.31.1-20200902.1599072036811
-    sas-data-quality-services: viya-4-x64_oci_linux_2-docker/sas-data-quality-services:3.7.2-20200908.1599577992906
+    sas-data-profiles: viya-4-x64_oci_linux_2-docker/sas-data-profiles:4.31.2-20201008.1602195283263
+    sas-data-quality-services: viya-4-x64_oci_linux_2-docker/sas-data-quality-services:3.7.2-20201008.1602195245516
     sas-data-server-utility: viya-4-x64_oci_linux_2-docker/sas-data-server-utility:20.3.6-20200904.1599231017278
-    sas-data-sources: viya-4-x64_oci_linux_2-docker/sas-data-sources:3.32.0-20200904.1599239671233
+    sas-data-sources: viya-4-x64_oci_linux_2-docker/sas-data-sources:3.32.1-20201009.1602265914528
     sas-data-studio-app: viya-4-x64_oci_linux_2-docker/sas-data-studio-app:1.21.7-20200901.1598957624638
-    sas-db-migrator: viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+    sas-db-migrator: viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
     sas-deployment-data: viya-4-x64_oci_linux_2-docker/sas-deployment-data:1.0.1-20200914.1600083195274
     sas-device-management: viya-4-x64_oci_linux_2-docker/sas-device-management:2.3.0-20200904.1599241789716
     sas-drive-app: viya-4-x64_oci_linux_2-docker/sas-drive-app:3.4.0-20200909.1599635634068
     sas-environment-manager-app: viya-4-x64_oci_linux_2-docker/sas-environment-manager-app:4.3.1-20200911.1599854230456
-    sas-files: viya-4-x64_oci_linux_2-docker/sas-files:2.33.6-20200922.1600741413515
+    sas-files: viya-4-x64_oci_linux_2-docker/sas-files:2.33.10-20201007.1602053013769
     sas-folders: viya-4-x64_oci_linux_2-docker/sas-folders:2.55.1-20200827.1598534597482
     sas-fonts: viya-4-x64_oci_linux_2-docker/sas-fonts:1.62.0-20200908.1599577686045
     sas-geo-enrichment: viya-4-x64_oci_linux_2-docker/sas-geo-enrichment:1.17.0-20200904.1599200322001
@@ -77,9 +77,9 @@ spec:
     sas-import-9: viya-4-x64_oci_linux_2-docker/sas-import-9:1.3.9-20200910.1599733735775
     sas-job-execution: viya-4-x64_oci_linux_2-docker/sas-job-execution:2.27.0-20200903.1599167987470
     sas-job-execution-app: viya-4-x64_oci_linux_2-docker/sas-job-execution-app:2.16.0-20200912.1599912450129
-    sas-job-flow-scheduling: viya-4-x64_oci_linux_2-docker/sas-job-flow-scheduling:2.2.5-20200922.1600743219690
-    sas-launcher: viya-4-x64_oci_linux_2-docker/sas-launcher:1.14.1-20200904.1599249847582
-    sas-lineage-app: viya-4-x64_oci_linux_2-docker/sas-lineage-app:2.7.0-20200904.1599231763425
+    sas-job-flow-scheduling: viya-4-x64_oci_linux_2-docker/sas-job-flow-scheduling:2.2.7-20201002.1601644744469
+    sas-launcher: viya-4-x64_oci_linux_2-docker/sas-launcher:1.14.7-20201006.1601991181061
+    sas-lineage-app: viya-4-x64_oci_linux_2-docker/sas-lineage-app:2.7.1-20201009.1602266079673
     sas-links: viya-4-x64_oci_linux_2-docker/sas-links:1.50.0-20200904.1599241089929
     sas-localization: viya-4-x64_oci_linux_2-docker/sas-localization:1.4.3-20200918.1600443688202
     sas-logon-app: viya-4-x64_oci_linux_2-docker/sas-logon-app:2.39.3-20200825.1598393811201
@@ -97,7 +97,7 @@ spec:
     sas-prepull: viya-4-x64_oci_linux_2-docker/sas-prepull:1.2.3-20200827.1598565030123
     sas-programming-environment: viya-4-x64_oci_linux_2-docker/sas-programming-environment:1.8.2-20200908.1599615198811
     sas-projects: viya-4-x64_oci_linux_2-docker/sas-projects:1.20.0-20200904.1599200272335
-    sas-quality-knowledge-base: viya-4-x64_oci_linux_2-docker/sas-quality-knowledge-base:32.3.3-20200831.1598882885354
+    sas-quality-knowledge-base: viya-4-x64_oci_linux_2-docker/sas-quality-knowledge-base:32.3.3-20201009.1602257426025
     sas-rabbitmq-server: viya-4-x64_oci_linux_2-docker/sas-rabbitmq-server:3.82002.3-20200911.1599853671505
     sas-readiness: viya-4-x64_oci_linux_2-docker/sas-readiness:0.2.1-20200909.1599650626815
     sas-relationships: viya-4-x64_oci_linux_2-docker/sas-relationships:3.27.3-20200825.1598394778543
@@ -105,11 +105,11 @@ spec:
     sas-report-execution: viya-4-x64_oci_linux_2-docker/sas-report-execution:1.10.5-20200909.1599629955021
     sas-report-renderer: viya-4-x64_oci_linux_2-docker/sas-report-renderer:1.51.0-20200904.1599246112128
     sas-report-services-group: viya-4-x64_oci_linux_2-docker/sas-report-services-group:1.13.25-20200904.1599197892410
-    sas-restore-job: viya-4-x64_oci_linux_2-docker/sas-restore-job:1.2.1-20200908.1599590394140
+    sas-restore-job: viya-4-x64_oci_linux_2-docker/sas-restore-job:1.2.14-20200923.1600853443561
     sas-scheduler: viya-4-x64_oci_linux_2-docker/sas-scheduler:3.25.3-20200825.1598395403614
     sas-score-definitions: viya-4-x64_oci_linux_2-docker/sas-score-definitions:2.17.0-20200911.1599868591892
     sas-score-execution: viya-4-x64_oci_linux_2-docker/sas-score-execution:2.16.0-20200911.1599868283993
-    sas-search: viya-4-x64_oci_linux_2-docker/sas-search:2.27.7-20200922.1600746056812
+    sas-search: viya-4-x64_oci_linux_2-docker/sas-search:2.27.11-20201012.1602514294361
     sas-sssd-server: viya-4-x64_oci_linux_2-docker/sas-sssd-server:1.1.2-20200828.1598635360630
     sas-studio-app: viya-4-x64_oci_linux_2-docker/sas-studio-app:6.4.27-20200904.1599193723287
     sas-templates: viya-4-x64_oci_linux_2-docker/sas-templates:1.23.0-20200902.1599049055498

@@ -20,3 +20,4 @@ target:
   kind: PersistentVolumeClaim
   name: sas-quality-knowledge-base
 ---
+

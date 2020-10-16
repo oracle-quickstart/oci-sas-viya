@@ -5,10 +5,10 @@ metadata:
   annotations:
     sas.com/certificate-file-format: jks
     sas.com/component-name: sas-files
-    sas.com/component-version: 2.33.6-20200922.1600741413515
+    sas.com/component-version: 2.33.10-20201007.1602053013769
     sas.com/kustomize-base: spring
     sas.com/pod-uses-readiness-probe: http
-    sas.com/version: 2.33.6
+    sas.com/version: 2.33.10
     sidecar.istio.io/proxyCPU: 15m
     sidecar.istio.io/proxyMemory: 115Mi
   labels:
@@ -34,10 +34,10 @@ spec:
         prometheus.io/scrape: "true"
         sas.com/certificate-file-format: jks
         sas.com/component-name: sas-files
-        sas.com/component-version: 2.33.6-20200922.1600741413515
+        sas.com/component-version: 2.33.10-20201007.1602053013769
         sas.com/kustomize-base: spring
         sas.com/pod-uses-readiness-probe: http
-        sas.com/version: 2.33.6
+        sas.com/version: 2.33.10
         sidecar.istio.io/proxyCPU: 15m
         sidecar.istio.io/proxyMemory: 115Mi
       labels:
@@ -105,7 +105,7 @@ spec:
             name: sas-consul-client
         - configMapRef:
             name: sas-spring-management-config-d64bbkhb97
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-files:2.33.6-20200922.1600741413515
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-files:2.33.10-20201007.1602053013769
         imagePullPolicy: IfNotPresent
         lifecycle:
           preStop:

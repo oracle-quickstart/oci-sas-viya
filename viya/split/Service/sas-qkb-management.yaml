@@ -4,7 +4,7 @@ kind: Service
 metadata:
   annotations:
     sas.com/component-name: sas-data-quality-services
-    sas.com/component-version: 3.7.2-20200908.1599577992906
+    sas.com/component-version: 3.7.2-20201008.1602195245516
     sas.com/kustomize-base: base
     sas.com/registry-sync: default
     sas.com/registry-tags: proxy

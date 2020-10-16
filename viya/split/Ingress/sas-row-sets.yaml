@@ -12,9 +12,9 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
     nginx.ingress.kubernetes.io/session-cookie-path: /rowSets/
     sas.com/component-name: sas-data-sources
-    sas.com/component-version: 3.32.0-20200904.1599239671233
+    sas.com/component-version: 3.32.1-20201009.1602265914528
     sas.com/kustomize-base: base
-    sas.com/version: 3.32.0
+    sas.com/version: 3.32.1
   labels:
     app.kubernetes.io/name: sas-row-sets
     sas.com/admin: namespace

@@ -135,57 +135,57 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_RELPATH_sas-crunchy-data-postgres-12
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_POSTGRES_IMAGE_TAG
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_TAG_sas-crunchy-data-postgres-12
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_COLLECT_IMAGE
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_RELPATH_sas-crunchy-data-collect
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_COLLECT_IMAGE_TAG
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_TAG_sas-crunchy-data-collect
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_PGBADGER_IMAGE
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_RELPATH_sas-crunchy-data-pgbadger
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_PGBADGER_IMAGE_TAG
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_TAG_sas-crunchy-data-pgbadger
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_PGBACKREST_IMAGE
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_RELPATH_sas-crunchy-data-pgbackrest
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_PGBACKREST_IMAGE_TAG
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_TAG_sas-crunchy-data-pgbackrest
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_PGBACKREST_JOB_IMAGE
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_RELPATH_sas-crunchy-data-pgbackrest-job
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_PGBACKREST_JOB_IMAGE_TAG
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_TAG_sas-crunchy-data-pgbackrest-job
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_POSTGRES_DELETE_IMAGE_TAG
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_TAG_sas-crunchy-data-delete-postgres-cluster
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_DEBUG
           value: "true"
         - name: NAMESPACE

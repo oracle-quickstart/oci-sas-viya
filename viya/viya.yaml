@@ -285,8 +285,8 @@ kind: ServiceAccount
 metadata:
   annotations:
     sas.com/component-name: sas-launcher
-    sas.com/component-version: 1.14.1-20200904.1599249847582
-    sas.com/version: 1.14.1
+    sas.com/component-version: 1.14.7-20201006.1601991181061
+    sas.com/version: 1.14.7
   labels:
     sas.com/admin: cluster-wide
     sas.com/deployment: sas-viya
@@ -337,8 +337,8 @@ kind: ServiceAccount
 metadata:
   annotations:
     sas.com/component-name: sas-backup-job
-    sas.com/component-version: 1.2.1-20200908.1599590394140
-    sas.com/version: 1.2.1
+    sas.com/component-version: 1.2.14-20200923.1600853443561
+    sas.com/version: 1.2.14
   labels:
     sas.com/admin: cluster-wide
     sas.com/deployment: sas-viya
@@ -762,8 +762,8 @@ kind: Role
 metadata:
   annotations:
     sas.com/component-name: sas-launcher
-    sas.com/component-version: 1.14.1-20200904.1599249847582
-    sas.com/version: 1.14.1
+    sas.com/component-version: 1.14.7-20201006.1601991181061
+    sas.com/version: 1.14.7
   labels:
     sas.com/admin: cluster-wide
     sas.com/deployment: sas-viya
@@ -868,8 +868,8 @@ kind: Role
 metadata:
   annotations:
     sas.com/component-name: sas-backup-job
-    sas.com/component-version: 1.2.1-20200908.1599590394140
-    sas.com/version: 1.2.1
+    sas.com/component-version: 1.2.14-20200923.1600853443561
+    sas.com/version: 1.2.14
   labels:
     sas.com/admin: cluster-wide
     sas.com/deployment: sas-viya
@@ -1172,8 +1172,8 @@ kind: RoleBinding
 metadata:
   annotations:
     sas.com/component-name: sas-launcher
-    sas.com/component-version: 1.14.1-20200904.1599249847582
-    sas.com/version: 1.14.1
+    sas.com/component-version: 1.14.7-20201006.1601991181061
+    sas.com/version: 1.14.7
   labels:
     sas.com/admin: cluster-local
     sas.com/deployment: sas-viya
@@ -1256,8 +1256,8 @@ kind: RoleBinding
 metadata:
   annotations:
     sas.com/component-name: sas-backup-job
-    sas.com/component-version: 1.2.1-20200908.1599590394140
-    sas.com/version: 1.2.1
+    sas.com/component-version: 1.2.14-20200923.1600853443561
+    sas.com/version: 1.2.14
   labels:
     sas.com/admin: cluster-local
     sas.com/deployment: sas-viya
@@ -4367,7 +4367,7 @@ data:
   SAS_COMPONENT_TAG_sas-audit: 1.55.0-20200908.1599600364940
   SAS_COMPONENT_TAG_sas-authorization: 3.31.4-20200825.1598386398688
   SAS_COMPONENT_TAG_sas-backup-agent: 2.10.8-20200921.1600690954675
-  SAS_COMPONENT_TAG_sas-backup-job: 1.2.1-20200908.1599590394140
+  SAS_COMPONENT_TAG_sas-backup-job: 1.2.14-20200923.1600853443561
   SAS_COMPONENT_TAG_sas-batch: 1.1.2-20200910.1599740359608
   SAS_COMPONENT_TAG_sas-cachelocator: 1.22.3-20200909.1599612403488
   SAS_COMPONENT_TAG_sas-cacheserver: 1.22.3-20200909.1599613671159
@@ -4378,7 +4378,7 @@ data:
   SAS_COMPONENT_TAG_sas-certframe: 3.6.1-20200914.1600121603881
   SAS_COMPONENT_TAG_sas-comments: 2.53.0-20200824.1598263982912
   SAS_COMPONENT_TAG_sas-compute: 1.8.5-20200902.1599084232929
-  SAS_COMPONENT_TAG_sas-config-init: 1.2.4-20200828.1598660059032
+  SAS_COMPONENT_TAG_sas-config-init: 1.2.6-20200928.1601307316387
   SAS_COMPONENT_TAG_sas-config-reconciler: 0.3.1-20200904.1599228595507
   SAS_COMPONENT_TAG_sas-configuration: 1.53.0-20200827.1598585619390
   SAS_COMPONENT_TAG_sas-consul-server: 1.3.10056-20200629.1593425842188
@@ -4408,17 +4408,17 @@ data:
   SAS_COMPONENT_TAG_sas-data-mining-results: 22.19.1-20200821.1598015867355
   SAS_COMPONENT_TAG_sas-data-mining-services: 39.15.35-20200903.1599159371879
   SAS_COMPONENT_TAG_sas-data-plans: 1.21.3-20200901.1598992943634
-  SAS_COMPONENT_TAG_sas-data-profiles: 4.31.1-20200902.1599072036811
-  SAS_COMPONENT_TAG_sas-data-quality-services: 3.7.2-20200908.1599577992906
+  SAS_COMPONENT_TAG_sas-data-profiles: 4.31.2-20201008.1602195283263
+  SAS_COMPONENT_TAG_sas-data-quality-services: 3.7.2-20201008.1602195245516
   SAS_COMPONENT_TAG_sas-data-server-utility: 20.3.6-20200904.1599231017278
-  SAS_COMPONENT_TAG_sas-data-sources: 3.32.0-20200904.1599239671233
+  SAS_COMPONENT_TAG_sas-data-sources: 3.32.1-20201009.1602265914528
   SAS_COMPONENT_TAG_sas-data-studio-app: 1.21.7-20200901.1598957624638
-  SAS_COMPONENT_TAG_sas-db-migrator: 1.0.1-20200908.1599594764511
+  SAS_COMPONENT_TAG_sas-db-migrator: 1.0.2-20201013.1602608054127
   SAS_COMPONENT_TAG_sas-deployment-data: 1.0.1-20200914.1600083195274
   SAS_COMPONENT_TAG_sas-device-management: 2.3.0-20200904.1599241789716
   SAS_COMPONENT_TAG_sas-drive-app: 3.4.0-20200909.1599635634068
   SAS_COMPONENT_TAG_sas-environment-manager-app: 4.3.1-20200911.1599854230456
-  SAS_COMPONENT_TAG_sas-files: 2.33.6-20200922.1600741413515
+  SAS_COMPONENT_TAG_sas-files: 2.33.10-20201007.1602053013769
   SAS_COMPONENT_TAG_sas-folders: 2.55.1-20200827.1598534597482
   SAS_COMPONENT_TAG_sas-fonts: 1.62.0-20200908.1599577686045
   SAS_COMPONENT_TAG_sas-geo-enrichment: 1.17.0-20200904.1599200322001
@@ -4429,9 +4429,9 @@ data:
   SAS_COMPONENT_TAG_sas-import-9: 1.3.9-20200910.1599733735775
   SAS_COMPONENT_TAG_sas-job-execution: 2.27.0-20200903.1599167987470
   SAS_COMPONENT_TAG_sas-job-execution-app: 2.16.0-20200912.1599912450129
-  SAS_COMPONENT_TAG_sas-job-flow-scheduling: 2.2.5-20200922.1600743219690
-  SAS_COMPONENT_TAG_sas-launcher: 1.14.1-20200904.1599249847582
-  SAS_COMPONENT_TAG_sas-lineage-app: 2.7.0-20200904.1599231763425
+  SAS_COMPONENT_TAG_sas-job-flow-scheduling: 2.2.7-20201002.1601644744469
+  SAS_COMPONENT_TAG_sas-launcher: 1.14.7-20201006.1601991181061
+  SAS_COMPONENT_TAG_sas-lineage-app: 2.7.1-20201009.1602266079673
   SAS_COMPONENT_TAG_sas-links: 1.50.0-20200904.1599241089929
   SAS_COMPONENT_TAG_sas-localization: 1.4.3-20200918.1600443688202
   SAS_COMPONENT_TAG_sas-logon-app: 2.39.3-20200825.1598393811201
@@ -4449,7 +4449,7 @@ data:
   SAS_COMPONENT_TAG_sas-prepull: 1.2.3-20200827.1598565030123
   SAS_COMPONENT_TAG_sas-programming-environment: 1.8.2-20200908.1599615198811
   SAS_COMPONENT_TAG_sas-projects: 1.20.0-20200904.1599200272335
-  SAS_COMPONENT_TAG_sas-quality-knowledge-base: 32.3.3-20200831.1598882885354
+  SAS_COMPONENT_TAG_sas-quality-knowledge-base: 32.3.3-20201009.1602257426025
   SAS_COMPONENT_TAG_sas-rabbitmq-server: 3.82002.3-20200911.1599853671505
   SAS_COMPONENT_TAG_sas-readiness: 0.2.1-20200909.1599650626815
   SAS_COMPONENT_TAG_sas-relationships: 3.27.3-20200825.1598394778543
@@ -4457,11 +4457,11 @@ data:
   SAS_COMPONENT_TAG_sas-report-execution: 1.10.5-20200909.1599629955021
   SAS_COMPONENT_TAG_sas-report-renderer: 1.51.0-20200904.1599246112128
   SAS_COMPONENT_TAG_sas-report-services-group: 1.13.25-20200904.1599197892410
-  SAS_COMPONENT_TAG_sas-restore-job: 1.2.1-20200908.1599590394140
+  SAS_COMPONENT_TAG_sas-restore-job: 1.2.14-20200923.1600853443561
   SAS_COMPONENT_TAG_sas-scheduler: 3.25.3-20200825.1598395403614
   SAS_COMPONENT_TAG_sas-score-definitions: 2.17.0-20200911.1599868591892
   SAS_COMPONENT_TAG_sas-score-execution: 2.16.0-20200911.1599868283993
-  SAS_COMPONENT_TAG_sas-search: 2.27.7-20200922.1600746056812
+  SAS_COMPONENT_TAG_sas-search: 2.27.11-20201012.1602514294361
   SAS_COMPONENT_TAG_sas-sssd-server: 1.1.2-20200828.1598635360630
   SAS_COMPONENT_TAG_sas-studio-app: 6.4.27-20200904.1599193723287
   SAS_COMPONENT_TAG_sas-templates: 1.23.0-20200902.1599049055498
@@ -4486,7 +4486,7 @@ data:
   SAS_COMPONENT_VERSION_sas-audit: 1.55.0-20200908.1599600364940
   SAS_COMPONENT_VERSION_sas-authorization: 3.31.4-20200825.1598386398688
   SAS_COMPONENT_VERSION_sas-backup-agent: 2.10.8-20200921.1600690954675
-  SAS_COMPONENT_VERSION_sas-backup-job: 1.2.1-20200908.1599590394140
+  SAS_COMPONENT_VERSION_sas-backup-job: 1.2.14-20200923.1600853443561
   SAS_COMPONENT_VERSION_sas-batch: 1.1.2-20200910.1599740359608
   SAS_COMPONENT_VERSION_sas-cachelocator: 1.22.3-20200909.1599612403488
   SAS_COMPONENT_VERSION_sas-cacheserver: 1.22.3-20200909.1599613671159
@@ -4497,7 +4497,7 @@ data:
   SAS_COMPONENT_VERSION_sas-certframe: 3.6.1-20200914.1600121603881
   SAS_COMPONENT_VERSION_sas-comments: 2.53.0-20200824.1598263982912
   SAS_COMPONENT_VERSION_sas-compute: 1.8.5-20200902.1599084232929
-  SAS_COMPONENT_VERSION_sas-config-init: 1.2.4-20200828.1598660059032
+  SAS_COMPONENT_VERSION_sas-config-init: 1.2.6-20200928.1601307316387
   SAS_COMPONENT_VERSION_sas-config-reconciler: 0.3.1-20200904.1599228595507
   SAS_COMPONENT_VERSION_sas-configuration: 1.53.0-20200827.1598585619390
   SAS_COMPONENT_VERSION_sas-consul-server: 1.3.10056-20200629.1593425842188
@@ -4527,18 +4527,18 @@ data:
   SAS_COMPONENT_VERSION_sas-data-mining-results: 22.19.1-20200821.1598015867355
   SAS_COMPONENT_VERSION_sas-data-mining-services: 39.15.35-20200903.1599159371879
   SAS_COMPONENT_VERSION_sas-data-plans: 1.21.3-20200901.1598992943634
-  SAS_COMPONENT_VERSION_sas-data-profiles: 4.31.1-20200902.1599072036811
-  SAS_COMPONENT_VERSION_sas-data-quality-services: 3.7.2-20200908.1599577992906
+  SAS_COMPONENT_VERSION_sas-data-profiles: 4.31.2-20201008.1602195283263
+  SAS_COMPONENT_VERSION_sas-data-quality-services: 3.7.2-20201008.1602195245516
   SAS_COMPONENT_VERSION_sas-data-server-utility: 20.3.6-20200904.1599231017278
-  SAS_COMPONENT_VERSION_sas-data-sources: 3.32.0-20200904.1599239671233
+  SAS_COMPONENT_VERSION_sas-data-sources: 3.32.1-20201009.1602265914528
   SAS_COMPONENT_VERSION_sas-data-studio-app: 1.21.7-20200901.1598957624638
-  SAS_COMPONENT_VERSION_sas-db-migrator: 1.0.1-20200908.1599594764511
+  SAS_COMPONENT_VERSION_sas-db-migrator: 1.0.2-20201013.1602608054127
   SAS_COMPONENT_VERSION_sas-deployment-data: 1.0.1-20200914.1600083195274
   SAS_COMPONENT_VERSION_sas-deployment-operator: 1.10.2-20200914.1600115073685
   SAS_COMPONENT_VERSION_sas-device-management: 2.3.0-20200904.1599241789716
   SAS_COMPONENT_VERSION_sas-drive-app: 3.4.0-20200909.1599635634068
   SAS_COMPONENT_VERSION_sas-environment-manager-app: 4.3.1-20200911.1599854230456
-  SAS_COMPONENT_VERSION_sas-files: 2.33.6-20200922.1600741413515
+  SAS_COMPONENT_VERSION_sas-files: 2.33.10-20201007.1602053013769
   SAS_COMPONENT_VERSION_sas-folders: 2.55.1-20200827.1598534597482
   SAS_COMPONENT_VERSION_sas-fonts: 1.62.0-20200908.1599577686045
   SAS_COMPONENT_VERSION_sas-geo-enrichment: 1.17.0-20200904.1599200322001
@@ -4549,10 +4549,10 @@ data:
   SAS_COMPONENT_VERSION_sas-import-9: 1.3.9-20200910.1599733735775
   SAS_COMPONENT_VERSION_sas-job-execution: 2.27.0-20200903.1599167987470
   SAS_COMPONENT_VERSION_sas-job-execution-app: 2.16.0-20200912.1599912450129
-  SAS_COMPONENT_VERSION_sas-job-flow-scheduling: 2.2.5-20200922.1600743219690
+  SAS_COMPONENT_VERSION_sas-job-flow-scheduling: 2.2.7-20201002.1601644744469
   SAS_COMPONENT_VERSION_sas-k8s-common: 2.0.1-20200916.1600281282120
-  SAS_COMPONENT_VERSION_sas-launcher: 1.14.1-20200904.1599249847582
-  SAS_COMPONENT_VERSION_sas-lineage-app: 2.7.0-20200904.1599231763425
+  SAS_COMPONENT_VERSION_sas-launcher: 1.14.7-20201006.1601991181061
+  SAS_COMPONENT_VERSION_sas-lineage-app: 2.7.1-20201009.1602266079673
   SAS_COMPONENT_VERSION_sas-links: 1.50.0-20200904.1599241089929
   SAS_COMPONENT_VERSION_sas-localization: 1.4.3-20200918.1600443688202
   SAS_COMPONENT_VERSION_sas-logon-app: 2.39.3-20200825.1598393811201
@@ -4571,7 +4571,7 @@ data:
   SAS_COMPONENT_VERSION_sas-prepull: 1.2.3-20200827.1598565030123
   SAS_COMPONENT_VERSION_sas-programming-environment: 1.8.2-20200908.1599615198811
   SAS_COMPONENT_VERSION_sas-projects: 1.20.0-20200904.1599200272335
-  SAS_COMPONENT_VERSION_sas-quality-knowledge-base: 32.3.3-20200831.1598882885354
+  SAS_COMPONENT_VERSION_sas-quality-knowledge-base: 32.3.3-20201009.1602257426025
   SAS_COMPONENT_VERSION_sas-rabbitmq-server: 3.82002.3-20200911.1599853671505
   SAS_COMPONENT_VERSION_sas-readiness: 0.2.1-20200909.1599650626815
   SAS_COMPONENT_VERSION_sas-relationships: 3.27.3-20200825.1598394778543
@@ -4579,11 +4579,11 @@ data:
   SAS_COMPONENT_VERSION_sas-report-execution: 1.10.5-20200909.1599629955021
   SAS_COMPONENT_VERSION_sas-report-renderer: 1.51.0-20200904.1599246112128
   SAS_COMPONENT_VERSION_sas-report-services-group: 1.13.25-20200904.1599197892410
-  SAS_COMPONENT_VERSION_sas-restore-job: 1.2.1-20200908.1599590394140
+  SAS_COMPONENT_VERSION_sas-restore-job: 1.2.14-20200923.1600853443561
   SAS_COMPONENT_VERSION_sas-scheduler: 3.25.3-20200825.1598395403614
   SAS_COMPONENT_VERSION_sas-score-definitions: 2.17.0-20200911.1599868591892
   SAS_COMPONENT_VERSION_sas-score-execution: 2.16.0-20200911.1599868283993
-  SAS_COMPONENT_VERSION_sas-search: 2.27.7-20200922.1600746056812
+  SAS_COMPONENT_VERSION_sas-search: 2.27.11-20201012.1602514294361
   SAS_COMPONENT_VERSION_sas-sssd-server: 1.1.2-20200828.1598635360630
   SAS_COMPONENT_VERSION_sas-studio-app: 6.4.27-20200904.1599193723287
   SAS_COMPONENT_VERSION_sas-templates: 1.23.0-20200902.1599049055498
@@ -4602,7 +4602,7 @@ metadata:
   labels:
     sas.com/admin: cluster-local
     sas.com/deployment: sas-viya
-  name: sas-components-c7m97t7g2m
+  name: sas-components-m69b5hfg92
   namespace: viya
 ---
 apiVersion: v1
@@ -5014,7 +5014,7 @@ data:
   SAS_BUILD_TYPE: x64_oci_linux_2-docker
   SAS_CADENCE_DISPLAY_NAME: Stable 2020.0.5
   SAS_CADENCE_NAME: stable
-  SAS_CADENCE_RELEASE: "20200924.1600985745738"
+  SAS_CADENCE_RELEASE: "20201016.1602820909016"
   SAS_CADENCE_VERSION: 2020.0.5
   SAS_DEPLOYMENT_TYPE: default
   SAS_REPOSITORY_WAREHOUSE_URL: https://ses.sas.download/ses
@@ -5023,7 +5023,7 @@ metadata:
   labels:
     sas.com/admin: cluster-local
     sas.com/deployment: sas-viya
-  name: sas-deployment-metadata-4678c55bg2
+  name: sas-deployment-metadata-hm44g9m829
   namespace: viya
 ---
 apiVersion: v1
@@ -5692,7 +5692,7 @@ metadata:
   annotations:
     orchestration.sas.com/literal: "true"
     sas.com/component-name: sas-data-quality-services
-    sas.com/component-version: 3.7.2-20200908.1599577992906
+    sas.com/component-version: 3.7.2-20201008.1602195245516
     sas.com/version: 3.7.2
   labels:
     sas.com/admin: cluster-local
@@ -5966,13 +5966,13 @@ metadata:
 apiVersion: v1
 data:
   SAS_SELLABLE_UNIT_REVISION_depentviya: "2020-09-18T21:34:55.810027Z"
-  SAS_SELLABLE_UNIT_REVISION_dmdatap: "2020-09-24T19:50:30.277095Z"
-  SAS_SELLABLE_UNIT_REVISION_dmdq: "2020-09-24T10:51:26.901899Z"
-  SAS_SELLABLE_UNIT_REVISION_jobflwsch: "2020-09-24T01:13:38.707805Z"
-  SAS_SELLABLE_UNIT_REVISION_mlrning: "2020-09-24T19:57:38.281880Z"
-  SAS_SELLABLE_UNIT_REVISION_statviya: "2020-09-24T20:03:46.616428Z"
-  SAS_SELLABLE_UNIT_REVISION_va: "2020-09-24T19:56:27.264304Z"
-  SAS_SELLABLE_UNIT_REVISION_vcmnfnd: "2020-09-22T19:09:38.009564Z"
+  SAS_SELLABLE_UNIT_REVISION_dmdatap: "2020-10-16T03:30:39.961802Z"
+  SAS_SELLABLE_UNIT_REVISION_dmdq: "2020-10-16T03:31:37.762135Z"
+  SAS_SELLABLE_UNIT_REVISION_jobflwsch: "2020-10-15T20:13:52.856832Z"
+  SAS_SELLABLE_UNIT_REVISION_mlrning: "2020-10-16T03:38:12.618349Z"
+  SAS_SELLABLE_UNIT_REVISION_statviya: "2020-10-14T21:22:05.305091Z"
+  SAS_SELLABLE_UNIT_REVISION_va: "2020-10-16T03:36:57.813361Z"
+  SAS_SELLABLE_UNIT_REVISION_vcmnfnd: "2020-10-14T21:25:31.172786Z"
   SAS_SELLABLE_UNIT_VERSION_depentviya: 240.4.0
   SAS_SELLABLE_UNIT_VERSION_dmdatap: 240.4.0
   SAS_SELLABLE_UNIT_VERSION_dmdq: 240.4.0
@@ -5986,7 +5986,7 @@ metadata:
   labels:
     sas.com/admin: cluster-local
     sas.com/deployment: sas-viya
-  name: sas-sellable-units-cf759b7mf9
+  name: sas-sellable-units-dtg69m8g27
   namespace: viya
 ---
 apiVersion: v1
@@ -7618,12 +7618,12 @@ kind: Service
 metadata:
   annotations:
     sas.com/component-name: sas-data-profiles
-    sas.com/component-version: 4.31.1-20200902.1599072036811
+    sas.com/component-version: 4.31.2-20201008.1602195283263
     sas.com/kustomize-base: base
     sas.com/registry-providers: jobExecution-provider,jobExecution-provider-PROFILE
     sas.com/registry-sync: default
     sas.com/registry-tags: proxy
-    sas.com/version: 4.31.1
+    sas.com/version: 4.31.2
   labels:
     app.kubernetes.io/name: sas-data-profiles
     sas.com/admin: namespace
@@ -7646,7 +7646,7 @@ kind: Service
 metadata:
   annotations:
     sas.com/component-name: sas-data-quality-services
-    sas.com/component-version: 3.7.2-20200908.1599577992906
+    sas.com/component-version: 3.7.2-20201008.1602195245516
     sas.com/kustomize-base: base
     sas.com/registry-sync: default
     sas.com/registry-tags: proxy
@@ -7673,11 +7673,11 @@ kind: Service
 metadata:
   annotations:
     sas.com/component-name: sas-data-sources
-    sas.com/component-version: 3.32.0-20200904.1599239671233
+    sas.com/component-version: 3.32.1-20201009.1602265914528
     sas.com/kustomize-base: base
     sas.com/registry-sync: default
     sas.com/registry-tags: proxy
-    sas.com/version: 3.32.0
+    sas.com/version: 3.32.1
   labels:
     app.kubernetes.io/name: sas-data-sources
     sas.com/admin: namespace
@@ -7727,11 +7727,11 @@ kind: Service
 metadata:
   annotations:
     sas.com/component-name: sas-data-sources
-    sas.com/component-version: 3.32.0-20200904.1599239671233
+    sas.com/component-version: 3.32.1-20201009.1602265914528
     sas.com/kustomize-base: base
     sas.com/registry-sync: default
     sas.com/registry-tags: proxy
-    sas.com/version: 3.32.0
+    sas.com/version: 3.32.1
   labels:
     app.kubernetes.io/name: sas-data-sources
     sas.com/admin: namespace
@@ -7890,11 +7890,11 @@ kind: Service
 metadata:
   annotations:
     sas.com/component-name: sas-files
-    sas.com/component-version: 2.33.6-20200922.1600741413515
+    sas.com/component-version: 2.33.10-20201007.1602053013769
     sas.com/kustomize-base: base
     sas.com/registry-sync: default
     sas.com/registry-tags: proxy
-    sas.com/version: 2.33.6
+    sas.com/version: 2.33.10
   labels:
     app.kubernetes.io/name: sas-files
     sas.com/admin: namespace
@@ -8187,11 +8187,11 @@ kind: Service
 metadata:
   annotations:
     sas.com/component-name: sas-job-flow-scheduling
-    sas.com/component-version: 2.2.5-20200922.1600743219690
+    sas.com/component-version: 2.2.7-20201002.1601644744469
     sas.com/kustomize-base: base
     sas.com/registry-sync: default
     sas.com/registry-tags: proxy
-    sas.com/version: 2.2.5
+    sas.com/version: 2.2.7
   labels:
     app.kubernetes.io/name: sas-job-flow-scheduling
     sas.com/admin: namespace
@@ -8214,11 +8214,11 @@ kind: Service
 metadata:
   annotations:
     sas.com/component-name: sas-launcher
-    sas.com/component-version: 1.14.1-20200904.1599249847582
+    sas.com/component-version: 1.14.7-20201006.1601991181061
     sas.com/kustomize-base: base
     sas.com/registry-sync: default
     sas.com/registry-tags: proxy
-    sas.com/version: 1.14.1
+    sas.com/version: 1.14.7
   labels:
     app.kubernetes.io/name: sas-launcher
     sas.com/admin: namespace
@@ -8268,11 +8268,11 @@ kind: Service
 metadata:
   annotations:
     sas.com/component-name: sas-lineage-app
-    sas.com/component-version: 2.7.0-20200904.1599231763425
+    sas.com/component-version: 2.7.1-20201009.1602266079673
     sas.com/kustomize-base: base
     sas.com/registry-sync: default
     sas.com/registry-tags: proxy
-    sas.com/version: 2.7.0
+    sas.com/version: 2.7.1
   labels:
     app.kubernetes.io/name: sas-lineage-app
     sas.com/admin: namespace
@@ -8727,7 +8727,7 @@ kind: Service
 metadata:
   annotations:
     sas.com/component-name: sas-data-quality-services
-    sas.com/component-version: 3.7.2-20200908.1599577992906
+    sas.com/component-version: 3.7.2-20201008.1602195245516
     sas.com/kustomize-base: base
     sas.com/registry-sync: default
     sas.com/registry-tags: proxy
@@ -9117,11 +9117,11 @@ kind: Service
 metadata:
   annotations:
     sas.com/component-name: sas-data-sources
-    sas.com/component-version: 3.32.0-20200904.1599239671233
+    sas.com/component-version: 3.32.1-20201009.1602265914528
     sas.com/kustomize-base: base
     sas.com/registry-sync: default
     sas.com/registry-tags: proxy
-    sas.com/version: 3.32.0
+    sas.com/version: 3.32.1
   labels:
     app.kubernetes.io/name: sas-data-sources
     sas.com/admin: namespace
@@ -9225,11 +9225,11 @@ kind: Service
 metadata:
   annotations:
     sas.com/component-name: sas-search
-    sas.com/component-version: 2.27.7-20200922.1600746056812
+    sas.com/component-version: 2.27.11-20201012.1602514294361
     sas.com/kustomize-base: base
     sas.com/registry-sync: default
     sas.com/registry-tags: proxy
-    sas.com/version: 2.27.7
+    sas.com/version: 2.27.11
   labels:
     app.kubernetes.io/name: sas-search
     sas.com/admin: namespace
@@ -9252,11 +9252,11 @@ kind: Service
 metadata:
   annotations:
     sas.com/component-name: sas-search
-    sas.com/component-version: 2.27.7-20200922.1600746056812
+    sas.com/component-version: 2.27.11-20201012.1602514294361
     sas.com/kustomize-base: base
     sas.com/registry-sync: default
     sas.com/registry-tags: proxy
-    sas.com/version: 2.27.7
+    sas.com/version: 2.27.11
   labels:
     app.kubernetes.io/name: sas-search
     sas.com/admin: namespace
@@ -9773,7 +9773,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -9986,7 +9986,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -10521,7 +10521,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -10647,17 +10647,17 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: SAS_CADENCE_NAME
-              name: sas-deployment-metadata-4678c55bg2
+              name: sas-deployment-metadata-hm44g9m829
         - name: SAS_CADENCE_VERSION
           valueFrom:
             configMapKeyRef:
               key: SAS_CADENCE_VERSION
-              name: sas-deployment-metadata-4678c55bg2
+              name: sas-deployment-metadata-hm44g9m829
         - name: SAS_CADENCE_RELEASE
           valueFrom:
             configMapKeyRef:
               key: SAS_CADENCE_RELEASE
-              name: sas-deployment-metadata-4678c55bg2
+              name: sas-deployment-metadata-hm44g9m829
         envFrom:
         - configMapRef:
             name: sas-go-config-fb6bgt2k78
@@ -10749,7 +10749,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -11115,7 +11115,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -11480,7 +11480,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -12120,7 +12120,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -13210,57 +13210,57 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_RELPATH_sas-crunchy-data-postgres-12
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_POSTGRES_IMAGE_TAG
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_TAG_sas-crunchy-data-postgres-12
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_COLLECT_IMAGE
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_RELPATH_sas-crunchy-data-collect
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_COLLECT_IMAGE_TAG
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_TAG_sas-crunchy-data-collect
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_PGBADGER_IMAGE
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_RELPATH_sas-crunchy-data-pgbadger
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_PGBADGER_IMAGE_TAG
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_TAG_sas-crunchy-data-pgbadger
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_PGBACKREST_IMAGE
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_RELPATH_sas-crunchy-data-pgbackrest
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_PGBACKREST_IMAGE_TAG
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_TAG_sas-crunchy-data-pgbackrest
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_PGBACKREST_JOB_IMAGE
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_RELPATH_sas-crunchy-data-pgbackrest-job
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_PGBACKREST_JOB_IMAGE_TAG
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_TAG_sas-crunchy-data-pgbackrest-job
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_POSTGRES_DELETE_IMAGE_TAG
           valueFrom:
             configMapKeyRef:
               key: SAS_COMPONENT_TAG_sas-crunchy-data-delete-postgres-cluster
-              name: sas-components-c7m97t7g2m
+              name: sas-components-m69b5hfg92
         - name: CRUNCHY_DEBUG
           value: "true"
         - name: NAMESPACE
@@ -13650,17 +13650,17 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: SAS_CADENCE_NAME
-              name: sas-deployment-metadata-4678c55bg2
+              name: sas-deployment-metadata-hm44g9m829
         - name: SAS_CADENCE_VERSION
           valueFrom:
             configMapKeyRef:
               key: SAS_CADENCE_VERSION
-              name: sas-deployment-metadata-4678c55bg2
+              name: sas-deployment-metadata-hm44g9m829
         - name: SAS_CADENCE_RELEASE
           valueFrom:
             configMapKeyRef:
               key: SAS_CADENCE_RELEASE
-              name: sas-deployment-metadata-4678c55bg2
+              name: sas-deployment-metadata-hm44g9m829
         envFrom:
         - configMapRef:
             name: sas-go-config-fb6bgt2k78
@@ -13752,7 +13752,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -13965,7 +13965,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -14178,7 +14178,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -14687,11 +14687,11 @@ metadata:
   annotations:
     sas.com/certificate-file-format: pem
     sas.com/component-name: sas-data-profiles
-    sas.com/component-version: 4.31.1-20200902.1599072036811
+    sas.com/component-version: 4.31.2-20201008.1602195283263
     sas.com/kustomize-base: golang
     sas.com/pod-uses-db-migrator: "true"
     sas.com/pod-uses-readiness-probe: http
-    sas.com/version: 4.31.1
+    sas.com/version: 4.31.2
     sidecar.istio.io/proxyCPU: 15m
     sidecar.istio.io/proxyMemory: 115Mi
   labels:
@@ -14717,10 +14717,10 @@ spec:
         prometheus.io/scrape: "true"
         sas.com/certificate-file-format: pem
         sas.com/component-name: sas-data-profiles
-        sas.com/component-version: 4.31.1-20200902.1599072036811
+        sas.com/component-version: 4.31.2-20201008.1602195283263
         sas.com/kustomize-base: golang
         sas.com/pod-uses-readiness-probe: http
-        sas.com/version: 4.31.1
+        sas.com/version: 4.31.2
         sidecar.istio.io/proxyCPU: 15m
         sidecar.istio.io/proxyMemory: 115Mi
       labels:
@@ -14748,6 +14748,7 @@ spec:
                 - compute
                 - cas
                 - stateful
+                - connect
               matchFields: []
             weight: 50
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -14758,6 +14759,20 @@ spec:
                 values:
                 - system
               matchFields: []
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - sas-data-profiles
+              namespaces: []
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+          requiredDuringSchedulingIgnoredDuringExecution: []
+      automountServiceAccountToken: true
       containers:
       - args: null
         command: null
@@ -14771,7 +14786,7 @@ spec:
             name: sas-shared-config-5gc9794df6
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-profiles:4.31.1-20200902.1599072036811
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-profiles:4.31.2-20201008.1602195283263
         imagePullPolicy: IfNotPresent
         lifecycle:
           preStop:
@@ -14822,7 +14837,7 @@ spec:
         - -c
         env: []
         envFrom: []
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-profiles:4.31.1-20200902.1599072036811
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-profiles:4.31.2-20201008.1602195283263
         imagePullPolicy: IfNotPresent
         name: hydrator
         ports: []
@@ -14855,7 +14870,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -14900,7 +14915,7 @@ metadata:
   annotations:
     sas.com/certificate-file-format: pem
     sas.com/component-name: sas-data-quality-services
-    sas.com/component-version: 3.7.2-20200908.1599577992906
+    sas.com/component-version: 3.7.2-20201008.1602195245516
     sas.com/kustomize-base: golang
     sas.com/pod-uses-db-migrator: "true"
     sas.com/pod-uses-readiness-probe: http
@@ -14930,7 +14945,7 @@ spec:
         prometheus.io/scrape: "true"
         sas.com/certificate-file-format: pem
         sas.com/component-name: sas-data-quality-services
-        sas.com/component-version: 3.7.2-20200908.1599577992906
+        sas.com/component-version: 3.7.2-20201008.1602195245516
         sas.com/kustomize-base: golang
         sas.com/pod-uses-readiness-probe: http
         sas.com/version: 3.7.2
@@ -14961,6 +14976,7 @@ spec:
                 - compute
                 - cas
                 - stateful
+                - connect
               matchFields: []
             weight: 50
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -14971,6 +14987,20 @@ spec:
                 values:
                 - system
               matchFields: []
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - sas-data-quality-services
+              namespaces: []
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+          requiredDuringSchedulingIgnoredDuringExecution: []
+      automountServiceAccountToken: true
       containers:
       - args: null
         command: null
@@ -14984,7 +15014,7 @@ spec:
             name: sas-shared-config-5gc9794df6
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-quality-services:3.7.2-20200908.1599577992906
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-quality-services:3.7.2-20201008.1602195245516
         imagePullPolicy: IfNotPresent
         lifecycle:
           preStop:
@@ -15037,7 +15067,7 @@ spec:
         - -c
         env: []
         envFrom: []
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-quality-services:3.7.2-20200908.1599577992906
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-quality-services:3.7.2-20201008.1602195245516
         imagePullPolicy: IfNotPresent
         name: hydrator
         ports: []
@@ -15070,7 +15100,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -15237,11 +15267,11 @@ metadata:
   annotations:
     sas.com/certificate-file-format: pem
     sas.com/component-name: sas-data-sources
-    sas.com/component-version: 3.32.0-20200904.1599239671233
+    sas.com/component-version: 3.32.1-20201009.1602265914528
     sas.com/kustomize-base: golang
     sas.com/pod-uses-db-migrator: "true"
     sas.com/pod-uses-readiness-probe: http
-    sas.com/version: 3.32.0
+    sas.com/version: 3.32.1
     sidecar.istio.io/proxyCPU: 15m
     sidecar.istio.io/proxyMemory: 115Mi
   labels:
@@ -15267,10 +15297,10 @@ spec:
         prometheus.io/scrape: "true"
         sas.com/certificate-file-format: pem
         sas.com/component-name: sas-data-sources
-        sas.com/component-version: 3.32.0-20200904.1599239671233
+        sas.com/component-version: 3.32.1-20201009.1602265914528
         sas.com/kustomize-base: golang
         sas.com/pod-uses-readiness-probe: http
-        sas.com/version: 3.32.0
+        sas.com/version: 3.32.1
         sidecar.istio.io/proxyCPU: 15m
         sidecar.istio.io/proxyMemory: 115Mi
       labels:
@@ -15298,6 +15328,7 @@ spec:
                 - compute
                 - cas
                 - stateful
+                - connect
               matchFields: []
             weight: 50
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -15308,6 +15339,20 @@ spec:
                 values:
                 - system
               matchFields: []
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - sas-data-sources
+              namespaces: []
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+          requiredDuringSchedulingIgnoredDuringExecution: []
+      automountServiceAccountToken: true
       containers:
       - args: null
         command: null
@@ -15321,7 +15366,7 @@ spec:
             name: sas-shared-config-5gc9794df6
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-sources:3.32.0-20200904.1599239671233
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-sources:3.32.1-20201009.1602265914528
         imagePullPolicy: IfNotPresent
         lifecycle:
           preStop:
@@ -15372,7 +15417,7 @@ spec:
         - -c
         env: []
         envFrom: []
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-sources:3.32.0-20200904.1599239671233
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-sources:3.32.1-20201009.1602265914528
         imagePullPolicy: IfNotPresent
         name: hydrator
         ports: []
@@ -15405,7 +15450,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -15680,7 +15725,7 @@ spec:
           value: sas-deployment-data
         envFrom:
         - configMapRef:
-            name: sas-deployment-metadata-4678c55bg2
+            name: sas-deployment-metadata-hm44g9m829
         - configMapRef:
             name: sas-go-config-fb6bgt2k78
         - configMapRef:
@@ -15932,7 +15977,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -16279,10 +16324,10 @@ metadata:
   annotations:
     sas.com/certificate-file-format: jks
     sas.com/component-name: sas-files
-    sas.com/component-version: 2.33.6-20200922.1600741413515
+    sas.com/component-version: 2.33.10-20201007.1602053013769
     sas.com/kustomize-base: spring
     sas.com/pod-uses-readiness-probe: http
-    sas.com/version: 2.33.6
+    sas.com/version: 2.33.10
     sidecar.istio.io/proxyCPU: 15m
     sidecar.istio.io/proxyMemory: 115Mi
   labels:
@@ -16308,10 +16353,10 @@ spec:
         prometheus.io/scrape: "true"
         sas.com/certificate-file-format: jks
         sas.com/component-name: sas-files
-        sas.com/component-version: 2.33.6-20200922.1600741413515
+        sas.com/component-version: 2.33.10-20201007.1602053013769
         sas.com/kustomize-base: spring
         sas.com/pod-uses-readiness-probe: http
-        sas.com/version: 2.33.6
+        sas.com/version: 2.33.10
         sidecar.istio.io/proxyCPU: 15m
         sidecar.istio.io/proxyMemory: 115Mi
       labels:
@@ -16379,7 +16424,7 @@ spec:
             name: sas-consul-client
         - configMapRef:
             name: sas-spring-management-config-d64bbkhb97
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-files:2.33.6-20200922.1600741413515
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-files:2.33.10-20201007.1602053013769
         imagePullPolicy: IfNotPresent
         lifecycle:
           preStop:
@@ -16614,7 +16659,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -16827,7 +16872,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -17343,7 +17388,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -17995,10 +18040,10 @@ metadata:
   annotations:
     sas.com/certificate-file-format: jks
     sas.com/component-name: sas-job-flow-scheduling
-    sas.com/component-version: 2.2.5-20200922.1600743219690
+    sas.com/component-version: 2.2.7-20201002.1601644744469
     sas.com/kustomize-base: spring
     sas.com/pod-uses-readiness-probe: http
-    sas.com/version: 2.2.5
+    sas.com/version: 2.2.7
     sidecar.istio.io/proxyCPU: 15m
     sidecar.istio.io/proxyMemory: 115Mi
   labels:
@@ -18024,10 +18069,10 @@ spec:
         prometheus.io/scrape: "true"
         sas.com/certificate-file-format: jks
         sas.com/component-name: sas-job-flow-scheduling
-        sas.com/component-version: 2.2.5-20200922.1600743219690
+        sas.com/component-version: 2.2.7-20201002.1601644744469
         sas.com/kustomize-base: spring
         sas.com/pod-uses-readiness-probe: http
-        sas.com/version: 2.2.5
+        sas.com/version: 2.2.7
         sidecar.istio.io/proxyCPU: 15m
         sidecar.istio.io/proxyMemory: 115Mi
       labels:
@@ -18095,7 +18140,7 @@ spec:
             name: sas-consul-client
         - configMapRef:
             name: sas-spring-management-config-d64bbkhb97
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-job-flow-scheduling:2.2.5-20200922.1600743219690
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-job-flow-scheduling:2.2.7-20201002.1601644744469
         imagePullPolicy: IfNotPresent
         lifecycle:
           preStop:
@@ -18162,10 +18207,10 @@ metadata:
   annotations:
     sas.com/certificate-file-format: jks
     sas.com/component-name: sas-launcher
-    sas.com/component-version: 1.14.1-20200904.1599249847582
+    sas.com/component-version: 1.14.7-20201006.1601991181061
     sas.com/kustomize-base: spring
     sas.com/pod-uses-readiness-probe: http
-    sas.com/version: 1.14.1
+    sas.com/version: 1.14.7
     sidecar.istio.io/proxyCPU: 15m
     sidecar.istio.io/proxyMemory: 115Mi
   labels:
@@ -18191,10 +18236,10 @@ spec:
         prometheus.io/scrape: "true"
         sas.com/certificate-file-format: jks
         sas.com/component-name: sas-launcher
-        sas.com/component-version: 1.14.1-20200904.1599249847582
+        sas.com/component-version: 1.14.7-20201006.1601991181061
         sas.com/kustomize-base: spring
         sas.com/pod-uses-readiness-probe: http
-        sas.com/version: 1.14.1
+        sas.com/version: 1.14.7
         sidecar.istio.io/proxyCPU: 15m
         sidecar.istio.io/proxyMemory: 115Mi
       labels:
@@ -18222,6 +18267,7 @@ spec:
                 - compute
                 - cas
                 - stateful
+                - connect
               matchFields: []
             weight: 50
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -18232,6 +18278,20 @@ spec:
                 values:
                 - system
               matchFields: []
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - sas-launcher
+              namespaces: []
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+          requiredDuringSchedulingIgnoredDuringExecution: []
+      automountServiceAccountToken: true
       containers:
       - args: null
         command: null
@@ -18249,7 +18309,7 @@ spec:
             name: sas-consul-client
         - configMapRef:
             name: sas-spring-management-config-d64bbkhb97
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-launcher:1.14.1-20200904.1599249847582
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-launcher:1.14.7-20201006.1601991181061
         imagePullPolicy: IfNotPresent
         lifecycle:
           preStop:
@@ -18317,10 +18377,10 @@ metadata:
   annotations:
     sas.com/certificate-file-format: pem
     sas.com/component-name: sas-lineage-app
-    sas.com/component-version: 2.7.0-20200904.1599231763425
+    sas.com/component-version: 2.7.1-20201009.1602266079673
     sas.com/kustomize-base: golang
     sas.com/pod-uses-readiness-probe: http
-    sas.com/version: 2.7.0
+    sas.com/version: 2.7.1
     sidecar.istio.io/proxyCPU: 15m
     sidecar.istio.io/proxyMemory: 115Mi
   labels:
@@ -18346,10 +18406,10 @@ spec:
         prometheus.io/scrape: "true"
         sas.com/certificate-file-format: pem
         sas.com/component-name: sas-lineage-app
-        sas.com/component-version: 2.7.0-20200904.1599231763425
+        sas.com/component-version: 2.7.1-20201009.1602266079673
         sas.com/kustomize-base: golang
         sas.com/pod-uses-readiness-probe: http
-        sas.com/version: 2.7.0
+        sas.com/version: 2.7.1
         sidecar.istio.io/proxyCPU: 15m
         sidecar.istio.io/proxyMemory: 115Mi
       labels:
@@ -18377,6 +18437,7 @@ spec:
                 - compute
                 - cas
                 - stateful
+                - connect
               matchFields: []
             weight: 50
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -18387,6 +18448,20 @@ spec:
                 values:
                 - system
               matchFields: []
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - sas-lineage-app
+              namespaces: []
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+          requiredDuringSchedulingIgnoredDuringExecution: []
+      automountServiceAccountToken: true
       containers:
       - args: null
         command: null
@@ -18400,7 +18475,7 @@ spec:
             name: sas-shared-config-5gc9794df6
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-lineage-app:2.7.0-20200904.1599231763425
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-lineage-app:2.7.1-20201009.1602266079673
         imagePullPolicy: IfNotPresent
         lifecycle:
           preStop:
@@ -19241,7 +19316,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -19458,7 +19533,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -20431,7 +20506,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -20644,7 +20719,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -21312,7 +21387,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -22167,7 +22242,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -22380,7 +22455,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -22425,10 +22500,10 @@ metadata:
   annotations:
     sas.com/certificate-file-format: jks
     sas.com/component-name: sas-search
-    sas.com/component-version: 2.27.7-20200922.1600746056812
+    sas.com/component-version: 2.27.11-20201012.1602514294361
     sas.com/kustomize-base: spring
     sas.com/pod-uses-readiness-probe: http
-    sas.com/version: 2.27.7
+    sas.com/version: 2.27.11
     sidecar.istio.io/proxyCPU: 15m
     sidecar.istio.io/proxyMemory: 115Mi
   labels:
@@ -22454,10 +22529,10 @@ spec:
         prometheus.io/scrape: "true"
         sas.com/certificate-file-format: jks
         sas.com/component-name: sas-search
-        sas.com/component-version: 2.27.7-20200922.1600746056812
+        sas.com/component-version: 2.27.11-20201012.1602514294361
         sas.com/kustomize-base: spring
         sas.com/pod-uses-readiness-probe: http
-        sas.com/version: 2.27.7
+        sas.com/version: 2.27.11
         sidecar.istio.io/proxyCPU: 15m
         sidecar.istio.io/proxyMemory: 115Mi
       labels:
@@ -22528,7 +22603,7 @@ spec:
             name: sas-consul-client
         - configMapRef:
             name: sas-spring-management-config-d64bbkhb97
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-search:2.27.7-20200922.1600746056812
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-search:2.27.11-20201012.1602514294361
         imagePullPolicy: IfNotPresent
         lifecycle:
           preStop:
@@ -22678,17 +22753,17 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: SAS_CADENCE_NAME
-              name: sas-deployment-metadata-4678c55bg2
+              name: sas-deployment-metadata-hm44g9m829
         - name: SAS_CADENCE_VERSION
           valueFrom:
             configMapKeyRef:
               key: SAS_CADENCE_VERSION
-              name: sas-deployment-metadata-4678c55bg2
+              name: sas-deployment-metadata-hm44g9m829
         - name: SAS_CADENCE_RELEASE
           valueFrom:
             configMapKeyRef:
               key: SAS_CADENCE_RELEASE
-              name: sas-deployment-metadata-4678c55bg2
+              name: sas-deployment-metadata-hm44g9m829
         - name: JAVA_OPTION_XMX
           value: -Xmx512m
         envFrom:
@@ -23087,7 +23162,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -23603,7 +23678,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -24132,7 +24207,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -24345,7 +24420,7 @@ spec:
             name: sas-java-config-7g599227gm
         - secretRef:
             name: sas-consul-client
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.1-20200908.1599594764511
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator:1.0.2-20201013.1602608054127
         imagePullPolicy: IfNotPresent
         name: sas-db-migrator
         ports: []
@@ -25453,8 +25528,8 @@ metadata:
   annotations:
     sas.com/certificate-file-format: pem
     sas.com/component-name: sas-backup-job
-    sas.com/component-version: 1.2.1-20200908.1599590394140
-    sas.com/version: 1.2.1
+    sas.com/component-version: 1.2.14-20200923.1600853443561
+    sas.com/version: 1.2.14
   labels:
     app.kubernetes.io/name: sas-backup-purge-job
     sas.com/admin: namespace
@@ -25469,8 +25544,8 @@ spec:
     metadata:
       annotations:
         sas.com/component-name: sas-backup-job
-        sas.com/component-version: 1.2.1-20200908.1599590394140
-        sas.com/version: 1.2.1
+        sas.com/component-version: 1.2.14-20200923.1600853443561
+        sas.com/version: 1.2.14
       labels:
         app.kubernetes.io/name: sas-backup-purge-job
         sas.com/admin: namespace
@@ -25483,8 +25558,8 @@ spec:
           annotations:
             sas.com/certificate-file-format: pem
             sas.com/component-name: sas-backup-job
-            sas.com/component-version: 1.2.1-20200908.1599590394140
-            sas.com/version: 1.2.1
+            sas.com/component-version: 1.2.14-20200923.1600853443561
+            sas.com/version: 1.2.14
           labels:
             sas.com/deployment: sas-viya
             workload.sas.com/class: stateless
@@ -25547,7 +25622,7 @@ spec:
                 name: sas-backup-job-parameters-gb2b7ckggt
             - secretRef:
                 name: sas-consul-client
-            image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-backup-job:1.2.1-20200908.1599590394140
+            image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-backup-job:1.2.14-20200923.1600853443561
             imagePullPolicy: IfNotPresent
             name: sas-backup-purge-job
             ports: []
@@ -25619,8 +25694,8 @@ metadata:
   annotations:
     sas.com/certificate-file-format: pem
     sas.com/component-name: sas-backup-job
-    sas.com/component-version: 1.2.1-20200908.1599590394140
-    sas.com/version: 1.2.1
+    sas.com/component-version: 1.2.14-20200923.1600853443561
+    sas.com/version: 1.2.14
   labels:
     app.kubernetes.io/name: sas-scheduled-backup-job
     sas.com/admin: namespace
@@ -25635,8 +25710,8 @@ spec:
     metadata:
       annotations:
         sas.com/component-name: sas-backup-job
-        sas.com/component-version: 1.2.1-20200908.1599590394140
-        sas.com/version: 1.2.1
+        sas.com/component-version: 1.2.14-20200923.1600853443561
+        sas.com/version: 1.2.14
       labels:
         app.kubernetes.io/name: sas-scheduled-backup-job
         sas.com/admin: namespace
@@ -25649,8 +25724,8 @@ spec:
           annotations:
             sas.com/certificate-file-format: pem
             sas.com/component-name: sas-backup-job
-            sas.com/component-version: 1.2.1-20200908.1599590394140
-            sas.com/version: 1.2.1
+            sas.com/component-version: 1.2.14-20200923.1600853443561
+            sas.com/version: 1.2.14
           labels:
             sas.com/deployment: sas-viya
             workload.sas.com/class: stateless
@@ -25711,7 +25786,7 @@ spec:
                 name: sas-backup-job-parameters-gb2b7ckggt
             - secretRef:
                 name: sas-consul-client
-            image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-backup-job:1.2.1-20200908.1599590394140
+            image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-backup-job:1.2.14-20200923.1600853443561
             imagePullPolicy: IfNotPresent
             name: sas-backup-job
             ports: []
@@ -25776,6 +25851,153 @@ spec:
   schedule: 0 1 * * 0
   successfulJobsHistoryLimit: 100
   suspend: false
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  annotations:
+    sas.com/component-name: sas-data-profiles
+    sas.com/component-version: 4.31.2-20201008.1602195283263
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: base
+    sas.com/version: 4.31.2
+  labels:
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-data-profiles
+  namespace: viya
+spec:
+  minAvailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sas-data-profiles
+      sas.com/deployment: sas-viya
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  annotations:
+    sas.com/component-name: sas-data-quality-services
+    sas.com/component-version: 3.7.2-20201008.1602195245516
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: base
+    sas.com/version: 3.7.2
+  labels:
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-data-quality-services
+  namespace: viya
+spec:
+  minAvailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sas-data-quality-services
+      sas.com/deployment: sas-viya
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  annotations:
+    sas.com/component-name: sas-data-sources
+    sas.com/component-version: 3.32.1-20201009.1602265914528
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: base
+    sas.com/version: 3.32.1
+  labels:
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-data-sources
+  namespace: viya
+spec:
+  minAvailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sas-data-sources
+      sas.com/deployment: sas-viya
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  annotations:
+    sas.com/component-name: sas-files
+    sas.com/component-version: 2.33.10-20201007.1602053013769
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: base
+    sas.com/version: 2.33.10
+  labels:
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-files
+  namespace: viya
+spec:
+  minAvailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sas-files
+      sas.com/deployment: sas-viya
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  annotations:
+    sas.com/component-name: sas-job-flow-scheduling
+    sas.com/component-version: 2.2.7-20201002.1601644744469
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: base
+    sas.com/version: 2.2.7
+  labels:
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-job-flow-scheduling
+  namespace: viya
+spec:
+  minAvailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sas-job-flow-scheduling
+      sas.com/deployment: sas-viya
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  annotations:
+    sas.com/component-name: sas-lineage-app
+    sas.com/component-version: 2.7.1-20201009.1602266079673
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: base
+    sas.com/version: 2.7.1
+  labels:
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-lineage-app
+  namespace: viya
+spec:
+  minAvailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sas-lineage-app
+      sas.com/deployment: sas-viya
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  annotations:
+    sas.com/component-name: sas-search
+    sas.com/component-version: 2.27.11-20201012.1602514294361
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: base
+    sas.com/version: 2.27.11
+  labels:
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-search
+  namespace: viya
+spec:
+  minAvailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sas-search
+      sas.com/deployment: sas-viya
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -26548,8 +26770,10 @@ kind: HorizontalPodAutoscaler
 metadata:
   annotations:
     sas.com/component-name: sas-data-profiles
-    sas.com/component-version: 4.31.1-20200902.1599072036811
-    sas.com/version: 4.31.1
+    sas.com/component-version: 4.31.2-20201008.1602195283263
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: golang
+    sas.com/version: 4.31.2
   labels:
     sas.com/admin: namespace
     sas.com/deployment: sas-viya
@@ -26575,7 +26799,9 @@ kind: HorizontalPodAutoscaler
 metadata:
   annotations:
     sas.com/component-name: sas-data-quality-services
-    sas.com/component-version: 3.7.2-20200908.1599577992906
+    sas.com/component-version: 3.7.2-20201008.1602195245516
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: golang
     sas.com/version: 3.7.2
   labels:
     sas.com/admin: namespace
@@ -26602,8 +26828,10 @@ kind: HorizontalPodAutoscaler
 metadata:
   annotations:
     sas.com/component-name: sas-data-sources
-    sas.com/component-version: 3.32.0-20200904.1599239671233
-    sas.com/version: 3.32.0
+    sas.com/component-version: 3.32.1-20201009.1602265914528
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: golang
+    sas.com/version: 3.32.1
   labels:
     sas.com/admin: namespace
     sas.com/deployment: sas-viya
@@ -26737,8 +26965,10 @@ kind: HorizontalPodAutoscaler
 metadata:
   annotations:
     sas.com/component-name: sas-files
-    sas.com/component-version: 2.33.6-20200922.1600741413515
-    sas.com/version: 2.33.6
+    sas.com/component-version: 2.33.10-20201007.1602053013769
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: spring
+    sas.com/version: 2.33.10
   labels:
     sas.com/admin: namespace
     sas.com/deployment: sas-viya
@@ -26980,8 +27210,10 @@ kind: HorizontalPodAutoscaler
 metadata:
   annotations:
     sas.com/component-name: sas-job-flow-scheduling
-    sas.com/component-version: 2.2.5-20200922.1600743219690
-    sas.com/version: 2.2.5
+    sas.com/component-version: 2.2.7-20201002.1601644744469
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: spring
+    sas.com/version: 2.2.7
   labels:
     sas.com/admin: namespace
     sas.com/deployment: sas-viya
@@ -27007,8 +27239,10 @@ kind: HorizontalPodAutoscaler
 metadata:
   annotations:
     sas.com/component-name: sas-launcher
-    sas.com/component-version: 1.14.1-20200904.1599249847582
-    sas.com/version: 1.14.1
+    sas.com/component-version: 1.14.7-20201006.1601991181061
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: spring
+    sas.com/version: 1.14.7
   labels:
     sas.com/admin: namespace
     sas.com/deployment: sas-viya
@@ -27034,8 +27268,10 @@ kind: HorizontalPodAutoscaler
 metadata:
   annotations:
     sas.com/component-name: sas-lineage-app
-    sas.com/component-version: 2.7.0-20200904.1599231763425
-    sas.com/version: 2.7.0
+    sas.com/component-version: 2.7.1-20201009.1602266079673
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: golang
+    sas.com/version: 2.7.1
   labels:
     sas.com/admin: namespace
     sas.com/deployment: sas-viya
@@ -27655,8 +27891,10 @@ kind: HorizontalPodAutoscaler
 metadata:
   annotations:
     sas.com/component-name: sas-search
-    sas.com/component-version: 2.27.7-20200922.1600746056812
-    sas.com/version: 2.27.7
+    sas.com/component-version: 2.27.11-20201012.1602514294361
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: spring
+    sas.com/version: 2.27.11
   labels:
     sas.com/admin: namespace
     sas.com/deployment: sas-viya
@@ -29215,9 +29453,9 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
     nginx.ingress.kubernetes.io/session-cookie-path: /dataProfiles/
     sas.com/component-name: sas-data-profiles
-    sas.com/component-version: 4.31.1-20200902.1599072036811
+    sas.com/component-version: 4.31.2-20201008.1602195283263
     sas.com/kustomize-base: base
-    sas.com/version: 4.31.1
+    sas.com/version: 4.31.2
   labels:
     app.kubernetes.io/name: sas-data-profiles
     sas.com/admin: namespace
@@ -29245,7 +29483,7 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
     nginx.ingress.kubernetes.io/session-cookie-path: /dataQuality/
     sas.com/component-name: sas-data-quality-services
-    sas.com/component-version: 3.7.2-20200908.1599577992906
+    sas.com/component-version: 3.7.2-20201008.1602195245516
     sas.com/kustomize-base: base
     sas.com/version: 3.7.2
   labels:
@@ -29277,9 +29515,9 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
     nginx.ingress.kubernetes.io/session-cookie-path: /dataSources/
     sas.com/component-name: sas-data-sources
-    sas.com/component-version: 3.32.0-20200904.1599239671233
+    sas.com/component-version: 3.32.1-20201009.1602265914528
     sas.com/kustomize-base: base
-    sas.com/version: 3.32.0
+    sas.com/version: 3.32.1
   labels:
     app.kubernetes.io/name: sas-data-sources
     sas.com/admin: namespace
@@ -29339,9 +29577,9 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
     nginx.ingress.kubernetes.io/session-cookie-path: /dataTables/
     sas.com/component-name: sas-data-sources
-    sas.com/component-version: 3.32.0-20200904.1599239671233
+    sas.com/component-version: 3.32.1-20201009.1602265914528
     sas.com/kustomize-base: base
-    sas.com/version: 3.32.0
+    sas.com/version: 3.32.1
   labels:
     app.kubernetes.io/name: sas-data-tables
     sas.com/admin: namespace
@@ -29524,9 +29762,9 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
     nginx.ingress.kubernetes.io/session-cookie-path: /files/
     sas.com/component-name: sas-files
-    sas.com/component-version: 2.33.6-20200922.1600741413515
+    sas.com/component-version: 2.33.10-20201007.1602053013769
     sas.com/kustomize-base: base
-    sas.com/version: 2.33.6
+    sas.com/version: 2.33.10
   labels:
     app.kubernetes.io/name: sas-files
     sas.com/admin: namespace
@@ -29854,9 +30092,9 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
     nginx.ingress.kubernetes.io/session-cookie-path: /jobFlowScheduling/
     sas.com/component-name: sas-job-flow-scheduling
-    sas.com/component-version: 2.2.5-20200922.1600743219690
+    sas.com/component-version: 2.2.7-20201002.1601644744469
     sas.com/kustomize-base: base
-    sas.com/version: 2.2.5
+    sas.com/version: 2.2.7
   labels:
     app.kubernetes.io/name: sas-job-flow-scheduling
     sas.com/admin: namespace
@@ -29884,9 +30122,9 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
     nginx.ingress.kubernetes.io/session-cookie-path: /launcher/
     sas.com/component-name: sas-launcher
-    sas.com/component-version: 1.14.1-20200904.1599249847582
+    sas.com/component-version: 1.14.7-20201006.1601991181061
     sas.com/kustomize-base: base
-    sas.com/version: 1.14.1
+    sas.com/version: 1.14.7
   labels:
     app.kubernetes.io/name: sas-launcher
     sas.com/admin: namespace
@@ -29944,9 +30182,9 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
     nginx.ingress.kubernetes.io/session-cookie-path: /SASLineage/
     sas.com/component-name: sas-lineage-app
-    sas.com/component-version: 2.7.0-20200904.1599231763425
+    sas.com/component-version: 2.7.1-20201009.1602266079673
     sas.com/kustomize-base: base
-    sas.com/version: 2.7.0
+    sas.com/version: 2.7.1
   labels:
     app.kubernetes.io/name: sas-lineage-app
     sas.com/admin: namespace
@@ -30430,7 +30668,7 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
     nginx.ingress.kubernetes.io/session-cookie-path: /qkbManagement/
     sas.com/component-name: sas-data-quality-services
-    sas.com/component-version: 3.7.2-20200908.1599577992906
+    sas.com/component-version: 3.7.2-20201008.1602195245516
     sas.com/kustomize-base: base
     sas.com/version: 3.7.2
   labels:
@@ -30762,9 +31000,9 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
     nginx.ingress.kubernetes.io/session-cookie-path: /rowSets/
     sas.com/component-name: sas-data-sources
-    sas.com/component-version: 3.32.0-20200904.1599239671233
+    sas.com/component-version: 3.32.1-20201009.1602265914528
     sas.com/kustomize-base: base
-    sas.com/version: 3.32.0
+    sas.com/version: 3.32.1
   labels:
     app.kubernetes.io/name: sas-row-sets
     sas.com/admin: namespace
@@ -30882,9 +31120,9 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
     nginx.ingress.kubernetes.io/session-cookie-path: /search/
     sas.com/component-name: sas-search
-    sas.com/component-version: 2.27.7-20200922.1600746056812
+    sas.com/component-version: 2.27.11-20201012.1602514294361
     sas.com/kustomize-base: base
-    sas.com/version: 2.27.7
+    sas.com/version: 2.27.11
   labels:
     app.kubernetes.io/name: sas-search
     sas.com/admin: namespace
@@ -30912,9 +31150,9 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
     nginx.ingress.kubernetes.io/session-cookie-path: /searchIndex/
     sas.com/component-name: sas-search
-    sas.com/component-version: 2.27.7-20200922.1600746056812
+    sas.com/component-version: 2.27.11-20201012.1602514294361
     sas.com/kustomize-base: base
-    sas.com/version: 2.27.7
+    sas.com/version: 2.27.11
   labels:
     app.kubernetes.io/name: sas-search-index
     sas.com/admin: namespace
@@ -31528,7 +31766,7 @@ spec:
             name: sas-go-config-fb6bgt2k78
         - configMapRef:
             name: sas-shared-config-5gc9794df6
-        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-config-init:1.2.4-20200828.1598660059032
+        image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-config-init:1.2.6-20200928.1601307316387
         name: sas-config-init
         volumeMounts:
         - mountPath: /cas/config/
@@ -31650,8 +31888,8 @@ kind: PersistentVolumeClaim
 metadata:
   annotations:
     sas.com/component-name: sas-backup-job
-    sas.com/component-version: 1.2.1-20200908.1599590394140
-    sas.com/version: 1.2.1
+    sas.com/component-version: 1.2.14-20200923.1600853443561
+    sas.com/version: 1.2.14
   labels:
     sas.com/admin: cluster-local
     sas.com/backup-role: storage
@@ -31670,7 +31908,7 @@ kind: PersistentVolumeClaim
 metadata:
   annotations:
     sas.com/component-name: sas-data-quality-services
-    sas.com/component-version: 3.7.2-20200908.1599577992906
+    sas.com/component-version: 3.7.2-20201008.1602195245516
     sas.com/version: 3.7.2
   labels:
     sas.com/admin: cluster-local
@@ -31879,7 +32117,7 @@ template:
           name: sas-shared-config-5gc9794df6
       - configMapRef:
           name: sas-compute-server-config-f8c9c759bf
-      image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-config-init:1.2.4-20200828.1598660059032
+      image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-config-init:1.2.6-20200928.1601307316387
       name: sas-config-init
       ports: []
       volumeDevices: []
@@ -31915,11 +32153,11 @@ metadata:
   annotations:
     sas.com/certificate-file-format: pem
     sas.com/component-name: sas-launcher
-    sas.com/component-version: 1.14.1-20200904.1599249847582
+    sas.com/component-version: 1.14.7-20201006.1601991181061
     sas.com/config-init-mode: initcontainer
     sas.com/kustomize-base: podtemplate
     sas.com/sas-access-config: "true"
-    sas.com/version: 1.14.1
+    sas.com/version: 1.14.7
   labels:
     sas.com/admin: cluster-local
     sas.com/deployment: sas-viya
@@ -31994,7 +32232,9 @@ template:
           name: sas-go-config-fb6bgt2k78
       - configMapRef:
           name: sas-shared-config-5gc9794df6
-      image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-config-init:1.2.4-20200828.1598660059032
+      - secretRef:
+          name: sas-consul-client
+      image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-config-init:1.2.6-20200928.1601307316387
       name: sas-config-init
       ports: []
       volumeDevices: []
@@ -32025,11 +32265,12 @@ kind: PodTemplate
 metadata:
   annotations:
     sas.com/component-name: sas-quality-knowledge-base
-    sas.com/component-version: 32.3.3-20200831.1598882885354
+    sas.com/component-version: 32.3.3-20201009.1602257426025
     sas.com/version: 32.3.3
   labels:
     sas.com/admin: cluster-local
     sas.com/deployment: sas-viya
+    workload.sas.com/class: stateless
   name: sas-qkb-bootstrap
   namespace: viya
 template:
@@ -32037,12 +32278,42 @@ template:
     annotations:
       sidecar.istio.io/inject: "false"
   spec:
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - preference:
+            matchExpressions:
+            - key: workload.sas.com/class
+              operator: In
+              values:
+              - stateless
+            matchFields: []
+          weight: 100
+        - preference:
+            matchExpressions:
+            - key: workload.sas.com/class
+              operator: NotIn
+              values:
+              - cas
+              - compute
+              - connect
+              - stateful
+            matchFields: []
+          weight: 50
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: kubernetes.azure.com/mode
+              operator: NotIn
+              values:
+              - system
+            matchFields: []
     containers:
     - args: []
       command: []
       env: []
       envFrom: []
-      image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-quality-knowledge-base:32.3.3-20200831.1598882885354
+      image: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-quality-knowledge-base:32.3.3-20201009.1602257426025
       imagePullPolicy: IfNotPresent
       name: sas-qkb-bootstrap
       ports: []
@@ -32058,7 +32329,15 @@ template:
     initContainers: []
     readinessGates: []
     restartPolicy: Never
-    tolerations: []
+    tolerations:
+    - effect: NoSchedule
+      key: workload.sas.com/class
+      operator: Equal
+      value: stateful
+    - effect: NoSchedule
+      key: workload.sas.com/class
+      operator: Equal
+      value: stateless
     volumes:
     - name: sas-quality-knowledge-base-volume
       persistentVolumeClaim:

@@ -2509,23 +2509,23 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-90fa74d1b1245647
+  name: patch-transformer-b9a80671f592b8b7
 patch: |-
   - op: add
     path: /metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
 target:
   annotationSelector: sas.com/component-name=sas-backup-job
 ---
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-3f5c6f12e389266c
+  name: patch-transformer-1eab5cca29ca4e16
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -2534,11 +2534,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
 target:
   annotationSelector: sas.com/component-name=sas-backup-job
   kind: ReplicationController
@@ -2547,7 +2547,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-884e625cb2e07f8a
+  name: patch-transformer-c44b43644c4bf1c0
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -2556,11 +2556,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
 target:
   annotationSelector: sas.com/component-name=sas-backup-job
   kind: Deployment
@@ -2568,7 +2568,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-82f80ae2a05178c9
+  name: patch-transformer-8943811060794133
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -2577,11 +2577,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
 target:
   annotationSelector: sas.com/component-name=sas-backup-job
   kind: ReplicaSet
@@ -2589,7 +2589,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-0d473469082b7d2f
+  name: patch-transformer-ae293a9b19b4b4cd
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -2598,11 +2598,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
 target:
   annotationSelector: sas.com/component-name=sas-backup-job
   kind: DaemonSet
@@ -2610,7 +2610,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-29952ea4a1111d53
+  name: patch-transformer-8028a078f00b3141
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -2619,11 +2619,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
 target:
   annotationSelector: sas.com/component-name=sas-backup-job
   kind: StatefulSet
@@ -2631,7 +2631,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-6e3fda770b75d603
+  name: patch-transformer-eb7fdba67daeff49
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -2640,11 +2640,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
 target:
   annotationSelector: sas.com/component-name=sas-backup-job
   group: batch
@@ -2653,7 +2653,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-e71009cff8c75ced
+  name: patch-transformer-eac70ed08f1914ab
 patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-name
@@ -2662,11 +2662,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-name
     value:
@@ -2674,11 +2674,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
 target:
   annotationSelector: sas.com/component-name=sas-backup-job
   group: batch
@@ -4467,23 +4467,23 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-b8fafab78f7a1b3a
+  name: patch-transformer-4abc0d7733057bdf
 patch: |-
   - op: add
     path: /metadata/annotations/sas.com~1component-version
     value:
-      1.2.4-20200828.1598660059032
+      1.2.6-20200928.1601307316387
   - op: add
     path: /metadata/annotations/sas.com~1version
     value:
-      1.2.4
+      1.2.6
 target:
   annotationSelector: sas.com/component-name=sas-config-init
 ---
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-b3b37dcb7f805f26
+  name: patch-transformer-dccf83c8eac347a7
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -4492,11 +4492,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.4-20200828.1598660059032
+      1.2.6-20200928.1601307316387
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.4
+      1.2.6
 target:
   annotationSelector: sas.com/component-name=sas-config-init
   kind: ReplicationController
@@ -4505,7 +4505,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-9598bfa98b9835d0
+  name: patch-transformer-2a5f7f74c64370cf
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -4514,11 +4514,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.4-20200828.1598660059032
+      1.2.6-20200928.1601307316387
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.4
+      1.2.6
 target:
   annotationSelector: sas.com/component-name=sas-config-init
   kind: Deployment
@@ -4526,7 +4526,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-f853dba7edda2ea3
+  name: patch-transformer-6e8c93a857deff2c
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -4535,11 +4535,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.4-20200828.1598660059032
+      1.2.6-20200928.1601307316387
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.4
+      1.2.6
 target:
   annotationSelector: sas.com/component-name=sas-config-init
   kind: ReplicaSet
@@ -4547,7 +4547,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-1bf4263fdf61141d
+  name: patch-transformer-3851864983bcaa3c
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -4556,11 +4556,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.4-20200828.1598660059032
+      1.2.6-20200928.1601307316387
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.4
+      1.2.6
 target:
   annotationSelector: sas.com/component-name=sas-config-init
   kind: DaemonSet
@@ -4568,7 +4568,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-07da570b4ab1df11
+  name: patch-transformer-ed9c66122cb82fa0
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -4577,11 +4577,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.4-20200828.1598660059032
+      1.2.6-20200928.1601307316387
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.4
+      1.2.6
 target:
   annotationSelector: sas.com/component-name=sas-config-init
   kind: StatefulSet
@@ -4589,7 +4589,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-442bea931c335d19
+  name: patch-transformer-b98fb55c21a3650e
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -4598,11 +4598,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.4-20200828.1598660059032
+      1.2.6-20200928.1601307316387
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.4
+      1.2.6
 target:
   annotationSelector: sas.com/component-name=sas-config-init
   group: batch
@@ -4611,7 +4611,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-4662f61903b6d65a
+  name: patch-transformer-df6457516f2d2818
 patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-name
@@ -4620,11 +4620,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-version
     value:
-      1.2.4-20200828.1598660059032
+      1.2.6-20200928.1601307316387
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1version
     value:
-      1.2.4
+      1.2.6
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-name
     value:
@@ -4632,11 +4632,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.4-20200828.1598660059032
+      1.2.6-20200928.1601307316387
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.4
+      1.2.6
 target:
   annotationSelector: sas.com/component-name=sas-config-init
   group: batch
@@ -9807,23 +9807,23 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-b53883415f9ed235
+  name: patch-transformer-ce759e8626910743
 patch: |-
   - op: add
     path: /metadata/annotations/sas.com~1component-version
     value:
-      4.31.1-20200902.1599072036811
+      4.31.2-20201008.1602195283263
   - op: add
     path: /metadata/annotations/sas.com~1version
     value:
-      4.31.1
+      4.31.2
 target:
   annotationSelector: sas.com/component-name=sas-data-profiles
 ---
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-08f7c0243a43cf5d
+  name: patch-transformer-f368276a9c735e03
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -9832,11 +9832,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      4.31.1-20200902.1599072036811
+      4.31.2-20201008.1602195283263
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      4.31.1
+      4.31.2
 target:
   annotationSelector: sas.com/component-name=sas-data-profiles
   kind: ReplicationController
@@ -9845,7 +9845,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-edee96f75ad8b791
+  name: patch-transformer-9a9e407ccb715b3b
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -9854,11 +9854,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      4.31.1-20200902.1599072036811
+      4.31.2-20201008.1602195283263
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      4.31.1
+      4.31.2
 target:
   annotationSelector: sas.com/component-name=sas-data-profiles
   kind: Deployment
@@ -9866,7 +9866,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-48b4c1987bd0655a
+  name: patch-transformer-dc9af31f0c4d0668
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -9875,11 +9875,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      4.31.1-20200902.1599072036811
+      4.31.2-20201008.1602195283263
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      4.31.1
+      4.31.2
 target:
   annotationSelector: sas.com/component-name=sas-data-profiles
   kind: ReplicaSet
@@ -9887,7 +9887,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-8e33a56b2a479c86
+  name: patch-transformer-0072ee7b7b031998
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -9896,11 +9896,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      4.31.1-20200902.1599072036811
+      4.31.2-20201008.1602195283263
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      4.31.1
+      4.31.2
 target:
   annotationSelector: sas.com/component-name=sas-data-profiles
   kind: DaemonSet
@@ -9908,7 +9908,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-25e05f1251f5eec2
+  name: patch-transformer-8631eebcc8870bf4
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -9917,11 +9917,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      4.31.1-20200902.1599072036811
+      4.31.2-20201008.1602195283263
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      4.31.1
+      4.31.2
 target:
   annotationSelector: sas.com/component-name=sas-data-profiles
   kind: StatefulSet
@@ -9929,7 +9929,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-2c81cf64eb9ebae8
+  name: patch-transformer-f7a1ad40a5a215e2
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -9938,11 +9938,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      4.31.1-20200902.1599072036811
+      4.31.2-20201008.1602195283263
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      4.31.1
+      4.31.2
 target:
   annotationSelector: sas.com/component-name=sas-data-profiles
   group: batch
@@ -9951,7 +9951,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-d39bbc23c1a37718
+  name: patch-transformer-463e2dc61f45ff48
 patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-name
@@ -9960,11 +9960,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-version
     value:
-      4.31.1-20200902.1599072036811
+      4.31.2-20201008.1602195283263
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1version
     value:
-      4.31.1
+      4.31.2
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-name
     value:
@@ -9972,11 +9972,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-version
     value:
-      4.31.1-20200902.1599072036811
+      4.31.2-20201008.1602195283263
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1version
     value:
-      4.31.1
+      4.31.2
 target:
   annotationSelector: sas.com/component-name=sas-data-profiles
   group: batch
@@ -9985,12 +9985,12 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-ce439135e958e1f9
+  name: patch-transformer-126eb07975168c0c
 patch: |-
   - op: add
     path: /metadata/annotations/sas.com~1component-version
     value:
-      3.7.2-20200908.1599577992906
+      3.7.2-20201008.1602195245516
   - op: add
     path: /metadata/annotations/sas.com~1version
     value:
@@ -10001,7 +10001,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-b9da375409e5b865
+  name: patch-transformer-45253475424ced04
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10010,7 +10010,7 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      3.7.2-20200908.1599577992906
+      3.7.2-20201008.1602195245516
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
@@ -10023,7 +10023,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-32b32ce5a077b349
+  name: patch-transformer-c2b0d7af5ddf2df2
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10032,7 +10032,7 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      3.7.2-20200908.1599577992906
+      3.7.2-20201008.1602195245516
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
@@ -10044,7 +10044,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-9271fced411fe042
+  name: patch-transformer-fb62c5134f5c2581
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10053,7 +10053,7 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      3.7.2-20200908.1599577992906
+      3.7.2-20201008.1602195245516
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
@@ -10065,7 +10065,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-b09446f8c804b36e
+  name: patch-transformer-a84cdb056d0f3e67
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10074,7 +10074,7 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      3.7.2-20200908.1599577992906
+      3.7.2-20201008.1602195245516
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
@@ -10086,7 +10086,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-26d9464c18c16c2a
+  name: patch-transformer-49bfe3388240056b
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10095,7 +10095,7 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      3.7.2-20200908.1599577992906
+      3.7.2-20201008.1602195245516
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
@@ -10107,7 +10107,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-14c4148de785a7f0
+  name: patch-transformer-28e0edf64ab0651b
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10116,7 +10116,7 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      3.7.2-20200908.1599577992906
+      3.7.2-20201008.1602195245516
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
@@ -10129,7 +10129,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-1e7e480f3f789de0
+  name: patch-transformer-00539c69f9f495e6
 patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-name
@@ -10138,7 +10138,7 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-version
     value:
-      3.7.2-20200908.1599577992906
+      3.7.2-20201008.1602195245516
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1version
     value:
@@ -10150,7 +10150,7 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-version
     value:
-      3.7.2-20200908.1599577992906
+      3.7.2-20201008.1602195245516
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1version
     value:
@@ -10341,23 +10341,23 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-4c8012ed40e298fd
+  name: patch-transformer-55034eab3ccac1d3
 patch: |-
   - op: add
     path: /metadata/annotations/sas.com~1component-version
     value:
-      3.32.0-20200904.1599239671233
+      3.32.1-20201009.1602265914528
   - op: add
     path: /metadata/annotations/sas.com~1version
     value:
-      3.32.0
+      3.32.1
 target:
   annotationSelector: sas.com/component-name=sas-data-sources
 ---
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-5eac34e815d60d91
+  name: patch-transformer-fd8a85231121264b
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10366,11 +10366,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      3.32.0-20200904.1599239671233
+      3.32.1-20201009.1602265914528
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      3.32.0
+      3.32.1
 target:
   annotationSelector: sas.com/component-name=sas-data-sources
   kind: ReplicationController
@@ -10379,7 +10379,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-59db1ebe774f4905
+  name: patch-transformer-d7fac82271140f73
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10388,11 +10388,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      3.32.0-20200904.1599239671233
+      3.32.1-20201009.1602265914528
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      3.32.0
+      3.32.1
 target:
   annotationSelector: sas.com/component-name=sas-data-sources
   kind: Deployment
@@ -10400,7 +10400,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-06540f0247b6beae
+  name: patch-transformer-0c3bcc98242f6330
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10409,11 +10409,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      3.32.0-20200904.1599239671233
+      3.32.1-20201009.1602265914528
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      3.32.0
+      3.32.1
 target:
   annotationSelector: sas.com/component-name=sas-data-sources
   kind: ReplicaSet
@@ -10421,7 +10421,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-0e5d8a744b30e64a
+  name: patch-transformer-c420bbf23104e2c0
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10430,11 +10430,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      3.32.0-20200904.1599239671233
+      3.32.1-20201009.1602265914528
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      3.32.0
+      3.32.1
 target:
   annotationSelector: sas.com/component-name=sas-data-sources
   kind: DaemonSet
@@ -10442,7 +10442,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-9fe411c025a2e9be
+  name: patch-transformer-be95f60bdca8a8bc
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10451,11 +10451,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      3.32.0-20200904.1599239671233
+      3.32.1-20201009.1602265914528
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      3.32.0
+      3.32.1
 target:
   annotationSelector: sas.com/component-name=sas-data-sources
   kind: StatefulSet
@@ -10463,7 +10463,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-7989e078942d11f4
+  name: patch-transformer-f9781505db585f8a
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10472,11 +10472,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      3.32.0-20200904.1599239671233
+      3.32.1-20201009.1602265914528
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      3.32.0
+      3.32.1
 target:
   annotationSelector: sas.com/component-name=sas-data-sources
   group: batch
@@ -10485,7 +10485,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-e30bc92d2e1c88da
+  name: patch-transformer-97f60775f673464e
 patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-name
@@ -10494,11 +10494,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-version
     value:
-      3.32.0-20200904.1599239671233
+      3.32.1-20201009.1602265914528
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1version
     value:
-      3.32.0
+      3.32.1
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-name
     value:
@@ -10506,11 +10506,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-version
     value:
-      3.32.0-20200904.1599239671233
+      3.32.1-20201009.1602265914528
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1version
     value:
-      3.32.0
+      3.32.1
 target:
   annotationSelector: sas.com/component-name=sas-data-sources
   group: batch
@@ -10697,23 +10697,23 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-5b9b36e150a9ca8e
+  name: patch-transformer-4f89b8814b670c5a
 patch: |-
   - op: add
     path: /metadata/annotations/sas.com~1component-version
     value:
-      1.0.1-20200908.1599594764511
+      1.0.2-20201013.1602608054127
   - op: add
     path: /metadata/annotations/sas.com~1version
     value:
-      1.0.1
+      1.0.2
 target:
   annotationSelector: sas.com/component-name=sas-db-migrator
 ---
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-2fad77a332b7178b
+  name: patch-transformer-8183b83ce20eb8b3
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10722,11 +10722,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.0.1-20200908.1599594764511
+      1.0.2-20201013.1602608054127
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.0.1
+      1.0.2
 target:
   annotationSelector: sas.com/component-name=sas-db-migrator
   kind: ReplicationController
@@ -10735,7 +10735,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-0da9d0830be0f9b3
+  name: patch-transformer-2f62f14367b918eb
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10744,11 +10744,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.0.1-20200908.1599594764511
+      1.0.2-20201013.1602608054127
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.0.1
+      1.0.2
 target:
   annotationSelector: sas.com/component-name=sas-db-migrator
   kind: Deployment
@@ -10756,7 +10756,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-a12acc9da425ed70
+  name: patch-transformer-9f3674f0daf18978
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10765,11 +10765,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.0.1-20200908.1599594764511
+      1.0.2-20201013.1602608054127
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.0.1
+      1.0.2
 target:
   annotationSelector: sas.com/component-name=sas-db-migrator
   kind: ReplicaSet
@@ -10777,7 +10777,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-50ef8583976a1000
+  name: patch-transformer-399066c101decf08
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10786,11 +10786,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.0.1-20200908.1599594764511
+      1.0.2-20201013.1602608054127
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.0.1
+      1.0.2
 target:
   annotationSelector: sas.com/component-name=sas-db-migrator
   kind: DaemonSet
@@ -10798,7 +10798,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-5fa31ccaa2e381fc
+  name: patch-transformer-fadf96bb219d4f64
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10807,11 +10807,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.0.1-20200908.1599594764511
+      1.0.2-20201013.1602608054127
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.0.1
+      1.0.2
 target:
   annotationSelector: sas.com/component-name=sas-db-migrator
   kind: StatefulSet
@@ -10819,7 +10819,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-6c029270b091484a
+  name: patch-transformer-4bbe16054c782812
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -10828,11 +10828,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.0.1-20200908.1599594764511
+      1.0.2-20201013.1602608054127
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.0.1
+      1.0.2
 target:
   annotationSelector: sas.com/component-name=sas-db-migrator
   group: batch
@@ -10841,7 +10841,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-7099da1a06467891
+  name: patch-transformer-fa928eb2b12116ed
 patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-name
@@ -10850,11 +10850,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-version
     value:
-      1.0.1-20200908.1599594764511
+      1.0.2-20201013.1602608054127
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1version
     value:
-      1.0.1
+      1.0.2
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-name
     value:
@@ -10862,11 +10862,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.0.1-20200908.1599594764511
+      1.0.2-20201013.1602608054127
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1version
     value:
-      1.0.1
+      1.0.2
 target:
   annotationSelector: sas.com/component-name=sas-db-migrator
   group: batch
@@ -11765,23 +11765,23 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-14c44541de56723b
+  name: patch-transformer-4954423c76acf15f
 patch: |-
   - op: add
     path: /metadata/annotations/sas.com~1component-version
     value:
-      2.33.6-20200922.1600741413515
+      2.33.10-20201007.1602053013769
   - op: add
     path: /metadata/annotations/sas.com~1version
     value:
-      2.33.6
+      2.33.10
 target:
   annotationSelector: sas.com/component-name=sas-files
 ---
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-df4ec43c11337a2d
+  name: patch-transformer-b91774fdd90729bb
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -11790,11 +11790,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.33.6-20200922.1600741413515
+      2.33.10-20201007.1602053013769
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.33.6
+      2.33.10
 target:
   annotationSelector: sas.com/component-name=sas-files
   kind: ReplicationController
@@ -11803,7 +11803,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-cea2686a075170e1
+  name: patch-transformer-79b8381da394b1a3
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -11812,11 +11812,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.33.6-20200922.1600741413515
+      2.33.10-20201007.1602053013769
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.33.6
+      2.33.10
 target:
   annotationSelector: sas.com/component-name=sas-files
   kind: Deployment
@@ -11824,7 +11824,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-d821e350bb309c0a
+  name: patch-transformer-ebb3ccc6d6c73ec0
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -11833,11 +11833,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.33.6-20200922.1600741413515
+      2.33.10-20201007.1602053013769
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.33.6
+      2.33.10
 target:
   annotationSelector: sas.com/component-name=sas-files
   kind: ReplicaSet
@@ -11845,7 +11845,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-a1e9f65a4caafa16
+  name: patch-transformer-88be74c653efd330
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -11854,11 +11854,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.33.6-20200922.1600741413515
+      2.33.10-20201007.1602053013769
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.33.6
+      2.33.10
 target:
   annotationSelector: sas.com/component-name=sas-files
   kind: DaemonSet
@@ -11866,7 +11866,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-a1a9dee89173fa92
+  name: patch-transformer-d86903a6918fbbac
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -11875,11 +11875,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.33.6-20200922.1600741413515
+      2.33.10-20201007.1602053013769
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.33.6
+      2.33.10
 target:
   annotationSelector: sas.com/component-name=sas-files
   kind: StatefulSet
@@ -11887,7 +11887,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-2f7f9ea421de46f8
+  name: patch-transformer-d98c7ea810f19d7a
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -11896,11 +11896,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.33.6-20200922.1600741413515
+      2.33.10-20201007.1602053013769
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.33.6
+      2.33.10
 target:
   annotationSelector: sas.com/component-name=sas-files
   group: batch
@@ -11909,7 +11909,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-d80cdd236d95fbce
+  name: patch-transformer-879ce42f8824434c
 patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-name
@@ -11918,11 +11918,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-version
     value:
-      2.33.6-20200922.1600741413515
+      2.33.10-20201007.1602053013769
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1version
     value:
-      2.33.6
+      2.33.10
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-name
     value:
@@ -11930,11 +11930,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.33.6-20200922.1600741413515
+      2.33.10-20201007.1602053013769
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1version
     value:
-      2.33.6
+      2.33.10
 target:
   annotationSelector: sas.com/component-name=sas-files
   group: batch
@@ -13723,23 +13723,23 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-9e6347cd39745dc5
+  name: patch-transformer-af27f26d91e89d1f
 patch: |-
   - op: add
     path: /metadata/annotations/sas.com~1component-version
     value:
-      2.2.5-20200922.1600743219690
+      2.2.7-20201002.1601644744469
   - op: add
     path: /metadata/annotations/sas.com~1version
     value:
-      2.2.5
+      2.2.7
 target:
   annotationSelector: sas.com/component-name=sas-job-flow-scheduling
 ---
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-13ced935c1587735
+  name: patch-transformer-eed1b75620eb81ef
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -13748,11 +13748,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.2.5-20200922.1600743219690
+      2.2.7-20201002.1601644744469
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.2.5
+      2.2.7
 target:
   annotationSelector: sas.com/component-name=sas-job-flow-scheduling
   kind: ReplicationController
@@ -13761,7 +13761,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-26dfbda075321759
+  name: patch-transformer-4504c16525d7b727
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -13770,11 +13770,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.2.5-20200922.1600743219690
+      2.2.7-20201002.1601644744469
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.2.5
+      2.2.7
 target:
   annotationSelector: sas.com/component-name=sas-job-flow-scheduling
   kind: Deployment
@@ -13782,7 +13782,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-1fe1b9f5be5309b2
+  name: patch-transformer-538830bd55d19614
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -13791,11 +13791,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.2.5-20200922.1600743219690
+      2.2.7-20201002.1601644744469
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.2.5
+      2.2.7
 target:
   annotationSelector: sas.com/component-name=sas-job-flow-scheduling
   kind: ReplicaSet
@@ -13803,7 +13803,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-3ed49c1bee1e1ffe
+  name: patch-transformer-20df4f80941688e4
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -13812,11 +13812,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.2.5-20200922.1600743219690
+      2.2.7-20201002.1601644744469
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.2.5
+      2.2.7
 target:
   annotationSelector: sas.com/component-name=sas-job-flow-scheduling
   kind: DaemonSet
@@ -13824,7 +13824,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-d7aa29251bc2fd3a
+  name: patch-transformer-f3f47e71043d0e68
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -13833,11 +13833,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.2.5-20200922.1600743219690
+      2.2.7-20201002.1601644744469
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.2.5
+      2.2.7
 target:
   annotationSelector: sas.com/component-name=sas-job-flow-scheduling
   kind: StatefulSet
@@ -13845,7 +13845,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-56eac166a94af140
+  name: patch-transformer-088fb289a1210436
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -13854,11 +13854,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.2.5-20200922.1600743219690
+      2.2.7-20201002.1601644744469
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.2.5
+      2.2.7
 target:
   annotationSelector: sas.com/component-name=sas-job-flow-scheduling
   group: batch
@@ -13867,7 +13867,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-c5124966a5c5d9e0
+  name: patch-transformer-87e7dfa06309e6b0
 patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-name
@@ -13876,11 +13876,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-version
     value:
-      2.2.5-20200922.1600743219690
+      2.2.7-20201002.1601644744469
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1version
     value:
-      2.2.5
+      2.2.7
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-name
     value:
@@ -13888,11 +13888,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.2.5-20200922.1600743219690
+      2.2.7-20201002.1601644744469
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1version
     value:
-      2.2.5
+      2.2.7
 target:
   annotationSelector: sas.com/component-name=sas-job-flow-scheduling
   group: batch
@@ -14079,23 +14079,23 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-0bda5fadfcaf94bb
+  name: patch-transformer-d6bc18e863fff552
 patch: |-
   - op: add
     path: /metadata/annotations/sas.com~1component-version
     value:
-      1.14.1-20200904.1599249847582
+      1.14.7-20201006.1601991181061
   - op: add
     path: /metadata/annotations/sas.com~1version
     value:
-      1.14.1
+      1.14.7
 target:
   annotationSelector: sas.com/component-name=sas-launcher
 ---
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-ef7d5a252d44947a
+  name: patch-transformer-6ff99aa904ada487
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -14104,11 +14104,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.14.1-20200904.1599249847582
+      1.14.7-20201006.1601991181061
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.14.1
+      1.14.7
 target:
   annotationSelector: sas.com/component-name=sas-launcher
   kind: ReplicationController
@@ -14117,7 +14117,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-74903ee360a4d0a4
+  name: patch-transformer-750c12faf2a65c2f
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -14126,11 +14126,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.14.1-20200904.1599249847582
+      1.14.7-20201006.1601991181061
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.14.1
+      1.14.7
 target:
   annotationSelector: sas.com/component-name=sas-launcher
   kind: Deployment
@@ -14138,7 +14138,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-6abfe15438070887
+  name: patch-transformer-d14bd612e6096c4c
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -14147,11 +14147,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.14.1-20200904.1599249847582
+      1.14.7-20201006.1601991181061
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.14.1
+      1.14.7
 target:
   annotationSelector: sas.com/component-name=sas-launcher
   kind: ReplicaSet
@@ -14159,7 +14159,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-37953b071ec48691
+  name: patch-transformer-4e55d83f0886475c
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -14168,11 +14168,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.14.1-20200904.1599249847582
+      1.14.7-20201006.1601991181061
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.14.1
+      1.14.7
 target:
   annotationSelector: sas.com/component-name=sas-launcher
   kind: DaemonSet
@@ -14180,7 +14180,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-a4078e710825136d
+  name: patch-transformer-053e06700e3e70c0
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -14189,11 +14189,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.14.1-20200904.1599249847582
+      1.14.7-20201006.1601991181061
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.14.1
+      1.14.7
 target:
   annotationSelector: sas.com/component-name=sas-launcher
   kind: StatefulSet
@@ -14201,7 +14201,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-a0a0f9c595ada705
+  name: patch-transformer-502f93c2718e782e
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -14210,11 +14210,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.14.1-20200904.1599249847582
+      1.14.7-20201006.1601991181061
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.14.1
+      1.14.7
 target:
   annotationSelector: sas.com/component-name=sas-launcher
   group: batch
@@ -14223,7 +14223,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-5dc6e5cde1e6a9bb
+  name: patch-transformer-8f72c3dd5afb8b6b
 patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-name
@@ -14232,11 +14232,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-version
     value:
-      1.14.1-20200904.1599249847582
+      1.14.7-20201006.1601991181061
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1version
     value:
-      1.14.1
+      1.14.7
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-name
     value:
@@ -14244,11 +14244,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.14.1-20200904.1599249847582
+      1.14.7-20201006.1601991181061
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1version
     value:
-      1.14.1
+      1.14.7
 target:
   annotationSelector: sas.com/component-name=sas-launcher
   group: batch
@@ -14257,23 +14257,23 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-930fa404856d1524
+  name: patch-transformer-8f2b24b0badd9f05
 patch: |-
   - op: add
     path: /metadata/annotations/sas.com~1component-version
     value:
-      2.7.0-20200904.1599231763425
+      2.7.1-20201009.1602266079673
   - op: add
     path: /metadata/annotations/sas.com~1version
     value:
-      2.7.0
+      2.7.1
 target:
   annotationSelector: sas.com/component-name=sas-lineage-app
 ---
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-a7385cf0c830c70c
+  name: patch-transformer-b560d52cbff1d359
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -14282,11 +14282,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.7.0-20200904.1599231763425
+      2.7.1-20201009.1602266079673
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.7.0
+      2.7.1
 target:
   annotationSelector: sas.com/component-name=sas-lineage-app
   kind: ReplicationController
@@ -14295,7 +14295,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-32d37adec326ce2a
+  name: patch-transformer-667d520e2b5ea7dd
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -14304,11 +14304,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.7.0-20200904.1599231763425
+      2.7.1-20201009.1602266079673
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.7.0
+      2.7.1
 target:
   annotationSelector: sas.com/component-name=sas-lineage-app
   kind: Deployment
@@ -14316,7 +14316,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-164a30730f61d329
+  name: patch-transformer-5a864521483dcc56
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -14325,11 +14325,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.7.0-20200904.1599231763425
+      2.7.1-20201009.1602266079673
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.7.0
+      2.7.1
 target:
   annotationSelector: sas.com/component-name=sas-lineage-app
   kind: ReplicaSet
@@ -14337,7 +14337,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-637c5a0fec05540f
+  name: patch-transformer-6e09fc5689031a72
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -14346,11 +14346,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.7.0-20200904.1599231763425
+      2.7.1-20201009.1602266079673
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.7.0
+      2.7.1
 target:
   annotationSelector: sas.com/component-name=sas-lineage-app
   kind: DaemonSet
@@ -14358,7 +14358,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-b88513d2ff903833
+  name: patch-transformer-19304c344505ac46
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -14367,11 +14367,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.7.0-20200904.1599231763425
+      2.7.1-20201009.1602266079673
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.7.0
+      2.7.1
 target:
   annotationSelector: sas.com/component-name=sas-lineage-app
   kind: StatefulSet
@@ -14379,7 +14379,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-12227fc27a1861e3
+  name: patch-transformer-8b5de4ae8ec8191c
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -14388,11 +14388,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.7.0-20200904.1599231763425
+      2.7.1-20201009.1602266079673
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.7.0
+      2.7.1
 target:
   annotationSelector: sas.com/component-name=sas-lineage-app
   group: batch
@@ -14401,7 +14401,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-dcaac5d8b9fbe9d6
+  name: patch-transformer-b4f7448f1e8f8478
 patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-name
@@ -14410,11 +14410,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-version
     value:
-      2.7.0-20200904.1599231763425
+      2.7.1-20201009.1602266079673
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1version
     value:
-      2.7.0
+      2.7.1
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-name
     value:
@@ -14422,11 +14422,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.7.0-20200904.1599231763425
+      2.7.1-20201009.1602266079673
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1version
     value:
-      2.7.0
+      2.7.1
 target:
   annotationSelector: sas.com/component-name=sas-lineage-app
   group: batch
@@ -17639,12 +17639,12 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-d6025c4175e45f8f
+  name: patch-transformer-df3aecbe0a4c180f
 patch: |-
   - op: add
     path: /metadata/annotations/sas.com~1component-version
     value:
-      32.3.3-20200831.1598882885354
+      32.3.3-20201009.1602257426025
   - op: add
     path: /metadata/annotations/sas.com~1version
     value:
@@ -17655,7 +17655,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-95c20a32ae99e1b0
+  name: patch-transformer-1c0c119c0ed66b34
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -17664,7 +17664,7 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      32.3.3-20200831.1598882885354
+      32.3.3-20201009.1602257426025
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
@@ -17677,7 +17677,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-82ac613c9d3a694e
+  name: patch-transformer-8c038c7f9d30c022
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -17686,7 +17686,7 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      32.3.3-20200831.1598882885354
+      32.3.3-20201009.1602257426025
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
@@ -17698,7 +17698,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-b48f2e6d15bbd3cd
+  name: patch-transformer-4d45c1769d2c8311
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -17707,7 +17707,7 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      32.3.3-20200831.1598882885354
+      32.3.3-20201009.1602257426025
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
@@ -17719,7 +17719,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-551e57e1f74bf1a3
+  name: patch-transformer-49800c15b11efed7
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -17728,7 +17728,7 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      32.3.3-20200831.1598882885354
+      32.3.3-20201009.1602257426025
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
@@ -17740,7 +17740,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-2c09202fb7a91c2f
+  name: patch-transformer-854d00095b0e8fdb
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -17749,7 +17749,7 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      32.3.3-20200831.1598882885354
+      32.3.3-20201009.1602257426025
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
@@ -17761,7 +17761,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-63247809c1c19b8f
+  name: patch-transformer-f966e867535271cb
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -17770,7 +17770,7 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      32.3.3-20200831.1598882885354
+      32.3.3-20201009.1602257426025
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
@@ -17783,7 +17783,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-e196eadabb0d0ecd
+  name: patch-transformer-113b1ed482c0e27d
 patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-name
@@ -17792,7 +17792,7 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-version
     value:
-      32.3.3-20200831.1598882885354
+      32.3.3-20201009.1602257426025
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1version
     value:
@@ -17804,7 +17804,7 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-version
     value:
-      32.3.3-20200831.1598882885354
+      32.3.3-20201009.1602257426025
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1version
     value:
@@ -19063,23 +19063,23 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-a7c81607c5ad722d
+  name: patch-transformer-d86795c487f5febd
 patch: |-
   - op: add
     path: /metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
 target:
   annotationSelector: sas.com/component-name=sas-restore-job
 ---
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-e6ce37e044b0bdee
+  name: patch-transformer-def17c359e7e5128
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -19088,11 +19088,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
 target:
   annotationSelector: sas.com/component-name=sas-restore-job
   kind: ReplicationController
@@ -19101,7 +19101,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-bef11fc0a171a7a8
+  name: patch-transformer-58be476600b2d4f6
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -19110,11 +19110,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
 target:
   annotationSelector: sas.com/component-name=sas-restore-job
   kind: Deployment
@@ -19122,7 +19122,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-3da72de60c8b242b
+  name: patch-transformer-7c51581fcc4958c5
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -19131,11 +19131,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
 target:
   annotationSelector: sas.com/component-name=sas-restore-job
   kind: ReplicaSet
@@ -19143,7 +19143,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-4b1fef3873046b25
+  name: patch-transformer-4f311072fb5828bb
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -19152,11 +19152,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
 target:
   annotationSelector: sas.com/component-name=sas-restore-job
   kind: DaemonSet
@@ -19164,7 +19164,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-84816f0bbf293c79
+  name: patch-transformer-3a9b97f7fa13c207
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -19173,11 +19173,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
 target:
   annotationSelector: sas.com/component-name=sas-restore-job
   kind: StatefulSet
@@ -19185,7 +19185,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-9a446d9453172ec1
+  name: patch-transformer-4152fa4f640d8327
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -19194,11 +19194,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
 target:
   annotationSelector: sas.com/component-name=sas-restore-job
   group: batch
@@ -19207,7 +19207,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-e0302ab784ceb2b9
+  name: patch-transformer-0c0b2f21f2552677
 patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-name
@@ -19216,11 +19216,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-name
     value:
@@ -19228,11 +19228,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-version
     value:
-      1.2.1-20200908.1599590394140
+      1.2.14-20200923.1600853443561
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1version
     value:
-      1.2.1
+      1.2.14
 target:
   annotationSelector: sas.com/component-name=sas-restore-job
   group: batch
@@ -19775,23 +19775,23 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-d365a9dfcdcde0e6
+  name: patch-transformer-cdaea5662aa9947d
 patch: |-
   - op: add
     path: /metadata/annotations/sas.com~1component-version
     value:
-      2.27.7-20200922.1600746056812
+      2.27.11-20201012.1602514294361
   - op: add
     path: /metadata/annotations/sas.com~1version
     value:
-      2.27.7
+      2.27.11
 target:
   annotationSelector: sas.com/component-name=sas-search
 ---
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-bda60afc5684894b
+  name: patch-transformer-c79ccadf19cb267a
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -19800,11 +19800,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.27.7-20200922.1600746056812
+      2.27.11-20201012.1602514294361
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.27.7
+      2.27.11
 target:
   annotationSelector: sas.com/component-name=sas-search
   kind: ReplicationController
@@ -19813,7 +19813,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-3bfe1d09d9774073
+  name: patch-transformer-4844fb76bc14b6a4
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -19822,11 +19822,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.27.7-20200922.1600746056812
+      2.27.11-20201012.1602514294361
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.27.7
+      2.27.11
 target:
   annotationSelector: sas.com/component-name=sas-search
   kind: Deployment
@@ -19834,7 +19834,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-703f217f8c929430
+  name: patch-transformer-3e749de79376ee87
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -19843,11 +19843,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.27.7-20200922.1600746056812
+      2.27.11-20201012.1602514294361
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.27.7
+      2.27.11
 target:
   annotationSelector: sas.com/component-name=sas-search
   kind: ReplicaSet
@@ -19855,7 +19855,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-b7e4fbb32a326dc0
+  name: patch-transformer-e1301fcd32660891
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -19864,11 +19864,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.27.7-20200922.1600746056812
+      2.27.11-20201012.1602514294361
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.27.7
+      2.27.11
 target:
   annotationSelector: sas.com/component-name=sas-search
   kind: DaemonSet
@@ -19876,7 +19876,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-13703b423d34ebbc
+  name: patch-transformer-d009fcd56748e56d
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -19885,11 +19885,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.27.7-20200922.1600746056812
+      2.27.11-20201012.1602514294361
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.27.7
+      2.27.11
 target:
   annotationSelector: sas.com/component-name=sas-search
   kind: StatefulSet
@@ -19897,7 +19897,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-c322f88bbb4bb08a
+  name: patch-transformer-c74db3a671964d05
 patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-name
@@ -19906,11 +19906,11 @@ patch: |-
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.27.7-20200922.1600746056812
+      2.27.11-20201012.1602514294361
   - op: add
     path: /spec/template/metadata/annotations/sas.com~1version
     value:
-      2.27.7
+      2.27.11
 target:
   annotationSelector: sas.com/component-name=sas-search
   group: batch
@@ -19919,7 +19919,7 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-ecc5f160ddc4422f
+  name: patch-transformer-840ea152d1f850cd
 patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-name
@@ -19928,11 +19928,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1component-version
     value:
-      2.27.7-20200922.1600746056812
+      2.27.11-20201012.1602514294361
   - op: add
     path: /spec/jobTemplate/metadata/annotations/sas.com~1version
     value:
-      2.27.7
+      2.27.11
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-name
     value:
@@ -19940,11 +19940,11 @@ patch: |-
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1component-version
     value:
-      2.27.7-20200922.1600746056812
+      2.27.11-20201012.1602514294361
   - op: add
     path: /spec/jobTemplate/spec/template/metadata/annotations/sas.com~1version
     value:
-      2.27.7
+      2.27.11
 target:
   annotationSelector: sas.com/component-name=sas-search
   group: batch
@@ -22362,7 +22362,7 @@ metadata:
 imageTag:
   name: sas-backup-job
   newName: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-backup-job
-  newTag: 1.2.1-20200908.1599590394140
+  newTag: 1.2.14-20200923.1600853443561
 ---
 apiVersion: builtin
 kind: ImageTagTransformer
@@ -22461,7 +22461,7 @@ metadata:
 imageTag:
   name: sas-config-init
   newName: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-config-init
-  newTag: 1.2.4-20200828.1598660059032
+  newTag: 1.2.6-20200928.1601307316387
 ---
 apiVersion: builtin
 kind: ImageTagTransformer
@@ -22731,7 +22731,7 @@ metadata:
 imageTag:
   name: sas-data-profiles
   newName: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-profiles
-  newTag: 4.31.1-20200902.1599072036811
+  newTag: 4.31.2-20201008.1602195283263
 ---
 apiVersion: builtin
 kind: ImageTagTransformer
@@ -22740,7 +22740,7 @@ metadata:
 imageTag:
   name: sas-data-quality-services
   newName: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-quality-services
-  newTag: 3.7.2-20200908.1599577992906
+  newTag: 3.7.2-20201008.1602195245516
 ---
 apiVersion: builtin
 kind: ImageTagTransformer
@@ -22758,7 +22758,7 @@ metadata:
 imageTag:
   name: sas-data-sources
   newName: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-sources
-  newTag: 3.32.0-20200904.1599239671233
+  newTag: 3.32.1-20201009.1602265914528
 ---
 apiVersion: builtin
 kind: ImageTagTransformer
@@ -22776,7 +22776,7 @@ metadata:
 imageTag:
   name: sas-db-migrator
   newName: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator
-  newTag: 1.0.1-20200908.1599594764511
+  newTag: 1.0.2-20201013.1602608054127
 ---
 apiVersion: builtin
 kind: ImageTagTransformer
@@ -22821,7 +22821,7 @@ metadata:
 imageTag:
   name: sas-files
   newName: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-files
-  newTag: 2.33.6-20200922.1600741413515
+  newTag: 2.33.10-20201007.1602053013769
 ---
 apiVersion: builtin
 kind: ImageTagTransformer
@@ -22920,7 +22920,7 @@ metadata:
 imageTag:
   name: sas-job-flow-scheduling
   newName: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-job-flow-scheduling
-  newTag: 2.2.5-20200922.1600743219690
+  newTag: 2.2.7-20201002.1601644744469
 ---
 apiVersion: builtin
 kind: ImageTagTransformer
@@ -22929,7 +22929,7 @@ metadata:
 imageTag:
   name: sas-launcher
   newName: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-launcher
-  newTag: 1.14.1-20200904.1599249847582
+  newTag: 1.14.7-20201006.1601991181061
 ---
 apiVersion: builtin
 kind: ImageTagTransformer
@@ -22938,7 +22938,7 @@ metadata:
 imageTag:
   name: sas-lineage-app
   newName: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-lineage-app
-  newTag: 2.7.0-20200904.1599231763425
+  newTag: 2.7.1-20201009.1602266079673
 ---
 apiVersion: builtin
 kind: ImageTagTransformer
@@ -23100,7 +23100,7 @@ metadata:
 imageTag:
   name: sas-quality-knowledge-base
   newName: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-quality-knowledge-base
-  newTag: 32.3.3-20200831.1598882885354
+  newTag: 32.3.3-20201009.1602257426025
 ---
 apiVersion: builtin
 kind: ImageTagTransformer
@@ -23172,7 +23172,7 @@ metadata:
 imageTag:
   name: sas-restore-job
   newName: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-restore-job
-  newTag: 1.2.1-20200908.1599590394140
+  newTag: 1.2.14-20200923.1600853443561
 ---
 apiVersion: builtin
 kind: ImageTagTransformer
@@ -23208,7 +23208,7 @@ metadata:
 imageTag:
   name: sas-search
   newName: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-search
-  newTag: 2.27.7-20200922.1600746056812
+  newTag: 2.27.11-20201012.1602514294361
 ---
 apiVersion: builtin
 kind: ImageTagTransformer

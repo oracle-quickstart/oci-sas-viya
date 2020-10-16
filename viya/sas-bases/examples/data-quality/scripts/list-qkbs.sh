@@ -42,3 +42,4 @@ spec:
         persistentVolumeClaim:
           claimName: sas-quality-knowledge-base
 EOF
+

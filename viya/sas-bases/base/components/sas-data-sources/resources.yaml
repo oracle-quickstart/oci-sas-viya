@@ -121,6 +121,7 @@ spec:
                 - compute
                 - cas
                 - stateful
+                - connect
             weight: 50
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
@@ -129,6 +130,18 @@ spec:
                 operator: NotIn
                 values:
                 - system
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - sas-data-sources
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+      automountServiceAccountToken: true
       containers:
       - env:
         - name: SAS_K8S_DEPLOYMENT_NAME
@@ -249,9 +262,26 @@ spec:
         name: shared-vol
 
 ---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  annotations:
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: base
+  name: sas-data-sources
+spec:
+  minAvailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sas-data-sources
+
+---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
+  annotations:
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: golang
   name: sas-data-sources
 spec:
   maxReplicas: 1

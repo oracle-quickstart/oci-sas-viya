@@ -1,0 +1,21 @@
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  annotations:
+    sas.com/component-name: sas-search
+    sas.com/component-version: 2.27.11-20201012.1602514294361
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: base
+    sas.com/version: 2.27.11
+  labels:
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-search
+  namespace: viya
+spec:
+  minAvailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sas-search
+      sas.com/deployment: sas-viya

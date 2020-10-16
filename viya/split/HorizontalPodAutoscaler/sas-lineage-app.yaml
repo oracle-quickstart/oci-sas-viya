@@ -4,8 +4,10 @@ kind: HorizontalPodAutoscaler
 metadata:
   annotations:
     sas.com/component-name: sas-lineage-app
-    sas.com/component-version: 2.7.0-20200904.1599231763425
-    sas.com/version: 2.7.0
+    sas.com/component-version: 2.7.1-20201009.1602266079673
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: golang
+    sas.com/version: 2.7.1
   labels:
     sas.com/admin: namespace
     sas.com/deployment: sas-viya

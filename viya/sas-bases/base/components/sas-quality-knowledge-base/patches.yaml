@@ -120,10 +120,36 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
-  name: patch-transformer-a78919ca899ddd7e
+  name: patch-transformer-72acd77bad2c259c
 patch: |-
   - op: add
-    path: /template/spec/tolerations
+    path: /template/spec/affinity/nodeAffinity/requiredDuringSchedulingIgnoredDuringExecution/nodeSelectorTerms/0/matchFields
+    value: []
+target:
+  kind: PodTemplate
+  name: sas-qkb-bootstrap
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-c6e4a516a280a4cb
+patch: |-
+  - op: add
+    path: /template/spec/affinity/nodeAffinity/preferredDuringSchedulingIgnoredDuringExecution/0/preference/matchFields
+    value: []
+target:
+  kind: PodTemplate
+  name: sas-qkb-bootstrap
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-b2cf4a15047eed72
+patch: |-
+  - op: add
+    path: /template/spec/affinity/nodeAffinity/preferredDuringSchedulingIgnoredDuringExecution/1/preference/matchFields
     value: []
 target:
   kind: PodTemplate

@@ -4,7 +4,7 @@ data:
   SAS_BUILD_TYPE: x64_oci_linux_2-docker
   SAS_CADENCE_DISPLAY_NAME: Stable 2020.0.5
   SAS_CADENCE_NAME: stable
-  SAS_CADENCE_RELEASE: "20200924.1600985745738"
+  SAS_CADENCE_RELEASE: "20201016.1602820909016"
   SAS_CADENCE_VERSION: 2020.0.5
   SAS_DEPLOYMENT_TYPE: default
   SAS_REPOSITORY_WAREHOUSE_URL: https://ses.sas.download/ses
@@ -13,5 +13,5 @@ metadata:
   labels:
     sas.com/admin: cluster-local
     sas.com/deployment: sas-viya
-  name: sas-deployment-metadata-4678c55bg2
+  name: sas-deployment-metadata-hm44g9m829
   namespace: viya

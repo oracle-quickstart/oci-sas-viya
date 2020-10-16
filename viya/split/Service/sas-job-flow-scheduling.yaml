@@ -4,11 +4,11 @@ kind: Service
 metadata:
   annotations:
     sas.com/component-name: sas-job-flow-scheduling
-    sas.com/component-version: 2.2.5-20200922.1600743219690
+    sas.com/component-version: 2.2.7-20201002.1601644744469
     sas.com/kustomize-base: base
     sas.com/registry-sync: default
     sas.com/registry-tags: proxy
-    sas.com/version: 2.2.5
+    sas.com/version: 2.2.7
   labels:
     app.kubernetes.io/name: sas-job-flow-scheduling
     sas.com/admin: namespace

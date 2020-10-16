@@ -73,3 +73,4 @@ SUFFIX=`head /dev/urandom | tr -dc a-z0-9 | head -c 8`
 JOB_NAME=sas-quality-knowledge-base-install-job-${SUFFIX}
 
 generate_job
+

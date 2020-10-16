@@ -4,6 +4,9 @@ Supported configuration variables are listed in the table below.  All variables 
 ## Table of Contents
 
 * [Required Variables](#required-variables)
+   + [Application](#application)
+   + [Azure Authentication](#azure-authentication)
+* [Admin Access](#admin-access)
 * [General](#general)
 * [Nodepools](#nodepools)
    + [Default Nodepool](#default-nodepool)
@@ -13,45 +16,89 @@ Supported configuration variables are listed in the table below.  All variables 
    + [Stateless Nodepool](#stateless-nodepool)
    + [Stateful Nodepool](#stateful-nodepool)
 * [Storage](#storage)
-   + [storage_type=dev - azurefile](#storage-type-dev---azurefile)
    + [storage_type=standard - nfs server VM](#storage-type-standard---nfs-server-vm)
    + [storage_type=ha - Azure NetApp](#storage-type-ha---azure-netapp)
 * [Azure Container Registry (ACR)](#azure-container-registry--acr-)
 * [Postgres](#postgres)
 
+Terraform input variables can be set in the following ways:
+- Individually, with the [-var command line option](https://www.terraform.io/docs/configuration/variables.html#variables-on-the-command-line).
+- In [variable definitions (.tfvars) files](https://www.terraform.io/docs/configuration/variables.html#variable-definitions-tfvars-files). We recommend this way for most variables.
+- As [environment variables](https://www.terraform.io/docs/configuration/variables.html#environment-variables). We recommend this way for the variables that set the [Azure authentication](#required-variables-for-azure-authentication).
+
 ## Required Variables
+### [Application](#applicationq)
+
 | Name | Description | Type | Default | Notes |
 | :--- | ---: | ---: | ---: | ---: | 
 | prefix | A prefix used in the name of all the Azure resources created by this script. | string | | The prefix string must start with a lowercase letter and contain only alphanumeric characters and dashes (-), but cannot end with a dash. |
 | location | The Azure Region to provision all resources in this script | string | "East US" | |
-| cluster_endpoint_public_access_cidrs | IP Ranges allowed to access the cloud resources | list of strings | | Example: ["55.55.55.55/32", "66.66.0.0/16"]
+| tags | Map of common tags to be placed on all Azure resources created by this script | map | { project_name = "sasviya4", environment = "dev" } | |
+
+### Azure Authentication 
+The Terraform process manages Azure resources on your behalf. In order to do so, it needs to know your Azure account information, and a user identity with the required permissons. 
+
+Find details on how to retrieve that information under [Azure Help Topics](./docs/user/AzureHelpTopics.md).
+
+| Name | Description | Type | Default | 
+| :--- | ---: | ---: | ---: | 
+| tenant_id | your Azure tenant id | string  | 
+| subscription_id | your Azure subscription id | string  | 
+| client_id | your Azure Service Principal id | string | 
+| client_secret | your Azure Service Principal secret | string |  
+
+For recommendation on how to set these variables in your environment, see [Authenticating Terraform to access Azure](user/TerraformAzureAuthentication.md).
+
+## Admin Access
+
+By default, the API of the Azure resources that are being created are only accessible through authenticated Azure clients (e.g. the Azure Portal, the `az` CLI, the Azure Shell, etc.) 
+To allow access for other administrative client applications (for example `kubectl`, `psql`, etc.), you want to open up the Azure firewall to allow access from your source IPs.
+To do this, specify ranges of IP in [CIDR notation](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing).
+Contact your Network System Administrator to find the public CIDR range of your network.
+
+You can use `default_public_access_cidrs` to set a default range for all created resources. To set different ranges for other resources, define the appropriate variable. Use and empty list `[]` to disallow access explicitly.
+
+| Name | Description | Type | Default | Notes |
+| :--- | ---: | ---: | ---: | ---: | 
+| default_public_access_cidrs | IP Ranges allowed to access all created cloud resources | list of strings | | Use to to set a default for all Resources |
+| cluster_endpoint_public_access_cidrs | IP Ranges allowed to access the AKS cluster api | list of strings | | for client admin access to the cluster, e.g. with `kubectl` |
+| vm_public_access_cidrs | IP Ranges allowed to access the VMs | list of strings | | opens port 22 for SSH access to the jump and/or nfs VM |
+| postgres_access_cidrs | IP Ranges allowed to access the Azure PostgreSQL Server | list of strings |||
+| acr_access_cidrs | IP Ranges allowed to access the ACR instance | list of strings |||
+
 
 ## General 
 | Name | Description | Type | Default | Notes |
 | :--- | ---: | ---: | ---: | ---: | 
-| kubernetes_version | The AKS cluster K8S version | string | "1.16.13" | |
-| tags | Map of common tags to be placed on all Azure resources created by this script | map | { project_name = "viya", environment = "dev" } | |
+| kubernetes_version | The AKS cluster K8S version | string | "1.18.8" | |
 | ssh_public_key | Public ssh key for VMs | string | | |
+| create_jump_vm | Create bastion host | bool | false for storage_type == "dev", otherwise true| |
+| create_jump_public_ip | Add public ip to jump VM | bool | true | |
+| jump_vm_admin | OS Admin User for the Jump VM | string | "jumpuser" | | 
 
 ## Nodepools
 ### Default Nodepool
 | Name | Description | Type | Default | Notes |
 | :--- | ---: | ---: | ---: | ---: |
 | node_vm_admin | OS Admin User for VMs of AKS Cluster nodes | string | "azureuser" | |
-| default_nodepool_nodecount | Number of node in the default nodepool | number | 2 | |
+| default_nodepool_node_count | Number of node in the default nodepool | number | 2 | The value must be between 1 and 100 and between `default_nodepool_min_nodes` and `default_nodepool_max_nodes`|
 | default_nodepool_vm_type | Type of the default nodepool VMs | string | "Standard_D4_v2" | |
 | default_nodepool_auto_scaling | Enable autoscaling for the AKS cluster default nodepool | bool | false | see https://docs.microsoft.com/en-us/azure/aks/cluster-autoscaler |
-| default_nodepool_availability_zones | Availability Zones for the cluster default nodepool | list of strings | ["1", "2", "3"]  | Note: This value depends on the "location". For example, not all regions have numbered availability zones|
+| default_nodepool_os_disk_size | Disk size for default nodepool VMs in GB | number | 128 ||
+| default_nodepool_max_pods | Maximum number of pods that can run on each | number | 110 | Changing this forces a new resource to be created |
+| default_nodepool_max_nodes | Maximum number of nodes for the default nodepool when using autoscaling | number | 5 | Required, when `default_nodepool_auto_scaling=true`, value must be between 1 and 100 |
+| default_nodepool_min_nodes | Minimum number of nodes for the default nodepool when using autoscaling | number | 1 | Required, when `default_nodepool_auto_scaling=true`, value must be between 1 and 100 |
+| default_nodepool_availability_zones | Availability Zones for the cluster default nodepool | list of strings | []  | Note: This value depends on the "location". For example, not all regions have numbered availability zones|
 ### CAS Nodepool
 | Name | Description | Type | Default | Notes |
 | :--- | ---: | ---: | ---: | ---: |
 | create_cas_nodepool | Create CAS nodepool | bool | true | |
 | cas_nodepool_vm_type | Type of the CAS nodepool VMs | string | "Standard_E16s_v3" | |
 | cas_nodepool_os_disk_size | Disk size for CAS nodepool VMs in GB | number | 200 | |
-| cas_nodepool_node_count| Number of CAS nodepool VMs | number | 1 | |
-| cas_nodepool_auto_scaling | Enable autoscaling for the CAS nodepool | bool | true | |
-| cas_nodepool_max_nodes | Maximum number of nodes for the CAS nodepool when using autoscaling | number | 5 | |
-| cas_nodepool_min_nodes | Minimum number of nodes for the CAS nodepool when using autoscaling | number | 1 |  |
+| cas_nodepool_node_count| Number of CAS nodepool VMs | number | 1 | The value must be between 1 and 100 and between `cas_nodepool_min_nodes` and `cas_nodepool_max_nodes` |
+| cas_nodepool_auto_scaling | Enable autoscaling for the CAS nodepool | bool | true | | |
+| cas_nodepool_max_nodes | Maximum number of nodes for the CAS nodepool when using autoscaling | number | 5 | Required, when `cas_nodepool_auto_scaling=true`, specified value must be between 1 and 100|
+| cas_nodepool_min_nodes | Minimum number of nodes for the CAS nodepool when using autoscaling | number | 1 | Required, when `cas_nodepool_auto_scaling=true`, specified value must be between 1 and 100|
 | cas_nodepool_taints | Taints for the CAS nodepool VMs | list of strings | ["workload.sas.com/class=cas:NoSchedule"] | |
 | cas_nodepool_labels | Labels to add to the CAS nodepool VMs | map | {"workload.sas.com/class" = "cas"} | |
 | cas_nodepool_availability_zones | Availability Zones for CAS nodepool | list of strings | [] | Note: This value depends on the "location". For example, not all regions have numbered availability zones|
@@ -61,10 +108,10 @@ Supported configuration variables are listed in the table below.  All variables 
 | create_compute_nodepool | Create Compute nodepool | bool | true | false | |
 | compute_nodepool_vm_type | Type of the Compute nodepool VMs | string | "Standard_E16s_v3" | |
 | compute_nodepool_os_disk_size | Disk size for Compute nodepool VMs in GB | number | 200 | |
-| compute_nodepool_node_count| Number of Compute nodepool VMs | number | 1 | |
-| compute_nodepool_auto_scaling | Enable autoscaling for the Compute nodepool | bool | true | |
-| compute_nodepool_max_nodes | Maximum number of nodes for the Compute nodepool when using autoscaling | number | 5 | |
-| compute_nodepool_min_nodes | Minimum number of nodes for the Compute nodepool when using autoscaling | number | 1 | |
+| compute_nodepool_node_count| Number of Compute nodepool VMs | number | 1 | The value must be between 1 and 100 and between `compute_nodepool_min_nodes` and `compute_nodepool_max_nodes` |
+| compute_nodepool_auto_scaling | Enable autoscaling for the Compute nodepool | bool | true | | |
+| compute_nodepool_max_nodes | Maximum number of nodes for the Compute nodepool when using autoscaling | number | 5 | Required, when `compute_nodepool_auto_scaling=true`, specified value must be between 1 and 100 |
+| compute_nodepool_min_nodes | Minimum number of nodes for the Compute nodepool when using autoscaling | number | 1 | Required, when `compute_nodepool_auto_scaling=true`, specified value must be between 1 and 100 |
 | compute_nodepool_taints | Taints for the Compute nodepool VMs | list of strings | ["workload.sas.com/class=compute:NoSchedule"] | |
 | compute_nodepool_labels | Labels to add to the Compute nodepool VMs | map | {"workload.sas.com/class" = "compute"  "launcher.sas.com/prepullImage" = "sas-programming-environment" }  | |
 | compute_nodepool_availability_zones | Availability Zones for the Compute nodepool | list of strings | [] | Note: This value depends on the "location". For example, not all regions have numbered availability zones|
@@ -75,10 +122,10 @@ Supported configuration variables are listed in the table below.  All variables 
 | create_connect_nodepool | Create Connect nodepool | bool | true | false | |
 | connect_nodepool_vm_type | Type of the Connect nodepool VMs | string | "Standard_E16s_v3" | |
 | connect_nodepool_os_disk_size | Disk size for Connect nodepool VMs in GB | number | 200 | |
-| connect_nodepool_node_count| Number of Connect nodepool VMs | number | 1 | |
+| connect_nodepool_node_count| Number of Connect nodepool VMs | number | 1 | The value must be between 1 and 100 and between `connect_nodepool_min_nodes` and `compute_nodepool_max_nodes`|
 | connect_nodepool_auto_scaling | Enable autoscaling for the Connect nodepool | bool | true | |
-| connect_nodepool_max_nodes | Maximum number of nodes for the Connect nodepool when using autoscaling | number | 5 | |
-| connect_nodepool_min_nodes | Minimum number of nodes for the Connect nodepool when using autoscaling | number | 1 | |
+| connect_nodepool_max_nodes | Maximum number of nodes for the Connect nodepool when using autoscaling | number | 5 | Required, when `connect_nodepool_auto_scaling=true`, specified value must be between 1 and 100 |
+| connect_nodepool_min_nodes | Minimum number of nodes for the Connect nodepool when using autoscaling | number | 1 | Required, when `connect_nodepool_auto_scaling=true`, specified value must be between 1 and 100 |
 | connect_nodepool_taints | Taints for the Connect nodepool VMs | list of strings | ["workload.sas.com/class=connect:NoSchedule"] | |
 | connect_nodepool_labels | Labels to add to the Connect nodepool VMs | map | {"workload.sas.com/class" = "connect"  "launcher.sas.com/prepullImage" = "sas-programming-environment" } | |
 | connect_nodepool_availability_zones | Availability Zones for the Connect nodepool | list of strings | [] | Note: This value depends on the "location". For example, not all regions have numbered availability zones|
@@ -89,10 +136,10 @@ Supported configuration variables are listed in the table below.  All variables 
 | create_stateless_nodepool | Create Stateless nodepool | bool | true | |
 | stateless_nodepool_vm_type | Type of the Stateless nodepool VMs | string | "Standard_D16s_v3" | |
 | stateless_nodepool_os_disk_size | Disk size for Stateless nodepool VMs in GB | number | 200 | |
-| stateless_nodepool_node_count| Number of Stateless nodepool VMs | number | 1 | |
-| stateless_nodepool_auto_scaling | Enable autoscaling for the Stateless nodepool | bool | true | |
-| stateless_nodepool_max_nodes | Maximum number of nodes for the Stateless nodepool when using autoscaling | number | 5 | |
-| stateless_nodepool_min_nodes | Minimum number of nodes for the Stateless nodepool when using autoscaling | number | 1 | |
+| stateless_nodepool_node_count| Number of Stateless nodepool VMs | number | 1 | The value must be between 1 and 100 and between `stateless_nodepool_min_nodes` and `stateless_nodepool_max_nodes`|
+| stateless_nodepool_auto_scaling | Enable autoscaling for the Stateless nodepool | bool | true | | 
+| stateless_nodepool_max_nodes | Maximum number of nodes for the Stateless nodepool when using autoscaling | number | 5 | Required, when `stateless_nodepool_auto_scaling=true`, specified value must be between 1 and 100|
+| stateless_nodepool_min_nodes | Minimum number of nodes for the Stateless nodepool when using autoscaling | number | 1 | Required, when `stateless_nodepool_auto_scaling=true`, specified value must be between 1 and 100|
 | stateless_nodepool_taints | Taints for the Stateless nodepool VMs | list of strings | ["workload.sas.com/class=stateless:NoSchedule"] | |
 | stateless_nodepool_labels | Labels to add to the Stateless nodepool VMs | map | {"workload.sas.com/class" = "stateless" } | |
 | stateless_nodepool_availability_zones | Availability Zones for the Stateless nodepool | list of strings | [] | Note: This value depends on the "location". For example, not all regions have numbered availability zones|
@@ -102,10 +149,10 @@ Supported configuration variables are listed in the table below.  All variables 
 | create_stateful_nodepool | Create Stateful nodepool | bool | true | |
 | stateful_nodepool_vm_type | Type of the Stateful nodepool VMs | string | "Standard_D8s_v3" | |
 | stateful_nodepool_os_disk_size | Disk size for Stateful nodepool VMs in GB | number | 200 | |
-| stateful_nodepool_node_count| Number of Stateful nodepool VMs | number | 1 | |
+| stateful_nodepool_node_count| Number of Stateful nodepool VMs | number | 1 | The value must be between 1 and 100 and between `stateful_nodepool_min_nodes` and `stateful_nodepool_max_nodes`|
 | stateful_nodepool_auto_scaling | Enable autoscaling for the Stateful nodepool | bool | true | |
-| stateful_nodepool_max_nodes | Maximum number of nodes for the Stateful nodepool when using autoscaling | number | 3 | |
-| stateful_nodepool_min_nodes | Minimum number of nodes for the Stateful nodepool when using autoscaling | number | 1 | |
+| stateful_nodepool_max_nodes | Maximum number of nodes for the Stateful nodepool when using autoscaling | number | 3 | Required, when `stateful_nodepool_auto_scaling=true`, specified value must be between 1 and 100 |
+| stateful_nodepool_min_nodes | Minimum number of nodes for the Stateful nodepool when using autoscaling | number | 1 | Required, when `stateful_nodepool_auto_scaling=true`, specified value must be between 1 and 100|
 | stateful_nodepool_taints | Taints for the Stateful nodepool VMs | list of strings | ["workload.sas.com/class=stateful:NoSchedule"] | |
 | stateful_nodepool_labels | Labels to add to the Stateful nodepool VMs | map | {"workload.sas.com/class" = "stateful" }  | |
 | stateful_nodepool_availability_zones | Availability Zones for the Stateful nodepool | list of strings | [] | Note: This value depends on the "location". For example, not all regions have numbered availability zones|
@@ -113,12 +160,7 @@ Supported configuration variables are listed in the table below.  All variables 
 ## Storage
 | Name | Description | Type | Default | Notes |
 | :--- | ---: | ---: | ---: | ---: |
-| storage_type | Type of Storage. Valid Values: "dev", "standard", "ha"  | string | "dev" | "DEV"=azurefile, "STANDARD"=nfs server VM, "HA"=Netapp|
-### storage_type=dev - azurefile
-| Name | Description | Type | Default | Notes |
-| :--- | ---: | ---: | ---: | ---: |
-| create_jump_public_ip | Add public ip to jump VM | bool | true | The Jump/NFS VM are not created with storage_type="dev" |
-| jump_vm_admin | OS Admin User for the Jump VM | string | "jumpuser" | The Jump/NFS VM are not created with storage_type="dev | 
+| storage_type | Type of Storage. Valid Values: "dev", "standard", "ha"  | string | "dev" | "dev" creates AzureFile, "standard" creates NFS server VM, "ha" creates Azure Netapp Files|
 ### storage_type=standard - nfs server VM
 | Name | Description | Type | Default | Notes |
 | :--- | ---: | ---: | ---: | ---: |
@@ -157,7 +199,6 @@ Supported configuration variables are listed in the table below.  All variables 
 | postgres_db_names | List of names for databases to create for the Azure Database for PostgreSQL server instance. Each name needs to be a valid PostgreSQL identified. Changes this forces a new resource to be created. | list of strings | [] | |
 | postgres_db_charset | The Charset for the PostgreSQL Database. Needs to be a valid PostgreSQL Charset. Changing this forces a new resource to be created. | string | "UTF8" | |
 | postgres_db_collation | The Collation for the PostgreSQL Database. Needs to be a valid PostgreSQL Collation. Changing this forces a new resource to be created. |string| "English_United States.1252" | |
-| postgres_firewall_rules | Firewall rules for the PostgreSQL Database server instance | list of maps | [] | Example:  [{ "name" = "LocalAccess", "start_ip" = "55.55.0.0", "end_ip" = "55.55.255.255" }] |
 | postgres_configurations | Configurations to enable on the PostgreSQL Database server instance | map | {} | |
 
 

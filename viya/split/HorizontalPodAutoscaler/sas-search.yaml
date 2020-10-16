@@ -4,8 +4,10 @@ kind: HorizontalPodAutoscaler
 metadata:
   annotations:
     sas.com/component-name: sas-search
-    sas.com/component-version: 2.27.7-20200922.1600746056812
-    sas.com/version: 2.27.7
+    sas.com/component-version: 2.27.11-20201012.1602514294361
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: spring
+    sas.com/version: 2.27.11
   labels:
     sas.com/admin: namespace
     sas.com/deployment: sas-viya

@@ -1,3 +1,8 @@
+---
+category: migration
+tocprty: 1
+---
+
 # Migrate to SAS Viya 4
 
 The files in this directory are used to customize your SAS Viya 4 deployment to

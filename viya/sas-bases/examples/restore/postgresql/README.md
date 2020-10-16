@@ -1,3 +1,8 @@
+---
+category: backupRestore
+tocprty: 15
+---
+
 # Uncommon Restore Customizations
 
 ## Overview

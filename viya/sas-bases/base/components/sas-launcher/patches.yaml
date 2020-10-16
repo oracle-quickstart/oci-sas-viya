@@ -171,6 +171,34 @@ target:
 apiVersion: builtin
 kind: PatchTransformer
 metadata:
+  name: patch-transformer-84dcae66ca857af2
+patch: |-
+  - op: add
+    path: /spec/template/spec/affinity/podAntiAffinity/requiredDuringSchedulingIgnoredDuringExecution
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-launcher
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-7b186b5074dc884e
+patch: |-
+  - op: add
+    path: /spec/template/spec/affinity/podAntiAffinity/preferredDuringSchedulingIgnoredDuringExecution/0/podAffinityTerm/namespaces
+    value: []
+target:
+  group: apps
+  kind: Deployment
+  name: sas-launcher
+  version: v1
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
   name: patch-transformer-06ec287bea17f3c0
 patch: |-
   - op: add

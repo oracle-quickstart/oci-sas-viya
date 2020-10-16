@@ -1,0 +1,21 @@
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  annotations:
+    sas.com/component-name: sas-lineage-app
+    sas.com/component-version: 2.7.1-20201009.1602266079673
+    sas.com/ha-class: centralized
+    sas.com/kustomize-base: base
+    sas.com/version: 2.7.1
+  labels:
+    sas.com/admin: namespace
+    sas.com/deployment: sas-viya
+  name: sas-lineage-app
+  namespace: viya
+spec:
+  minAvailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sas-lineage-app
+      sas.com/deployment: sas-viya

@@ -10,9 +10,9 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-name: sas-ingress-nginx
     nginx.ingress.kubernetes.io/session-cookie-path: /files/
     sas.com/component-name: sas-files
-    sas.com/component-version: 2.33.6-20200922.1600741413515
+    sas.com/component-version: 2.33.10-20201007.1602053013769
     sas.com/kustomize-base: base
-    sas.com/version: 2.33.6
+    sas.com/version: 2.33.10
   labels:
     app.kubernetes.io/name: sas-files
     sas.com/admin: namespace

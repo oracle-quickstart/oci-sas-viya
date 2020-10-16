@@ -4,8 +4,8 @@ kind: ServiceAccount
 metadata:
   annotations:
     sas.com/component-name: sas-launcher
-    sas.com/component-version: 1.14.1-20200904.1599249847582
-    sas.com/version: 1.14.1
+    sas.com/component-version: 1.14.7-20201006.1601991181061
+    sas.com/version: 1.14.7
   labels:
     sas.com/admin: cluster-wide
     sas.com/deployment: sas-viya
