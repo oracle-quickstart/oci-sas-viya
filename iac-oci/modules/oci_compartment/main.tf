@@ -13,6 +13,6 @@ resource "oci_identity_compartment" "compartment" {
   enable_delete  = false
 
   freeform_tags = var.freeform_tags
-  defined_tags = var.defined_tags
+  defined_tags  = var.defined_tags
 }
 

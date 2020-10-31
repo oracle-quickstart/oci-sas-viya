@@ -6,7 +6,7 @@ variable "private_key_path" {}
 
 variable compartment_ocid {
   description = "Option parent compartment, if not set the root compartment will be used"
-  default = null
+  default     = null
 }
 
 variable "region" {
@@ -16,7 +16,7 @@ variable "region" {
 
 variable "availability_domain" {
   description = "The OCI regional Availability Domain to provision all resources in this script. 1, 2, or 3"
-  default    = 1
+  default     = 1
 }
 
 variable "prefix" {

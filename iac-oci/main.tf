@@ -41,7 +41,7 @@ locals {
     },
     data.oci_identity_tenancy.tenancy.home_region_key
   )
-  availability_domain = lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1],"name")
+  availability_domain = lookup(data.oci_identity_availability_domains.ADs.availability_domains[var.availability_domain - 1], "name")
 }
 
 provider "oci" {
@@ -172,10 +172,10 @@ resource "azurerm_virtual_network" "vnet" {
 }
 */
 module vnet {
-  source = "./modules/oci_vcn"
+  source         = "./modules/oci_vcn"
   compartment_id = module.oci_compartment.compartment_id
-  name                = "${var.prefix}-vnet"
-  cidr_block = local.vnet_cidr_block
+  name           = "${var.prefix}-vnet"
+  cidr_block     = local.vnet_cidr_block
   freeform_tags  = var.freeform_tags
   defined_tags   = var.defined_tags
 }
@@ -559,16 +559,16 @@ module "fss" {
   source = "./modules/oci_fss"
 
   availability_domain = local.availability_domain
-  compartment_id = module.oci_compartment.compartment_id
+  compartment_id      = module.oci_compartment.compartment_id
 
-  name                = "${var.prefix}-fss"
-  path                = "/export"
-  vcn_id                = module.vnet.vcn_id
-  subnet_id             = module.misc-subnet.subnet_id
-  source_cidr     = local.vnet_cidr_block  # allow all hosts in VCN to connect to FSS mount target
+  name        = "${var.prefix}-fss"
+  path        = "/export"
+  vcn_id      = module.vnet.vcn_id
+  subnet_id   = module.misc-subnet.subnet_id
+  source_cidr = local.vnet_cidr_block # allow all hosts in VCN to connect to FSS mount target
 
-  freeform_tags  = var.freeform_tags
-  defined_tags   = var.defined_tags
+  freeform_tags = var.freeform_tags
+  defined_tags  = var.defined_tags
 }
 
 /*
