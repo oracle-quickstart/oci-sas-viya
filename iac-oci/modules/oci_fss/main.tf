@@ -1,6 +1,5 @@
 # create oci file storage system
 
-
 resource "oci_file_storage_file_system" "fs" {
   availability_domain = var.availability_domain
   compartment_id      = var.compartment_id

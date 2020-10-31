@@ -82,7 +82,7 @@ locals {
   oke_subnet_cidr_block                = "192.168.1.0/24"
   misc_subnet_cidr_block               = "192.168.2.0/24"
   gw_subnet_cidr_block                 = "192.168.3.0/24"
-  netapp_subnet_cidr_block             = "192.168.0.0/24"
+  fss_subnet_cidr_block                = "192.168.0.0/24"
   create_jump_vm_default               = var.storage_type != "dev" ? true : false
   create_jump_vm                       = var.create_jump_vm != null ? var.create_jump_vm : local.create_jump_vm_default
   default_public_access_cidrs          = var.default_public_access_cidrs == null ? [] : var.default_public_access_cidrs
@@ -555,6 +555,16 @@ module "netapp" {
   volume_path           = "${var.prefix}-${var.netapp_volume_path}"
 }
 */
+module "fss-subnet" {
+  source         = "./modules/oci_subnet"
+  compartment_id = module.oci_compartment.compartment_id
+  vcn_id         = module.vnet.vcn_id
+  name           = "${var.prefix}-fss"
+  cidr_block     = local.fss_subnet_cidr_block
+  freeform_tags  = var.freeform_tags
+  defined_tags   = var.defined_tags
+}
+
 module "fss" {
   source = "./modules/oci_fss"
 
@@ -564,7 +574,7 @@ module "fss" {
   name        = "${var.prefix}-fss"
   path        = "/export"
   vcn_id      = module.vnet.vcn_id
-  subnet_id   = module.misc-subnet.subnet_id
+  subnet_id   = module.fss-subnet.subnet_id
   source_cidr = local.vnet_cidr_block # allow all hosts in VCN to connect to FSS mount target
 
   freeform_tags = var.freeform_tags
