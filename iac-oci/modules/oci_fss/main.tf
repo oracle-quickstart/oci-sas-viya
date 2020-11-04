@@ -24,6 +24,9 @@ resource "oci_file_storage_mount_target" "mt" {
   defined_tags  = var.defined_tags
 }
 
+data "oci_core_private_ip" "mt_ip" {
+  private_ip_id = oci_file_storage_mount_target.mt.private_ip_ids[0]
+}
 
 
 resource "oci_file_storage_export_set" "exp-set" {

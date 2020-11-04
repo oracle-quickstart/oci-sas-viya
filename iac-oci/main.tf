@@ -250,12 +250,11 @@ module "misc-subnet" {
   defined_tags   = var.defined_tags
 }
 
-/*
-## TODO
+
 data "template_file" "jump-cloudconfig" {
   template = file("${path.module}/cloud-init/jump/cloud-config")
   vars = {
-    rwx_filestore_endpoint = var.storage_type == "dev" ? "" : module.fss.private_ip_address
+    rwx_filestore_endpoint = var.storage_type == "dev" ? "" : module.fss.fss_mt_private_ip
     rwx_filestore_path     = var.storage_type == "dev" ? "" : "/export"
   }
 }
@@ -269,10 +268,9 @@ data "template_cloudinit_config" "jump" {
     content      = data.template_file.jump-cloudconfig.rendered
   }
 }
-*/
+
 
 /*
-## TODO
 module "jump" {
   source            = "./modules/azurerm_vm"
   name              = "${var.prefix}-jump"
@@ -289,6 +287,21 @@ module "jump" {
   create_public_ip = var.create_jump_public_ip
 }
 */
+module "jump" {
+  source              = "./modules/oci_vm"
+  name                = "${var.prefix}-jump"
+  compartment_id      = module.oci_compartment.compartment_id
+  availability_domain = local.availability_domain
+  subnet_id           = module.misc-subnet.subnet_id
+  nsg_ids             = [] # TODO
+  create_vm           = local.create_jump_vm
+  vm_admin            = "opc"
+  ssh_public_key      = var.ssh_public_key
+  cloud_init          = var.storage_type == "dev" ? null : data.template_cloudinit_config.jump.rendered
+  create_public_ip    = var.create_jump_public_ip
+  freeform_tags       = var.freeform_tags
+  defined_tags        = var.defined_tags
+}
 
 /*
 ## az2oci: SECURITY RULE -> SECURITY LIST RULE
