@@ -174,7 +174,7 @@ resource "azurerm_virtual_network" "vnet" {
 module vnet {
   source         = "./modules/oci_vcn"
   compartment_id = module.oci_compartment.compartment_id
-  name           = "${var.prefix}-vnet"
+  name           = var.prefix
   cidr_block     = local.vnet_cidr_block
   freeform_tags  = var.freeform_tags
   defined_tags   = var.defined_tags
@@ -199,7 +199,7 @@ module "gw-subnet" {
   source         = "./modules/oci_subnet"
   compartment_id = module.oci_compartment.compartment_id
   vcn_id         = module.vnet.vcn_id
-  name           = "${var.prefix}-gw"
+  name           = "gw"
   cidr_block     = local.gw_subnet_cidr_block
   freeform_tags  = var.freeform_tags
   defined_tags   = var.defined_tags
@@ -221,7 +221,7 @@ module "oke-subnet" {
   source         = "./modules/oci_subnet"
   compartment_id = module.oci_compartment.compartment_id
   vcn_id         = module.vnet.vcn_id
-  name           = "${var.prefix}-oke"
+  name           = "oke"
   cidr_block     = local.oke_subnet_cidr_block
   freeform_tags  = var.freeform_tags
   defined_tags   = var.defined_tags
@@ -244,7 +244,7 @@ module "misc-subnet" {
   source         = "./modules/oci_subnet"
   compartment_id = module.oci_compartment.compartment_id
   vcn_id         = module.vnet.vcn_id
-  name           = "${var.prefix}-misc"
+  name           = "misc"
   cidr_block     = local.misc_subnet_cidr_block
   freeform_tags  = var.freeform_tags
   defined_tags   = var.defined_tags
@@ -254,8 +254,8 @@ module "misc-subnet" {
 data "template_file" "jump-cloudconfig" {
   template = file("${path.module}/cloud-init/jump/cloud-config")
   vars = {
-    rwx_filestore_endpoint = var.storage_type == "dev" ? "" : module.fss.fss_mt_private_ip
-    rwx_filestore_path     = var.storage_type == "dev" ? "" : "/export"
+    rwx_filestore_endpoint = var.storage_type == "dev" ? "" : module.fss.mount_target_ip
+    rwx_filestore_path     = var.storage_type == "dev" ? "" : module.fss.export_path
   }
 }
 
@@ -293,7 +293,7 @@ module "jump" {
   compartment_id      = module.oci_compartment.compartment_id
   availability_domain = local.availability_domain
   subnet_id           = module.misc-subnet.subnet_id
-  nsg_ids             = [] # TODO
+  nsg_ids             = [ module.fss.instance_nsg_id ]
   create_vm           = local.create_jump_vm
   vm_admin            = "opc"
   ssh_public_key      = var.ssh_public_key
@@ -572,7 +572,7 @@ module "fss-subnet" {
   source         = "./modules/oci_subnet"
   compartment_id = module.oci_compartment.compartment_id
   vcn_id         = module.vnet.vcn_id
-  name           = "${var.prefix}-fss"
+  name           = "fss"
   cidr_block     = local.fss_subnet_cidr_block
   freeform_tags  = var.freeform_tags
   defined_tags   = var.defined_tags

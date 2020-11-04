@@ -19,7 +19,9 @@ output "aks_cluster_node_username" {
 output "aks_cluster_password" {
   value = module.aks.cluster_password
 }
+*/
 
+/*
 #postgres
 output "postgres_server_name" {
   value = var.create_postgres ? module.postgresql.postgres_server_name : null
@@ -39,6 +41,7 @@ output "postgres_server_id" {
 output "postgres_server_port" {
   value = var.create_postgres ? "5432" : null
 }
+*/
 
 # jump server
 output jump_private_ip {
@@ -65,6 +68,7 @@ output jump_public_key_openssh {
   value = local.create_jump_vm ? module.jump.public_key_openssh : null
 }
 
+/*
 # nfs server
 output nfs_private_ip {
   value = var.storage_type == "standard" ? module.nfs.private_ip_address : null
@@ -93,7 +97,9 @@ output nfs_public_key_openssh {
 output aks_private_key_pem {
   value = var.storage_type != "dev" ? module.aks.private_key_pem : null
 }
+*/
 
+/*
 # acr
 output "acr_id" {
   value = module.acr.acr_id
@@ -102,15 +108,19 @@ output "acr_id" {
 output "acr_url" {
   value = module.acr.acr_login_server
 }
+*/
 
+/*
 output "location" {
   value = var.location
 }
+*/
 
 output "prefix" {
   value = var.prefix
 }
 
+/*
 output "cluster_name" {
   value = module.aks.name
 }
@@ -118,19 +128,22 @@ output "cluster_name" {
 output "provider_account" {
   value = data.azurerm_subscription.current.display_name
 }
+*/
 
 output "provider" {
-  value = "azure"
+  value = "oci"
 }
 
 output "rwx_filestore_endpoint" {
-  value = var.storage_type != "dev" ? coalesce(module.netapp.netapp_endpoint, module.nfs.private_ip_address, "") : null
+  # value = var.storage_type != "dev" ? coalesce(module.fss.mount_target_ip, module.nfs.private_ip_address, "") : null
+  value = var.storage_type != "dev" ? module.fss.mount_target_ip : null
 }
 
 output "rwx_filestore_path" {
-  value = var.storage_type != "dev" ? coalesce(module.netapp.netapp_path, "/export") : null
+  value = var.storage_type != "dev" ? coalesce(module.fss.export_path, "/export") : null
 }
 
+/*
 output "rwx_filestore_config" {
   value = var.storage_type == "ha" ? jsonencode({
     "version" : 1,
