@@ -93,11 +93,11 @@ output nfs_public_key_pem {
 output nfs_public_key_openssh {
   value = var.storage_type != "dev" ? module.nfs.public_key_openssh : null
 }
-
-output aks_private_key_pem {
-  value = var.storage_type != "dev" ? module.aks.private_key_pem : null
-}
 */
+
+output oke_private_key_pem {
+  value = var.storage_type != "dev" ? module.oke.private_key_pem : null
+}
 
 /*
 # acr
@@ -120,11 +120,12 @@ output "prefix" {
   value = var.prefix
 }
 
-/*
+
 output "cluster_name" {
-  value = module.aks.name
+  value = module.oke.name
 }
 
+/*
 output "provider_account" {
   value = data.azurerm_subscription.current.display_name
 }
@@ -162,3 +163,7 @@ output "rwx_filestore_config" {
   }) : null
 }
 */
+
+output "zzz_proxy_jump" {
+  value = local.create_jump_vm ? "ssh -o ProxyCommand=\"ssh -W %h:%p opc@${module.jump.public_ip_address} -i ./jump_id_rsa\" opc@<oke_node_ip> -i ./oke_id_rsa" : null
+}

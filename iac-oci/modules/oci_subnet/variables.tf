@@ -25,3 +25,14 @@ variable "cidr_block" {
   description = "Desired subnet cidr"
 }
 
+variable "route_table_id" {
+  type        = string
+  description = "Optional route table id, uses the VCNs default route table if not set"
+  default     = null
+}
+
+variable "private_subnet" {
+  type        = bool
+  description = "Prohibit Public IPs in subnet"
+  default     = false
+}

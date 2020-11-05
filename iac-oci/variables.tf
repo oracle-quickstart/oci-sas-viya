@@ -40,12 +40,12 @@ variable "node_vm_admin" {
 }
 
 variable "default_nodepool_vm_type" {
-  default = "VM.Standard2.4" # 4 OCPU (8 vCPU)
+  default = "VM.Standard2.4" # 4 OCPU (8 vCPU) 60 GB RAM
 }
 
 variable "kubernetes_version" {
   description = "The OKE cluster K8s version"
-  default     = "1.17.9"
+  default     = "v1.17.9"
 }
 
 variable "default_public_access_cidrs" {
@@ -213,7 +213,7 @@ variable "create_cas_nodepool" {
   default     = true
 }
 variable "cas_nodepool_vm_type" {
-  default = "Standard_E16s_v3"
+  default = "VM.Standard2.8" # 8 OCPU (16 vCPU) 120 GB RAM
 }
 variable "cas_nodepool_os_disk_size" {
   default = 200
@@ -252,7 +252,7 @@ variable "create_compute_nodepool" {
   default     = true
 }
 variable "compute_nodepool_vm_type" {
-  default = "Standard_E16s_v3"
+  default = "VM.Standard2.8" # 8 OCPU (16 vCPU) 120 GB RAM
 }
 variable "compute_nodepool_os_disk_size" {
   default = 200
@@ -292,7 +292,7 @@ variable "create_connect_nodepool" {
   default     = true
 }
 variable "connect_nodepool_vm_type" {
-  default = "Standard_E16s_v3"
+  default = "VM.Standard2.8" # 8 OCPU (16 vCPU) 120 GB RAM
 }
 variable "connect_nodepool_os_disk_size" {
   default = 200
@@ -332,7 +332,7 @@ variable "create_stateless_nodepool" {
   default     = true
 }
 variable "stateless_nodepool_vm_type" {
-  default = "Standard_D16s_v3"
+  default = "VM.Standard2.8" # 8 OCPU (16 vCPU) 120 GB RAM
 }
 variable "stateless_nodepool_os_disk_size" {
   default = 200
@@ -371,7 +371,7 @@ variable "create_stateful_nodepool" {
   default     = true
 }
 variable "stateful_nodepool_vm_type" {
-  default = "Standard_D8s_v3"
+  default = "VM.Standard2.4" # 4 OCPU (8 vCPU) 60 GB RAM
 }
 variable "stateful_nodepool_os_disk_size" {
   default = 200

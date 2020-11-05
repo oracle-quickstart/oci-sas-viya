@@ -125,7 +125,7 @@ module "oci_compartment" {
 
 
 /*
-## az2oci: NETWORK SECURITY GROUP -> OCI SUBNET SECURITY LIST
+## az2oci: NETWORK SECURITY GROUP -> OCI NETWORK SECURITY GROUP
 resource "azurerm_network_security_group" "nsg" {
   name                = "${var.prefix}-nsg"
   location            = var.location
@@ -134,31 +134,34 @@ resource "azurerm_network_security_group" "nsg" {
   tags = var.tags
 }
 */
-resource "oci_core_default_security_list" "security_list" {
-  manage_default_resource_id = module.vnet.default_security_list_id
+resource "oci_core_network_security_group" "nsg" {
+  compartment_id = module.oci_compartment.compartment_id
+  vcn_id         = module.vnet.vcn_id
+  display_name   = "${var.prefix}-nsg"
+  freeform_tags  = var.freeform_tags
+  defined_tags   = var.defined_tags
+}
 
-  egress_security_rules {
-    description = "Allow all egress"
-    protocol    = "all"
-    destination = "0.0.0.0/0"
-  }
+resource "oci_core_network_security_group_security_rule" "ssh" {
+  for_each = { for v in local.vm_public_access_cidrs : v => v }
 
-  dynamic ingress_security_rules {
-    for_each = local.vm_public_access_cidrs
-    content {
-      description = "Allow SSH from source"
-      protocol    = 6 # tcp
-      source      = ingress_security_rules.value
-      tcp_options {
-        max = 22
-        min = 22
-      }
+  network_security_group_id = oci_core_network_security_group.nsg.id
+
+  description = "Allow SSH from source"
+  direction   = "INGRESS"
+  protocol    = 6 # tcp
+  source      = each.value
+  source_type = "CIDR_BLOCK"
+  stateless   = false
+
+  tcp_options {
+    destination_port_range {
+      min = 22
+      max = 22
     }
   }
-
-  freeform_tags = var.freeform_tags
-  defined_tags  = var.defined_tags
 }
+
 
 
 /*
@@ -217,12 +220,24 @@ module "aks-subnet" {
   tags              = var.tags
 }
 */
-module "oke-subnet" {
+module "oke-lb-subnet" {
   source         = "./modules/oci_subnet"
   compartment_id = module.oci_compartment.compartment_id
   vcn_id         = module.vnet.vcn_id
-  name           = "oke"
-  cidr_block     = local.oke_subnet_cidr_block
+  name           = "okelb"
+  cidr_block     = cidrsubnet(local.oke_subnet_cidr_block, 2, 1)
+  freeform_tags  = var.freeform_tags
+  defined_tags   = var.defined_tags
+}
+
+module "oke-worker-subnet" {
+  source         = "./modules/oci_subnet"
+  compartment_id = module.oci_compartment.compartment_id
+  vcn_id         = module.vnet.vcn_id
+  name           = "okeworker"
+  cidr_block     = cidrsubnet(local.oke_subnet_cidr_block, 2, 2)
+  private_subnet = true
+  route_table_id = module.vnet.nat_route_table_id
   freeform_tags  = var.freeform_tags
   defined_tags   = var.defined_tags
 }
@@ -293,14 +308,17 @@ module "jump" {
   compartment_id      = module.oci_compartment.compartment_id
   availability_domain = local.availability_domain
   subnet_id           = module.misc-subnet.subnet_id
-  nsg_ids             = [ module.fss.instance_nsg_id ]
-  create_vm           = local.create_jump_vm
-  vm_admin            = "opc"
-  ssh_public_key      = var.ssh_public_key
-  cloud_init          = var.storage_type == "dev" ? null : data.template_cloudinit_config.jump.rendered
-  create_public_ip    = var.create_jump_public_ip
-  freeform_tags       = var.freeform_tags
-  defined_tags        = var.defined_tags
+  nsg_ids = [
+    oci_core_network_security_group.nsg.id,
+    module.fss.instance_nsg_id,
+  ]
+  create_vm        = local.create_jump_vm
+  vm_admin         = "opc"
+  ssh_public_key   = var.ssh_public_key
+  cloud_init       = var.storage_type == "dev" ? null : data.template_cloudinit_config.jump.rendered
+  create_public_ip = var.create_jump_public_ip
+  freeform_tags    = var.freeform_tags
+  defined_tags     = var.defined_tags
 }
 
 /*
@@ -366,6 +384,8 @@ module "nfs" {
 
 /*
 ## TODO az2oci: CONTAINER REGISTRY -> OCI CONTAINER REGISTRY
+##              ! There does not appear to be a Terraform resource for the OCI container registry creation !
+##
 module "acr" {
   source                              = "./modules/azurerm_container_registry"
   create_container_registry           = var.create_container_registry
@@ -422,14 +442,32 @@ module "aks" {
   aks_availability_zones                   = var.default_nodepool_availability_zones
   aks_cluster_tags                         = var.tags
 }
+*/
+module "oke" {
+  source = "./modules/oci_oke"
 
+  name               = "${var.prefix}-oke"
+  compartment_id     = module.oci_compartment.compartment_id
+  kubernetes_version = var.kubernetes_version
+  vcn_id             = module.vnet.vcn_id
+  lb_subnet_ids      = [module.oke-lb-subnet.subnet_id]
+
+  freeform_tags = var.freeform_tags
+  defined_tags  = var.defined_tags
+}
+
+/*
+## TODO az2oci: 
 data "azurerm_public_ip" "aks_public_ip" {
   name                = split("/", module.aks.cluster_slb_ip_id)[8]
   resource_group_name = "MC_${module.azure_rg.name}_${module.aks.name}_${module.azure_rg.location}"
 
   depends_on = [module.aks, module.cas_node_pool, module.compute_node_pool, module.connect_node_pool, module.stateless_node_pool, module.stateful_node_pool]
 }
+*/
 
+/*
+## az2oci: NODE POOL -> OCI OKE NODE POOL 
 module "cas_node_pool" {
   source              = "./modules/aks_node_pool"
   create_node_pool    = var.create_cas_nodepool
@@ -447,7 +485,31 @@ module "cas_node_pool" {
   availability_zones  = var.cas_nodepool_availability_zones
   tags                = var.tags
 }
+*/
+module "cas_node_pool" {
+  source               = "./modules/oci_oke_node_pool"
+  create_node_pool     = var.create_cas_nodepool
+  node_pool_name       = "cas"
+  compartment_id       = module.oci_compartment.compartment_id
+  oke_cluster_id       = module.oke.cluster_id
+  subnet_id            = module.oke-worker-subnet.subnet_id
+  kubernetes_version   = var.kubernetes_version
+  instance_shape       = var.cas_nodepool_vm_type
+  os_disk_size         = var.cas_nodepool_os_disk_size
+  enable_auto_scaling  = var.cas_nodepool_auto_scaling # TODO not implemented
+  node_count           = var.cas_nodepool_node_count
+  max_nodes            = var.cas_nodepool_max_nodes
+  min_nodes            = var.cas_nodepool_min_nodes
+  node_taints          = var.cas_nodepool_taints     # TODO not implemented
+  node_labels          = var.cas_nodepool_labels     # TODO not implemented
+  availability_domains = [local.availability_domain] # TODO single AD for now
+  ssh_public_key       = module.oke.public_key_openssh
+  freeform_tags        = var.freeform_tags
+  defined_tags         = var.defined_tags
+}
 
+/*
+## az2oci: NODE POOL -> OCI OKE NODE POOL 
 module "compute_node_pool" {
   source              = "./modules/aks_node_pool"
   create_node_pool    = var.create_compute_nodepool
@@ -465,7 +527,31 @@ module "compute_node_pool" {
   availability_zones  = var.compute_nodepool_availability_zones
   tags                = var.tags
 }
+*/
+module "compute_node_pool" {
+  source               = "./modules/oci_oke_node_pool"
+  create_node_pool     = var.create_compute_nodepool
+  node_pool_name       = "compute"
+  compartment_id       = module.oci_compartment.compartment_id
+  oke_cluster_id       = module.oke.cluster_id
+  subnet_id            = module.oke-worker-subnet.subnet_id
+  kubernetes_version   = var.kubernetes_version
+  instance_shape       = var.compute_nodepool_vm_type
+  os_disk_size         = var.compute_nodepool_os_disk_size
+  enable_auto_scaling  = var.compute_nodepool_auto_scaling # TODO not implemented
+  node_count           = var.compute_nodepool_node_count
+  max_nodes            = var.compute_nodepool_max_nodes
+  min_nodes            = var.compute_nodepool_min_nodes
+  node_taints          = var.compute_nodepool_taints # TODO not implemented
+  node_labels          = var.compute_nodepool_labels # TODO not implemented
+  availability_domains = [local.availability_domain] # TODO single AD for now
+  ssh_public_key       = module.oke.public_key_openssh
+  freeform_tags        = var.freeform_tags
+  defined_tags         = var.defined_tags
+}
 
+/*
+## az2oci: NODE POOL -> OCI OKE NODE POOL 
 module "connect_node_pool" {
   source              = "./modules/aks_node_pool"
   create_node_pool    = var.create_connect_nodepool
@@ -483,7 +569,31 @@ module "connect_node_pool" {
   availability_zones  = var.connect_nodepool_availability_zones
   tags                = var.tags
 }
+*/
+module "connect_node_pool" {
+  source               = "./modules/oci_oke_node_pool"
+  create_node_pool     = var.create_connect_nodepool
+  node_pool_name       = "connect"
+  compartment_id       = module.oci_compartment.compartment_id
+  oke_cluster_id       = module.oke.cluster_id
+  subnet_id            = module.oke-worker-subnet.subnet_id
+  kubernetes_version   = var.kubernetes_version
+  instance_shape       = var.connect_nodepool_vm_type
+  os_disk_size         = var.connect_nodepool_os_disk_size
+  enable_auto_scaling  = var.connect_nodepool_auto_scaling # TODO not implemented
+  node_count           = var.connect_nodepool_node_count
+  max_nodes            = var.connect_nodepool_max_nodes
+  min_nodes            = var.connect_nodepool_min_nodes
+  node_taints          = var.connect_nodepool_taints # TODO not implemented
+  node_labels          = var.connect_nodepool_labels # TODO not implemented
+  availability_domains = [local.availability_domain] # TODO single AD for now
+  ssh_public_key       = module.oke.public_key_openssh
+  freeform_tags        = var.freeform_tags
+  defined_tags         = var.defined_tags
+}
 
+/*
+## az2oci: NODE POOL -> OCI OKE NODE POOL 
 module "stateless_node_pool" {
   source              = "./modules/aks_node_pool"
   create_node_pool    = var.create_stateless_nodepool
@@ -501,7 +611,31 @@ module "stateless_node_pool" {
   availability_zones  = var.stateless_nodepool_availability_zones
   tags                = var.tags
 }
+*/
+module "stateless_node_pool" {
+  source               = "./modules/oci_oke_node_pool"
+  create_node_pool     = var.create_stateless_nodepool
+  node_pool_name       = "stateless"
+  compartment_id       = module.oci_compartment.compartment_id
+  oke_cluster_id       = module.oke.cluster_id
+  subnet_id            = module.oke-worker-subnet.subnet_id
+  kubernetes_version   = var.kubernetes_version
+  instance_shape       = var.stateless_nodepool_vm_type
+  os_disk_size         = var.stateless_nodepool_os_disk_size
+  enable_auto_scaling  = var.stateless_nodepool_auto_scaling # TODO not implemented
+  node_count           = var.stateless_nodepool_node_count
+  max_nodes            = var.stateless_nodepool_max_nodes
+  min_nodes            = var.stateless_nodepool_min_nodes
+  node_taints          = var.stateless_nodepool_taints # TODO not implemented
+  node_labels          = var.stateless_nodepool_labels # TODO not implemented
+  availability_domains = [local.availability_domain]   # TODO single AD for now
+  ssh_public_key       = module.oke.public_key_openssh
+  freeform_tags        = var.freeform_tags
+  defined_tags         = var.defined_tags
+}
 
+/*
+## az2oci: NODE POOL -> OCI OKE NODE POOL 
 module "stateful_node_pool" {
   source              = "./modules/aks_node_pool"
   create_node_pool    = var.create_stateful_nodepool
@@ -520,9 +654,30 @@ module "stateful_node_pool" {
   tags                = var.tags
 }
 */
+module "stateful_node_pool" {
+  source               = "./modules/oci_oke_node_pool"
+  create_node_pool     = var.create_stateful_nodepool
+  node_pool_name       = "stateful"
+  compartment_id       = module.oci_compartment.compartment_id
+  oke_cluster_id       = module.oke.cluster_id
+  subnet_id            = module.oke-worker-subnet.subnet_id
+  kubernetes_version   = var.kubernetes_version
+  instance_shape       = var.stateful_nodepool_vm_type
+  os_disk_size         = var.stateful_nodepool_os_disk_size
+  enable_auto_scaling  = var.stateful_nodepool_auto_scaling # TODO not implemented
+  node_count           = var.stateful_nodepool_node_count
+  max_nodes            = var.stateful_nodepool_max_nodes
+  min_nodes            = var.stateful_nodepool_min_nodes
+  node_taints          = var.stateful_nodepool_taints # TODO not implemented
+  node_labels          = var.stateful_nodepool_labels # TODO not implemented
+  availability_domains = [local.availability_domain]  # TODO single AD for now
+  ssh_public_key       = module.oke.public_key_openssh
+  freeform_tags        = var.freeform_tags
+  defined_tags         = var.defined_tags
+}
 
 /*
-## TODO az2oci: PORSTGRESS -> ???? (NOT NEEDED) 
+## TODO az2oci: POSTGRESQL -> ???? (NOT NEEDED) 
 module "postgresql" {
   source          = "./modules/postgresql"
   create_postgres = var.create_postgres

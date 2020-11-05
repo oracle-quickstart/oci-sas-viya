@@ -34,7 +34,6 @@ data "oci_core_services" "object_storage" {
   }
 }
 
-
 resource "oci_core_service_gateway" "sg" {
   compartment_id = var.compartment_id
   display_name   = "Service Gateway"
@@ -55,23 +54,28 @@ resource "oci_core_nat_gateway" "nat" {
   defined_tags   = var.defined_tags
 }
 
+resource "oci_core_default_security_list" "security_list" {
+  manage_default_resource_id = oci_core_vcn.vnet.default_security_list_id
+
+  egress_security_rules {
+    description = "Allow all egress"
+    protocol    = "all"
+    destination = "0.0.0.0/0"
+  }
+
+  ingress_security_rules {
+    description = "Allow all within VCN"
+    protocol    = "all"
+    source      = oci_core_vcn.vnet.cidr_block
+  }
+
+  freeform_tags = var.freeform_tags
+  defined_tags  = var.defined_tags
+}
+
 resource "oci_core_default_route_table" "default" {
   manage_default_resource_id = oci_core_vcn.vnet.default_route_table_id
   display_name               = "Default Route Table for ${var.name}"
-
-  # route_rules {
-  #   network_entity_id = oci_core_nat_gateway.nat.id
-  #   description = "Public Internet through NAT Gateway"
-  #   destination = "0.0.0.0/0"
-  #   destination_type = "CIDR_BLOCK"
-  # }
-
-  # route_rules {
-  #   network_entity_id = oci_core_service_gateway.sg.id
-  #   description = "OCI Services through Service Gateway"
-  #   destination = data.oci_core_services.all_services.services[0].cidr_block
-  #   destination_type = "SERVICE_CIDR_BLOCK"
-  # }
 
   route_rules {
     network_entity_id = oci_core_internet_gateway.ig.id
@@ -86,6 +90,24 @@ resource "oci_core_default_route_table" "default" {
     destination       = data.oci_core_services.object_storage.services[0].cidr_block
     destination_type  = "SERVICE_CIDR_BLOCK"
   }
-
 }
 
+resource "oci_core_route_table" "nat" {
+  compartment_id = var.compartment_id
+  vcn_id         = oci_core_vcn.vnet.id
+
+  display_name = "NAT and Service Gateway"
+  route_rules {
+    network_entity_id = oci_core_nat_gateway.nat.id
+    description       = "Public Internet through NAT Gateway"
+    destination       = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
+  }
+
+  route_rules {
+    network_entity_id = oci_core_service_gateway.sg.id
+    description       = "All Regional Services through Service Gateway"
+    destination       = data.oci_core_services.all_services.services[0].cidr_block
+    destination_type  = "SERVICE_CIDR_BLOCK"
+  }
+}
