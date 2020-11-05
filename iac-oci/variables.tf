@@ -110,7 +110,7 @@ variable "default_nodepool_availability_zones" {
   default = []
 }
 
-variable "freeform_tags" {
+variable "tags" {
   description = "Map of common tags to be placed on the Resources"
   type        = map
   default     = null

@@ -119,7 +119,7 @@ module "oci_compartment" {
   name        = "${var.prefix}-comp"
   description = "SAS Viya 4 Deployment Compartment"
 
-  freeform_tags = var.freeform_tags
+  freeform_tags = var.tags
   defined_tags  = var.defined_tags
 }
 
@@ -138,7 +138,7 @@ resource "oci_core_network_security_group" "nsg" {
   compartment_id = module.oci_compartment.compartment_id
   vcn_id         = module.vnet.vcn_id
   display_name   = "${var.prefix}-nsg"
-  freeform_tags  = var.freeform_tags
+  freeform_tags  = var.tags
   defined_tags   = var.defined_tags
 }
 
@@ -179,7 +179,7 @@ module vnet {
   compartment_id = module.oci_compartment.compartment_id
   name           = var.prefix
   cidr_block     = local.vnet_cidr_block
-  freeform_tags  = var.freeform_tags
+  freeform_tags  = var.tags
   defined_tags   = var.defined_tags
 }
 
@@ -204,7 +204,7 @@ module "gw-subnet" {
   vcn_id         = module.vnet.vcn_id
   name           = "gw"
   cidr_block     = local.gw_subnet_cidr_block
-  freeform_tags  = var.freeform_tags
+  freeform_tags  = var.tags
   defined_tags   = var.defined_tags
 }
 
@@ -226,7 +226,7 @@ module "oke-lb-subnet" {
   vcn_id         = module.vnet.vcn_id
   name           = "okelb"
   cidr_block     = cidrsubnet(local.oke_subnet_cidr_block, 2, 1)
-  freeform_tags  = var.freeform_tags
+  freeform_tags  = var.tags
   defined_tags   = var.defined_tags
 }
 
@@ -238,7 +238,7 @@ module "oke-worker-subnet" {
   cidr_block     = cidrsubnet(local.oke_subnet_cidr_block, 2, 2)
   private_subnet = true
   route_table_id = module.vnet.nat_route_table_id
-  freeform_tags  = var.freeform_tags
+  freeform_tags  = var.tags
   defined_tags   = var.defined_tags
 }
 
@@ -261,7 +261,7 @@ module "misc-subnet" {
   vcn_id         = module.vnet.vcn_id
   name           = "misc"
   cidr_block     = local.misc_subnet_cidr_block
-  freeform_tags  = var.freeform_tags
+  freeform_tags  = var.tags
   defined_tags   = var.defined_tags
 }
 
@@ -317,7 +317,7 @@ module "jump" {
   ssh_public_key   = var.ssh_public_key
   cloud_init       = var.storage_type == "dev" ? null : data.template_cloudinit_config.jump.rendered
   create_public_ip = var.create_jump_public_ip
-  freeform_tags    = var.freeform_tags
+  freeform_tags    = var.tags
   defined_tags     = var.defined_tags
 }
 
@@ -452,7 +452,7 @@ module "oke" {
   vcn_id             = module.vnet.vcn_id
   lb_subnet_ids      = [module.oke-lb-subnet.subnet_id]
 
-  freeform_tags = var.freeform_tags
+  freeform_tags = var.tags
   defined_tags  = var.defined_tags
 }
 
@@ -504,7 +504,7 @@ module "cas_node_pool" {
   node_labels          = var.cas_nodepool_labels     # TODO not implemented
   availability_domains = [local.availability_domain] # TODO single AD for now
   ssh_public_key       = module.oke.public_key_openssh
-  freeform_tags        = var.freeform_tags
+  freeform_tags        = var.tags
   defined_tags         = var.defined_tags
 }
 
@@ -546,7 +546,7 @@ module "compute_node_pool" {
   node_labels          = var.compute_nodepool_labels # TODO not implemented
   availability_domains = [local.availability_domain] # TODO single AD for now
   ssh_public_key       = module.oke.public_key_openssh
-  freeform_tags        = var.freeform_tags
+  freeform_tags        = var.tags
   defined_tags         = var.defined_tags
 }
 
@@ -588,7 +588,7 @@ module "connect_node_pool" {
   node_labels          = var.connect_nodepool_labels # TODO not implemented
   availability_domains = [local.availability_domain] # TODO single AD for now
   ssh_public_key       = module.oke.public_key_openssh
-  freeform_tags        = var.freeform_tags
+  freeform_tags        = var.tags
   defined_tags         = var.defined_tags
 }
 
@@ -630,7 +630,7 @@ module "stateless_node_pool" {
   node_labels          = var.stateless_nodepool_labels # TODO not implemented
   availability_domains = [local.availability_domain]   # TODO single AD for now
   ssh_public_key       = module.oke.public_key_openssh
-  freeform_tags        = var.freeform_tags
+  freeform_tags        = var.tags
   defined_tags         = var.defined_tags
 }
 
@@ -672,7 +672,7 @@ module "stateful_node_pool" {
   node_labels          = var.stateful_nodepool_labels # TODO not implemented
   availability_domains = [local.availability_domain]  # TODO single AD for now
   ssh_public_key       = module.oke.public_key_openssh
-  freeform_tags        = var.freeform_tags
+  freeform_tags        = var.tags
   defined_tags         = var.defined_tags
 }
 
@@ -729,7 +729,7 @@ module "fss-subnet" {
   vcn_id         = module.vnet.vcn_id
   name           = "fss"
   cidr_block     = local.fss_subnet_cidr_block
-  freeform_tags  = var.freeform_tags
+  freeform_tags  = var.tags
   defined_tags   = var.defined_tags
 }
 
@@ -745,7 +745,7 @@ module "fss" {
   subnet_id   = module.fss-subnet.subnet_id
   source_cidr = local.vnet_cidr_block # allow all hosts in VCN to connect to FSS mount target
 
-  freeform_tags = var.freeform_tags
+  freeform_tags = var.tags
   defined_tags  = var.defined_tags
 }
 
