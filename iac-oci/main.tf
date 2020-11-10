@@ -3,7 +3,7 @@ terraform {
 }
 
 /*
-## az2oci: CHANGE TO OCI PRVIDER
+## az2oci: CHANGE TO OCI PROVIDER
 provider "azurerm" {
   version = "~>2.28.0"
 
@@ -104,7 +104,6 @@ module "azure_rg" {
   tags              = var.tags
 }
 */
-
 module "oci_compartment" {
   source = "./modules/oci_compartment"
 
@@ -457,7 +456,7 @@ module "oke" {
 }
 
 /*
-## TODO az2oci: 
+## TODO az2oci: ????
 data "azurerm_public_ip" "aks_public_ip" {
   name                = split("/", module.aks.cluster_slb_ip_id)[8]
   resource_group_name = "MC_${module.azure_rg.name}_${module.aks.name}_${module.azure_rg.location}"
@@ -750,9 +749,12 @@ module "fss" {
 }
 
 /*
-## TODO
 resource "local_file" "kubeconfig" {
   content  = module.aks.kube_config
   filename = "${var.prefix}-aks-kubeconfig.conf"
 }
 */
+resource "local_file" "kubeconfig" {
+  content  = module.oke.kube_config
+  filename = "${var.prefix}-oke-kubeconfig.conf"
+}

@@ -42,3 +42,8 @@ resource "oci_containerengine_cluster" "oke" {
     service_lb_subnet_ids = var.lb_subnet_ids
   }
 }
+
+data "oci_containerengine_cluster_kube_config" "kube_config" {
+  cluster_id    = oci_containerengine_cluster.oke.id
+  token_version = "2.0.0"
+}

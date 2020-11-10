@@ -18,19 +18,25 @@ output "client_certificate" {
 output "cluster_ca_certificate" {
   value = azurerm_kubernetes_cluster.aks.kube_config.0.cluster_ca_certificate
 }
+*/
 
 output "cluster_username" {
-  value = azurerm_kubernetes_cluster.aks.kube_config.0.username
+  # value = azurerm_kubernetes_cluster.aks.kube_config.0.username
+  value = yamldecode(module.oke.kube_config).users[0].name
+
 }
 
+/*
 output "cluster_password" {
   value = azurerm_kubernetes_cluster.aks.kube_config.0.password
 }
+*/
 
 output "kube_config" {
-  value = azurerm_kubernetes_cluster.aks.kube_config_raw
+  value = data.oci_containerengine_cluster_kube_config.kube_config.content
 }
 
+/*
 output "host" {
   value = azurerm_kubernetes_cluster.aks.kube_config.0.host
 }
@@ -51,6 +57,7 @@ output "private_key_pem" {
 output "public_key_pem" {
   value = var.ssh_public_key == "" ? element(coalescelist(data.tls_public_key.public_key.*.public_key_pem, [""]), 0) : null
 }
+
 output "public_key_openssh" {
   value = var.ssh_public_key == "" ? element(coalescelist(data.tls_public_key.public_key.*.public_key_openssh, [""]), 0) : var.ssh_public_key
 }

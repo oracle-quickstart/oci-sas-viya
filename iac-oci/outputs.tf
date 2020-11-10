@@ -7,41 +7,44 @@ output "aks_host" {
 output "nat_ip" {
   value = data.azurerm_public_ip.aks_public_ip.ip_address
 }
+*/
 
 output "kube_config" {
-  value = module.aks.kube_config
+  value = module.oke.kube_config
 }
+
 
 output "aks_cluster_node_username" {
-  value = module.aks.cluster_username
+  value = module.oke.cluster_username
 }
 
+/*
 output "aks_cluster_password" {
   value = module.aks.cluster_password
 }
 */
 
-/*
 #postgres
+## az2oci: Postgress settings forced to null - no OCI Postgres service.
 output "postgres_server_name" {
-  value = var.create_postgres ? module.postgresql.postgres_server_name : null
+  value = null # var.create_postgres ? module.postgresql.postgres_server_name : null
 }
 output "postgres_fqdn" {
-  value = var.create_postgres ? module.postgresql.postgres_server_fqdn : null
+  value = null # var.create_postgres ? module.postgresql.postgres_server_fqdn : null
 }
 output "postgres_admin" {
-  value = var.create_postgres ? "${module.postgresql.postgres_administrator_login}@${module.postgresql.postgres_server_name}" : null
+  value = null # var.create_postgres ? "${module.postgresql.postgres_administrator_login}@${module.postgresql.postgres_server_name}" : null
 }
 output "postgres_password" {
-  value = var.create_postgres ? module.postgresql.postgres_administrator_password : null
+  value = null # var.create_postgres ? module.postgresql.postgres_administrator_password : null
 }
 output "postgres_server_id" {
-  value = var.create_postgres ? module.postgresql.postgres_server_id : null
+  value = null # var.create_postgres ? module.postgresql.postgres_server_id : null
 }
 output "postgres_server_port" {
-  value = var.create_postgres ? "5432" : null
+  value = null # var.create_postgres ? "5432" : null
 }
-*/
+
 
 # jump server
 output jump_private_ip {
@@ -68,32 +71,33 @@ output jump_public_key_openssh {
   value = local.create_jump_vm ? module.jump.public_key_openssh : null
 }
 
-/*
+
 # nfs server
+## az2oci: TODO nfs settings forced to null, nfs module snot implemented, using OCI FSS instead 
 output nfs_private_ip {
-  value = var.storage_type == "standard" ? module.nfs.private_ip_address : null
+  value = null # var.storage_type == "standard" ? module.nfs.private_ip_address : null
 }
 
 output nfs_public_ip {
-  value = var.storage_type == "standard" && var.create_nfs_public_ip ? module.nfs.public_ip_address : null
+  value = null # var.storage_type == "standard" && var.create_nfs_public_ip ? module.nfs.public_ip_address : null
 }
 
 output nfs_admin_username {
-  value = var.storage_type == "standard" ? module.nfs.admin_username : null
+  value = null # var.storage_type == "standard" ? module.nfs.admin_username : null
 }
 
 output nfs_private_key_pem {
-  value = var.storage_type != "dev" ? module.nfs.private_key_pem : null
+  value = null # var.storage_type != "dev" ? module.nfs.private_key_pem : null
 }
 
 output nfs_public_key_pem {
-  value = var.storage_type != "dev" ? module.nfs.public_key_pem : null
+  value = null # var.storage_type != "dev" ? module.nfs.public_key_pem : null
 }
 
 output nfs_public_key_openssh {
-  value = var.storage_type != "dev" ? module.nfs.public_key_openssh : null
+  value = null # var.storage_type != "dev" ? module.nfs.public_key_openssh : null
 }
-*/
+
 
 output oke_private_key_pem {
   value = var.storage_type != "dev" ? module.oke.private_key_pem : null
@@ -101,6 +105,7 @@ output oke_private_key_pem {
 
 /*
 # acr
+## az2oci: TODO how to get ocir details?
 output "acr_id" {
   value = module.acr.acr_id
 }
@@ -110,11 +115,11 @@ output "acr_url" {
 }
 */
 
-/*
+# az2oci: location ~= region
 output "location" {
-  value = var.location
+  value = var.region
 }
-*/
+
 
 output "prefix" {
   value = var.prefix
@@ -125,11 +130,10 @@ output "cluster_name" {
   value = module.oke.name
 }
 
-/*
+## az2oci: provider_account ~= tenancy name
 output "provider_account" {
-  value = data.azurerm_subscription.current.display_name
+  value = data.oci_identity_tenancy.tenancy.name
 }
-*/
 
 output "provider" {
   value = "oci"
@@ -164,6 +168,7 @@ output "rwx_filestore_config" {
 }
 */
 
+## az2oci: TODO REMOVE. for reference, command to ssh to node hosts
 output "zzz_proxy_jump" {
   value = local.create_jump_vm ? "ssh -o ProxyCommand=\"ssh -W %h:%p opc@${module.jump.public_ip_address} -i ./jump_id_rsa\" opc@<oke_node_ip> -i ./oke_id_rsa" : null
 }
