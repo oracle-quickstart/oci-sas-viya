@@ -13,11 +13,11 @@ output "kube_config" {
   value = module.oke.kube_config
 }
 
-
+/*
 output "aks_cluster_node_username" {
   value = module.oke.cluster_username
 }
-
+*/
 /*
 output "aks_cluster_password" {
   value = module.aks.cluster_password

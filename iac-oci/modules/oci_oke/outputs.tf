@@ -20,11 +20,13 @@ output "cluster_ca_certificate" {
 }
 */
 
+/*
 output "cluster_username" {
   # value = azurerm_kubernetes_cluster.aks.kube_config.0.username
   value = yamldecode(module.oke.kube_config).users[0].name
 
 }
+*/
 
 /*
 output "cluster_password" {
