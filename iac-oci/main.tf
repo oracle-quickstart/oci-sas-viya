@@ -26,10 +26,6 @@ provider "oci" {
 data "oci_identity_regions" "regions" {
 }
 
-data "oci_identity_tenancy" "tenancy" {
-  tenancy_id = var.tenancy_ocid
-}
-
 data "oci_identity_availability_domains" "ADs" {
   compartment_id = var.tenancy_ocid
 }
@@ -55,7 +51,8 @@ provider "oci" {
 
 
 /*
-## az2oci: NOT NEEDED FOR OCI
+## az2oci: NOT NEEDED FOR OCI ?? DO WE NEED SOME INTEGRATION WITH IDCS ??
+##         DO WE NEED TO DEPLOY AN AD DEPLOYMENT ON OCI FOR THIS
 provider "azuread" {
   client_id       = var.client_id
   client_secret   = var.client_secret
@@ -68,9 +65,15 @@ provider "cloudinit" {
 }
 
 /*
-## az2oci: NOT NEEDED FOR OCI
+## az2oci: SUBSCRIPTION -> TENANCY
 data "azurerm_subscription" "current" {}
+*/
+data "oci_identity_tenancy" "tenancy" {
+  tenancy_id = var.tenancy_ocid
+}
 
+/*
+## az2oci: ??
 data "azuread_service_principal" "sp_client" {
   application_id = var.client_id
 }
@@ -140,28 +143,6 @@ resource "oci_core_network_security_group" "nsg" {
   freeform_tags  = var.tags
   defined_tags   = var.defined_tags
 }
-
-resource "oci_core_network_security_group_security_rule" "ssh" {
-  for_each = { for v in local.vm_public_access_cidrs : v => v }
-
-  network_security_group_id = oci_core_network_security_group.nsg.id
-
-  description = "Allow SSH from source"
-  direction   = "INGRESS"
-  protocol    = 6 # tcp
-  source      = each.value
-  source_type = "CIDR_BLOCK"
-  stateless   = false
-
-  tcp_options {
-    destination_port_range {
-      min = 22
-      max = 22
-    }
-  }
-}
-
-
 
 /*
 ##  az2oci: VIRTUAL NETWORK -> OCI VCN
@@ -321,7 +302,7 @@ module "jump" {
 }
 
 /*
-## az2oci: SECURITY RULE -> SECURITY LIST RULE
+## az2oci: SECURITY RULE -> NETWORK SECURITY GROUP SECURITY RULE
 resource "azurerm_network_security_rule" "ssh" {
   name                        = "${var.prefix}-ssh"
   description                 = "Allow SSH from source"
@@ -338,7 +319,26 @@ resource "azurerm_network_security_rule" "ssh" {
   network_security_group_name = azurerm_network_security_group.nsg.name
 }
 */
-# see oci_core_default_security_list.security_list
+resource "oci_core_network_security_group_security_rule" "ssh" {
+  for_each = { for v in local.vm_public_access_cidrs : v => v }
+
+  network_security_group_id = oci_core_network_security_group.nsg.id
+
+  description = "Allow SSH from source"
+  direction   = "INGRESS"
+  protocol    = 6 # tcp
+  source      = each.value
+  source_type = "CIDR_BLOCK"
+  stateless   = false
+
+  tcp_options {
+    destination_port_range {
+      min = 22
+      max = 22
+    }
+  }
+}
+
 
 /*
 data "template_file" "nfs-cloudconfig" {
