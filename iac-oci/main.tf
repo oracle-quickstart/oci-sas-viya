@@ -1,5 +1,12 @@
 terraform {
   required_version = ">= 0.13"
+
+  required_providers {
+      oci = {
+        source  = "hashicorp/oci"
+        version = "~> 4.4"
+      }
+    }
 }
 
 /*
@@ -158,7 +165,7 @@ module vnet {
   source         = "./modules/oci_vcn"
   compartment_id = module.oci_compartment.compartment_id
   name           = var.prefix
-  cidr_block     = local.vnet_cidr_block
+  cidr_blocks    = [local.vnet_cidr_block]
   freeform_tags  = var.tags
   defined_tags   = var.defined_tags
 }
