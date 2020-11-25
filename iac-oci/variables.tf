@@ -45,7 +45,7 @@ variable "default_nodepool_vm_type" {
 
 variable "kubernetes_version" {
   description = "The OKE cluster K8s version"
-  default     = "v1.17.9"
+  default     = "v1.18.10"
 }
 
 variable "default_public_access_cidrs" {
