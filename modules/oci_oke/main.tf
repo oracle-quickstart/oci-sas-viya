@@ -11,7 +11,7 @@ data "tls_public_key" "public_key" {
 }
 
 locals {
-  ssh_public_key = var.ssh_public_key != "" ? file(var.ssh_public_key) : element(coalescelist(data.tls_public_key.public_key.*.public_key_openssh, [""]), 0)
+  ssh_public_key = var.ssh_public_key != "" ? var.ssh_public_key : element(coalescelist(data.tls_public_key.public_key.*.public_key_openssh, [""]), 0)
 }
 
 

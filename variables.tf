@@ -31,7 +31,6 @@ variable "prefix" {
 
 variable "ssh_public_key" {
   type    = string
-  default = ""
 }
 
 variable "node_vm_admin" {
