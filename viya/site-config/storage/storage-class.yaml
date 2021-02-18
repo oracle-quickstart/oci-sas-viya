@@ -1,5 +1,0 @@
-kind: PersistentStorageClass
-metadata:
-  name: wildcard
-spec:
-  storageClassName: trident

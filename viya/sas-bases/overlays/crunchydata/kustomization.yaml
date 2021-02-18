@@ -1,3 +1,0 @@
-# This empty kustomization.yaml provided for backwards compatibility.
-# If you are reading this, the crunchydata overlay is depreciated,
-# use 'internal-postgres' overlay instead.

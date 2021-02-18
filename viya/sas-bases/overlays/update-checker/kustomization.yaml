@@ -1,5 +1,0 @@
-resources:
-  - cronjobs.yaml
-
-patchesStrategicMerge:
-  - tolerations-affinity-patch.yaml

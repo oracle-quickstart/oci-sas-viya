@@ -1,8 +1,0 @@
-resources:
-- resources.yaml
-
-generators:
-- generators/backend-tls-generators.yaml
-
-configurations:
-- kustomizeconfig.yaml

@@ -1,4 +1,0 @@
-export NAMESPACE=viya
-export CLUSTER=gorcl
-export KUBECONFIG=~/ux/dotfiles/kube/$CLUSTER.admin.conf
-kubens $NAMESPACE

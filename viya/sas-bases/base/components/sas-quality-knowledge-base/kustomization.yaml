@@ -1,9 +1,0 @@
-resources:
-- resources.yaml
-
-transformers:
-- patches.yaml
-- annotations.yaml
-
-configurations:
-- kustomizeconfig.yaml

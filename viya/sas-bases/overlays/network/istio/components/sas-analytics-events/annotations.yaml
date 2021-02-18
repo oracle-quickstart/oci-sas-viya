@@ -1,9 +1,0 @@
-apiVersion: builtin
-kind: AnnotationsTransformer
-metadata:
-  name: annotations-transformer
-annotations:
-  sas.com/component-name: sas-analytics-events
-fieldSpecs:
-- path: metadata/annotations
-  create: true

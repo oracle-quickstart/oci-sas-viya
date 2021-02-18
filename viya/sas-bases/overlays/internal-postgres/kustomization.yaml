@@ -1,4 +1,0 @@
-resources:
-- crunchydata
-transformers:
-- add-sa-to-binding-transformer.yaml
