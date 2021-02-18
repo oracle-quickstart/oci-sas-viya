@@ -1,17 +1,20 @@
-# viya-on-oci
+# SAS Viya 4 Infrastructure as Code (IaC) for OCI
 
-## setup
+## Overview
 
-Gonna assume a DNS entry for your cluster of `kate.changeme.com` as well as a wildcard DNS of `*.kate.changeme.com` that points at the IP address of your ingress controller
+This project contains Terraform scripts to provision Oracle Cloud Infrastructure
+(OCI) resources required to deploy SAS Viya 4 products. Here is a list of resources this project can create -
 
-### kuard sample
+  >- something
+  >- something else
 
-See `./setup/kuard`
+## Prerequisites
 
-### voto sample
+First off you'll need to do some pre deploy setup.  That's all detailed [here](https://github.com/oracle/oci-quickstart-prerequisites).
 
-See `./setup/voto`.  You dont have to consume the linkerd part, but you will have to fix the hostname in the ingress
+Operational knowledge of:
 
-### gelldap - a cheezy standalone LDAP provider
-
-See `./setup/gelldap`
+- [Terraform](https://www.terraform.io/intro/index.html)
+- [Docker](https://www.docker.com/)
+- [OCI](https://www.oracle.com/cloud/)
+- [Kubernetes](https://kubernetes.io/docs/concepts/)
