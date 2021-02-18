@@ -1,8 +1,0 @@
-*.plan
-*.conf
-*.tfstate
-.terraform/
-*.tfstate.backup
-terraform.tfvars
-.terraform.tfstate.lock.info
-.DS_Store
