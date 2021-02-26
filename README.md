@@ -1,9 +1,9 @@
-# SAS Viya 4 Infrastructure as Code (IaC) for OCI
+# SAS Viya Infrastructure as Code (IaC) for OCI
 
 ## Overview
 
 This project contains Terraform scripts to provision Oracle Cloud Infrastructure
-(OCI) resources required to deploy SAS Viya 4 products. Here is a list of resources this project can create -
+(OCI) resources required to deploy SAS Viya products. Here is a list of resources this project can create -
 
   >- something
   >- something else
