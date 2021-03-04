@@ -1,85 +1,114 @@
 # !NOTE! - These are only a subset of variables.tf provided for sample.
-# Customize this file to add any variables from 'variables.tf' that you want 
-# to change their default values. 
+# Customize this file to add any variables from 'variables.tf' that you want
+# to change their default values.
 
 # ****************  REQUIRED VARIABLES  ****************
 # These required variables' values MUST be provided by the User
-prefix              = "<prefix-value>"
-region              = "<oci-region>" # e.g., "us-ashburn-1"
-tenancy_ocid        = "<tenancy_ocid>"
-compartment_ocid    = "<parent_compartment_id>"
-user_ocid           = "<user_ocid>"
-fingerprint         = "<api_key_fingerprint>"
-private_key_path    = "<private_key_path>"
-availability_domain = 1
+prefix   = "<prefix-value>"
+location = "<azure-location-value>" # e.g., "eastus2"
+ssh_public_key = "~/.ssh/id_rsa.pub"
 # ****************  REQUIRED VARIABLES  ****************
 
-tags                            = { } # e.g., { "key1" = "value1", "key2" = "value2" }
+# !NOTE! - Without specifying your CIDR block access rules, ingress traffic
+#          to your cluster will be blocked by default.
 
-# When a ssh key value is provided it will be used for all VMs or else a ssh key will be auto generated and available in outputs
-ssh_public_key                  = "~/.ssh/id_rsa.pub"
+# **************  RECOMMENDED  VARIABLES  ***************
+default_public_access_cidrs = [] # e.g., ["123.45.6.89/32"]
+# **************  RECOMMENDED  VARIABLES  ***************
 
-# Admins access
-default_public_access_cidrs             = []  # e.g., ["123.45.6.89/32"]
-cluster_endpoint_public_access_cidrs    = []  # e.g., ["123.45.6.89/32"]
-acr_public_access_cidrs                 = []  # e.g., ["123.45.6.89/32"]
-vm_public_access_cidrs                  = []  # e.g., ["123.45.6.89/32"]
-postgres_public_access_cidrs            = []  # e.g., ["123.45.6.89/32"]
+# Tags for all taggable items in your cluster.
+tags = {} # e.g., { "key1" = "value1", "key2" = "value2" }
 
-# Postgres config
+# Azure Postgres config
 create_postgres                  = true # set this to "false" when using internal Crunchy Postgres
 postgres_ssl_enforcement_enabled = false
 postgres_administrator_password  = "mySup3rS3cretPassw0rd"
 
-# Container Registry config
+# Azure Container Registry config
 create_container_registry           = false
 container_registry_sku              = "Standard"
-container_registry_admin_enabled    = "false"
+container_registry_admin_enabled    = false
 container_registry_geo_replica_locs = null
 
-# OKE config
-kubernetes_version                   = "v1.18.8"
-default_nodepool_node_count          = 2
-default_nodepool_vm_type             = "VM.Standard2.4"
+# AKS config
+kubernetes_version         = "1.18.14"
+default_nodepool_min_nodes = 2
+default_nodepool_vm_type   = "Standard_D8s_v4"
 
-# OKE Node Pools config
-create_cas_nodepool       = true
-cas_nodepool_node_count   = 1
-cas_nodepool_min_nodes    = 1
-cas_nodepool_auto_scaling = false
-cas_nodepool_vm_type      = "VM.Standard2.8"
-
-create_compute_nodepool       = true
-compute_nodepool_node_count   = 1
-compute_nodepool_min_nodes    = 1
-compute_nodepool_auto_scaling = false
-compute_nodepool_vm_type      = "VM.Standard2.8"
-
-create_connect_nodepool       = true
-connect_nodepool_node_count   = 1
-connect_nodepool_min_nodes    = 1
-connect_nodepool_auto_scaling = false
-connect_nodepool_vm_type      = "VM.Standard2.8"
-
-create_stateless_nodepool       = true
-stateless_nodepool_node_count   = 2
-stateless_nodepool_min_nodes    = 2
-stateless_nodepool_auto_scaling = false
-stateless_nodepool_vm_type      = "VM.Standard2.8"
-
-create_stateful_nodepool       = true
-stateful_nodepool_node_count   = 3
-stateful_nodepool_min_nodes    = 3
-stateful_nodepool_auto_scaling = false
-stateful_nodepool_vm_type      = "VM.Standard2.8"
+# AKS Node Pools config
+node_pools = {
+  cas = {
+    "machine_type"          = "Standard_E16s_v3"
+    "os_disk_size"          = 200
+    "min_nodes"             = 1
+    "max_nodes"             = 1
+    "max_pods"              = 110
+    "node_taints"           = ["workload.sas.com/class=cas:NoSchedule"]
+    "node_labels" = {
+      "workload.sas.com/class" = "cas"
+    }
+  },
+  compute = {
+    "machine_type"          = "Standard_E16s_v3"
+    "os_disk_size"          = 200
+    "min_nodes"             = 1
+    "max_nodes"             = 1
+    "max_pods"              = 110
+    "node_taints"           = ["workload.sas.com/class=compute:NoSchedule"]
+    "node_labels" = {
+      "workload.sas.com/class"        = "compute"
+      "launcher.sas.com/prepullImage" = "sas-programming-environment"
+    }
+  },
+  connect = {
+    "machine_type"          = "Standard_E16s_v3"
+    "os_disk_size"          = 200
+    "min_nodes"             = 1
+    "max_nodes"             = 1
+    "max_pods"              = 110
+    "node_taints"           = ["workload.sas.com/class=connect:NoSchedule"]
+    "node_labels" = {
+      "workload.sas.com/class"        = "connect"
+      "launcher.sas.com/prepullImage" = "sas-programming-environment"
+    }
+  },
+  stateless = {
+    "machine_type"          = "Standard_D16s_v3"
+    "os_disk_size"          = 200
+    "min_nodes"             = 1
+    "max_nodes"             = 2
+    "max_pods"              = 110
+    "node_taints"           = ["workload.sas.com/class=stateless:NoSchedule"]
+    "node_labels" = {
+      "workload.sas.com/class" = "stateless"
+    }
+  },
+  stateful = {
+    "machine_type"          = "Standard_D8s_v3"
+    "os_disk_size"          = 200
+    "min_nodes"             = 1
+    "max_nodes"             = 3
+    "max_pods"              = 110
+    "node_taints"           = ["workload.sas.com/class=stateful:NoSchedule"]
+    "node_labels" = {
+      "workload.sas.com/class" = "stateful"
+    }
+  }
+}
 
 # Jump Box
-create_jump_public_ip          = true
-jump_vm_admin                  = "opc"
+create_jump_public_ip = true
+jump_vm_admin         = "jumpuser"
+jump_vm_machine_type = "Standard_B2s_v3"
 
 # Storage for SAS Viya CAS/Compute
 storage_type = "standard"
 # required ONLY when storage_type is "standard" to create NFS Server VM
-create_nfs_public_ip  = false
-nfs_vm_admin          = "opc"
-nfs_raid_disk_size    = 128
+create_nfs_public_ip = false
+nfs_vm_admin         = "nfsuser"
+nfs_vm_machine_type  = "Standard_D8s_v4"
+nfs_raid_disk_size   = 128
+nfs_raid_disk_type   = "Standard_LRS"
+
+# Azure Monitor
+create_aks_azure_monitor = false
