@@ -1,3 +1,7 @@
+
+# Viya generated files
+viya-oke-kubeconfig.conf
+
 # Local .terraform directories
 **/.terraform/*
 
