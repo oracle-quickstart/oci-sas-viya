@@ -9,15 +9,12 @@ variable compartment_ocid {
   default     = null
 }
 
-variable "region" {
-  description = "The OCI Region to provision all resources in this script"
-  default     = "us-ashburn-1"
+variable "iac_tooling" {
+  description = "Value used to identify the tooling used to generate this providers infrastructure."
+  type        = string
+  default     = "terraform"
 }
 
-variable "availability_domain" {
-  description = "The OCI regional Availability Domain to provision all resources in this script. 1, 2, or 3"
-  default     = 1
-}
 
 variable "prefix" {
   description = "A prefix used in the name for all the Azure resources created by this script. The prefix string must start with lowercase letter and contain only alphanumeric characters and hyphen or dash(-), but can not start or end with '-'."
@@ -27,6 +24,17 @@ variable "prefix" {
     condition     = can(regex("^[a-z][-0-9a-zA-Z]*[0-9a-zA-Z]$", var.prefix)) && length(var.prefix) > 2 && length(var.prefix) < 21
     error_message = "ERROR: Value of 'prefix'\n * must contain at least one alphanumeric character and at most 20 characters\n * can only contain letters, numbers, and hyphen or dash(-), but can't start or end with '-'."
   }
+}
+
+
+variable "region" {
+  description = "The OCI Region to provision all resources in this script"
+  default     = "us-ashburn-1"
+}
+
+variable "availability_domain" {
+  description = "The OCI regional Availability Domain to provision all resources in this script. 1, 2, or 3"
+  default     = 1
 }
 
 variable "ssh_public_key" {
