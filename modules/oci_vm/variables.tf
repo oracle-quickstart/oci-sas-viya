@@ -43,7 +43,7 @@ variable "operating_system" {
 }
 
 variable "operating_system_version" {
-  default = "7.8"
+  default = "7.9"
 }
 
 variable name {
