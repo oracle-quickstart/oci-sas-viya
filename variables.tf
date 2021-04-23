@@ -17,9 +17,9 @@ variable "iac_tooling" {
 
 
 variable "prefix" {
-  description = "A prefix used in the name for all the Azure resources created by this script. The prefix string must start with lowercase letter and contain only alphanumeric characters and hyphen or dash(-), but can not start or end with '-'."
+  description = "A prefix used in the name for all the OCI resources created by this script. The prefix string must start with lowercase letter and contain only alphanumeric characters and hyphen or dash(-), but can not start or end with '-'."
   type        = string
-
+  default     = "viya"
   validation {
     condition     = can(regex("^[a-z][-0-9a-zA-Z]*[0-9a-zA-Z]$", var.prefix)) && length(var.prefix) > 2 && length(var.prefix) < 21
     error_message = "ERROR: Value of 'prefix'\n * must contain at least one alphanumeric character and at most 20 characters\n * can only contain letters, numbers, and hyphen or dash(-), but can't start or end with '-'."
@@ -166,7 +166,7 @@ variable "postgres_administrator_login" {
     error_message = "ERROR: The admin login name can't be azure_superuser, azure_pg_admin, admin, administrator, root, guest, or public. It can't start with pg_."
   }
 }
-# A new password for the server admin account. It must contain between 8 and 128 characters. Your password must contain characters from three of the following categories: 
+# A new password for the server admin account. It must contain between 8 and 128 characters. Your password must contain characters from three of the following categories:
 # English uppercase letters, English lowercase letters, numbers (0 through 9), and non-alphanumeric characters (!, $, #, %, etc.).
 variable "postgres_administrator_password" {
   description = "The Password associated with the postgres_administrator_login for the PostgreSQL Server."

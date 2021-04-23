@@ -207,35 +207,10 @@ resource "oci_core_network_security_group_security_rule" "ssh" {
 
 
 /*
-## TODO az2oci: CONTAINER REGISTRY -> OCI CONTAINER REGISTRY
+## TODO: CONTAINER REGISTRY -> OCI CONTAINER REGISTRY
 ##              ! There does not appear to be a Terraform resource for the OCI container registry creation !
 ##
 module "acr" {
-  source                              = "./modules/azurerm_container_registry"
-  create_container_registry           = var.create_container_registry
-  container_registry_name             = join("", regexall("[a-zA-Z0-9]+", "${var.prefix}acr")) # alpha numeric characters only are allowed
-  container_registry_rg               = module.azure_rg.name
-  container_registry_location         = var.location
-  container_registry_sku              = var.container_registry_sku
-  container_registry_admin_enabled    = var.container_registry_admin_enabled
-  container_registry_geo_replica_locs = var.container_registry_geo_replica_locs
-  container_registry_sp_role          = data.azuread_service_principal.sp_client.id
-}
-
-resource "azurerm_network_security_rule" "acr" {
-  name                        = "SAS-ACR"
-  description                 = "Allow ACR from source"
-  count                       = (length(local.acr_public_access_cidrs) != 0 && var.create_container_registry) ? 1 : 0
-  priority                    = 180
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  destination_port_range      = "5000"
-  source_address_prefixes     = local.acr_public_access_cidrs
-  destination_address_prefix  = "*"
-  resource_group_name         = module.azure_rg.name
-  network_security_group_name = azurerm_network_security_group.nsg.name
 }
 */
 
@@ -363,32 +338,8 @@ module "stateful_node_pool" {
 }
 
 /*
-## TODO az2oci: POSTGRESQL -> ???? (NOT NEEDED)
+## TODO: POSTGRESQL -> ???? (NOT NEEDED)
 module "postgresql" {
-  source          = "./modules/postgresql"
-  create_postgres = var.create_postgres
-
-  resource_group_name             = module.azure_rg.name
-  postgres_administrator_login    = var.postgres_administrator_login
-  postgres_administrator_password = var.postgres_administrator_password
-  location                        = var.location
-  # "server_name" match regex "^[0-9a-z][-0-9a-z]{1,61}[0-9a-z]$"
-  # "server_name" can contain only lowercase letters, numbers, and '-', but can't start or end with '-'. And must be at least 3 characters and at most 63 characters
-  server_name                           = lower("${var.prefix}-pgsql")
-  postgres_sku_name                     = var.postgres_sku_name
-  postgres_storage_mb                   = var.postgres_storage_mb
-  postgres_backup_retention_days        = var.postgres_backup_retention_days
-  postgres_geo_redundant_backup_enabled = var.postgres_geo_redundant_backup_enabled
-  tags                                  = var.tags
-  postgres_server_version               = var.postgres_server_version
-  postgres_ssl_enforcement_enabled      = var.postgres_ssl_enforcement_enabled
-  postgres_db_names                     = var.postgres_db_names
-  postgres_db_charset                   = var.postgres_db_charset
-  postgres_db_collation                 = var.postgres_db_collation
-  postgres_firewall_rule_prefix         = "${var.prefix}-postgres-firewall-"
-  postgres_firewall_rules               = local.postgres_firewall_rules
-  postgres_vnet_rule_prefix             = "${var.prefix}-postgresql-vnet-rule-"
-  postgres_vnet_rules                   = [{ name = module.misc-subnet.subnet_name, subnet_id = module.misc-subnet.subnet_id }, { name = module.aks-subnet.subnet_name, subnet_id = module.aks-subnet.subnet_id }]
 }
 */
 
