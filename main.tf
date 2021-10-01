@@ -1,10 +1,10 @@
 terraform {
-  required_version = ">= 0.13"
+  required_version = ">= 0.13, < 0.15"
 
   required_providers {
       oci = {
         source  = "hashicorp/oci"
-        version = "~> 4.4"
+        version = "> 4.4"
       }
     }
 }
@@ -43,9 +43,9 @@ provider "oci" {
   region           = local.home_region
 }
 
-provider "cloudinit" {
-  version = "1.0.0"
-}
+#provider "cloudinit" {
+#  version = "1.0.0"
+#}
 
 data "oci_identity_tenancy" "tenancy" {
   tenancy_id = var.tenancy_ocid
@@ -372,6 +372,7 @@ module "fss" {
 resource "local_file" "kubeconfig" {
   content  = module.oke.kube_config
   filename = "${var.prefix}-oke-kubeconfig.conf"
+  file_permission = "0600"
 }
 
 
