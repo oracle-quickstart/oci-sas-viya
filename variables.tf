@@ -52,7 +52,7 @@ variable "default_nodepool_vm_type" {
 
 variable "kubernetes_version" {
   description = "The OKE cluster K8s version"
-  default     = "v1.18.10"
+  default     = "v1.19.12"
 }
 
 variable "default_public_access_cidrs" {
@@ -76,7 +76,7 @@ variable "acr_public_access_cidrs" {
 variable "vm_public_access_cidrs" {
   description = "List of CIDRs to access jump or nfs VM"
   type        = list(string)
-  default     = null
+  default     = ["0.0.0.0/0"]
 }
 
 variable "postgres_public_access_cidrs" {
