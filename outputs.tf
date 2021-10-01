@@ -3,11 +3,12 @@
 output "aks_host" {
   value = module.aks.host
 }
-
-output "nat_ip" {
-  value = data.azurerm_public_ip.aks_public_ip.ip_address
-}
 */
+
+output "nat_gateway_ip" {
+  value = module.vnet.nat_gateway_ip
+}
+
 
 output "kube_config" {
   value = module.oke.kube_config
@@ -73,7 +74,7 @@ output jump_public_key_openssh {
 
 
 # nfs server
-## az2oci: TODO nfs settings forced to null, nfs module snot implemented, using OCI FSS instead 
+## az2oci: TODO nfs settings forced to null, nfs module snot implemented, using OCI FSS instead
 output nfs_private_ip {
   value = null # var.storage_type == "standard" ? module.nfs.private_ip_address : null
 }
