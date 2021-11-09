@@ -2,11 +2,11 @@ terraform {
   required_version = ">= 0.13, < 0.15"
 
   required_providers {
-      oci = {
-        source  = "hashicorp/oci"
-        version = "> 4.4"
-      }
+    oci = {
+      source  = "hashicorp/oci"
+      version = "> 4.4"
     }
+  }
 }
 
 provider "oci" {
@@ -95,7 +95,29 @@ resource "oci_core_network_security_group" "nsg" {
   defined_tags   = var.defined_tags
 }
 
-module vnet {
+resource "oci_core_security_list" "lb-subnet_security_list" {
+  compartment_id = module.oci_compartment.compartment_id
+  display_name   = "LB Subnet"
+  vcn_id         = module.vnet.vcn_id
+  ingress_security_rules {
+    tcp_options {
+      max = 80
+      min = 80
+    }
+    protocol = "6"
+    source   = "0.0.0.0/0"
+  }
+  ingress_security_rules {
+    tcp_options {
+      max = 443
+      min = 443
+    }
+    protocol = "6"
+    source   = "0.0.0.0/0"
+  }
+}
+
+module "vnet" {
   source         = "./modules/oci_vcn"
   compartment_id = module.oci_compartment.compartment_id
   name           = var.prefix
@@ -116,13 +138,14 @@ module "gw-subnet" {
 }
 
 module "oke-lb-subnet" {
-  source         = "./modules/oci_subnet"
-  compartment_id = module.oci_compartment.compartment_id
-  vcn_id         = module.vnet.vcn_id
-  name           = "okelb"
-  cidr_block     = cidrsubnet(local.oke_subnet_cidr_block, 2, 1)
-  freeform_tags  = var.tags
-  defined_tags   = var.defined_tags
+  source            = "./modules/oci_subnet"
+  compartment_id    = module.oci_compartment.compartment_id
+  vcn_id            = module.vnet.vcn_id
+  name              = "okelb"
+  cidr_block        = cidrsubnet(local.oke_subnet_cidr_block, 2, 1)
+  freeform_tags     = var.tags
+  defined_tags      = var.defined_tags
+  security_list_ids = [oci_core_security_list.lb-subnet_security_list.id]
 }
 
 module "oke-worker-subnet" {
@@ -370,8 +393,8 @@ module "fss" {
 }
 
 resource "local_file" "kubeconfig" {
-  content  = module.oke.kube_config
-  filename = "${var.prefix}-oke-kubeconfig.conf"
+  content         = module.oke.kube_config
+  filename        = "${var.prefix}-oke-kubeconfig.conf"
   file_permission = "0600"
 }
 

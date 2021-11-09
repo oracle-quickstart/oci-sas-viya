@@ -4,7 +4,7 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 
-variable compartment_ocid {
+variable "compartment_ocid" {
   description = "Option parent compartment, if not set the root compartment will be used"
   default     = null
 }
@@ -38,7 +38,7 @@ variable "availability_domain" {
 }
 
 variable "ssh_public_key" {
-  type    = string
+  type = string
 }
 
 variable "node_vm_admin" {
@@ -113,19 +113,19 @@ variable "default_nodepool_max_pods" {
 }
 
 variable "default_nodepool_availability_zones" {
-  type    = list
+  type    = list(any)
   default = []
 }
 
 variable "tags" {
   description = "Map of common tags to be placed on the Resources"
-  type        = map
+  type        = map(any)
   default     = null
 }
 
 variable "defined_tags" {
   description = "Map of common tags to be placed on the Resources"
-  type        = map
+  type        = map(any)
   default     = null
 }
 
@@ -162,7 +162,7 @@ variable "postgres_administrator_login" {
   default     = "pgadmin"
 
   validation {
-    condition     = ! contains(["azure_superuser", "azure_pg_admin", "admin", "administrator", "root", "guest", "public"], var.postgres_administrator_login) && ! can(regex("^pg_", var.postgres_administrator_login))
+    condition     = !contains(["azure_superuser", "azure_pg_admin", "admin", "administrator", "root", "guest", "public"], var.postgres_administrator_login) && !can(regex("^pg_", var.postgres_administrator_login))
     error_message = "ERROR: The admin login name can't be azure_superuser, azure_pg_admin, admin, administrator, root, guest, or public. It can't start with pg_."
   }
 }
@@ -209,7 +209,7 @@ variable "postgres_db_collation" {
 
 variable "postgres_configurations" {
   description = "A map with PostgreSQL configurations to enable."
-  type        = map
+  type        = map(any)
   default     = {}
 }
 
@@ -238,17 +238,17 @@ variable "cas_nodepool_min_nodes" {
   default = 1
 }
 variable "cas_nodepool_taints" {
-  type    = list
+  type    = list(any)
   default = ["workload.sas.com/class=cas:NoSchedule"]
 }
 variable "cas_nodepool_labels" {
-  type = map
+  type = map(any)
   default = {
     "workload.sas.com/class" = "cas"
   }
 }
 variable "cas_nodepool_availability_zones" {
-  type    = list
+  type    = list(any)
   default = []
 }
 
@@ -277,18 +277,18 @@ variable "compute_nodepool_min_nodes" {
   default = 1
 }
 variable "compute_nodepool_taints" {
-  type    = list
+  type    = list(any)
   default = ["workload.sas.com/class=compute:NoSchedule"]
 }
 variable "compute_nodepool_labels" {
-  type = map
+  type = map(any)
   default = {
     "workload.sas.com/class"        = "compute"
     "launcher.sas.com/prepullImage" = "sas-programming-environment"
   }
 }
 variable "compute_nodepool_availability_zones" {
-  type    = list
+  type    = list(any)
   default = []
 }
 
@@ -317,18 +317,18 @@ variable "connect_nodepool_min_nodes" {
   default = 1
 }
 variable "connect_nodepool_taints" {
-  type    = list
+  type    = list(any)
   default = ["workload.sas.com/class=connect:NoSchedule"]
 }
 variable "connect_nodepool_labels" {
-  type = map
+  type = map(any)
   default = {
     "workload.sas.com/class"        = "connect"
     "launcher.sas.com/prepullImage" = "sas-programming-environment"
   }
 }
 variable "connect_nodepool_availability_zones" {
-  type    = list
+  type    = list(any)
   default = []
 }
 
@@ -357,17 +357,17 @@ variable "stateless_nodepool_min_nodes" {
   default = 1
 }
 variable "stateless_nodepool_taints" {
-  type    = list
+  type    = list(any)
   default = ["workload.sas.com/class=stateless:NoSchedule"]
 }
 variable "stateless_nodepool_labels" {
-  type = map
+  type = map(any)
   default = {
     "workload.sas.com/class" = "stateless"
   }
 }
 variable "stateless_nodepool_availability_zones" {
-  type    = list
+  type    = list(any)
   default = []
 }
 
@@ -396,17 +396,17 @@ variable "stateful_nodepool_min_nodes" {
   default = 1
 }
 variable "stateful_nodepool_taints" {
-  type    = list
+  type    = list(any)
   default = ["workload.sas.com/class=stateful:NoSchedule"]
 }
 variable "stateful_nodepool_labels" {
-  type = map
+  type = map(any)
   default = {
     "workload.sas.com/class" = "stateful"
   }
 }
 variable "stateful_nodepool_availability_zones" {
-  type    = list
+  type    = list(any)
   default = []
 }
 
@@ -461,12 +461,12 @@ variable "container_registry_admin_enabled" {
   default = false
 }
 variable "container_registry_geo_replica_locs" {
-  type    = list
+  type    = list(any)
   default = null
 }
 
 # Azure NetApp Files
-variable netapp_service_level {
+variable "netapp_service_level" {
   description = "When storage_type=ha, The target performance of the file system. Valid values include Premium, Standard, or Ultra"
   default     = "Premium"
 
@@ -475,7 +475,7 @@ variable netapp_service_level {
     error_message = "ERROR: netapp_service_level - Valid values include - Premium, Standard, or Ultra."
   }
 }
-variable netapp_size_in_tb {
+variable "netapp_size_in_tb" {
   description = "When storage_type=ha, Provisioned size of the pool in TB. Value must be between 4 and 500"
   default     = 4
 
@@ -485,11 +485,11 @@ variable netapp_size_in_tb {
   }
 }
 
-variable netapp_protocols {
+variable "netapp_protocols" {
   description = "The target volume protocol expressed as a list. Supported single value include CIFS, NFSv3, or NFSv4.1. If argument is not defined it will default to NFSv3. Changing this forces a new resource to be created and data will be lost."
   default     = ["NFSv3"]
 }
-variable netapp_volume_path {
+variable "netapp_volume_path" {
   description = "A unique file path for the volume. Used when creating mount targets. Changing this forces a new resource to be created"
   default     = "export"
 }

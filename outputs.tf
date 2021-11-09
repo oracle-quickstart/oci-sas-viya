@@ -48,59 +48,59 @@ output "postgres_server_port" {
 
 
 # jump server
-output jump_private_ip {
+output "jump_private_ip" {
   value = local.create_jump_vm ? module.jump.private_ip_address : null
 }
 
-output jump_public_ip {
+output "jump_public_ip" {
   value = local.create_jump_vm && var.create_jump_public_ip ? module.jump.public_ip_address : null
 }
 
-output jump_admin_username {
+output "jump_admin_username" {
   value = local.create_jump_vm ? module.jump.admin_username : null
 }
 
-output jump_private_key_pem {
+output "jump_private_key_pem" {
   value = local.create_jump_vm ? module.jump.private_key_pem : null
 }
 
-output jump_public_key_pem {
+output "jump_public_key_pem" {
   value = local.create_jump_vm ? module.jump.public_key_pem : null
 }
 
-output jump_public_key_openssh {
+output "jump_public_key_openssh" {
   value = local.create_jump_vm ? module.jump.public_key_openssh : null
 }
 
 
 # nfs server
 ## az2oci: TODO nfs settings forced to null, nfs module snot implemented, using OCI FSS instead
-output nfs_private_ip {
+output "nfs_private_ip" {
   value = null # var.storage_type == "standard" ? module.nfs.private_ip_address : null
 }
 
-output nfs_public_ip {
+output "nfs_public_ip" {
   value = null # var.storage_type == "standard" && var.create_nfs_public_ip ? module.nfs.public_ip_address : null
 }
 
-output nfs_admin_username {
+output "nfs_admin_username" {
   value = null # var.storage_type == "standard" ? module.nfs.admin_username : null
 }
 
-output nfs_private_key_pem {
+output "nfs_private_key_pem" {
   value = null # var.storage_type != "dev" ? module.nfs.private_key_pem : null
 }
 
-output nfs_public_key_pem {
+output "nfs_public_key_pem" {
   value = null # var.storage_type != "dev" ? module.nfs.public_key_pem : null
 }
 
-output nfs_public_key_openssh {
+output "nfs_public_key_openssh" {
   value = null # var.storage_type != "dev" ? module.nfs.public_key_openssh : null
 }
 
 
-output oke_private_key_pem {
+output "oke_private_key_pem" {
   value = var.storage_type != "dev" ? module.oke.private_key_pem : null
 }
 

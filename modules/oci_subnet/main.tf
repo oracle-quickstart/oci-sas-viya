@@ -9,5 +9,5 @@ resource "oci_core_subnet" "subnet" {
   cidr_block                 = var.cidr_block
   route_table_id             = var.route_table_id
   prohibit_public_ip_on_vnic = var.private_subnet
+  security_list_ids          = var.security_list_ids
 }
-

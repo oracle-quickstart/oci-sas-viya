@@ -1,15 +1,15 @@
-variable name {
+variable "name" {
   description = "Name"
 }
 
 variable "freeform_tags" {
   description = "Map of common tags to be placed on the Resources"
-  type        = map
+  type        = map(any)
 }
 
 variable "defined_tags" {
   description = "Map of common tags to be placed on the Resources"
-  type        = map
+  type        = map(any)
 }
 
 variable "compartment_id" {
@@ -35,4 +35,9 @@ variable "private_subnet" {
   type        = bool
   description = "Prohibit Public IPs in subnet"
   default     = false
+}
+
+variable "security_list_ids" {
+  description = "Optional optional security list id list"
+  default     = null
 }
