@@ -1,0 +1,36 @@
+## Cluster
+PROVIDER: custom
+CLUSTER_NAME: mycluster
+NAMESPACE: viyanamespace
+
+## MISC
+DEPLOY: true # Set to false to stop at generating the manifest
+# NAT gateway ip + everything?
+LOADBALANCER_SOURCE_RANGES: ['150.230.189.209/32', '0.0.0.0/0']
+
+## Storage
+V4_CFG_MANAGE_STORAGE: true
+
+## SAS API Access
+# raw not base64
+V4_CFG_SAS_API_KEY: 'LIalrRzFVlVhCpF6MBGP39Ku0YUW7b1k'
+V4_CFG_SAS_API_SECRET: 'iOimWt0gDosLUkDA'
+V4_CFG_ORDER_NUMBER:  '9CHWPF'
+
+## Ingress
+V4_CFG_INGRESS_TYPE: ingress
+V4_CFG_INGRESS_FQDN: 'viya.viya.internal'
+V4_CFG_TLS_MODE: "full-stack" # [full-stack|front-door|disabled]
+
+## basedomain
+#V4_CFG_BASE_DOMAIN: "basedomain.com"
+
+## Postgres
+V4_CFG_POSTGRES_TYPE: internal
+
+## peg cadence
+#V4_CFG_CADENCE_NAME: stable
+#V4_CFG_CADENCE_VERSION: 2021.1.4
+
+V4_CFG_CADENCE_NAME: stable
+V4_CFG_CADENCE_VERSION: 2021.1.5
