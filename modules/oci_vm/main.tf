@@ -71,6 +71,13 @@ resource "oci_core_instance" "vm" {
   display_name         = "${var.name}-vm"
   preserve_boot_volume = false # boot volume will be deleted on destroy
 
+  dynamic "shape_config" {
+    for_each = local.is_flex_shape
+    content {
+      ocpus = shape_config.value
+    }
+  }
+
   source_details {
     source_type             = "image"
     source_id               = data.oci_core_images.vm_os_image.images[0].id

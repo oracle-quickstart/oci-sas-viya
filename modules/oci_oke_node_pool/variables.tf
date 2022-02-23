@@ -27,6 +27,10 @@ variable "instance_shape" {
   default = "VM.Standard2.1" # 1 OCPU, 16 GB RAM
 }
 
+variable "flex_shape_ocpus" {
+  default = "8"
+}
+
 variable "operating_system" {
   default = "Oracle Linux"
 }
@@ -56,12 +60,12 @@ variable "min_nodes" {
 }
 
 variable "node_taints" {
-  type    = list
+  type    = list(any)
   default = []
 }
 
 variable "node_labels" {
-  type    = map
+  type    = map(any)
   default = {}
 }
 
@@ -73,10 +77,10 @@ variable "ssh_public_key" {
 
 variable "freeform_tags" {
   description = "Map of tags to be placed on the Resources"
-  type        = map
+  type        = map(any)
 }
 
 variable "defined_tags" {
   description = "Map of tags to be placed on the Resources"
-  type        = map
+  type        = map(any)
 }

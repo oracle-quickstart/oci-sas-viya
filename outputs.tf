@@ -12,6 +12,7 @@ output "nat_gateway_ip" {
 
 output "kube_config" {
   value = module.oke.kube_config
+  sensitive = true
 }
 
 /*
@@ -102,6 +103,7 @@ output "nfs_public_key_openssh" {
 
 output "oke_private_key_pem" {
   value = var.storage_type != "dev" ? module.oke.private_key_pem : null
+  sensitive = true
 }
 
 /*

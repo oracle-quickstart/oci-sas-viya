@@ -25,7 +25,11 @@ variable "subnet_id" {
 }
 
 variable "instance_shape" {
-  default = "VM.Standard2.1" # 1 OCPU, 16 GB RAM
+  default = "VM.Standard.E4.Flex" #
+}
+
+variable "default_flex_shape_ocpus" {
+  default = "1"
 }
 
 variable "vm_admin" {

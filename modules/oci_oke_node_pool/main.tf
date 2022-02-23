@@ -26,6 +26,14 @@ resource "oci_containerengine_node_pool" "np" {
   cluster_id         = var.oke_cluster_id
   kubernetes_version = var.kubernetes_version
   node_shape         = var.instance_shape
+
+  dynamic "node_shape_config" {
+    for_each = local.is_flex_shape
+    content {
+      ocpus = node_shape_config.value
+    }
+  }
+
   # node_shape_config {
   #   ocpus = var.node_pool_node_shape_config_ocpus
   # }

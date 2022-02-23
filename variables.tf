@@ -47,7 +47,11 @@ variable "node_vm_admin" {
 }
 
 variable "default_nodepool_vm_type" {
-  default = "VM.Standard2.4" # 4 OCPU (8 vCPU) 60 GB RAM
+  default = "VM.Standard.E4.Flex" # default 8 ocpu
+}
+
+variable "default_flex_shape_ocpus" {
+  default = "8"
 }
 
 variable "kubernetes_version" {
@@ -220,7 +224,7 @@ variable "create_cas_nodepool" {
   default     = true
 }
 variable "cas_nodepool_vm_type" {
-  default = "VM.Standard2.8" # 8 OCPU (16 vCPU) 120 GB RAM
+  default = "VM.Standard.E4.Flex" # default 8 ocpu
 }
 variable "cas_nodepool_os_disk_size" {
   default = 200
@@ -259,7 +263,7 @@ variable "create_compute_nodepool" {
   default     = true
 }
 variable "compute_nodepool_vm_type" {
-  default = "VM.Standard2.8" # 8 OCPU (16 vCPU) 120 GB RAM
+  default = "VM.Standard.E4.Flex" # default 8 ocpu
 }
 variable "compute_nodepool_os_disk_size" {
   default = 200
@@ -299,7 +303,7 @@ variable "create_connect_nodepool" {
   default     = true
 }
 variable "connect_nodepool_vm_type" {
-  default = "VM.Standard2.8" # 8 OCPU (16 vCPU) 120 GB RAM
+  default = "VM.Standard.E4.Flex" # default 8 ocpu
 }
 variable "connect_nodepool_os_disk_size" {
   default = 200
@@ -339,7 +343,7 @@ variable "create_stateless_nodepool" {
   default     = true
 }
 variable "stateless_nodepool_vm_type" {
-  default = "VM.Standard2.8" # 8 OCPU (16 vCPU) 120 GB RAM
+  default = "VM.Standard.E4.Flex" # default 8 ocpu
 }
 variable "stateless_nodepool_os_disk_size" {
   default = 200
@@ -378,7 +382,7 @@ variable "create_stateful_nodepool" {
   default     = true
 }
 variable "stateful_nodepool_vm_type" {
-  default = "VM.Standard2.4" # 4 OCPU (8 vCPU) 60 GB RAM
+  default = "VM.Standard.E4.Flex" # default 8 ocpu
 }
 variable "stateful_nodepool_os_disk_size" {
   default = 200

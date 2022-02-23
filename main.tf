@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 0.13, < 0.15"
+  required_version = ">= 1.0.0"
 
   required_providers {
     oci = {
@@ -259,6 +259,7 @@ module "cas_node_pool" {
   subnet_id            = module.oke-worker-subnet.subnet_id
   kubernetes_version   = var.kubernetes_version
   instance_shape       = var.cas_nodepool_vm_type
+  flex_shape_ocpus     = var.default_flex_shape_ocpus
   os_disk_size         = var.cas_nodepool_os_disk_size
   enable_auto_scaling  = var.cas_nodepool_auto_scaling # TODO not implemented
   node_count           = var.cas_nodepool_node_count
@@ -281,6 +282,7 @@ module "compute_node_pool" {
   subnet_id            = module.oke-worker-subnet.subnet_id
   kubernetes_version   = var.kubernetes_version
   instance_shape       = var.compute_nodepool_vm_type
+  flex_shape_ocpus     = var.default_flex_shape_ocpus
   os_disk_size         = var.compute_nodepool_os_disk_size
   enable_auto_scaling  = var.compute_nodepool_auto_scaling # TODO not implemented
   node_count           = var.compute_nodepool_node_count
@@ -303,6 +305,7 @@ module "connect_node_pool" {
   subnet_id            = module.oke-worker-subnet.subnet_id
   kubernetes_version   = var.kubernetes_version
   instance_shape       = var.connect_nodepool_vm_type
+  flex_shape_ocpus     = var.default_flex_shape_ocpus
   os_disk_size         = var.connect_nodepool_os_disk_size
   enable_auto_scaling  = var.connect_nodepool_auto_scaling # TODO not implemented
   node_count           = var.connect_nodepool_node_count
@@ -325,6 +328,7 @@ module "stateless_node_pool" {
   subnet_id            = module.oke-worker-subnet.subnet_id
   kubernetes_version   = var.kubernetes_version
   instance_shape       = var.stateless_nodepool_vm_type
+  flex_shape_ocpus     = var.default_flex_shape_ocpus
   os_disk_size         = var.stateless_nodepool_os_disk_size
   enable_auto_scaling  = var.stateless_nodepool_auto_scaling # TODO not implemented
   node_count           = var.stateless_nodepool_node_count
@@ -347,6 +351,7 @@ module "stateful_node_pool" {
   subnet_id            = module.oke-worker-subnet.subnet_id
   kubernetes_version   = var.kubernetes_version
   instance_shape       = var.stateful_nodepool_vm_type
+  flex_shape_ocpus     = var.default_flex_shape_ocpus
   os_disk_size         = var.stateful_nodepool_os_disk_size
   enable_auto_scaling  = var.stateful_nodepool_auto_scaling # TODO not implemented
   node_count           = var.stateful_nodepool_node_count
