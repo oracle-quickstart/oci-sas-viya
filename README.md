@@ -11,9 +11,6 @@ This project contains Terraform scripts to provision Oracle Cloud Infrastructure
   >- A jump box
 
 ## Prerequisites
-
-First off you'll need to do some pre deploy setup.  That's all detailed [here](https://github.com/oracle/oci-quickstart-prerequisites).
-
 Operational knowledge of:
 
 - [Terraform](https://www.terraform.io/intro/index.html)
@@ -21,6 +18,17 @@ Operational knowledge of:
 - [OCI](https://www.oracle.com/cloud/)
 - [Kubernetes](https://kubernetes.io/docs/concepts/)
 
+### OCI
+First off you'll need to do some pre deploy setup to configure terraform detailed
+[here](https://github.com/oracle/oci-quickstart-prerequisites).
+
+You will also need the OCI CLI installed and configured by following these
+[instructions](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm)
+
+### SAS Viya
+
+https://my.sas.com/en/my-orders.html
+https://apiportal.sas.com/get-started
 
 ## Draft Deploy Steps
 
@@ -37,7 +45,8 @@ All Terraform variables have defaults. All resources will be prefixed with
 terraform plan #optional, to see what resources will be created
 terraform apply
 ```
-Once complete the kubernetes config will be written to ``
+
+Once complete the kubernetes config will be written to `viya-oke-kubeconfig.conf`
 
 ### Install Viya
 
@@ -45,8 +54,6 @@ The install of Viya 4 is done by following the steps detailed
 [here](https://github.com/sassoftware/viya4-deployment). Clone that repo and
 complete the prerequisite steps for docker [here](https://github.com/sassoftware/viya4-deployment/blob/main/docs/user/DockerUsage.md).
 
-You also need to install/configure the [OCI CLI](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm).
-Examples below assume the default install location.
 
 Currently the OCI CLI is not in the default docker build. Replace the Dockerfile from `viya-deployment` with the one in this
 repo in `./deployment/Dockerfile`
@@ -71,6 +78,8 @@ docker run --rm \
   --volume $HOME/.oci:/viya4-deployment/.oci \
   viya4-deployment --tags "baseline,viya,install"
 ```
+
+https://viya.viya.internal/SASLogon/login
 
 ### BAD INSTRUCTIONS Install Viya
 
