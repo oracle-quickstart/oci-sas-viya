@@ -54,19 +54,14 @@ data "oci_identity_tenancy" "tenancy" {
 locals {
   # Network ip ranges
   vnet_cidr_block                      = "192.168.0.0/16"
-  oke_subnet_cidr_block                = "192.168.1.0/24"
-  misc_subnet_cidr_block               = "192.168.2.0/24"
-  gw_subnet_cidr_block                 = "192.168.3.0/24"
-  fss_subnet_cidr_block                = "192.168.0.0/24"
-  create_jump_vm_default               = var.storage_type != "dev" ? true : false
+  private_subnet_cidr_block            = "192.168.0.0/24"
+  public_subnet_cidr_block             = "192.168.1.0/24"
+  create_jump_vm_default               = true
   create_jump_vm                       = var.create_jump_vm != null ? var.create_jump_vm : local.create_jump_vm_default
   default_public_access_cidrs          = var.default_public_access_cidrs == null ? [] : var.default_public_access_cidrs
   vm_public_access_cidrs               = var.vm_public_access_cidrs == null ? local.default_public_access_cidrs : var.vm_public_access_cidrs
-  acr_public_access_cidrs              = var.acr_public_access_cidrs == null ? local.default_public_access_cidrs : var.acr_public_access_cidrs
   cluster_endpoint_cidrs               = var.cluster_endpoint_public_access_cidrs == null ? local.default_public_access_cidrs : var.cluster_endpoint_public_access_cidrs
   cluster_endpoint_public_access_cidrs = length(local.cluster_endpoint_cidrs) == 0 ? ["0.0.0.0/32"] : local.cluster_endpoint_cidrs
-  postgres_public_access_cidrs         = var.postgres_public_access_cidrs == null ? local.default_public_access_cidrs : var.postgres_public_access_cidrs
-  postgres_firewall_rules              = [for addr in local.postgres_public_access_cidrs : { "name" : replace(replace(addr, "/", "_"), ".", "_"), "start_ip" : cidrhost(addr, 0), "end_ip" : cidrhost(addr, abs(pow(2, 32 - split("/", addr)[1]) - 1)) }]
 }
 
 module "oci_compartment" {
@@ -126,46 +121,24 @@ module "vnet" {
   defined_tags   = var.defined_tags
 }
 
-
-module "gw-subnet" {
-  source         = "./modules/oci_subnet"
-  compartment_id = module.oci_compartment.compartment_id
-  vcn_id         = module.vnet.vcn_id
-  name           = "gw"
-  cidr_block     = local.gw_subnet_cidr_block
-  freeform_tags  = var.tags
-  defined_tags   = var.defined_tags
-}
-
-module "oke-lb-subnet" {
-  source            = "./modules/oci_subnet"
-  compartment_id    = module.oci_compartment.compartment_id
-  vcn_id            = module.vnet.vcn_id
-  name              = "okelb"
-  cidr_block        = cidrsubnet(local.oke_subnet_cidr_block, 2, 1)
-  freeform_tags     = var.tags
-  defined_tags      = var.defined_tags
-  security_list_ids = [oci_core_security_list.lb-subnet_security_list.id]
-}
-
-module "oke-worker-subnet" {
+module "private-subnet" {
   source         = "./modules/oci_subnet"
   compartment_id = module.oci_compartment.compartment_id
   vcn_id         = module.vnet.vcn_id
   name           = "okeworker"
-  cidr_block     = cidrsubnet(local.oke_subnet_cidr_block, 2, 2)
+  cidr_block     = local.private_subnet_cidr_block
   private_subnet = true
   route_table_id = module.vnet.nat_route_table_id
   freeform_tags  = var.tags
   defined_tags   = var.defined_tags
 }
 
-module "misc-subnet" {
+module "public-subnet" {
   source         = "./modules/oci_subnet"
   compartment_id = module.oci_compartment.compartment_id
   vcn_id         = module.vnet.vcn_id
-  name           = "misc"
-  cidr_block     = local.misc_subnet_cidr_block
+  name           = "public"
+  cidr_block     = local.public_subnet_cidr_block
   freeform_tags  = var.tags
   defined_tags   = var.defined_tags
 }
@@ -174,8 +147,8 @@ module "misc-subnet" {
 data "template_file" "jump-cloudconfig" {
   template = file("${path.module}/cloud-init/jump/cloud-config")
   vars = {
-    rwx_filestore_endpoint = var.storage_type == "dev" ? "" : module.fss.mount_target_ip
-    rwx_filestore_path     = var.storage_type == "dev" ? "" : module.fss.export_path
+    rwx_filestore_endpoint = module.fss.mount_target_ip
+    rwx_filestore_path     = module.fss.export_path
   }
 }
 
@@ -194,7 +167,7 @@ module "jump" {
   name                = "${var.prefix}-jump"
   compartment_id      = module.oci_compartment.compartment_id
   availability_domain = local.availability_domain
-  subnet_id           = module.misc-subnet.subnet_id
+  subnet_id           = module.public-subnet.subnet_id
   nsg_ids = [
     oci_core_network_security_group.nsg.id,
     module.fss.instance_nsg_id,
@@ -202,7 +175,7 @@ module "jump" {
   create_vm        = local.create_jump_vm
   vm_admin         = "opc"
   ssh_public_key   = var.ssh_public_key
-  cloud_init       = var.storage_type == "dev" ? null : data.template_cloudinit_config.jump.rendered
+  cloud_init       = data.template_cloudinit_config.jump.rendered
   create_public_ip = var.create_jump_public_ip
   freeform_tags    = var.tags
   defined_tags     = var.defined_tags
@@ -232,9 +205,6 @@ resource "oci_core_network_security_group_security_rule" "ssh" {
 /*
 ## TODO: CONTAINER REGISTRY -> OCI CONTAINER REGISTRY
 ##              ! There does not appear to be a Terraform resource for the OCI container registry creation !
-##
-module "acr" {
-}
 */
 
 module "oke" {
@@ -244,7 +214,7 @@ module "oke" {
   compartment_id     = module.oci_compartment.compartment_id
   kubernetes_version = var.kubernetes_version
   vcn_id             = module.vnet.vcn_id
-  lb_subnet_ids      = [module.oke-lb-subnet.subnet_id]
+  lb_subnet_ids      = [module.public-subnet.subnet_id]
 
   freeform_tags = var.tags
   defined_tags  = var.defined_tags
@@ -256,7 +226,7 @@ module "cas_node_pool" {
   node_pool_name       = "cas"
   compartment_id       = module.oci_compartment.compartment_id
   oke_cluster_id       = module.oke.cluster_id
-  subnet_id            = module.oke-worker-subnet.subnet_id
+  subnet_id            = module.private-subnet.subnet_id
   kubernetes_version   = var.kubernetes_version
   instance_shape       = var.cas_nodepool_vm_type
   flex_shape_ocpus     = var.default_flex_shape_ocpus
@@ -279,7 +249,7 @@ module "compute_node_pool" {
   node_pool_name       = "compute"
   compartment_id       = module.oci_compartment.compartment_id
   oke_cluster_id       = module.oke.cluster_id
-  subnet_id            = module.oke-worker-subnet.subnet_id
+  subnet_id            = module.private-subnet.subnet_id
   kubernetes_version   = var.kubernetes_version
   instance_shape       = var.compute_nodepool_vm_type
   flex_shape_ocpus     = var.default_flex_shape_ocpus
@@ -302,7 +272,7 @@ module "connect_node_pool" {
   node_pool_name       = "connect"
   compartment_id       = module.oci_compartment.compartment_id
   oke_cluster_id       = module.oke.cluster_id
-  subnet_id            = module.oke-worker-subnet.subnet_id
+  subnet_id            = module.private-subnet.subnet_id
   kubernetes_version   = var.kubernetes_version
   instance_shape       = var.connect_nodepool_vm_type
   flex_shape_ocpus     = var.default_flex_shape_ocpus
@@ -325,7 +295,7 @@ module "stateless_node_pool" {
   node_pool_name       = "stateless"
   compartment_id       = module.oci_compartment.compartment_id
   oke_cluster_id       = module.oke.cluster_id
-  subnet_id            = module.oke-worker-subnet.subnet_id
+  subnet_id            = module.private-subnet.subnet_id
   kubernetes_version   = var.kubernetes_version
   instance_shape       = var.stateless_nodepool_vm_type
   flex_shape_ocpus     = var.default_flex_shape_ocpus
@@ -348,7 +318,7 @@ module "stateful_node_pool" {
   node_pool_name       = "stateful"
   compartment_id       = module.oci_compartment.compartment_id
   oke_cluster_id       = module.oke.cluster_id
-  subnet_id            = module.oke-worker-subnet.subnet_id
+  subnet_id            = module.private-subnet.subnet_id
   kubernetes_version   = var.kubernetes_version
   instance_shape       = var.stateful_nodepool_vm_type
   flex_shape_ocpus     = var.default_flex_shape_ocpus
@@ -371,15 +341,6 @@ module "postgresql" {
 }
 */
 
-module "fss-subnet" {
-  source         = "./modules/oci_subnet"
-  compartment_id = module.oci_compartment.compartment_id
-  vcn_id         = module.vnet.vcn_id
-  name           = "fss"
-  cidr_block     = local.fss_subnet_cidr_block
-  freeform_tags  = var.tags
-  defined_tags   = var.defined_tags
-}
 
 module "fss" {
   source = "./modules/oci_fss"
@@ -390,7 +351,7 @@ module "fss" {
   name        = "${var.prefix}-fss"
   path        = "/export"
   vcn_id      = module.vnet.vcn_id
-  subnet_id   = module.fss-subnet.subnet_id
+  subnet_id   = module.private-subnet.subnet_id
   source_cidr = local.vnet_cidr_block # allow all hosts in VCN to connect to FSS mount target
 
   freeform_tags = var.tags
