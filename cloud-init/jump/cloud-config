@@ -34,3 +34,10 @@ runcmd:
   - mkdir -p /mnt/viya-share/pvs
   - chmod 777 /mnt/viya-share -R
   - chown -R nobody:nobody /mnt/viya-share
+  #
+  # grab DB client files
+  #
+  - mkdir -p /mnt/viya-share/access-clients/oracle
+  - cd /mnt/viya-share/access-clients/oracle
+  - wget https://download.oracle.com/otn_software/linux/instantclient/214000/instantclient-basic-linux.x64-21.4.0.0.0dbru.zip
+  - unzip instantclient-basic-linux.x64-21.4.0.0.0dbru.zip
