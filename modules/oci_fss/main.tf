@@ -17,6 +17,7 @@ resource "oci_file_storage_mount_target" "mt" {
   compartment_id      = var.compartment_id
   subnet_id           = var.subnet_id
   display_name        = "${var.name}-mt"
+  hostname_label      = "nfs"
 
   nsg_ids = [oci_core_network_security_group.mt-nsg.id]
 
