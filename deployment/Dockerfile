@@ -18,7 +18,7 @@ RUN curl -sLO https://storage.googleapis.com/kubernetes-release/release/v{$kubec
 FROM baseline
 ARG aws_cli_version=2.1.20
 ARG gcp_cli_version=334.0.0
-ARG oci_cli_version=3.1.0
+ARG oci_cli_version=3.5.2
 
 # Add extra packages
 RUN apt install -y gzip wget git git-lfs jq sshpass \

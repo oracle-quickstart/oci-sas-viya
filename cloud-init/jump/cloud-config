@@ -39,5 +39,7 @@ runcmd:
   #
   - mkdir -p /mnt/viya-share/access-clients/oracle
   - cd /mnt/viya-share/access-clients/oracle
-  - wget https://download.oracle.com/otn_software/linux/instantclient/214000/instantclient-basic-linux.x64-21.4.0.0.0dbru.zip
+  - wget https://download.oracle.com/otn_software/linux/instantclient/216000/instantclient-basic-linux.x64-21.6.0.0.0dbru.zip
+  - wget https://download.oracle.com/otn_software/linux/instantclient/216000/instantclient-sqlplus-linux.x64-21.6.0.0.0dbru.zip
   - unzip instantclient-basic-linux.x64-21.4.0.0.0dbru.zip
+  - unzip instantclient-sqlplus-linux.x64-21.6.0.0.0dbru.zip

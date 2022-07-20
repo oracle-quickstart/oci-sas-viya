@@ -64,26 +64,8 @@ locals {
   cluster_endpoint_public_access_cidrs = length(local.cluster_endpoint_cidrs) == 0 ? ["0.0.0.0/32"] : local.cluster_endpoint_cidrs
 }
 
-module "oci_compartment" {
-  source = "./modules/oci_compartment"
-
-  providers = {
-    oci      = oci
-    oci.home = oci.home
-  }
-
-  tenancy_id     = var.tenancy_ocid
-  compartment_id = var.compartment_ocid != null ? var.compartment_ocid : var.tenancy_ocid
-
-  name        = "${var.prefix}-comp"
-  description = "SAS Viya 4 Deployment Compartment"
-
-  freeform_tags = var.tags
-  defined_tags  = var.defined_tags
-}
-
 resource "oci_core_network_security_group" "nsg" {
-  compartment_id = module.oci_compartment.compartment_id
+  compartment_id = var.compartment_ocid
   vcn_id         = module.vnet.vcn_id
   display_name   = "${var.prefix}-nsg"
   freeform_tags  = var.tags
@@ -91,7 +73,7 @@ resource "oci_core_network_security_group" "nsg" {
 }
 
 resource "oci_core_security_list" "lb-subnet_security_list" {
-  compartment_id = module.oci_compartment.compartment_id
+  compartment_id = var.compartment_ocid
   display_name   = "LB Subnet"
   vcn_id         = module.vnet.vcn_id
   ingress_security_rules {
@@ -114,7 +96,7 @@ resource "oci_core_security_list" "lb-subnet_security_list" {
 
 module "vnet" {
   source         = "./modules/oci_vcn"
-  compartment_id = module.oci_compartment.compartment_id
+  compartment_id = var.compartment_ocid
   name           = var.prefix
   cidr_blocks    = [local.vnet_cidr_block]
   freeform_tags  = var.tags
@@ -123,7 +105,7 @@ module "vnet" {
 
 module "private-subnet" {
   source         = "./modules/oci_subnet"
-  compartment_id = module.oci_compartment.compartment_id
+  compartment_id = var.compartment_ocid
   vcn_id         = module.vnet.vcn_id
   name           = "okeworker"
   cidr_block     = local.private_subnet_cidr_block
@@ -135,7 +117,7 @@ module "private-subnet" {
 
 module "public-subnet" {
   source         = "./modules/oci_subnet"
-  compartment_id = module.oci_compartment.compartment_id
+  compartment_id = var.compartment_ocid
   vcn_id         = module.vnet.vcn_id
   name           = "public"
   cidr_block     = local.public_subnet_cidr_block
@@ -165,7 +147,7 @@ data "template_cloudinit_config" "jump" {
 module "jump" {
   source              = "./modules/oci_vm"
   name                = "${var.prefix}-jump"
-  compartment_id      = module.oci_compartment.compartment_id
+  compartment_id      = var.compartment_ocid
   availability_domain = local.availability_domain
   subnet_id           = module.public-subnet.subnet_id
   nsg_ids = [
@@ -211,20 +193,44 @@ module "oke" {
   source = "./modules/oci_oke"
 
   name               = "${var.prefix}-oke"
-  compartment_id     = module.oci_compartment.compartment_id
+  compartment_id     = var.compartment_ocid
   kubernetes_version = var.kubernetes_version
   vcn_id             = module.vnet.vcn_id
   lb_subnet_ids      = [module.public-subnet.subnet_id]
+  ssh_public_key     = var.ssh_public_key
 
   freeform_tags = var.tags
   defined_tags  = var.defined_tags
+}
+
+module "default_node_pool" {
+  source               = "./modules/oci_oke_node_pool"
+  create_node_pool     = true
+  node_pool_name       = "default"
+  compartment_id       = var.compartment_ocid
+  oke_cluster_id       = module.oke.cluster_id
+  subnet_id            = module.private-subnet.subnet_id
+  kubernetes_version   = var.kubernetes_version
+  instance_shape       = var.default_nodepool_vm_type
+  flex_shape_ocpus     = var.default_flex_shape_ocpus
+  os_disk_size         = var.default_nodepool_os_disk_size
+  enable_auto_scaling  = var.default_nodepool_auto_scaling # TODO not implemented
+  node_count           = var.default_nodepool_node_count
+  max_nodes            = var.default_nodepool_max_nodes
+  min_nodes            = var.default_nodepool_min_nodes
+  node_taints          = var.default_nodepool_taints     # TODO not implemented
+  node_labels          = var.default_nodepool_labels     # TODO not implemented
+  availability_domains = [local.availability_domain] # TODO single AD for now
+  ssh_public_key       = module.oke.public_key_openssh
+  freeform_tags        = var.tags
+  defined_tags         = var.defined_tags
 }
 
 module "cas_node_pool" {
   source               = "./modules/oci_oke_node_pool"
   create_node_pool     = var.create_cas_nodepool
   node_pool_name       = "cas"
-  compartment_id       = module.oci_compartment.compartment_id
+  compartment_id       = var.compartment_ocid
   oke_cluster_id       = module.oke.cluster_id
   subnet_id            = module.private-subnet.subnet_id
   kubernetes_version   = var.kubernetes_version
@@ -247,7 +253,7 @@ module "compute_node_pool" {
   source               = "./modules/oci_oke_node_pool"
   create_node_pool     = var.create_compute_nodepool
   node_pool_name       = "compute"
-  compartment_id       = module.oci_compartment.compartment_id
+  compartment_id       = var.compartment_ocid
   oke_cluster_id       = module.oke.cluster_id
   subnet_id            = module.private-subnet.subnet_id
   kubernetes_version   = var.kubernetes_version
@@ -270,7 +276,7 @@ module "connect_node_pool" {
   source               = "./modules/oci_oke_node_pool"
   create_node_pool     = var.create_connect_nodepool
   node_pool_name       = "connect"
-  compartment_id       = module.oci_compartment.compartment_id
+  compartment_id       = var.compartment_ocid
   oke_cluster_id       = module.oke.cluster_id
   subnet_id            = module.private-subnet.subnet_id
   kubernetes_version   = var.kubernetes_version
@@ -293,7 +299,7 @@ module "stateless_node_pool" {
   source               = "./modules/oci_oke_node_pool"
   create_node_pool     = var.create_stateless_nodepool
   node_pool_name       = "stateless"
-  compartment_id       = module.oci_compartment.compartment_id
+  compartment_id       = var.compartment_ocid
   oke_cluster_id       = module.oke.cluster_id
   subnet_id            = module.private-subnet.subnet_id
   kubernetes_version   = var.kubernetes_version
@@ -316,7 +322,7 @@ module "stateful_node_pool" {
   source               = "./modules/oci_oke_node_pool"
   create_node_pool     = var.create_stateful_nodepool
   node_pool_name       = "stateful"
-  compartment_id       = module.oci_compartment.compartment_id
+  compartment_id       = var.compartment_ocid
   oke_cluster_id       = module.oke.cluster_id
   subnet_id            = module.private-subnet.subnet_id
   kubernetes_version   = var.kubernetes_version
@@ -346,7 +352,7 @@ module "fss" {
   source = "./modules/oci_fss"
 
   availability_domain = local.availability_domain
-  compartment_id      = module.oci_compartment.compartment_id
+  compartment_id      = var.compartment_ocid
 
   name        = "${var.prefix}-fss"
   path        = "/export"

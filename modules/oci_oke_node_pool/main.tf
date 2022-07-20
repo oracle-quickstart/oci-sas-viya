@@ -38,10 +38,13 @@ resource "oci_containerengine_node_pool" "np" {
   #   ocpus = var.node_pool_node_shape_config_ocpus
   # }
 
-  # initial_node_labels {
-  #   key = var.node_pool_initial_node_labels_key
-  #   value = var.node_pool_initial_node_labels_value
-  # }
+  dynamic "initial_node_labels" {
+    for_each = var.node_labels
+    content {
+      key = initial_node_labels.key
+      value = initial_node_labels.value
+   }
+  }
 
   # node_metadata = var.node_pool_node_metadata
 

@@ -34,6 +34,9 @@ output "jump_public_key_openssh" {
   value = local.create_jump_vm ? module.jump.public_key_openssh : null
 }
 
+output jump_rwx_filestore_path {
+  value = "/mnt/viya-share"
+}
 
 # nfs server
 output "nfs_private_ip" {

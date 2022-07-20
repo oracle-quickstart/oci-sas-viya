@@ -5,8 +5,7 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 
 variable "compartment_ocid" {
-  description = "Option parent compartment, if not set the root compartment will be used"
-  default     = null
+  description = "Compartment resources will be placed in."
 }
 
 variable "iac_tooling" {
@@ -55,7 +54,7 @@ variable "default_flex_shape_ocpus" {
 
 variable "kubernetes_version" {
   description = "The OKE cluster K8s version"
-  default     = "v1.19.12"
+  default     = "v1.22.5"
 }
 
 variable "default_public_access_cidrs" {
@@ -90,7 +89,7 @@ variable "default_nodepool_min_nodes" {
 }
 variable "default_nodepool_node_count" {
   description = "The initial number of nodes which should exist in this Node Pool. If specified this must be between 1 and 100 and between `default_nodepool_min_nodes` and `default_nodepool_max_nodes`."
-  default     = 2
+  default     = 1
 }
 variable "default_nodepool_os_disk_size" {
   description = "(Optional) The size of the OS Disk which should be used for each agent in the Node Pool. Changing this forces a new resource to be created."
@@ -100,7 +99,14 @@ variable "default_nodepool_max_pods" {
   description = "(Optional) The maximum number of pods that can run on each agent. Changing this forces a new resource to be created."
   default     = 110
 }
-
+variable "default_nodepool_taints" {
+  type    = list(any)
+  default = []
+}
+variable "default_nodepool_labels" {
+  type = map(any)
+  default = {}
+}
 variable "default_nodepool_availability_zones" {
   type    = list(any)
   default = []
