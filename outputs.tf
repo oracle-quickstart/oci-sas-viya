@@ -5,7 +5,7 @@ output "nat_gateway_ip" {
 
 
 output "kube_config" {
-  value = module.oke.kube_config
+  value     = module.oke.kube_config
   sensitive = true
 }
 
@@ -34,7 +34,7 @@ output "jump_public_key_openssh" {
   value = local.create_jump_vm ? module.jump.public_key_openssh : null
 }
 
-output jump_rwx_filestore_path {
+output "jump_rwx_filestore_path" {
   value = "/mnt/viya-share"
 }
 
@@ -65,7 +65,7 @@ output "nfs_public_key_openssh" {
 
 
 output "oke_private_key_pem" {
-  value = module.oke.private_key_pem
+  value     = module.oke.private_key_pem
   sensitive = true
 }
 

@@ -104,7 +104,7 @@ variable "default_nodepool_taints" {
   default = []
 }
 variable "default_nodepool_labels" {
-  type = map(any)
+  type    = map(any)
   default = {}
 }
 variable "default_nodepool_availability_zones" {

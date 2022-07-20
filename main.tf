@@ -218,8 +218,8 @@ module "default_node_pool" {
   node_count           = var.default_nodepool_node_count
   max_nodes            = var.default_nodepool_max_nodes
   min_nodes            = var.default_nodepool_min_nodes
-  node_taints          = var.default_nodepool_taints     # TODO not implemented
-  node_labels          = var.default_nodepool_labels     # TODO not implemented
+  node_taints          = var.default_nodepool_taints # TODO not implemented
+  node_labels          = var.default_nodepool_labels # TODO not implemented
   availability_domains = [local.availability_domain] # TODO single AD for now
   ssh_public_key       = module.oke.public_key_openssh
   freeform_tags        = var.tags
