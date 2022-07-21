@@ -41,9 +41,9 @@ resource "oci_containerengine_node_pool" "np" {
   dynamic "initial_node_labels" {
     for_each = var.node_labels
     content {
-      key = initial_node_labels.key
+      key   = initial_node_labels.key
       value = initial_node_labels.value
-   }
+    }
   }
 
   # node_metadata = var.node_pool_node_metadata
@@ -54,6 +54,11 @@ resource "oci_containerengine_node_pool" "np" {
       availability_domain = var.availability_domains[0]
       subnet_id           = var.subnet_id
     }
+  }
+
+  # cloud-init
+  node_metadata = {
+    user_data = var.node_user_data
   }
 
   node_source_details {

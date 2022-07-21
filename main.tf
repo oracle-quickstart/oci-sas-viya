@@ -222,8 +222,13 @@ module "default_node_pool" {
   node_labels          = var.default_nodepool_labels # TODO not implemented
   availability_domains = [local.availability_domain] # TODO single AD for now
   ssh_public_key       = module.oke.public_key_openssh
-  freeform_tags        = var.tags
-  defined_tags         = var.defined_tags
+  node_user_data = base64encode(join("\n", tolist([
+    "#!/bin/bash",
+    "curl --fail -H \"Authorization: Bearer Oracle\" -L0 http://169.254.169.254/opc/v2/instance/metadata/oke_init_script | base64 --decode >/var/run/oke-init.sh",
+    "bash /var/run/oke-init.sh"
+  ])))
+  freeform_tags = var.tags
+  defined_tags  = var.defined_tags
 }
 
 module "cas_node_pool" {
@@ -245,6 +250,11 @@ module "cas_node_pool" {
   node_labels          = var.cas_nodepool_labels     # TODO not implemented
   availability_domains = [local.availability_domain] # TODO single AD for now
   ssh_public_key       = module.oke.public_key_openssh
+  node_user_data = base64encode(join("\n", tolist([
+    "#!/bin/bash",
+    "curl --fail -H \"Authorization: Bearer Oracle\" -L0 http://169.254.169.254/opc/v2/instance/metadata/oke_init_script | base64 --decode >/var/run/oke-init.sh",
+    "bash /var/run/oke-init.sh --kubelet-extra-args \"--register-with-taints workload.sas.com/class=cas:NoSchedule\""
+  ])))
   freeform_tags        = var.tags
   defined_tags         = var.defined_tags
 }
@@ -268,6 +278,11 @@ module "compute_node_pool" {
   node_labels          = var.compute_nodepool_labels # TODO not implemented
   availability_domains = [local.availability_domain] # TODO single AD for now
   ssh_public_key       = module.oke.public_key_openssh
+  node_user_data = base64encode(join("\n", tolist([
+    "#!/bin/bash",
+    "curl --fail -H \"Authorization: Bearer Oracle\" -L0 http://169.254.169.254/opc/v2/instance/metadata/oke_init_script | base64 --decode >/var/run/oke-init.sh",
+    "bash /var/run/oke-init.sh --kubelet-extra-args \"--register-with-taints workload.sas.com/class=compute:NoSchedule\""
+  ])))
   freeform_tags        = var.tags
   defined_tags         = var.defined_tags
 }
@@ -291,6 +306,11 @@ module "connect_node_pool" {
   node_labels          = var.connect_nodepool_labels # TODO not implemented
   availability_domains = [local.availability_domain] # TODO single AD for now
   ssh_public_key       = module.oke.public_key_openssh
+  node_user_data = base64encode(join("\n", tolist([
+    "#!/bin/bash",
+    "curl --fail -H \"Authorization: Bearer Oracle\" -L0 http://169.254.169.254/opc/v2/instance/metadata/oke_init_script | base64 --decode >/var/run/oke-init.sh",
+    "bash /var/run/oke-init.sh --kubelet-extra-args \"--register-with-taints workload.sas.com/class=connect:NoSchedule\""
+  ])))
   freeform_tags        = var.tags
   defined_tags         = var.defined_tags
 }
@@ -314,6 +334,11 @@ module "stateless_node_pool" {
   node_labels          = var.stateless_nodepool_labels # TODO not implemented
   availability_domains = [local.availability_domain]   # TODO single AD for now
   ssh_public_key       = module.oke.public_key_openssh
+  node_user_data = base64encode(join("\n", tolist([
+    "#!/bin/bash",
+    "curl --fail -H \"Authorization: Bearer Oracle\" -L0 http://169.254.169.254/opc/v2/instance/metadata/oke_init_script | base64 --decode >/var/run/oke-init.sh",
+    "bash /var/run/oke-init.sh --kubelet-extra-args \"--register-with-taints workload.sas.com/class=stateless:NoSchedule\""
+  ])))
   freeform_tags        = var.tags
   defined_tags         = var.defined_tags
 }
@@ -337,6 +362,11 @@ module "stateful_node_pool" {
   node_labels          = var.stateful_nodepool_labels # TODO not implemented
   availability_domains = [local.availability_domain]  # TODO single AD for now
   ssh_public_key       = module.oke.public_key_openssh
+  node_user_data = base64encode(join("\n", tolist([
+    "#!/bin/bash",
+    "curl --fail -H \"Authorization: Bearer Oracle\" -L0 http://169.254.169.254/opc/v2/instance/metadata/oke_init_script | base64 --decode >/var/run/oke-init.sh",
+    "bash /var/run/oke-init.sh --kubelet-extra-args \"--register-with-taints workload.sas.com/class=stateful:NoSchedule\""
+  ])))
   freeform_tags        = var.tags
   defined_tags         = var.defined_tags
 }

@@ -23,6 +23,10 @@ variable "subnet_id" {
   default = null
 }
 
+variable "node_user_data" {
+  default = null
+}
+
 variable "instance_shape" {
   default = "VM.Standard2.1" # 1 OCPU, 16 GB RAM
 }
