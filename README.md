@@ -237,6 +237,6 @@ Additionally, a user that is not `sasboot` should be created if one does not exi
 for SAS Studio connections to ADW. In Studio the libname statment uses the coonnection
 string from you ADW is a form like (replacing XXX values):
 ```
-ibname autodb oracle user="admin" password="XXX" path="(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1521)(host=XXX.adb.us-ashburn-1.oraclecloud.com))(connect_data=(service_name=XXX.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))";
+libname autodb oracle user="admin" password="XXX" path="(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1521)(host=XXX.adb.us-ashburn-1.oraclecloud.com))(connect_data=(service_name=XXX.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))";
 
 ```
