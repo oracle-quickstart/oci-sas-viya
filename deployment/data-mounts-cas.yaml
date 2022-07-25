@@ -1,0 +1,23 @@
+# General example for adding mounts to CAS workers
+# PatchTransformer
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: data-mounts-cas
+patch: |-
+  ## NFS path example - kubernetes will mount these for you
+  - op: add
+    path: /spec/controllerTemplate/spec/containers/0/volumeMounts/-
+    value:
+      name: db-client-access
+      mountPath: "/access-clients"
+  - op: add
+    path: /spec/controllerTemplate/spec/volumes/-
+    value:
+     name: db-client-access
+     nfs:
+       path: /export/access-clients
+       server: XXX-nfs.okeworker.viya.oraclevcn.com
+target:
+  kind: CASDeployment
+  annotationSelector: sas.com/sas-access-config=true
