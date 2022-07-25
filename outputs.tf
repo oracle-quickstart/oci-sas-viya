@@ -1,6 +1,6 @@
 
 output "nat_gateway_ip" {
-  value = module.vnet.nat_gateway_ip
+  value = local.use_existing_network ? var.nat_gateway_ip : module.vnet[0].nat_gateway_ip #module.vnet.nat_gateway_ip
 }
 
 

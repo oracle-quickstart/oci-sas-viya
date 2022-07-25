@@ -35,6 +35,40 @@ variable "availability_domain" {
   default     = 1
 }
 
+variable "network_strategy_enum" {
+  type = map
+  default = {
+    CREATE_NEW_VCN_SUBNET   = "Create New VCN and Subnet"
+    USE_EXISTING_VCN_SUBNET = "Use Existing VCN and Subnet"
+  }
+}
+
+variable "network_strategy" {
+  #default = "Use Existing VCN and Subnet"
+  default = "Create New VCN and Subnet"
+}
+
+#
+# If deployiing into an existing network set 4 vars below
+#
+variable "vcn_id" {
+  default = ""
+}
+
+variable "public_subnet_id" {
+  default = ""
+}
+
+variable "private_subnet_id" {
+  default = ""
+}
+
+variable "nat_gateway_ip" {
+  default = ""
+}
+
+#########
+
 variable "ssh_public_key" {
   type = string
 }

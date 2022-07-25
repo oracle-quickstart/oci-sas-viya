@@ -56,6 +56,7 @@ locals {
   vnet_cidr_block                      = "192.168.0.0/16"
   private_subnet_cidr_block            = "192.168.0.0/24"
   public_subnet_cidr_block             = "192.168.1.0/24"
+  use_existing_network                 = var.network_strategy == var.network_strategy_enum["USE_EXISTING_VCN_SUBNET"] ? true : false
   create_jump_vm_default               = true
   create_jump_vm                       = var.create_jump_vm != null ? var.create_jump_vm : local.create_jump_vm_default
   default_public_access_cidrs          = var.default_public_access_cidrs == null ? [] : var.default_public_access_cidrs
@@ -66,7 +67,7 @@ locals {
 
 resource "oci_core_network_security_group" "nsg" {
   compartment_id = var.compartment_ocid
-  vcn_id         = module.vnet.vcn_id
+  vcn_id         = local.use_existing_network ? var.vcn_id : module.vnet[0].vcn_id
   display_name   = "${var.prefix}-nsg"
   freeform_tags  = var.tags
   defined_tags   = var.defined_tags
@@ -75,7 +76,7 @@ resource "oci_core_network_security_group" "nsg" {
 resource "oci_core_security_list" "lb-subnet_security_list" {
   compartment_id = var.compartment_ocid
   display_name   = "LB Subnet"
-  vcn_id         = module.vnet.vcn_id
+  vcn_id         = local.use_existing_network ? var.vcn_id : module.vnet[0].vcn_id
   ingress_security_rules {
     tcp_options {
       max = 80
@@ -96,6 +97,7 @@ resource "oci_core_security_list" "lb-subnet_security_list" {
 
 module "vnet" {
   source         = "./modules/oci_vcn"
+  count          = local.use_existing_network ? 0 : 1
   compartment_id = var.compartment_ocid
   name           = var.prefix
   cidr_blocks    = [local.vnet_cidr_block]
@@ -105,20 +107,22 @@ module "vnet" {
 
 module "private-subnet" {
   source         = "./modules/oci_subnet"
+  count          = local.use_existing_network ? 0 : 1
   compartment_id = var.compartment_ocid
-  vcn_id         = module.vnet.vcn_id
+  vcn_id         = module.vnet[count.index].vcn_id
   name           = "okeworker"
   cidr_block     = local.private_subnet_cidr_block
   private_subnet = true
-  route_table_id = module.vnet.nat_route_table_id
+  route_table_id = module.vnet[count.index].nat_route_table_id
   freeform_tags  = var.tags
   defined_tags   = var.defined_tags
 }
 
 module "public-subnet" {
   source         = "./modules/oci_subnet"
+  count          = local.use_existing_network ? 0 : 1
   compartment_id = var.compartment_ocid
-  vcn_id         = module.vnet.vcn_id
+  vcn_id         = module.vnet[count.index].vcn_id
   name           = "public"
   cidr_block     = local.public_subnet_cidr_block
   freeform_tags  = var.tags
@@ -149,7 +153,7 @@ module "jump" {
   name                = "${var.prefix}-jump"
   compartment_id      = var.compartment_ocid
   availability_domain = local.availability_domain
-  subnet_id           = module.public-subnet.subnet_id
+  subnet_id           = local.use_existing_network ? var.public_subnet_id : module.public-subnet[0].subnet_id
   nsg_ids = [
     oci_core_network_security_group.nsg.id,
     module.fss.instance_nsg_id,
@@ -195,8 +199,8 @@ module "oke" {
   name               = "${var.prefix}-oke"
   compartment_id     = var.compartment_ocid
   kubernetes_version = var.kubernetes_version
-  vcn_id             = module.vnet.vcn_id
-  lb_subnet_ids      = [module.public-subnet.subnet_id]
+  vcn_id             = local.use_existing_network ? var.vcn_id : module.vnet[0].vcn_id
+  lb_subnet_ids      = [local.use_existing_network ? var.public_subnet_id : module.public-subnet[0].subnet_id]
   ssh_public_key     = var.ssh_public_key
 
   freeform_tags = var.tags
@@ -209,7 +213,7 @@ module "default_node_pool" {
   node_pool_name       = "default"
   compartment_id       = var.compartment_ocid
   oke_cluster_id       = module.oke.cluster_id
-  subnet_id            = module.private-subnet.subnet_id
+  subnet_id            = local.use_existing_network ? var.private_subnet_id : module.private-subnet[0].subnet_id
   kubernetes_version   = var.kubernetes_version
   instance_shape       = var.default_nodepool_vm_type
   flex_shape_ocpus     = var.default_flex_shape_ocpus
@@ -237,7 +241,7 @@ module "cas_node_pool" {
   node_pool_name       = "cas"
   compartment_id       = var.compartment_ocid
   oke_cluster_id       = module.oke.cluster_id
-  subnet_id            = module.private-subnet.subnet_id
+  subnet_id            = local.use_existing_network ? var.private_subnet_id : module.private-subnet[0].subnet_id
   kubernetes_version   = var.kubernetes_version
   instance_shape       = var.cas_nodepool_vm_type
   flex_shape_ocpus     = var.default_flex_shape_ocpus
@@ -265,7 +269,7 @@ module "compute_node_pool" {
   node_pool_name       = "compute"
   compartment_id       = var.compartment_ocid
   oke_cluster_id       = module.oke.cluster_id
-  subnet_id            = module.private-subnet.subnet_id
+  subnet_id            = local.use_existing_network ? var.private_subnet_id : module.private-subnet[0].subnet_id
   kubernetes_version   = var.kubernetes_version
   instance_shape       = var.compute_nodepool_vm_type
   flex_shape_ocpus     = var.default_flex_shape_ocpus
@@ -293,7 +297,7 @@ module "connect_node_pool" {
   node_pool_name       = "connect"
   compartment_id       = var.compartment_ocid
   oke_cluster_id       = module.oke.cluster_id
-  subnet_id            = module.private-subnet.subnet_id
+  subnet_id            = local.use_existing_network ? var.private_subnet_id : module.private-subnet[0].subnet_id
   kubernetes_version   = var.kubernetes_version
   instance_shape       = var.connect_nodepool_vm_type
   flex_shape_ocpus     = var.default_flex_shape_ocpus
@@ -321,7 +325,7 @@ module "stateless_node_pool" {
   node_pool_name       = "stateless"
   compartment_id       = var.compartment_ocid
   oke_cluster_id       = module.oke.cluster_id
-  subnet_id            = module.private-subnet.subnet_id
+  subnet_id            = local.use_existing_network ? var.private_subnet_id : module.private-subnet[0].subnet_id
   kubernetes_version   = var.kubernetes_version
   instance_shape       = var.stateless_nodepool_vm_type
   flex_shape_ocpus     = var.default_flex_shape_ocpus
@@ -349,7 +353,7 @@ module "stateful_node_pool" {
   node_pool_name       = "stateful"
   compartment_id       = var.compartment_ocid
   oke_cluster_id       = module.oke.cluster_id
-  subnet_id            = module.private-subnet.subnet_id
+  subnet_id            = local.use_existing_network ? var.private_subnet_id : module.private-subnet[0].subnet_id
   kubernetes_version   = var.kubernetes_version
   instance_shape       = var.stateful_nodepool_vm_type
   flex_shape_ocpus     = var.default_flex_shape_ocpus
@@ -386,8 +390,8 @@ module "fss" {
 
   name        = "${var.prefix}-fss"
   path        = "/export"
-  vcn_id      = module.vnet.vcn_id
-  subnet_id   = module.private-subnet.subnet_id
+  vcn_id      = local.use_existing_network ? var.vcn_id : module.vnet[0].vcn_id
+  subnet_id   = local.use_existing_network ? var.private_subnet_id : module.private-subnet[0].subnet_id
   source_cidr = local.vnet_cidr_block # allow all hosts in VCN to connect to FSS mount target
 
   freeform_tags = var.tags
