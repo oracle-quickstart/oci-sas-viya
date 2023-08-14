@@ -45,6 +45,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y gzip wget git j
   && chmod 755 /tmp/install.sh \
   && /tmp/install.sh --accept-all-defaults --oci-cli-version $oci_cli_version --exec-dir /usr/local/bin \
   && yes | oci setup autocomplete \
+  && chmod 755 /usr/local/bin/oci \
   && oci -v
 
 COPY --from=tool_builder /build/kubectl /usr/local/bin/kubectl
