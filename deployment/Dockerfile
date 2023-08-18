@@ -43,9 +43,9 @@ RUN apt-get update && apt-get install --no-install-recommends -y gzip wget git j
   # OCI
   && wget -O /tmp/install.sh https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh \
   && chmod 755 /tmp/install.sh \
-  && /tmp/install.sh --accept-all-defaults --oci-cli-version $oci_cli_version --exec-dir /usr/local/bin \
+  && /tmp/install.sh --accept-all-defaults --oci-cli-version $oci_cli_version --exec-dir /usr/local/bin --python-install-location /usr/local/lib --install-dir /usr/local/lib --script-dir /usr/local/lib \
   && yes | oci setup autocomplete \
-  && chmod 755 /usr/local/bin/oci \
+  && chmod -R 755 /usr/local/bin/oci \
   && oci -v
 
 COPY --from=tool_builder /build/kubectl /usr/local/bin/kubectl
