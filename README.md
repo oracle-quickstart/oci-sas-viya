@@ -240,3 +240,18 @@ string from you ADW is a form like (replacing XXX values):
 libname autodb oracle user="admin" password="XXX" path="(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1521)(host=XXX.adb.us-ashburn-1.oraclecloud.com))(connect_data=(service_name=XXX.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))";
 
 ```
+
+## Contributing
+
+This project welcomes contributions from the community. Before submitting a pull request, please [review our contribution guide](./CONTRIBUTING.md)
+
+## Security
+
+Please consult the [security guide](./SECURITY.md) for our responsible security vulnerability disclosure process
+
+## License
+
+Copyright (c) 2023 Oracle and/or its affiliates.
+
+Released under the Apache License Version 2.0, as shown at
+<http://www.apache.org/licenses/>.
